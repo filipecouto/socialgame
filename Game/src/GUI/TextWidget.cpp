@@ -13,7 +13,8 @@ TextWidget::TextWidget ( std::string text, void* font, GLfloat xPos, GLfloat yPo
 	TextWidget ( text, 1, 1, 1, 1, font, xPos, yPos ) {}
 
 TextWidget::TextWidget ( std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void* font, GLfloat xPos, GLfloat yPos ) :
-	_font ( font ), _textColor ( {r,g,b,a} ), Widget ( xPos, yPos ) {
+	_font ( font ), Widget ( xPos, yPos ) {
+	setTextColor(r, g, b, a);
 	setText ( text );
 }
 
