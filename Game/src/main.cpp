@@ -30,6 +30,9 @@
 #include "GameController.h"
 #include "Mods/TestMod/TestMod.h"
 
+#pragma comment (lib, "glaux.lib")   
+#pragma comment (lib, "True_GUI.lib") 
+
 Gui gui;
 GameController controller;
 

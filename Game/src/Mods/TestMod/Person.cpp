@@ -25,10 +25,18 @@ int Person::getStrength() {
 	return 8;
 }
 
+std::vector<Tag *> Person::getTags(){
+	return std::vector<Tag*>();
+}
+
 std::vector< IConnection * > Person::getConnections() {
 	if(_connections == NULL) {
 		_connections = new std::vector<IConnection *>();
 		// lazy load
 	}
 	return std::vector<IConnection*>(*_connections);
+}
+
+Person::~Person() {
+
 }

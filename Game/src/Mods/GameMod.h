@@ -15,13 +15,13 @@ class GameMod {
 	public:
 		virtual void load() { }
 		
-		virtual IUser * getIdentity() { }
+		virtual IUser * getIdentity() = 0;
 		
 		// TODO interface missing
-		virtual void * getNotifications() { }
+		virtual void * getNotifications() = 0;
 		
 		// TODO interface missing
-		virtual void * getPendingGames() { }
+		virtual void * getPendingGames() = 0;
 
 	private:
 		

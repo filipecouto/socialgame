@@ -19,7 +19,7 @@ class IUser {
 		/**
 		 * Gets the person that this user represents
 		 */
-		virtual IPerson * getPerson() { }
+		virtual IPerson * getPerson() = 0;
 		
 		/**
 		 * Creates a connection between friendToAdd and "this" person.

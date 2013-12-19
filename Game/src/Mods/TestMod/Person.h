@@ -18,8 +18,9 @@ class Person : public IPerson {
 		virtual Mood getMood();
 		virtual int getScore();
 		virtual int getStrength();
+		virtual std::vector< Tag * > getTags();
 		virtual std::vector< IConnection * > getConnections();
-
+		virtual ~Person();
 	private:
 		std::vector<IConnection *> * _connections;
 };
