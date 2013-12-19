@@ -1,8 +1,7 @@
 #ifndef TEXTBOXWIDGET_H
 #define TEXTBOXWIDGET_H
 
-#include <../../home/filipe/crosswebsocialgame/Game/src/GUI/TextWidget.h>
-
+#include "TextWidget.h"
 
 class TextBoxWidget : public TextWidget
 {

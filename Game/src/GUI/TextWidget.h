@@ -27,7 +27,7 @@ class TextWidget : public Widget {
 
 		virtual GLfloat getMinimumWidth();
 		virtual GLfloat getMinimumHeight();
-
+		
 		virtual void draw();
 
 	private:

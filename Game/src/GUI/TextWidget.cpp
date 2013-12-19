@@ -26,6 +26,9 @@ void TextWidget::setText ( std::string text ) {
 	_minWidth = glutBitmapLength ( _font, ( const unsigned char* ) _text.c_str() );
 	_minHeight = glutBitmapHeight ( _font ) - 7;
 
+	w = _minWidth;
+	h = _minHeight;
+
 	notifyGeometryChange();
 }
 std::string TextWidget::getText() {

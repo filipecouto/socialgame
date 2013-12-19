@@ -51,27 +51,33 @@ void TextBoxWidget::draw()
 
 void TextBoxWidget::drawBackground()
 {
-    Widget::drawBackground();
+    TextWidget::drawBackground();
+    glBegin(GL_LINES);
+      glVertex2f(0, 0);
+      glVertex2f(getMinimumWidth(), 0);
+      glVertex2f(getMinimumWidth(), getMinimumHeight());
+      glVertex2f(0, getMinimumHeight());
+    glEnd();
 }
 
 void TextBoxWidget::onMouseEnter(int x, int y)
 {
-    Widget::onMouseEnter(x, y);
+    TextWidget::onMouseEnter(x, y);
 }
 
 void TextBoxWidget::onMouseExit()
 {
-    Widget::onMouseExit();
+    TextWidget::onMouseExit();
 }
 
 GLboolean TextBoxWidget::onMouseButtonDown(int button, int x, int y)
 {
-    return true;
+    return TextWidget::onMouseButtonDown(button, x, y);
 }
 
 GLboolean TextBoxWidget::onMouseButtonUp(int button, int x, int y)
 {
-    return true;
+    return TextWidget::onMouseButtonUp(button, x, y);
 }
 
 GLboolean TextBoxWidget::onKeyDown(int key)

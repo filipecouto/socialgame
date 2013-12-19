@@ -38,7 +38,10 @@ void Gui::onMouseMove ( int x, int y ) {
 }
 
 GLboolean Gui::onMouseButtonDown ( int button, int x, int y ) {
-	return WidgetContainer::onMouseButtonDown ( button, x, _height - y );
+	if(!WidgetContainer::onMouseButtonDown ( button, x, _height - y )) {
+		if ( _focused != NULL ) _focused->onBlur();
+		_focused = NULL;
+	}
 }
 
 GLboolean Gui::onMouseButtonUp ( int button, int x, int y ) {
