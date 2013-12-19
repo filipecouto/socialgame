@@ -14,7 +14,7 @@
 
 #include <string>
 #include "IWidgetContainer.h"
-#include <cstdio>
+
 /**
   * class Widget
   * This class represents an empty Widget.
@@ -60,7 +60,6 @@ class Widget {
 		}
 
 		virtual GLboolean onMouseButtonDown ( int button, int x, int y ) {
-			printf("%x->onMouseButtonDown(...)\n", this);
 			requestFocus();
 			return true;
 		}

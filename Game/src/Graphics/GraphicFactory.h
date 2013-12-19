@@ -19,9 +19,9 @@
  */
 class GraphicFactory {
 	public:
-		static IGraphic * build(IPerson * person);
-		static IGraphic * build(IConnection * person);
-		static IGraphic * build(Tag * person);
+		static IGraphic * build(IPerson * person) { return NULL; }
+		static IGraphic * build(IConnection * person) { return NULL; }
+		static IGraphic * build(Tag * person) { return NULL; }
 };
 
 #endif

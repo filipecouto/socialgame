@@ -17,27 +17,19 @@
 
 class IPerson {
 	public:
-		virtual std::string getName();
-		virtual void setName(std::string name);
+		virtual std::string getName() { }
 
-		virtual Mood getMood();
-		virtual void setMood(Mood mood);
+		virtual Mood getMood() { }
 
-		virtual int getScore();
-		virtual void setScore(int score);
+		virtual int getScore() { }
 
-		virtual int getStrength();
-		virtual void setStrength(int strength);
+		virtual int getStrength() { }
 
-		virtual std::vector<Tag> getTagList();
-		virtual void addTag(Tag tag) { }
-		virtual void removeTag(Tag tag) { }
+		virtual std::vector<Tag> getTags() { }
 
-		virtual std::vector<IConnection> getConnectionList();
-		virtual void addConnection(IConnection connection) { }
-		virtual void removeConnection(IConnection connection) { }
+		virtual std::vector<IConnection> getConnections() { }
 
-		virtual ~IPerson();
+		virtual ~IPerson() { }
 };
 
 #endif
