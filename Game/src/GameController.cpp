@@ -25,8 +25,19 @@ void GameController::start(GameMod * mod) {
 	start();
 }
 
+#include <cstdio>
+#define DEBUG
+
 void GameController::start() {
+	#ifdef DEBUG
+	printf("Starting game...\n");
+	#endif
+	
 	_identity = _mod->getIdentity();
+	
+	#ifdef DEBUG
+	printf("Loaded user's identity (%x): %s\n", _identity, _identity->getPerson()->getName().c_str());
+	#endif
 	
 	_firstNode = GraphicFactory::build(_identity->getPerson());
 	_currentNode = _firstNode;

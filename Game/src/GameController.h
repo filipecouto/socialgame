@@ -18,6 +18,8 @@ class GameController {
 		GameController();
 		
 		void start(GameMod * mod);
+		
+		IPerson * getIdentityPerson() { return _identity->getPerson(); }
 
 	private:
 		GameMod * _mod;
