@@ -8,10 +8,10 @@ OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 all : SocialGame ;
 
 SocialGame : $(OBJ_FILES)
-	g++ $^ -lGL -lGLU -lglut GUI/GUI.a -o $@
+	g++ $^ -ggdb -lGL -lGLU -lglut GUI/GUI.a -o $@
 	
 obj/%.o : %.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -ggdb -c -o $@ $<
 
 obj/%.o : Models/%.cpp
 	g++ -std=c++11 -c -o $@ $<

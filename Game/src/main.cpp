@@ -26,15 +26,18 @@
 #include "GUI/Gui.h"
 #include "GUI/TextBoxWidget.h"
 #include "GUI/ButtonWidget.h"
+#include "GUI/LinearContainer.h"
 
 #include "GameController.h"
 #include "Mods/TestMod/TestMod.h"
+#include "Bridge.h"
 
-#pragma comment (lib, "glaux.lib")   
-#pragma comment (lib, "True_GUI.lib") 
+#pragma comment (lib, "glaux.lib")
+#pragma comment (lib, "True_GUI.lib")
 
 Gui gui;
 GameController controller;
+Bridge bridge(&controller);
 
 GLint windowWidth, windowHeight;
 
@@ -131,6 +134,10 @@ void onReshape(int width, int height) {
 	
 	windowWidth = width;
 	windowHeight = height;
+
+	Widget * bar = bridge.getTopBar();
+	bar->x = width - bar->getMinimumWidth();
+	bar->y = height - bar->getMinimumHeight();
 }
 
 int main(int argc, char *argv[]) {
@@ -171,6 +178,10 @@ int main(int argc, char *argv[]) {
 		"Segundo o modo que estou actualmente a usar, este utilizador chama-se " + controller.getIdentityPerson()->getName() +
 		" e esta " + controller.getIdentityPerson()->getMood().getDescription() +
 		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
+
+	gui.addWidget(bridge.getTopBar());
+	
+	gui.setEventsListener(&bridge);
 	
 	glutMainLoop();
 
