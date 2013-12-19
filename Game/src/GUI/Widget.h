@@ -29,15 +29,12 @@ class Widget {
 		/**
 		 * Draws this Widget on the screen.
 		 */
-		virtual void draw ( ) {
-			drawBackground();
-		}
+		virtual void draw ( );
 
 		/**
 		 * Draws the background of this widget in the screen.
 		 */
-		virtual void drawBackground ( ) {
-		}
+		virtual void drawBackground ( );
 
 		virtual GLfloat getMinimumWidth() {
 			return w;
