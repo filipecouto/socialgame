@@ -25,9 +25,9 @@ class IPerson {
 
 		virtual int getStrength() { }
 
-		virtual std::vector<Tag> getTags() { }
+		virtual std::vector<Tag*> getTags() { }
 
-		virtual std::vector<IConnection> getConnections() { }
+		virtual std::vector<IConnection*> getConnections() { }
 
 		virtual ~IPerson() { }
 };

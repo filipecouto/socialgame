@@ -165,7 +165,8 @@ int main(int argc, char *argv[]) {
 
 	gui.addWidget(new TextWidget(
 		"Segundo o modo que estou actualmente a usar, este utilizador chama-se " + controller.getIdentityPerson()->getName() +
-		" e esta " + controller.getIdentityPerson()->getMood().getDescription() + ".", 0, 50));
+		" e esta " + controller.getIdentityPerson()->getMood().getDescription() +
+		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
 	
 	glutMainLoop();
 

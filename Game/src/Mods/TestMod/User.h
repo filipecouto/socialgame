@@ -13,9 +13,9 @@
 #include "Person.h"
 
 class User : public IUser {
-    public:
-		virtual IPerson* getPerson();
-		virtual void addFriend ( IPerson* friendToAdd );
+	public:
+		virtual IPerson * getPerson();
+		virtual void addFriend(IPerson * friendToAdd);
 
 	private:
 		Person ritinha;

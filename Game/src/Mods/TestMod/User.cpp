@@ -8,10 +8,10 @@
 
 #include "User.h"
 
-IPerson* User::getPerson() {
+IPerson * User::getPerson() {
 	return &ritinha;
 }
 
-void User::addFriend ( IPerson* friendToAdd ) {
+void User::addFriend(IPerson * friendToAdd) {
 
 }

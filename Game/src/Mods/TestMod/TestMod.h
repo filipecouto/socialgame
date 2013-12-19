@@ -13,13 +13,13 @@
 #include "User.h"
 
 class TestMod : public GameMod {
-    public:
+	public:
 		TestMod();
 		~TestMod();
 		virtual void load();
-		virtual IUser* getIdentity();
-		virtual void* getNotifications();
-		virtual void* getPendingGames();
+		virtual IUser * getIdentity();
+		virtual void * getNotifications();
+		virtual void * getPendingGames();
 
 	private:
 		User user;

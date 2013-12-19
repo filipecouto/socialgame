@@ -8,32 +8,26 @@
 
 #include "TestMod.h"
 
-TestMod::TestMod()
-{
+TestMod::TestMod() {
 
 }
 
-TestMod::~TestMod()
-{
+TestMod::~TestMod() {
 
 }
 
-void TestMod::load()
-{
+void TestMod::load() {
 
 }
 
-IUser* TestMod::getIdentity()
-{
+IUser * TestMod::getIdentity() {
 	return &user;
 }
 
-void* TestMod::getNotifications()
-{
+void * TestMod::getNotifications() {
 
 }
 
-void* TestMod::getPendingGames()
-{
+void * TestMod::getPendingGames() {
 
 }
