@@ -11,8 +11,8 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 	public:
 		WidgetContainer ( );
 
-		void addWidget ( Widget * add_object );
-		void removeWidget ( Widget * remove_object );
+		virtual void addWidget ( Widget * add_object );
+		virtual void removeWidget ( Widget * remove_object );
 
 		virtual void draw();
 		virtual void onMouseMove ( int x, int y );
@@ -32,12 +32,12 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 	private:
 		Widget * getWidget ( int x, int y );
 
-		std::vector<Widget*> m_widgetVector;
-
 		Widget * _widgetHover;
 
 	protected:
 		Widget * _focused;
+		
+		std::vector<Widget*> m_widgetVector;
 };
 
 #endif // WIDGETCONTAINER_H
