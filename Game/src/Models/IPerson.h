@@ -15,6 +15,8 @@
 #include "Mood.h"
 #include "Tag.h"
 
+class IConnection;
+
 class IPerson {
 	public:
 		virtual std::string getName() = 0;
