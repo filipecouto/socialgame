@@ -19,23 +19,17 @@ class IPerson;
 
 class IConnection {
 	public:
-		virtual IPerson * getPerson() { }
-		virtual void setPerson(IPerson * person) { }
+		virtual IPerson * getPerson() = 0;
 
-		virtual int getState() { }
-		virtual void setState(int state) { }
+		virtual int getState() = 0;
 		
-		virtual int getStrength() { }
-		virtual void setStrength(int strength) { }
+		virtual int getStrength() = 0;
 
-		virtual int getScore() { }
-		virtual void setScore(int score) { }
+		virtual int getScore() = 0;
 
-		virtual std::vector<Tag> getTagList() { }
-		virtual void addTag(Tag tag) { }
-		virtual void removeTag(Tag tag) { }
+		virtual std::vector<Tag*> getTagList() = 0;
 
-		virtual ~IConnection();
+		virtual ~IConnection() { }
 };
 
 #endif

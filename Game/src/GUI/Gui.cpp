@@ -42,6 +42,7 @@ GLboolean Gui::onMouseButtonDown ( int button, int x, int y ) {
 		if ( _focused != NULL ) _focused->onBlur();
 		_focused = NULL;
 	}
+	return GL_TRUE;
 }
 
 GLboolean Gui::onMouseButtonUp ( int button, int x, int y ) {

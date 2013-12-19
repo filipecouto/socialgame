@@ -27,3 +27,6 @@ obj/%.o : Mods/TestMod/%.cpp
 	
 run : all
 	./SocialGame
+	
+clean :
+	rm obj/*
