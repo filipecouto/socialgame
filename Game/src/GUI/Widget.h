@@ -102,13 +102,9 @@ class Widget {
 			return _parent;
 		}
 
-		void requestFocus() {
-			if ( _parent != NULL ) _parent->requestFocus ( this );
-		}
-
-		void notifyGeometryChange() {
-			if ( _parent != NULL ) _parent->onParentGeometryChange ( this );
-		}
+		void requestFocus();
+		void notifyGeometryChange();
+		void performClick();
 
 	protected:
 		GLboolean hover, focused;

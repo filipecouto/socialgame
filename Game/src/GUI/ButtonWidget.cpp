@@ -73,7 +73,10 @@ GLboolean ButtonWidget::onMouseButtonDown ( int button, int x, int y ) {
 }
 
 GLboolean ButtonWidget::onMouseButtonUp ( int button, int x, int y ) {
-	if ( button == 0 ) _clicked = false;
+	if ( button == 0 ) {
+		if(_clicked && x >= 0 && x < w && y >= 0 && y < h) performClick();
+		_clicked = false;
+	}
 	return true;
 }
 

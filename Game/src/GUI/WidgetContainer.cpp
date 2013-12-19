@@ -29,14 +29,22 @@ Widget* WidgetContainer::getWidget ( int x, int y ) {
 	return NULL;
 }
 
+void WidgetContainer::onWidgetClicked(Widget * clicked) {
+	if(_parent != NULL) _parent->onWidgetClicked(clicked);
+}
+#include <cstdio>
 void WidgetContainer::onMouseMove ( int x, int y ) {
+	//printf("-> %x->onMouseMove(%d, %d)\n", this, x, y);
 	Widget * w = getWidget ( x, y );
+	//printf("\tgot widget %x\n", w);
 	if ( w != NULL ) {
+		//printf("\t%x == %x?\n", w, _widgetHover);
 		if ( w == _widgetHover ) {
 			w->onMouseMove ( x - w->x, y - w->y );
 			return;
 		} else {
 			if ( _widgetHover != NULL ) _widgetHover->onMouseExit();
+			//printf("\t...\n", w, _widgetHover);
 			w->onMouseEnter ( x - w->x, y - w->y );
 			_widgetHover = w;
 			return;
@@ -46,6 +54,7 @@ void WidgetContainer::onMouseMove ( int x, int y ) {
 		_widgetHover->onMouseExit();
 		_widgetHover = NULL;
 	}
+	//printf("<- %x->onMouseMove(%d, %d)\n", this, x, y);
 }
 
 GLboolean WidgetContainer::onMouseButtonDown ( int button, int x, int y ) {
@@ -93,6 +102,9 @@ GLboolean WidgetContainer::onKeyUp ( int key ) {
 void WidgetContainer::addWidget ( Widget * add_object ) {
 	m_widgetVector.push_back ( add_object );
 	add_object->setParent ( this );
+	
+	w = getBiggestMinimumWidth();
+	h = getBiggestMinimumHeight();
 }
 
 void WidgetContainer::removeWidget ( Widget * remove_object ) {
@@ -105,4 +117,35 @@ void WidgetContainer::removeWidget ( Widget * remove_object ) {
 			return;
 		}
 	}
+	
+	w = getBiggestMinimumWidth();
+	h = getBiggestMinimumHeight();
+}
+
+GLfloat WidgetContainer::getBiggestMinimumWidth() {
+	int len = m_widgetVector.size();
+
+	if (len == 0) return 0;
+
+	GLfloat biggest = m_widgetVector[0]->getMinimumWidth();
+
+	for (int i = 0; i < len; i++) {
+		if (m_widgetVector[i]->getMinimumWidth() > biggest) biggest = m_widgetVector[i]->getMinimumWidth();
+	}
+
+	return biggest;
+}
+
+GLfloat WidgetContainer::getBiggestMinimumHeight() {
+	int len = m_widgetVector.size();
+
+	if (len == 0) return 0;
+
+	GLfloat biggest = m_widgetVector[0]->getMinimumHeight();
+
+	for (int i = 0; i < len; i++) {
+		if (m_widgetVector[i]->getMinimumHeight() > biggest) biggest = m_widgetVector[i]->getMinimumHeight();
+	}
+
+	return biggest;
 }
