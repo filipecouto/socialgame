@@ -9,19 +9,19 @@
 #ifndef GAMEMOD_H
 #define GAMEMOD_H
 
-#include "../Models/Person.h"
+#include "../Models/IUser.h"
 
 class GameMod {
 	public:
-		virtual void load();
+		virtual void load() { }
 		
-		virtual IPerson * getIdentity();
-		
-		// TODO interface missing
-		virtual void * getNotifications();
+		virtual IUser * getIdentity() { }
 		
 		// TODO interface missing
-		virtual void * getPendingGames();
+		virtual void * getNotifications() { }
+		
+		// TODO interface missing
+		virtual void * getPendingGames() { }
 
 	private:
 		
