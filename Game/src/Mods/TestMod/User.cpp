@@ -15,3 +15,7 @@ IPerson * User::getPerson() {
 void User::addFriend(IPerson * friendToAdd) {
 
 }
+
+User::~User(){
+
+}

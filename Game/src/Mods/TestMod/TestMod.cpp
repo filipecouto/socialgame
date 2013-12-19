@@ -25,9 +25,9 @@ IUser * TestMod::getIdentity() {
 }
 
 void * TestMod::getNotifications() {
-
+	return NULL;
 }
 
 void * TestMod::getPendingGames() {
-
+	return NULL;
 }
