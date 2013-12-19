@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include "IConnection.h"
 #include "Mood.h"
 #include "Tag.h"
 

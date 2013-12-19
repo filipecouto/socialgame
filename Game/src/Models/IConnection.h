@@ -11,23 +11,27 @@
 
 #include <string>
 #include <vector>
+
+#include "Tag.h"
 #include "IPerson.h"
+
+class IPerson;
 
 class IConnection {
 	public:
-		virtual IPerson getPerson();
-		virtual void setPerson(IPerson person);
+		virtual IPerson * getPerson() { }
+		virtual void setPerson(IPerson * person) { }
 
-		virtual int getState();
-		virtual void setState(int state);
+		virtual int getState() { }
+		virtual void setState(int state) { }
 		
-		virtual int getStrength();
-		virtual void setStrength(int strength);
+		virtual int getStrength() { }
+		virtual void setStrength(int strength) { }
 
-		virtual int getScore();
-		virtual void setScore(int score);
+		virtual int getScore() { }
+		virtual void setScore(int score) { }
 
-		virtual std::vector<Tag> getTagList();
+		virtual std::vector<Tag> getTagList() { }
 		virtual void addTag(Tag tag) { }
 		virtual void removeTag(Tag tag) { }
 
