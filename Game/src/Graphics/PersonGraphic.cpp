@@ -28,7 +28,7 @@ void PersonGraphic::load() {
 
 void PersonGraphic::draw() {
 	glPushMatrix();
-	glutSolidSphere(1, 16, 16);
+	glutSolidSphere(1, 24, 24);
 	
 	int len = children.size();
 

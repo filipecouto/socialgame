@@ -9,10 +9,13 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include <GL/freeglut.h>
+
 #include "Mods/GameMod.h"
 #include "Models/IUser.h"
 #include "Graphics/IGraphic.h"
 #include "Graphics/GraphicFactory.h"
+#include "Graphics/Camera.h"
 
 class GameController {
 	public:
@@ -21,6 +24,9 @@ class GameController {
 		void start(GameMod * mod);
 		
 		void draw();
+		void tick(GLfloat delta, GLfloat absolute);
+		
+		Camera * getCamera();
 		
 		IPerson * getIdentityPerson() { return _identity->getPerson(); }
 
@@ -33,6 +39,8 @@ class GameController {
 		
 		IGraphic * _firstNode;
 		IGraphic * _currentNode;
+		
+		Camera _camera;
 		
 		void start();
 };

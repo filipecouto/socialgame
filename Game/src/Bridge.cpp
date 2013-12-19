@@ -17,9 +17,16 @@ Bridge::Bridge(GameController * controller) :  _controller(controller) {
 #include <cstdio>
 bool Bridge::onWidgetClicked(Widget * widget) {
 	if(widget == barCamera) {
-		printf("Clicked camera button\n");
-	} else {
-		printf("Clicked something else\n");
+		if(_controller->getCamera()->getType() == ThirdPerson) {
+			_controller->getCamera()->setType(FreeMode);
+			printf("Switching camera to free mode...\n");
+		} else if(_controller->getCamera()->getType() == FreeMode) {
+			_controller->getCamera()->setType(FirstPerson);
+			printf("Switching camera to first person...\n");
+		} else {
+			_controller->getCamera()->setType(ThirdPerson);
+			printf("Switching camera to third person...\n");
+		}
 	}
 }
 

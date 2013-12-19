@@ -35,11 +35,14 @@
 #pragma comment (lib, "glaux.lib")
 #pragma comment (lib, "True_GUI.lib")
 
+//
 Gui gui;
 GameController controller;
 Bridge bridge(&controller);
 
+//
 GLint windowWidth, windowHeight;
+double lastTime;
 
 void setCamera();
 
@@ -89,6 +92,13 @@ void onSpecialKeyUp(int key, int x, int y) {
 void timer(int value) {
 	glutTimerFunc ( 20, timer, 0 );
 	
+	GLuint curr = glutGet ( GLUT_ELAPSED_TIME );
+    GLuint deltaT = curr - lastTime;
+	
+	controller.tick(deltaT, curr);
+	
+	lastTime = curr;
+	
 	glutPostRedisplay();
 }
 
@@ -106,6 +116,21 @@ void load() {
 	// TODO climate changes due to mood should handle this instead:
 	GLfloat amb[] = { 0.3f, 0.3f, 0.3f, 1.0f };
 	glLightModelfv ( GL_LIGHT_MODEL_AMBIENT, amb );
+	
+	GLfloat light_pos[4] =	{-5.0, 20.0, -8.0, 0.0};
+    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+    GLfloat light_specular[]=	{ 0.5f, 0.5f, 0.5f, 1.0f };
+
+    // ligar iluminação
+    glEnable ( GL_LIGHTING );
+
+    // ligar e definir fonte de luz 0
+    glEnable ( GL_LIGHT0 );
+    glLightfv ( GL_LIGHT0, GL_AMBIENT, light_ambient );
+    glLightfv ( GL_LIGHT0, GL_DIFFUSE, light_diffuse );
+    glLightfv ( GL_LIGHT0, GL_SPECULAR, light_specular );
+    glLightfv ( GL_LIGHT0, GL_POSITION, light_pos );
 }
 
 void setCamera() {
