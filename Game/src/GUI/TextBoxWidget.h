@@ -27,8 +27,8 @@ public:
     virtual void onBlur();
     
 private:
-    int cursorPosition = 0;
-    GLfloat textSize = 0.0f;
+    int cursorPosition;
+    GLfloat textSize;
 };
 
 #endif // TEXTBOXWIDGET_H

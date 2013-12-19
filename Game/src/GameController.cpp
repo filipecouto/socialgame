@@ -10,8 +10,10 @@
 
 #include "Graphics/GraphicFactory.h"
 
+#include <GL/freeglut.h>
+
 GameController::GameController() {
-	
+	_graphFactory = new GraphicFactory();
 }
 
 void GameController::start(GameMod * mod) {
@@ -28,6 +30,13 @@ void GameController::start(GameMod * mod) {
 #include <cstdio>
 #define DEBUG
 
+void GameController::draw() {
+	glPushMatrix();
+	glTranslatef(1.1f, 0, 0);
+	_firstNode->draw();
+	glPopMatrix();
+}
+
 void GameController::start() {
 	#ifdef DEBUG
 	printf("Starting game...\n");
@@ -39,6 +48,6 @@ void GameController::start() {
 	printf("Loaded user's identity (%x): %s\n", _identity, _identity->getPerson()->getName().c_str());
 	#endif
 	
-	_firstNode = GraphicFactory::build(_identity->getPerson());
+	_firstNode = _graphFactory->build(_identity->getPerson());
 	_currentNode = _firstNode;
 }

@@ -12,6 +12,7 @@
 #include "Mods/GameMod.h"
 #include "Models/IUser.h"
 #include "Graphics/IGraphic.h"
+#include "Graphics/GraphicFactory.h"
 
 class GameController {
 	public:
@@ -19,9 +20,13 @@ class GameController {
 		
 		void start(GameMod * mod);
 		
+		void draw();
+		
 		IPerson * getIdentityPerson() { return _identity->getPerson(); }
 
 	private:
+		GraphicFactory * _graphFactory;
+		
 		GameMod * _mod;
 		
 		IUser * _identity;

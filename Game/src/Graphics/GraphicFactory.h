@@ -10,6 +10,8 @@
 #define GRAPHICFACTORY_H
 
 #include "IGraphic.h"
+#include "PersonGraphic.h"
+#include "ConnectionGraphic.h"
 #include "../Models/IPerson.h"
 #include "../Models/IConnection.h"
 #include "../Models/Tag.h"
@@ -19,9 +21,18 @@
  */
 class GraphicFactory {
 	public:
-		static IGraphic * build(IPerson * person) { return NULL; }
-		static IGraphic * build(IConnection * person) { return NULL; }
-		static IGraphic * build(Tag * person) { return NULL; }
+		GraphicFactory() {
+		}
+
+		IGraphic * build(IPerson * person) {
+			return new PersonGraphic(person);
+		}
+		IGraphic * build(IConnection * connection) {
+			return new ConnectionGraphic(connection);
+		}
+		IGraphic * build(Tag * tag) {
+			return NULL;
+		}
 };
 
 #endif

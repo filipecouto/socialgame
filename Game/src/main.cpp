@@ -46,6 +46,7 @@ void onDraw() {
 	glLoadIdentity();
 
 	glEnable(GL_DEPTH_TEST);
+	controller.draw();
 
 	gui.drawGui();
 	setCamera();
