@@ -44,8 +44,8 @@ void TextBoxWidget::draw()
 {
     TextWidget::draw();
     glBegin(GL_LINES);
-      glVertex2f(textSize, 0);
       glVertex2f(textSize, getMinimumHeight());
+      glVertex2f(textSize, 0);
     glEnd();
 }
 
@@ -102,18 +102,22 @@ GLboolean TextBoxWidget::onKeyDown(int key)
     case 8:
 	if(currentPosition > 0) {
 	  text.erase(currentPosition-1, 1);
+	  currentPosition--;
 	}
+	cursorPosition = currentPosition;
         break;
     case 127:
 	if(currentPosition < text.length()) {
 	  text.erase(currentPosition, 1);
 	}
+	cursorPosition = currentPosition;
         break;
     default:
-	text+=key;
+	text.insert(cursorPosition, 1, (char)key);
+	cursorPosition++;
         break;
     }
-    textSize = glutBitmapLength(getFont(), (const unsigned char*) text.c_str());
+    textSize = glutBitmapLength(getFont(), (const unsigned char*) text.substr(0,cursorPosition).c_str());
     setText ( text );
     return true;
 }
