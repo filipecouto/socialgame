@@ -1,7 +1,7 @@
 #ifndef LINEARCONTAINER_H
 #define LINEARCONTAINER_H
 
-#include <../../home/filipe/crosswebsocialgame/Game/src/GUI/WidgetContainer.h>
+#include "WidgetContainer.h"
 
 
 class LinearContainer : public WidgetContainer {
