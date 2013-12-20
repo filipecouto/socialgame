@@ -18,7 +18,7 @@ require_once('DAL.php');
 	//Delete Mood
 	function deleteMood($moodId){
 		$dal = new DAL();
-		$sql = "DELETE FROM Mood WHERE id = '$moodId'");
+		$sql = "DELETE FROM Mood WHERE id = '$moodId'";
 		$dal->executeQuery($sql);
 	}
 	?>
