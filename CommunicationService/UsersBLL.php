@@ -36,6 +36,7 @@
 			return true;
 		}else{
 			return false;
+		}
 	}
 	
 	//Token = -1 -> token doesn't exist -> create session
