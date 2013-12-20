@@ -1,6 +1,6 @@
 <?php
-	require_once('DALUsers.php');
-	require_once('DALSession.php');
+	require_once('DAL/Users.php');
+	require_once('DAL/Session.php');
 	
 	function createUser($userName, $password, $email){
 		$encriptedPassword = sha256($password);

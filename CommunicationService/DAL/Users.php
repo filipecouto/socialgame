@@ -1,7 +1,7 @@
 <?php
 
-require_once('DAL.php');
-require_once('DALTag.php');
+require_once('DAL/DAL.php');
+require_once('DAL/Tag.php');
 
 //Insert User
     function insertUser($Username,$Password,$Email){

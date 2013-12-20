@@ -1,5 +1,5 @@
 <?php
-require_once('DAL.php');
+require_once('DAL/DAL.php');
 
 	//Add new Connection
 	function addConnection($UserId1, $UserdId2){

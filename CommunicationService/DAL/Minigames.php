@@ -1,6 +1,6 @@
 <?php
 
-require_once('DAL.php');
+require_once('DAL/DAL.php');
 
 	
 		//Insert new Minigame

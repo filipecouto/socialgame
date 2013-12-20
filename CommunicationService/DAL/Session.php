@@ -1,5 +1,5 @@
 <?php
-require_once('DAL.php');
+require_once('DAL/DAL.php');
 
 	function insertSession($userId,$token){
 		$dal = new DAL();

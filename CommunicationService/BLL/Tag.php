@@ -1,6 +1,6 @@
 <?php
 
-require_once('DALTag.php');
+require_once('DAL/Tag.php');
 
 function createTag($name,$typeId){
 		insertTag($name,$typeId);
