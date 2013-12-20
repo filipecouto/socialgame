@@ -25,13 +25,6 @@ class ButtonWidget : public Widget, public IWidgetContainer {
 		virtual GLboolean onMouseButtonDown ( int button, int x, int y );
 		virtual GLboolean onMouseButtonUp ( int button, int x, int y );
 
-		virtual GLboolean onKeyDown ( int key ) {
-			std::string cText = ( ( TextWidget* ) _widget )->getText();
-			cText += key;
-			( ( TextWidget* ) _widget )->setText ( cText );
-			return true;
-		}
-
 		void setContainingWidget ( Widget* widget );
 
 		Widget * getContainingWidget();
