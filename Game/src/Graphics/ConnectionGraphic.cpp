@@ -1,5 +1,5 @@
 /*
- * ConnectionGraphic - Header
+ * ConnectionGraphic - Implementation
  *
  * This code is part of the game module of the Social Game.
  *

@@ -1,21 +1,23 @@
 #ifndef LINEARCONTAINER_H
 #define LINEARCONTAINER_H
 
-#include <../../home/filipe/crosswebsocialgame/Game/src/GUI/WidgetContainer.h>
+#include "WidgetContainer.h"
 
 
 class LinearContainer : public WidgetContainer {
 
 	public:
 		LinearContainer();
+
 		virtual void addWidget(Widget * add_object);
 		virtual void removeWidget(Widget * remove_object);
-		virtual ~LinearContainer();
 		virtual void onParentGeometryChange(Widget * widget);
+
+		virtual ~LinearContainer();
 	private:
-		virtual void revalidate();
+		void revalidate();
 		
-		GLboolean orientation; // true - vertical, false - horizontal
+		GLboolean orientation = false; // true - vertical, false - horizontal
 		GLfloat spacing = 1;
 };
 

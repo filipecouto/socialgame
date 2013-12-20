@@ -12,18 +12,17 @@
 
 #include <GL/freeglut.h>
 
-GameController::GameController() {
-	_graphFactory = new GraphicFactory();
+GameController::GameController() : _graphFactory() {
 }
 
 void GameController::start(GameMod * mod) {
-	if(_mod != NULL) {
+	if (_mod != NULL) {
 		// TODO clean up
 	}
-	
+
 	_mod = mod;
 	_mod->load();
-	
+
 	start();
 }
 
@@ -31,23 +30,34 @@ void GameController::start(GameMod * mod) {
 #define DEBUG
 
 void GameController::draw() {
+    glEnable ( GL_LIGHTING );
+	
+	_camera.setUp();
+	
 	glPushMatrix();
 	glTranslatef(1.1f, 0, 0);
 	_firstNode->draw();
 	glPopMatrix();
 }
 
+void GameController::tick(GLfloat delta, GLfloat absolute) {
+	_camera.tick(delta, absolute);
+}
+
 void GameController::start() {
-	#ifdef DEBUG
+#ifdef DEBUG
 	printf("Starting game...\n");
-	#endif
-	
+#endif
+
 	_identity = _mod->getIdentity();
-	
-	#ifdef DEBUG
+
+#ifdef DEBUG
 	printf("Loaded user's identity (%x): %s\n", _identity, _identity->getPerson()->getName().c_str());
-	#endif
-	
+#endif
+
 	_firstNode = _graphFactory->build(_identity->getPerson());
 	_currentNode = _firstNode;
+}
+Camera * GameController::getCamera() {
+	return &_camera;
 }

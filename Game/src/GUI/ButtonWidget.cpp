@@ -43,6 +43,7 @@ void ButtonWidget::drawBackground() {
 	if ( _focusAnim > 1 ) _focusAnim = 1;
 	else if ( _focusAnim < 0 ) _focusAnim = 0;
 
+	glPushMatrix();
 	glTranslatef ( w/2, h/2, 0 );
 	glScalef ( _clickAnim, _clickAnim, 0 );
 	glTranslatef ( -w/2, -h/2, 0 );
@@ -53,6 +54,7 @@ void ButtonWidget::drawBackground() {
 	glVertex2f ( 0, _minH + _borderWidth*2 );
 	glVertex2f ( _minW + _borderWidth*2, _minH + _borderWidth*2 );
 	glEnd();
+	glPopMatrix();
 }
 
 void ButtonWidget::draw() {
@@ -71,7 +73,10 @@ GLboolean ButtonWidget::onMouseButtonDown ( int button, int x, int y ) {
 }
 
 GLboolean ButtonWidget::onMouseButtonUp ( int button, int x, int y ) {
-	if ( button == 0 ) _clicked = false;
+	if ( button == 0 ) {
+		if(_clicked && x >= 0 && x < w && y >= 0 && y < h) performClick();
+		_clicked = false;
+	}
 	return true;
 }
 
@@ -81,6 +86,8 @@ void ButtonWidget::onParentGeometryChange ( Widget* widget ) {
 
 	w = _minW + _borderWidth*2;
 	h = _minH + _borderWidth*2;
+	
+	notifyGeometryChange();
 }
 
 Widget* ButtonWidget::getContainingWidget() {

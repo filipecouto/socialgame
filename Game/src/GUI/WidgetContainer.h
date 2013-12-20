@@ -17,6 +17,7 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 		virtual void draw();
 		virtual void onMouseMove ( int x, int y );
 
+		virtual void onWidgetClicked(Widget * clicked);
 		virtual GLboolean onMouseButtonDown ( int button, int x, int y );
 		virtual GLboolean onMouseButtonUp ( int button, int x, int y );
 
@@ -32,12 +33,15 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 	private:
 		Widget * getWidget ( int x, int y );
 
-		Widget * _widgetHover;
+		Widget * _widgetHover = NULL;
 
 	protected:
-		Widget * _focused;
+		Widget * _focused = NULL;
 		
 		std::vector<Widget*> m_widgetVector;
+		
+		GLfloat getBiggestMinimumWidth();
+		GLfloat getBiggestMinimumHeight();
 };
 
 #endif // WIDGETCONTAINER_H
