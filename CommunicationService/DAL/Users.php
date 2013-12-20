@@ -1,7 +1,7 @@
 <?php
 
-require_once('DAL.php');
-require_once('DALTag.php');
+require_once('DAL/DAL.php');
+require_once('DAL/Tag.php');
 
 //Insert User
     function insertUser($Username,$Password,$Email){
@@ -34,7 +34,23 @@ require_once('DALTag.php');
 		else{
 			$userId = -1;
 		}
-		return $userId;
+		if($userId != -1){
+			$sqlFind = "SELECT token FROM Session WHERE userId = '$userId'";
+			$recordset = $dal->executeNonQuery($sqlFind);
+			$length = mysql_num_rows($recordset);
+			if($length != 0){
+				$record = mysql_fetch_array($recordset);
+				$token = $record["token"];
+			}
+			else{
+				$token = -1;
+			}
+		}else
+		{
+			$token = -2;
+		}
+		
+		return $token;
 	}
 	
 	//Get a UserId using its email
@@ -46,12 +62,12 @@ require_once('DALTag.php');
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
 			$record = mysql_fetch_array($recordset);
-			$userId = $record["UserId"];
+			$user = $record;
 		}
 		else{
-			$userId = -1;
+			$user = -1;
 		}
-		return $userId;
+		return $user;
 	}
 
 	function deleteUser($userId){

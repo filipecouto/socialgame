@@ -1,5 +1,5 @@
 <?php
-require_once('DAL.php');
+require_once('DAL/DAL.php');
 
 	function insertSession($userId,$token){
 		$dal = new DAL();
@@ -16,6 +16,21 @@ require_once('DAL.php');
 	function getSession($token){
 		$dal = new DAL();
 		$sqlFind = "SELECT * FROM Session WHERE token = '$token'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$session = $record;
+		}
+		else{
+			$session = -1;
+		}
+		return $session;
+	}
+	
+	function getUserBySession($token){
+		$dal = new DAL();
+		$sqlFind = "SELECT userId FROM Session WHERE token = '$token'";
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
