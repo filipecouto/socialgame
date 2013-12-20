@@ -27,7 +27,7 @@ class IConnection {
 
 		virtual int getScore() = 0;
 
-		virtual std::vector<Tag*> getTagList() = 0;
+		virtual std::vector<Tag*> getTags() = 0;
 
 		virtual ~IConnection() { }
 };

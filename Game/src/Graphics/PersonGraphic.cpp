@@ -33,7 +33,8 @@ void PersonGraphic::draw() {
 	int len = children.size();
 
 	for (int i = 0; i < len; i++) {
-		children[0]->draw();
+		children[i]->draw();
+		glRotatef(360/len, 0, 1, 0);
 	}
 
 	glPopMatrix();

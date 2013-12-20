@@ -8,9 +8,10 @@
  */
 
 #include "Person.h"
+#include "Connection.h"
 
 std::string Person::getName() {
-	return "Ritinha";
+	return _test == 0 ? "Ritinha" : _test == 1 ? "Alho Batata" : "Batata Frita";
 }
 
 Mood Person::getMood() {
@@ -25,16 +26,28 @@ int Person::getStrength() {
 	return 8;
 }
 
-std::vector<Tag *> Person::getTags(){
-	return std::vector<Tag*>();
+std::vector<Tag *> Person::getTags() {
+	return std::vector<Tag *>();
 }
 
 std::vector< IConnection * > Person::getConnections() {
-	if(_connections == NULL) {
+	if (_connections == NULL) {
 		_connections = new std::vector<IConnection *>();
-		// lazy load
+
+		if (_test < 2) {
+			Person * p = new Person();
+			p->test(_test == 0 ? 1 : 2);
+			_connections->push_back(new Connection(p));
+			_connections->push_back(new Connection());
+
+			if (_test == 0) {
+				_connections->push_back(new Connection());
+				_connections->push_back(new Connection());
+			}
+		}
 	}
-	return std::vector<IConnection*>(*_connections);
+
+	return std::vector<IConnection *>(*_connections);
 }
 
 Person::~Person() {

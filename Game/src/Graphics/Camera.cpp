@@ -9,10 +9,10 @@
 #include "Camera.h"
 
 Camera::Camera() {
-	tex = -1;
+	tex = -2;
 	tey = 0;
-	tez = 0;
-	tcx = 2;
+	tez = -2;
+	tcx = 0;
 	tcy = 0;
 	tcz = 0;
 	tux = 0;
@@ -32,11 +32,17 @@ void Camera::setType(CameraTypes type) {
 	currentType = type;
 
 	if (currentType == FreeMode) {
-		tey = -2;
+		tex = -8;
+		tey = 4;
+		tez = -2;
 	} else if (currentType == FirstPerson) {
-		tey = 2;
-	} else  {
+		tex = -3;
 		tey = 0;
+		tez = 3;
+	} else {
+		tex = 4;
+		tey = 0;
+		tez = 2;
 	}
 }
 

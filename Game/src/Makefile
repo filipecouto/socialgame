@@ -14,16 +14,16 @@ obj/%.o : %.cpp
 	g++ -std=c++11 -ggdb -c -o $@ $<
 
 obj/%.o : Models/%.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -ggdb -c -o $@ $<
 	
 obj/%.o : Graphics/%.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -ggdb -c -o $@ $<
 	
 obj/%.o : Mods/%.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -ggdb -c -o $@ $<
 	
 obj/%.o : Mods/TestMod/%.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -ggdb -c -o $@ $<
 	
 run : all
 	./SocialGame
