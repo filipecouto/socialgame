@@ -34,7 +34,23 @@ require_once('DALTag.php');
 		else{
 			$userId = -1;
 		}
-		return $userId;
+		if($userId != -1){
+			$sqlFind = "SELECT token FROM Session WHERE userId = '$userId'";
+			$recordset = $dal->executeNonQuery($sqlFind);
+			$length = mysql_num_rows($recordset);
+			if($length != 0){
+				$record = mysql_fetch_array($recordset);
+				$token = $record["token"];
+			}
+			else{
+				$token = -1;
+			}
+		}else
+		{
+			$token = -2;
+		}
+		
+		return $token;
 	}
 	
 	//Get a UserId using its email
