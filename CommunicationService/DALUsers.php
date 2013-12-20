@@ -62,12 +62,12 @@ require_once('DALTag.php');
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
 			$record = mysql_fetch_array($recordset);
-			$userId = $record["UserId"];
+			$user = $record;
 		}
 		else{
-			$userId = -1;
+			$user = -1;
 		}
-		return $userId;
+		return $user;
 	}
 
 	function deleteUser($userId){
