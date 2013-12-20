@@ -19,6 +19,9 @@ class ConnectionGraphic : public IGraphic {
 		virtual void draw();
 		
 		~ConnectionGraphic();
+
+	private:
+		IGraphic * _end = NULL;
 };
 
 #endif // CONNECTIONGRAPHIC_H

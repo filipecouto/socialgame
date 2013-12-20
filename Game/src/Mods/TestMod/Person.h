@@ -20,9 +20,16 @@ class Person : public IPerson {
 		virtual int getStrength();
 		virtual std::vector< Tag * > getTags();
 		virtual std::vector< IConnection * > getConnections();
+		
+		void test(int n) {
+			_test = n;
+		}
+		
 		virtual ~Person();
 	private:
 		std::vector<IConnection *> * _connections;
+		
+		int _test = 0;
 };
 
 #endif // PERSON_H

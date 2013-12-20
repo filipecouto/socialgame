@@ -22,7 +22,7 @@ class PersonGraphic : public IGraphic {
 		~PersonGraphic();
 
 	private:
-		IPerson * _person;
+		IPerson * _person = NULL;
 
 		std::vector<IGraphic *> children;
 };
