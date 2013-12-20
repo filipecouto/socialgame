@@ -54,8 +54,7 @@ require_once('DALTag.php');
 		return $userId;
 	}
 
-	function deleteUser($userId)
-	{
+	function deleteUser($userId){
 		$dal = new DAL();
 		$sql = "DELETE FROM Users WHERE id = ?$userId'";
 		$dal->executeQuery($sql);

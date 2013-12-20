@@ -1,5 +1,4 @@
 <?php
-
 require_once('DAL.php');
 
 //Insert new Notification Type
