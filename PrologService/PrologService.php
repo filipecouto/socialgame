@@ -11,6 +11,7 @@ EOT;
 			$cmd = "nice -n15 /usr/lib/swi-prolog/bin/i386/swipl -f /var/www/SocialGameCommunicationService/test.pl -g go";
 			$output = shell_exec($cmd);
 			echo $output;
+			return $output;
 		}
 
 		function networkSize($Friends){
