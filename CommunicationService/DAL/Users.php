@@ -1,14 +1,14 @@
 <?php
 
-require_once('DAL/DAL.php');
-require_once('DAL/Tag.php');
+require_once('../DAL/DAL.php');
+require_once('../DAL/Tags.php');
 
 //Insert User
     function insertUser($Username,$Password,$Email){
 		$dal = new DAL();
         $sqlUser = "INSERT INTO Users (Username) VALUES('$Username')";
 		$dal->executeQuery($sqlUser);
-		$userId = mysql_insert_id();
+		$userId = getUserId($Username);
 		$sqlLogin = "INSERT INTO Logins (UserId,Password,Email) VALUES('$userId','$Password','$Email')";
 		$dal->executeQuery($sqlLogin);
     }
@@ -16,7 +16,8 @@ require_once('DAL/Tag.php');
 	//Change User Name
 	function changeUserName($UserId,$Username){
 		$dal = new DAL();
-		$sql = "UPDATE Users SET Username = '$Username' WHERE Id = '$UserId'";
+		$sql = "UPDATE Users SET username = '$Username' WHERE id = '$UserId'";
+		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
@@ -57,12 +58,27 @@ require_once('DAL/Tag.php');
 	//returns its ID or -1 if error
 	function getUserIdByEmail($Email){
 		$dal = new DAL();
-		$sqlFind = "SELECT UserId FROM Logins WHERE Email = '$Email'";
+		$sqlFind = "SELECT * FROM Logins WHERE Email = '$Email'";
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
 			$record = mysql_fetch_array($recordset);
-			$user = $record;
+			$user = $record["userID"];
+		}
+		else{
+			$user = -1;
+		}
+		return $user;
+	}
+
+	function getUserId($Username){
+		$dal = new DAL();
+		$sqlFind = "SELECT id FROM Users WHERE username = '$Username'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$user = $record["id"];
 		}
 		else{
 			$user = -1;
@@ -103,7 +119,8 @@ require_once('DAL/Tag.php');
 	//Change User Password
 	function changeUserPassword($UserId,$Password){
 		$dal = new DAL();
-		$sql = "UPDATE Logins SET Password = '$Password' WHERE UserId = '$UserId'";
+		$sql = "UPDATE Logins SET password = '$Password' WHERE userID = '$UserId'";
+		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	

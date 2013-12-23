@@ -1,11 +1,12 @@
 <?php
-	require_once('DAL/Users.php');
-	require_once('DAL/Session.php');
+	require_once('../DAL/Users.php');
+	require_once('../DAL/Sessions.php');
 	
 	function createUser($userName, $password, $email){
-		$encriptedPassword = sha256($password);
+		$encriptedPassword = crypt($password);
 		insertUser($userName, $encriptedPassword, $email);
 		$userId =getUserIdByEmail($email);
+		echo $userId;
 		if($userId !=-1)
 		{
 			$token = token();
@@ -20,7 +21,7 @@
 		$userId = getUserBySession($token);
 		if($userId !=-1)
 		{
-			changeUserName($UserId,$Username);
+			changeUserName($userId,$Username);
 			return true;
 		}else{
 			return false;
@@ -29,10 +30,14 @@
 
 	function modifyUserPassword($token,$password){
 		$userId = getUserBySession($token);
+		print_r($userId);
 		if($userId !=-1)
 		{
-			$encriptedPassword = sha256($password);
-			changeUserPassword($UserId,$encriptedPassword);
+			$encriptedPassword = crypt($password);
+			print_r($password);
+			echo "\n";
+			print_r($encriptedPassword );
+			changeUserPassword($userId,$encriptedPassword);
 			return true;
 		}else{
 			return false;
@@ -41,7 +46,7 @@
 	
 	//Token = -1 -> token doesn't exist -> create session
 	//Token =-2 -> user doesn't exist
-	function login($Email,$Password){
+	function doLogin($Email,$Password){
 		$token = login($Email,$Password);
 		if($token == -1){
 			$userId = getUserIdByEmail($Email);
