@@ -1,5 +1,5 @@
 <?php
-	require_once('DAL/Connection.php');
+	require_once('../DAL/Connections.php');
 	
 	function createConnection($UserId1, $UserdId2){
 		addConnection($UserId1, $UserdId2);
@@ -10,7 +10,7 @@
 	}
 	
 	function modifyConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score){
-		updateConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score)
+		updateConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score);
 	}	
 	
 	function modifyConnectionStrength($Id,$Strength){
@@ -21,7 +21,7 @@
 		changeConnectionState($Id,$State);
 	}
 	
-	function getConnectionIdByUsers($User1,$User2){
+	function findConnectionIdByUsers($User1,$User2){
 		getConnectionIdByUsers($User1,$User2);
 	}
 ?>

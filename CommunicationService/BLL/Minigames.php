@@ -1,6 +1,6 @@
 <?php
 
-	require_once('DAL/Minigames.php');
+	require_once('../DAL/Minigames.php');
 	
 	function createMinigame($Name){
 		insertMinigame($Name);
