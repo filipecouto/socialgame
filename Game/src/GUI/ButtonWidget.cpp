@@ -9,21 +9,9 @@ ButtonWidget::ButtonWidget ( ) {
 ButtonWidget::ButtonWidget ( Widget* containingWidget ) : ButtonWidget ( containingWidget, 0, 0 ) {
 }
 
-ButtonWidget::ButtonWidget ( Widget* containingWidget, GLfloat xPos, GLfloat yPos ) : _clicked ( false ), _clickAnim ( 1 ), _borderWidth ( 5 ), Widget ( xPos, yPos ) {
+ButtonWidget::ButtonWidget ( Widget* containingWidget, GLfloat xPos, GLfloat yPos ) : _clicked ( false ), _hoverAnim(0), _clickAnim ( 1 ), _focusAnim(0), _borderWidth ( 5 ), Widget ( xPos, yPos ) {
 	setContainingWidget ( containingWidget );
 }
-
-// ButtonWidget::ButtonWidget ( std::string text, GLfloat xPos, GLfloat yPos ) :
-// 	ButtonWidget ( text, 1,1,1,1, GLUT_BITMAP_HELVETICA_12, xPos, yPos ) {}
-//
-// ButtonWidget::ButtonWidget ( std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat xPos, GLfloat yPos ) :
-// 	ButtonWidget ( text, r, g, b, a, GLUT_BITMAP_HELVETICA_12, xPos, yPos ) {}
-//
-// ButtonWidget::ButtonWidget ( std::string text, void* font, GLfloat xPos, GLfloat yPos ) :
-// 	ButtonWidget ( text, 1, 1, 1, 1, font, xPos, yPos ) {}
-//
-// ButtonWidget::ButtonWidget ( std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void* font, GLfloat xPos, GLfloat yPos ) :
-// 	TextWidget ( text,r,g,b,a,font ,xPos, yPos ) {}
 
 ButtonWidget::~ButtonWidget ( ) { }
 

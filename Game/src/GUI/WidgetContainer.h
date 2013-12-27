@@ -27,6 +27,9 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 		virtual void requestFocus ( Widget * from );
 		virtual void onFocus();
 		virtual void onBlur();
+		
+		virtual void tick(int delta, int absolute);
+		virtual GLboolean isAnimating();
 
 		virtual ~WidgetContainer ( );
 

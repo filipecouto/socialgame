@@ -5,7 +5,6 @@
 
 class TextBoxWidget : public TextWidget
 {
-
 public:
     TextBoxWidget();
     TextBoxWidget(std::string text, GLfloat xPos, GLfloat yPos);
@@ -25,10 +24,19 @@ public:
     virtual GLboolean onKeyUp(int key);
     virtual void onFocus();
     virtual void onBlur();
-    
+	
+	virtual GLboolean isAnimating();
+	virtual void tick(int delta, int absolute);
+
+protected:
+	virtual void updateDimensions();
+
 private:
     int cursorPosition;
+	GLfloat _borderWidth;
     GLfloat textSize;
+	long pastTime = 0;
+	bool showCursor;
 };
 
 #endif // TEXTBOXWIDGET_H

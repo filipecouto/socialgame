@@ -30,6 +30,9 @@ class TextWidget : public Widget {
 		
 		virtual void draw();
 
+protected:
+	virtual void updateDimensions();
+	
 	private:
 		std::string _text;
 		void * _font;

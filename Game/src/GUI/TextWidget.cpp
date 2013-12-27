@@ -23,13 +23,7 @@ TextWidget::~TextWidget ( ) { }
 void TextWidget::setText ( std::string text ) {
 	_text = text;
 
-	_minWidth = glutBitmapLength ( _font, ( const unsigned char* ) _text.c_str() );
-	_minHeight = glutBitmapHeight ( _font ) - 7;
-
-	w = _minWidth;
-	h = _minHeight;
-
-	notifyGeometryChange();
+	updateDimensions();
 }
 std::string TextWidget::getText() {
 	return _text;
@@ -42,6 +36,10 @@ void* TextWidget::getFont() {
 void TextWidget::setFont ( void* font ) {
 	_font = font;
 
+	updateDimensions();
+}
+
+void TextWidget::updateDimensions() {
 	_minWidth = glutBitmapLength ( _font, ( const unsigned char* ) _text.c_str() );
 	_minHeight = glutBitmapHeight ( _font ) - 7;
 
@@ -85,6 +83,5 @@ void TextWidget::draw ( ) {
 
 	glRasterPos2d ( 0, 0 );
 	GLfloat n = _text.length();
-	for ( GLfloat i=0; i<n; i++ )
-		glutBitmapCharacter ( _font, ( int ) _text[i] );
+	glutBitmapString(_font, (const unsigned char*) _text.c_str());
 }

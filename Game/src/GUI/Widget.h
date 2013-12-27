@@ -101,13 +101,19 @@ class Widget {
 		IWidgetContainer * getParent() {
 			return _parent;
 		}
+		
+		virtual GLboolean isAnimating() {
+			return false;
+		}
+		
+		virtual void tick(int delta, int absolute) { }
 
 		void requestFocus();
 		void notifyGeometryChange();
 		void performClick();
 
 	protected:
-		GLboolean hover, focused;
+		GLboolean hover = GL_FALSE, focused = GL_FALSE;
 		IWidgetContainer * _parent = NULL;
 };
 
