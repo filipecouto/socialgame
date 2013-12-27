@@ -24,7 +24,9 @@ class Camera {
 		CameraTypes getType();
 		void setType(CameraTypes type);
 		
-		void tick(GLfloat delta, GLfloat absolute);
+		void tick(int delta, int absolute);
+		
+		void translate(GLfloat x, GLfloat y, GLfloat z);
 		
 		~Camera();
 

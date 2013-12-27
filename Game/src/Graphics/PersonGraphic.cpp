@@ -9,35 +9,42 @@
 #include "PersonGraphic.h"
 #include "GraphicFactory.h"
 
-#include <GL/freeglut.h>
-
-PersonGraphic::PersonGraphic(IPerson * person) {
-	_person = person;
-	
-	load();
+PersonGraphic::PersonGraphic(IPerson * person) : PersonGraphic(person, 0) {
+}
+PersonGraphic::PersonGraphic(IPerson * person, GLfloat startAngle) : _person(person), _startAngle(startAngle) {
+	radius = 1.0 + _person->getTags().size() * 0.4;
 }
 
-void PersonGraphic::load() {
-	GraphicFactory factory;
+void PersonGraphic::load(GameContext * context) {
 	int len = _person->getConnections().size();
 
 	for (int i = 0; i < len; i++) {
-		children.push_back(factory.build(_person->getConnections()[i]));
+		IConnection * connection = _person->getConnections()[i];
+		ConnectionGraphic * c = (ConnectionGraphic *) context->getFactory()->build(connection);
+		children.push_back(c);
+		PersonGraphic * pointingTo = (PersonGraphic *) context->getGraphic(connection->getPerson());
+		c->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
 	}
 }
 
 void PersonGraphic::draw() {
 	glPushMatrix();
-	glutSolidSphere(1, 24, 24);
+	glTranslatef(x, y, z);
+	glColor3f((_person->getName()[0] - 'A') / 26.0f, (_person->getName()[1] - 'a') / 26.0f, (_person->getName()[2] - 'a') / 26.0f);
+	glutSolidSphere(radius, 24, 24);
+	glColor3f(1, 1, 1);
 	
 	int len = children.size();
 
 	for (int i = 0; i < len; i++) {
 		children[i]->draw();
-		glRotatef(360/len, 0, 1, 0);
 	}
 
 	glPopMatrix();
+}
+
+bool PersonGraphic::operator==(IPerson * person) {
+	return _person == person;
 }
 
 PersonGraphic::~PersonGraphic() {

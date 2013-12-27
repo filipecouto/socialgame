@@ -33,20 +33,26 @@ void Camera::setType(CameraTypes type) {
 
 	if (currentType == FreeMode) {
 		tex = -8;
-		tey = 4;
-		tez = -2;
+		tey = 8;
+		tez = 0;
 	} else if (currentType == FirstPerson) {
 		tex = -3;
 		tey = 0;
 		tez = 3;
+		tcx = 0;
+		tcy = 0;
+		tcz = 0;
 	} else {
 		tex = 4;
 		tey = 0;
 		tez = 2;
+		tcx = 0;
+		tcy = 0;
+		tcz = 0;
 	}
 }
 
-void Camera::tick(GLfloat delta, GLfloat absolute) {
+void Camera::tick(int delta, int absolute) {
 	animate(tex, cex);
 	animate(tey, cey);
 	animate(tez, cez);
@@ -56,6 +62,15 @@ void Camera::tick(GLfloat delta, GLfloat absolute) {
 	animate(tux, cux);
 	animate(tuy, cuy);
 	animate(tuz, cuz);
+}
+
+void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
+	tcx += x;
+	tcy += y;
+	tcz += z;
+	tex += x;
+	tey += y;
+	tez += z;
 }
 
 void Camera::animate(GLfloat target, GLfloat & value) {

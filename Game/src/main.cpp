@@ -74,6 +74,7 @@ void onSpecialKeyDown(int key, int x, int y) {
 
 void onKeyDown(unsigned char c, int x, int y) {
 	if(gui.onKeyDown(c)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	controller.onKeyDown(c, 0);
 	switch (c) {
 		case 27:		// ESC
 			exit(0);
@@ -87,15 +88,17 @@ void onKeyUp(unsigned char c, int x, int y) {
 
 void onSpecialKeyUp(int key, int x, int y) {
 	if(gui.onKeyUp(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	controller.onKeyDown(0, key);
 }
 
 void timer(int value) {
 	glutTimerFunc ( 20, timer, 0 );
 	
-	GLuint curr = glutGet ( GLUT_ELAPSED_TIME );
-    GLuint deltaT = curr - lastTime;
+	int curr = glutGet ( GLUT_ELAPSED_TIME );
+    int deltaT = curr - lastTime;
 	
 	controller.tick(deltaT, curr);
+	gui.tick(deltaT, curr);
 	
 	lastTime = curr;
 	
@@ -176,9 +179,9 @@ int main(int argc, char *argv[]) {
 
 	load();
 
-	gui.addWidget(new ButtonWidget(new TextWidget("ola", 0, 0), 0, 0));
+	//gui.addWidget(new ButtonWidget(new TextWidget("ola", 0, 0), 0, 0));
 	gui.addWidget(new TextBoxWidget("texto", 0, 25));
-	gui.addWidget(new ButtonWidget(new TextWidget("xau", 0, 0), 40, 0));
+	//gui.addWidget(new ButtonWidget(new TextWidget("xau", 0, 0), 40, 0));
 
 	glutReshapeFunc ( onReshape );
 	glutVisibilityFunc( onVisibilityChange );
@@ -199,10 +202,10 @@ int main(int argc, char *argv[]) {
 	
 	controller.start(new TestMod());
 
-	gui.addWidget(new TextWidget(
-		"Segundo o modo que estou actualmente a usar, este utilizador chama-se " + controller.getIdentityPerson()->getName() +
-		" e esta " + controller.getIdentityPerson()->getMood().getDescription() +
-		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
+// 	gui.addWidget(new TextWidget(
+// 		"Segundo o modo que estou actualmente a usar, este utilizador chama-se " + controller.getIdentityPerson()->getName() +
+// 		" e esta " + controller.getIdentityPerson()->getMood().getDescription() +
+// 		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
 
 	gui.addWidget(bridge.getTopBar());
 	

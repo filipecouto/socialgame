@@ -27,8 +27,14 @@ class GraphicFactory {
 		IGraphic * build(IPerson * person) {
 			return new PersonGraphic(person);
 		}
+		IGraphic * build(IPerson * person, GLfloat angle) {
+			return new PersonGraphic(person, angle);
+		}
 		IGraphic * build(IConnection * connection) {
 			return new ConnectionGraphic(connection);
+		}
+		IGraphic * build(IConnection * connection, GLfloat angle) {
+			return new ConnectionGraphic(connection, angle);
 		}
 		IGraphic * build(Tag * tag) {
 			return NULL;

@@ -9,6 +9,8 @@
 #ifndef IGRAPHIC_H
 #define IGRAPHIC_H
 
+#include "../GameContext.h"
+
 /**
  * This interface represents something visual that will represent things
  * in the network such as people and connections.
@@ -16,6 +18,7 @@
 class IGraphic {
 	public:
 		virtual void draw() { }
+		virtual void load(GameContext * context) { }
 };
 
 #endif

@@ -11,11 +11,15 @@
 
 #include <string>
 #include <vector>
-#include "Graphics/PersonGraphic.h"
+#include "Models/IPerson.h"
+
+class IGraphic;
+class GraphicFactory;
 
 class GameContext {
 	public:
-		virtual PersonGraphic getGraphic(Person*);
+		virtual GraphicFactory * getFactory() = 0;
+		virtual IGraphic * getGraphic(IPerson *) = 0;
 
 		virtual ~GameContext() { }
 };
