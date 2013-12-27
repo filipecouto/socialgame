@@ -14,6 +14,8 @@
 
 class User : public IUser {
 	public:
+		User();
+		
 		virtual IPerson * getPerson();
 		virtual void addFriend(IPerson * friendToAdd);
 		virtual ~User();
