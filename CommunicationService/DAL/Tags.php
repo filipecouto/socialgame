@@ -4,14 +4,15 @@ require_once('../DAL/DAL.php');
 //Insert Tag
 	function insertTag($Name,$TypeId){
 		$dal = new DAL();
-		$sql = "INSERT INTO Tags (Name,Type) VALUES('$Name','$TypeId')";
+		$sql = "INSERT INTO Tags (name,type) VALUES('$Name','$TypeId')";
+		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
 	//Insert new TagType
 	function insertTagType($Description){
 		$dal = new DAL();
-		$sql = "INSERT INTO TagTypes (Description) VALUES('$Description)";
+		$sql = "INSERT INTO TagTypes (Description) VALUES('$Description')";
 		$dal->executeQuery($sql);
 	}
 	

@@ -10,8 +10,8 @@
 		updateMinigame($Id,$Name);
 	}
 	
-	function getMinigames(){
-		getMinigames();
+	function findMinigames(){
+		return getMinigames();
 	}
 	
 	function removeMinigames($minigameId){

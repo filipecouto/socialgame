@@ -22,6 +22,6 @@
 	}
 	
 	function findConnectionIdByUsers($User1,$User2){
-		getConnectionIdByUsers($User1,$User2);
+		return getConnectionIdByUsers($User1,$User2);
 	}
 ?>

@@ -95,19 +95,20 @@ require_once('../DAL/Tags.php');
 	//Insert new relation user and tag with TagId
     function addUserTag($UserId,$TagId){
 		$dal = new DAL();
-        $sql = "INSERT INTO UserTag (UserId,TagId) VALUES('$UserId','$TagId')";
+        $sql = "INSERT INTO UserTag (userID,tagID) VALUES('$UserId','$TagId')";
 		$dal->executeQuery($sql);
     }
 	
 	//Insert new relation user and tag, with TagName
 	function insertUserTag($UserId,$TagName,$TypeId){
 		$dal = new DAL();
-		$sqlFind = "Select Id From Tags Where Name = '$TagName'";
+		$sqlFind = "Select id From Tags Where name = '$TagName'";
+		print_r($sqlFind);
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
 			$record = mysql_fetch_array($recordset);
-			$tagId = $record["Id"];
+			$tagId = $record["id"];
 		}
 		else{
 			insertTag($TagName,$TypeId);
