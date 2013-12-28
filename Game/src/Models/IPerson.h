@@ -1,10 +1,10 @@
 /**
-* IPerson - Header
-*
-* This code is part of the game module of the Social Game.
-*
-* CrossWeb Enterprise - 2013
-*/
+ * IPerson - Header
+ *
+ * This code is part of the game module of the Social Game.
+ *
+ * CrossWeb Enterprise - 2013
+ */
 
 #ifndef IPERSON_H
 #define IPERSON_H

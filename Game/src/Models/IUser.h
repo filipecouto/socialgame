@@ -1,10 +1,10 @@
 /**
-* IUser - Header
-*
-* This code is part of the game module of the Social Game.
-*
-* CrossWeb Enterprise - 2013
-*/
+ * IUser - Header
+ *
+ * This code is part of the game module of the Social Game.
+ *
+ * CrossWeb Enterprise - 2013
+ */
 
 #ifndef IUSER_H
 #define IUSER_H

@@ -1,10 +1,10 @@
 /**
-* IConnection - Header
-*
-* This code is part of the game module of the Social Game.
-*
-* CrossWeb Enterprise - 2013
-*/
+ * IConnection - Header
+ *
+ * This code is part of the game module of the Social Game.
+ *
+ * CrossWeb Enterprise - 2013
+ */
 
 #ifndef ICONNECTION_H
 #define ICONNECTION_H
