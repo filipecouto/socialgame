@@ -1,5 +1,5 @@
 <?php
-require_once('../DAL/DAL.php');
+require_once('DAL/DAL.php');
 
 //Insert new Mood
 	function insertMood($Description){
@@ -16,21 +16,17 @@ require_once('../DAL/DAL.php');
 	}
 	
 	function getMoods(){
-		$dal = new DAL();
-		$sqlFind = "SELECT * FROM Moods";
-		$recordset = $dal->executeNonQuery($sqlFind);
-		$length = mysql_num_rows($recordset);
-		if($length != 0){
-			for($i=0; $i<$length; $i++){
-				$record[$i] = mysql_fetch_array($recordset);
-				$moods[$i] = $record[$i];
-				
-			}
-		}
-		else{
-			$moods = -1;
-		}
-		return $moods;
+	  $dal = new DAL();
+	  $sqlFind = "SELECT * FROM Moods";
+	  $recordset = $dal->executeNonQuery($sqlFind);
+	  $length = mysql_num_rows($recordset);
+	  if($length != 0){
+	   $moods = $recordset;
+	  }
+	  else{
+	   $moods = -1;
+	  }
+	  return $moods;
 	}
 	
 	//Delete Mood
