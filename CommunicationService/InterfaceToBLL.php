@@ -20,6 +20,7 @@
 			else{
 				$array = get_object_vars((object)$result);
 			}
+			echo json_encode($array);
 			return(json_encode($array));
 		}
 	}
