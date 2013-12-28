@@ -12,8 +12,10 @@ void WidgetContainer::draw() {
 
 	for (int i = 0; i < size; ++i) {
 		Widget * w = m_widgetVector[i];
-		glPushMatrix();
-		glTranslatef(w->x, w->y, 0);
+
+		if (w->visible) {
+			glPushMatrix();
+			glTranslatef(w->x, w->y, 0);
 // 		glColor4f(1, 1, 1, 0.4f);
 // 		glBegin(GL_QUADS);
 // 		glVertex2f(0, 0);
@@ -21,8 +23,9 @@ void WidgetContainer::draw() {
 // 		glVertex2f(w->w, w->h);
 // 		glVertex2f(0, w->h);
 // 		glEnd();
-		w->draw();
-		glPopMatrix();
+			w->draw();
+			glPopMatrix();
+		}
 	}
 }
 
@@ -175,6 +178,7 @@ void WidgetContainer::tick(int delta, int absolute) {
 
 	for (int i = 0; i < len; i++) {
 		Widget * w = m_widgetVector[i];
+
 		if (w->visible && w->isAnimating()) m_widgetVector[i]->tick(delta, absolute);
 	}
 }
@@ -184,6 +188,7 @@ GLboolean WidgetContainer::isAnimating() {
 
 	for (int i = 0; i < len; i++) {
 		Widget * w = m_widgetVector[i];
+
 		if (w->visible && w->isAnimating()) return true;
 	}
 
@@ -199,5 +204,5 @@ int WidgetContainer::getHeigth() {
 }
 
 void WidgetContainer::onParentGeometryChange(Widget * widget) {
-	if(getParent()) getParent()->onParentGeometryChange(widget);
+	if (getParent()) getParent()->onParentGeometryChange(widget);
 }
