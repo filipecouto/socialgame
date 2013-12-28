@@ -33,7 +33,7 @@ void PersonGraphic::draw() {
 	glColor3f((_person->getName()[0] - 'A') / 26.0f, (_person->getName()[1] - 'a') / 26.0f, (_person->getName()[2] - 'a') / 26.0f);
 	glutSolidSphere(radius, 24, 24);
 	glColor3f(1, 1, 1);
-	
+
 	int len = children.size();
 
 	for (int i = 0; i < len; i++) {
@@ -47,7 +47,7 @@ void PersonGraphic::drawPickMode() {
 	glPushMatrix();
 	glTranslatef(x, y, z);
 	glutSolidSphere(radius, 24, 24);
-	
+
 	int len = children.size();
 
 	for (int i = 0; i < len; i++) {
@@ -61,6 +61,10 @@ void PersonGraphic::drawPickMode() {
 
 IPerson * PersonGraphic::getPerson() {
 	return _person;
+}
+
+GLdouble PersonGraphic::getRadius() {
+	return radius;
 }
 
 bool PersonGraphic::operator==(IPerson * person) {

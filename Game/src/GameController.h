@@ -28,18 +28,22 @@ class GameController : public GameContext {
 		void draw();
 		void tick(int delta, int absolute);
 		
-		virtual GraphicFactory * getFactory();
-		virtual IGraphic * getGraphic(IPerson * p);
-		
 		Camera * getCamera();
 		
-		IPerson * getIdentityPerson() { return _identity->getPerson(); }
+		IUser * getIdentity();
+		IPerson * getIdentityPerson();
+		IPerson * getSelectedPerson();
 		
 		void onKeyDown(int key, int special);
 		
 		void pick(int x, int y);
+		void flyTo(IPerson * person);
 		
 		void setListener(IGameControllerListener * listener);
+		
+		// GameContext methods
+		virtual GraphicFactory * getFactory();
+		virtual IGraphic * getGraphic(IPerson * p);
 
 	private:
 		GraphicFactory * _graphFactory = NULL;
@@ -53,12 +57,16 @@ class GameController : public GameContext {
 		
 		Camera _camera;
 		
+		IPerson * selectedPerson = NULL;
+		
 		std::vector<PersonGraphic *> personObjects;
 		PersonGraphic* findGraphic(IPerson * p);
 
 		IGameControllerListener * _listener = NULL;
 		
 		void load();
+		void createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z);
+		void loadPeople(IPerson * p, int depth);
 		void loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z);
 		void loadConnections();
 		

@@ -10,10 +10,7 @@
 
 #include <math.h>
 
-#ifndef PI
-#define PI 3.14159265359
-#endif
-#define TODEGREES(rad) rad*180/PI
+#define TODEGREES(rad) rad*180/M_PI
 
 ConnectionGraphic::ConnectionGraphic(IConnection * connection) {
 

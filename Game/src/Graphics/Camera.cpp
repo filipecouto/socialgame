@@ -64,6 +64,18 @@ void Camera::tick(int delta, int absolute) {
 	animate(tuz, cuz);
 }
 
+void Camera::lookAt(GLfloat x, GLfloat y, GLfloat z) {
+	tcx = x;
+	tcy = y;
+	tcz = z;
+}
+
+void Camera::moveTo(GLfloat x, GLfloat y, GLfloat z) {
+	tex = x;
+	tey = y;
+	tez = z;
+}
+
 void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
 	tcx += x;
 	tcy += y;
@@ -74,7 +86,7 @@ void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void Camera::animate(GLfloat target, GLfloat & value) {
-	value += (target - value) * 0.05f;
+	value += (target - value) * 0.04f;
 }
 
 Camera::~Camera() {

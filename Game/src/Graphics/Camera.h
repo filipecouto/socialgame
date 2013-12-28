@@ -27,6 +27,8 @@ class Camera {
 		void tick(int delta, int absolute);
 		
 		void translate(GLfloat x, GLfloat y, GLfloat z);
+		void moveTo(GLfloat x, GLfloat y, GLfloat z);
+		void lookAt(GLfloat x, GLfloat y, GLfloat z);
 		
 		~Camera();
 

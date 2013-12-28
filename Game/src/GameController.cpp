@@ -26,6 +26,7 @@ void GameController::start(GameMod * mod) {
 	}
 
 	_mod = mod;
+	if(_listener) _mod->setEventListener(_listener);
 	_mod->load();
 
 	start();
@@ -84,7 +85,7 @@ void GameController::pick(int x, int y) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPickMatrix((GLdouble) x, (GLdouble) y, 1.0, 1.0, viewport);
-	gluPerspective(37, (GLfloat) 16.f / 9.f , 0.1, 100);
+	gluPerspective(67, (GLfloat) 16.f / 9.f , 0.1, 100);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -137,11 +138,27 @@ void GameController::onOpenGlPick(GLint hits, GLuint buffer[]) {
 		}
 	}
 
-	if (name != -1 && _listener) _listener->onPersonClicked(personObjects[name]->getPerson());
+	if (name != -1 && _listener) {
+		selectedPerson = personObjects[name]->getPerson();
+		_listener->onPersonClicked(selectedPerson);
+	}
 
 	//printf("   clicked on %s", personObjects[name]->getPerson()->getName().c_str());
 
 	//printf("n=%d\n", name);
+}
+
+void GameController::flyTo(IPerson * person) {
+	PersonGraphic * g = ((PersonGraphic *)getGraphic(getIdentityPerson()));
+
+	if (person == getIdentityPerson()) {
+		_camera.lookAt(g->x + 1, g->y + g->getRadius() * 2, g->z + 1);
+		_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+	} else {
+		_camera.lookAt(g->x, g->y + g->getRadius(), g->z);
+		g = ((PersonGraphic *) getGraphic(person));
+		_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+	}
 }
 
 void GameController::tick(int delta, int absolute) {
@@ -162,8 +179,12 @@ void GameController::start() {
 	load();
 }
 
+IUser * GameController::getIdentity() {
+	return _identity;
+}
+
 void GameController::load() {
-	loadPeople(_identity->getPerson(), 3, 0, 0, 0);
+	loadPeople(_identity->getPerson(), 3);
 	loadConnections();
 }
 
@@ -190,23 +211,45 @@ PersonGraphic * GameController::findGraphic(IPerson * p) {
 	return NULL;
 }
 
-void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z) {
-	if (depth != 0 && p && !findGraphic(p)) {
+void GameController::createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z) {
+	if (!findGraphic(p)) {
 		PersonGraphic * g = (PersonGraphic *)_graphFactory->build(p);
 		personObjects.push_back(g);
 
-		std::vector<IConnection *> cons = p->getConnections();
-		int len = cons.size();
 		g->x = x;
-		g->y = y + len * 0.5f;
+		g->y = y + p->getConnections().size() * 0.8f;
 		g->z = z;
 
+		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
+	}
+}
+
+void GameController::loadPeople(IPerson * p, int depth) {
+	createPerson(p, 0, 0, 0);
+
+	loadPeople(p, depth - 1, 0, 0, 0);
+}
+
+void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z) {
+	if (depth != 0 && p/* && !findGraphic(p)*/) {
+// 		PersonGraphic * g = (PersonGraphic *)_graphFactory->build(p);
+// 		personObjects.push_back(g);
+
+		std::vector<IConnection *> cons = p->getConnections();
+		int len = cons.size();
+// 		g->x = x;
+// 		g->y = y + len * 0.5f;
+// 		g->z = z;
+
 		for (int i = 0; i < len; i++) {
-			GLfloat distance = 10.0f;
-			loadPeople(cons[i]->getPerson(), depth - 1, x + distance * cos(i * 360.0f / len), y, z + distance * sin(i * 360.0f / len));
+			GLfloat distance = 8.0f + rand() % 3 - 1;
+			createPerson(cons[i]->getPerson(), x + distance * cos(i * 2 * M_PI / (len)), y, z + distance * sin(i * 2 * M_PI / (len)));
 		}
 
-		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
+		for (int i = 0; i < len; i++) {
+			PersonGraphic * g = (PersonGraphic *) findGraphic(cons[i]->getPerson());
+			loadPeople(cons[i]->getPerson(), depth - 1, g->x, y, g->z);
+		}
 	}
 }
 
@@ -255,6 +298,15 @@ Camera * GameController::getCamera() {
 	return &_camera;
 }
 
+IPerson * GameController::getIdentityPerson() {
+	return _identity->getPerson();
+}
+
+IPerson * GameController::getSelectedPerson() {
+	return selectedPerson;
+}
+
 void GameController::setListener(IGameControllerListener * listener) {
 	_listener = listener;
+	if(_mod) _mod->setEventListener(listener);
 }

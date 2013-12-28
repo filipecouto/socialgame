@@ -12,10 +12,11 @@
 #include <string>
 #include <vector>
 #include "Models/IPerson.h"
+#include "Mods/GameModEventListener.h"
 
 class IGraphic;
 
-class IGameControllerListener {
+class IGameControllerListener : public GameModEventListener {
 	public:
 		virtual void onPersonClicked(IPerson * person) { }
 

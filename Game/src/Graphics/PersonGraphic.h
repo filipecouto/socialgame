@@ -29,6 +29,7 @@ class PersonGraphic : public IGraphic {
 		IPerson * getPerson();
 		
 		GLfloat x = 0, y = 0, z = 0;
+		GLdouble getRadius();
 
 		~PersonGraphic();
 
