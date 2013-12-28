@@ -8,6 +8,9 @@ class IWidgetContainer {
 		virtual void requestFocus(Widget * from) { }
 		virtual void onParentGeometryChange(Widget * widget) { }
 		virtual void onWidgetClicked(Widget * clicked) { }
+		
+		virtual int getWidth() = 0;
+		virtual int getHeigth() = 0;
 };
 
 #endif

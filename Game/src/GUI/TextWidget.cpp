@@ -73,12 +73,6 @@ GLfloat TextWidget::getMinimumHeight() {
 void TextWidget::draw ( ) {
 	drawBackground();
 
-	// GLfloat glutBitmapWidth  	(	void *font , GLfloat character);
-	// devolve a largura de um carÃ¡cter
-	//
-	// GLfloat glutBitmapLength 	(	void *font , const unsigned char *string );
-	// devolve a largura de uma string (soma da largura de todos os caracteres)
-
 	glColor4fv ( _textColor );
 
 	glRasterPos2d ( 0, 0 );

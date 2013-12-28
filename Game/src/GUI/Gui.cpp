@@ -11,9 +11,6 @@ void Gui::drawGui() {
 	gluOrtho2D(0, _width, 0, _height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glScalef(200.0f/_width, 200.0f/_height, 0);
-	//GLdouble w = _width/8, h = _height/8;
-	//glScalef(1./w, 1./h, 0);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -24,9 +21,6 @@ void Gui::drawGui() {
 	WidgetContainer::draw();
 
 	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Gui::onMouseEnter(int x, int y) {
@@ -42,6 +36,8 @@ GLboolean Gui::onMouseButtonDown(int button, int x, int y) {
 		if (_focused != NULL) _focused->onBlur();
 
 		_focused = NULL;
+		
+		return GL_FALSE;
 	}
 
 	return GL_TRUE;
@@ -69,4 +65,12 @@ void Gui::setEventsListener(IWidgetEventsListener * listener) {
 
 void Gui::onWidgetClicked(Widget * clicked) {
 	if(_listener != NULL) _listener->onWidgetClicked(clicked);
+}
+
+int Gui::getWidth() {
+	return _width;
+}
+
+int Gui::getHeigth() {
+	return _height;
 }

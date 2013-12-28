@@ -30,6 +30,11 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 		
 		virtual void tick(int delta, int absolute);
 		virtual GLboolean isAnimating();
+		
+		virtual int getWidth();
+		virtual int getHeigth();
+		
+		virtual void onParentGeometryChange(Widget * widget);
 
 		virtual ~WidgetContainer ( );
 
@@ -43,8 +48,8 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 		
 		std::vector<Widget*> m_widgetVector;
 		
-		GLfloat getBiggestMinimumWidth();
-		GLfloat getBiggestMinimumHeight();
+		virtual GLfloat getBiggestMinimumWidth();
+		virtual GLfloat getBiggestMinimumHeight();
 };
 
 #endif // WIDGETCONTAINER_H

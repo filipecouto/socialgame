@@ -91,7 +91,7 @@ class Widget {
 		// The height of the Widget in the screen
 		GLfloat h;
 
-		// Whether the Widget is visible or not, making it invisible removes any event notification
+		// Whether the Widget is visible or not, making it invisible mutes any event notification
 		GLboolean visible;
 
 		void setParent ( IWidgetContainer * parent ) {

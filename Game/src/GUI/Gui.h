@@ -29,6 +29,8 @@ class Gui : public WidgetContainer {
 		virtual void requestFocus ( Widget * from );
 
 		void setDimensions ( int width, int height );
+		virtual int getWidth();
+		virtual int getHeigth();
 		
 		void setEventsListener(IWidgetEventsListener * listener);
 		virtual void onWidgetClicked(Widget * clicked);

@@ -30,6 +30,9 @@ class ButtonWidget : public Widget, public IWidgetContainer {
 		Widget * getContainingWidget();
 
 		virtual void onParentGeometryChange ( Widget* widget );
+		
+		virtual int getWidth();
+		virtual int getHeigth();
 
 	private:
 		GLfloat _minW, _minH;

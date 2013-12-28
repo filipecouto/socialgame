@@ -6,6 +6,8 @@ WidgetContainer::WidgetContainer() {
 WidgetContainer::~WidgetContainer() { }
 
 void WidgetContainer::draw() {
+	Widget::draw();
+
 	int size = m_widgetVector.size();
 
 	for (int i = 0; i < size; ++i) {
@@ -43,7 +45,7 @@ Widget * WidgetContainer::getWidget(int x, int y) {
 void WidgetContainer::onWidgetClicked(Widget * clicked) {
 	if (_parent != NULL) _parent->onWidgetClicked(clicked);
 }
-#include <cstdio>
+
 void WidgetContainer::onMouseMove(int x, int y) {
 	Widget * w = getWidget(x, y);
 
@@ -72,8 +74,7 @@ GLboolean WidgetContainer::onMouseButtonDown(int button, int x, int y) {
 	Widget * w = getWidget(x, y);
 
 	if (w != NULL) {
-		w->onMouseButtonDown(button, x - w->x, y - w->y);
-		return true;
+		return w->onMouseButtonDown(button, x - w->x, y - w->y);
 	}
 
 	return false;
@@ -83,8 +84,7 @@ GLboolean WidgetContainer::onMouseButtonUp(int button, int x, int y) {
 	Widget * w = getWidget(x, y);
 
 	if (w != NULL) {
-		w->onMouseButtonUp(button, x - w->x, y - w->y);
-		return true;
+		return w->onMouseButtonUp(button, x - w->x, y - w->y);
 	}
 
 	return false;
@@ -174,7 +174,8 @@ void WidgetContainer::tick(int delta, int absolute) {
 	int len = m_widgetVector.size();
 
 	for (int i = 0; i < len; i++) {
-		if (m_widgetVector[i]->isAnimating()) m_widgetVector[i]->tick(delta, absolute);
+		Widget * w = m_widgetVector[i];
+		if (w->visible && w->isAnimating()) m_widgetVector[i]->tick(delta, absolute);
 	}
 }
 
@@ -182,8 +183,21 @@ GLboolean WidgetContainer::isAnimating() {
 	int len = m_widgetVector.size();
 
 	for (int i = 0; i < len; i++) {
-		if (m_widgetVector[i]->isAnimating()) return true;
+		Widget * w = m_widgetVector[i];
+		if (w->visible && w->isAnimating()) return true;
 	}
 
 	return false;
+}
+
+int WidgetContainer::getWidth() {
+	return w;
+}
+
+int WidgetContainer::getHeigth() {
+	return h;
+}
+
+void WidgetContainer::onParentGeometryChange(Widget * widget) {
+	if(getParent()) getParent()->onParentGeometryChange(widget);
 }
