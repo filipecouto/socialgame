@@ -1,6 +1,6 @@
 <?php
 
-	require_once('../DAL/Notifications.php');
+	require_once('DAL/Notifications.php');
 	
 	function createNotificationType($Description){
 		insertNotificationType($Description);

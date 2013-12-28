@@ -1,6 +1,6 @@
 <?php
-	require_once('../DAL/Users.php');
-	require_once('../DAL/Sessions.php');
+	require_once('DAL/Users.php');
+	require_once('DAL/Sessions.php');
 	
 	function createUser($userName, $password, $email){
 		$encriptedPassword = crypt($password);

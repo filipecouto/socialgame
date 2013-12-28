@@ -1,5 +1,5 @@
 <?php
-require_once('../DAL/Moods.php');
+require_once('DAL/Moods.php');
 	
 	function createMood($description){
 		insertMood($description);
@@ -7,5 +7,9 @@ require_once('../DAL/Moods.php');
 	
 	function getAllMoods(){
 		return getMoods();
+	}
+	
+	function removeMood($id){
+		deleteMood($id);
 	}
 ?>

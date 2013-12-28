@@ -1,6 +1,6 @@
 <?php
 
-require_once('../DAL/Tags.php');
+require_once('DAL/Tags.php');
 
 function createTag($name,$typeId){
 		insertTag($name,$typeId);
@@ -16,6 +16,10 @@ function createTag($name,$typeId){
 	
 	function modifyTagType($Id,$Description){
 		updateTagType($Id,$Description);
+	}
+	
+	function removeTagType($tagId){
+		deleteTagType($tagId);
 	}
 	
 	function removeTag($tagId){
