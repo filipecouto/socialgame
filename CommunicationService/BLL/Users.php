@@ -76,7 +76,7 @@
 		deleteUser($userId);
 	}
 	
-	function createUserTag($UserId,$TagId){
+	function createUserTag($UserId,$TagName,$TypeId){
 		insertUserTag($UserId,$TagName,$TypeId);
 	}
 	

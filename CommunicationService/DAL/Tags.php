@@ -4,14 +4,15 @@ require_once('../DAL/DAL.php');
 //Insert Tag
 	function insertTag($Name,$TypeId){
 		$dal = new DAL();
-		$sql = "INSERT INTO Tags (Name,Type) VALUES('$Name','$TypeId')";
+		$sql = "INSERT INTO Tags (name,type) VALUES('$Name','$TypeId')";
+		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
 	//Insert new TagType
 	function insertTagType($Description){
 		$dal = new DAL();
-		$sql = "INSERT INTO TagTypes (Description) VALUES('$Description)";
+		$sql = "INSERT INTO TagTypes (Description) VALUES('$Description')";
 		$dal->executeQuery($sql);
 	}
 	
@@ -49,7 +50,14 @@ require_once('../DAL/DAL.php');
 	function deleteTag($tagId)
 	{
 		$dal = new DAL();
-		$sql = "DELETE FROM Tag WHERE id = '$tagId'";
+		$sql = "DELETE FROM Tags WHERE id = '$tagId'";
+		$dal->executeQuery($sql);
+	}
+	
+	function deleteTag($tagId)
+	{
+		$dal = new DAL();
+		$sql = "DELETE FROM TagTypes WHERE id = '$tagId'";
 		$dal->executeQuery($sql);
 	}
 	?>
