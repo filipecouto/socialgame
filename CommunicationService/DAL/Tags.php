@@ -50,7 +50,14 @@ require_once('../DAL/DAL.php');
 	function deleteTag($tagId)
 	{
 		$dal = new DAL();
-		$sql = "DELETE FROM Tag WHERE id = '$tagId'";
+		$sql = "DELETE FROM Tags WHERE id = '$tagId'";
+		$dal->executeQuery($sql);
+	}
+	
+	function deleteTag($tagId)
+	{
+		$dal = new DAL();
+		$sql = "DELETE FROM TagTypes WHERE id = '$tagId'";
 		$dal->executeQuery($sql);
 	}
 	?>
