@@ -17,8 +17,10 @@
  */
 class IGraphic {
 	public:
-		virtual void draw() { }
 		virtual void load(GameContext * context) { }
+		
+		virtual void draw() { }
+		virtual void drawPickMode() { }
 };
 
 #endif

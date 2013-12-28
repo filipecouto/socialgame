@@ -11,28 +11,61 @@
 
 #include "GUI/IWidgetEventsListener.h"
 #include "GUI/Gui.h"
+#include "GUI/Window.h"
+#include "GUI/TextWidget.h"
+#include "GUI/ButtonWidget.h"
 #include "GameController.h"
+#include "IGameControllerListener.h"
+
+class PersonInfoWindow;
 
 /**
  * This class connects the GameController to the GUI, this class will add
  * the GUI components to the screen and assign actions to them in order
  * to interact with the GameController.
  */
-class Bridge : public IWidgetEventsListener {
+class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 	public:
-		Bridge(GameController * controller);
-		
+		Bridge(Gui * gui, GameController * controller);
+
 		Widget * getTopBar();
-		
+
+		// events from GUI
 		virtual bool onWidgetClicked(Widget * widget);
+
+		// events from GameController
+		virtual void onPersonClicked(IPerson * person);
 		
+		// other events
+		void onMouseButton( int button, int state, int x, int y );
+
 		~Bridge();
-		
+
 	private:
+		Gui * _gui;
 		GameController * _controller;
-		
+		PersonInfoWindow * windowPersonInfo = NULL;
 		WidgetContainer * bar = NULL;
 		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings;
+		
+		int _mouseX, _mouseY;
+};
+
+class PersonInfoWindow : public Window {
+	public:
+		PersonInfoWindow(IPerson * person);
+
+		void display(IPerson * person);
+		
+		Widget * getAddFriendButton();
+		Widget * getGoToButton();
+		Widget * getCloseButton();
+
+		virtual ~PersonInfoWindow();
+
+	private:
+		TextWidget * textName, * textMood, * textFriends;
+		ButtonWidget * buttonAddFriend, * buttonGoTo, * buttonClose;
 };
 
 #endif // BRIDGE_H

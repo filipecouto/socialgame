@@ -12,6 +12,10 @@
 
 #include <math.h>
 #include <GL/freeglut.h>
+#define DEBUG
+#ifdef DEBUG
+#include <cstdio>
+#endif
 
 GameController::GameController() : _graphFactory() {
 }
@@ -27,12 +31,7 @@ void GameController::start(GameMod * mod) {
 	start();
 }
 
-#include <cstdio>
-#define DEBUG
-
 void GameController::draw() {
-	glEnable(GL_LIGHTING);
-
 	_camera.setUp();
 
 	glPushMatrix();
@@ -40,10 +39,10 @@ void GameController::draw() {
 	int len = personObjects.size();
 
 	for (int i = 0; i < len; i++) {
-		PersonGraphic * g = personObjects[i];
-		g->draw();
+		personObjects[i]->draw();
 	}
-	
+
+#ifdef DEBUG
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glLineWidth(2);
@@ -64,8 +63,85 @@ void GameController::draw() {
 	glEnd();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+#endif
 
 	glPopMatrix();
+}
+
+void GameController::pick(int x, int y) {
+	GLuint selectBuf[256];
+	GLint hits;
+
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	glSelectBuffer(256, selectBuf);
+	glRenderMode(GL_SELECT);
+
+	glInitNames();
+	glPushName(0);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPickMatrix((GLdouble) x, (GLdouble) y, 1.0, 1.0, viewport);
+	gluPerspective(37, (GLfloat) 16.f / 9.f , 0.1, 100);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	_camera.setUp();
+
+	int len = personObjects.size();
+
+	for (int i = 0; i < len; i++) {
+		glPushName(i);
+		personObjects[i]->drawPickMode();
+		glPopName();
+	}
+
+	glPopName();
+
+	glPopMatrix();
+	glFlush();
+
+	hits = glRenderMode(GL_RENDER);
+	onOpenGlPick(hits, selectBuf);
+
+	//glutPostRedisplay();
+}
+
+void GameController::onOpenGlPick(GLint hits, GLuint buffer[]) {
+	GLuint names, *ptr;
+
+	GLuint name = -1;
+	GLuint minZ = 0xffffffff;
+
+	//printf ("hits = %d\n", hits);
+	ptr = (GLuint *) buffer;
+
+	for (int i = 0; i < hits; i++) {
+		names = *ptr;
+		//printf("%d) name count = %d;\n", i, names);
+
+		if (names >= 2) {
+			ptr++;
+			//printf(" minZ = %f;", (float) *ptr / 0x7fffffff);
+
+			if (*ptr < minZ) {
+				minZ = *ptr;
+				ptr += 3;
+
+				int n = *ptr;
+
+				if (n >= 0 && n < personObjects.size()) name = n;
+			}
+		}
+	}
+
+	if (name != -1 && _listener) _listener->onPersonClicked(personObjects[name]->getPerson());
+
+	//printf("   clicked on %s", personObjects[name]->getPerson()->getName().c_str());
+
+	//printf("n=%d\n", name);
 }
 
 void GameController::tick(int delta, int absolute) {
@@ -83,12 +159,7 @@ void GameController::start() {
 	printf("Loaded user's identity (%x): %s\n", _identity, _identity->getPerson()->getName().c_str());
 #endif
 
-	//_firstNode = _graphFactory->build(_identity->getPerson());
-
 	load();
-	//_firstNode->load(3, this);
-
-	//_currentNode = _firstNode;
 }
 
 void GameController::load() {
@@ -113,7 +184,6 @@ PersonGraphic * GameController::findGraphic(IPerson * p) {
 	int len = personObjects.size();
 
 	for (int i = 0; i < len; i++) {
-		//memoryPeople[i]->draw();
 		if ((*personObjects[i]) == p) return personObjects[i];
 	}
 
@@ -170,11 +240,11 @@ void GameController::onKeyDown(int key, int special) {
 		case 'd':
 			_camera.translate(0, 0, 1);
 			break;
-			
+
 		case 'z':
 			_camera.translate(0, 1, 0);
 			break;
-			
+
 		case 'x':
 			_camera.translate(0, -1, 0);
 			break;
@@ -183,4 +253,8 @@ void GameController::onKeyDown(int key, int special) {
 
 Camera * GameController::getCamera() {
 	return &_camera;
+}
+
+void GameController::setListener(IGameControllerListener * listener) {
+	_listener = listener;
 }

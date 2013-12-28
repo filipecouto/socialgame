@@ -38,24 +38,26 @@
 //
 Gui gui;
 GameController controller;
-Bridge bridge(&controller);
+Bridge bridge(&gui, &controller);
 
 //
 GLint windowWidth, windowHeight;
-double lastTime;
+long lastTime;
 
 void setCamera();
 
 void onDraw() {
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	glLoadIdentity();
-
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	
+	setCamera();
+	
 	controller.draw();
 
 	gui.drawGui();
-	setCamera();
 
 	glutSwapBuffers();
 }
@@ -70,6 +72,7 @@ void onVisibilityChange(int state) {
 
 void onSpecialKeyDown(int key, int x, int y) {
 	if(gui.onKeyDown(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	controller.onKeyDown(0, key);
 }
 
 void onKeyDown(unsigned char c, int x, int y) {
@@ -88,7 +91,6 @@ void onKeyUp(unsigned char c, int x, int y) {
 
 void onSpecialKeyUp(int key, int x, int y) {
 	if(gui.onKeyUp(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
-	controller.onKeyDown(0, key);
 }
 
 void timer(int value) {
@@ -137,10 +139,9 @@ void load() {
 }
 
 void setCamera() {
-	glViewport ( 0, 0, windowWidth, windowHeight );
 	glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	gluPerspective ( 37, ( GLfloat ) 19.f/9.f , 0.1, 100 );
+	gluPerspective ( 37, ( GLfloat ) 16.f/9.f , 0.1, 100 );
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -155,6 +156,7 @@ void onMouseButton( int button, int state, int x, int y ) {
 	} else if ( state == 1 ) {
 		if ( gui.onMouseButtonUp ( button, x, y ) ) return;
 	}
+	bridge.onMouseButton(button, state, x, windowHeight - y);
 }
 
 void onReshape(int width, int height) {
@@ -162,6 +164,8 @@ void onReshape(int width, int height) {
 	
 	windowWidth = width;
 	windowHeight = height;
+	
+	glViewport ( 0, 0, windowWidth, windowHeight );
 
 	Widget * bar = bridge.getTopBar();
 	bar->x = width - bar->getMinimumWidth();
@@ -208,8 +212,6 @@ int main(int argc, char *argv[]) {
 // 		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
 
 	gui.addWidget(bridge.getTopBar());
-	
-	gui.setEventsListener(&bridge);
 	
 	glutMainLoop();
 

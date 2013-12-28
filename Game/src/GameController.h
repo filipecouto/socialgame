@@ -17,6 +17,7 @@
 #include "Graphics/GraphicFactory.h"
 #include "Graphics/Camera.h"
 #include "GameContext.h"
+#include "IGameControllerListener.h"
 
 class GameController : public GameContext {
 	public:
@@ -35,6 +36,10 @@ class GameController : public GameContext {
 		IPerson * getIdentityPerson() { return _identity->getPerson(); }
 		
 		void onKeyDown(int key, int special);
+		
+		void pick(int x, int y);
+		
+		void setListener(IGameControllerListener * listener);
 
 	private:
 		GraphicFactory * _graphFactory = NULL;
@@ -50,12 +55,16 @@ class GameController : public GameContext {
 		
 		std::vector<PersonGraphic *> personObjects;
 		PersonGraphic* findGraphic(IPerson * p);
+
+		IGameControllerListener * _listener = NULL;
 		
 		void load();
 		void loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z);
 		void loadConnections();
 		
 		void start();
+		
+		void onOpenGlPick(GLint hits, GLuint buffer[]);
 };
 
 #endif

@@ -43,6 +43,26 @@ void PersonGraphic::draw() {
 	glPopMatrix();
 }
 
+void PersonGraphic::drawPickMode() {
+	glPushMatrix();
+	glTranslatef(x, y, z);
+	glutSolidSphere(radius, 24, 24);
+	
+	int len = children.size();
+
+	for (int i = 0; i < len; i++) {
+		glPushName(i);
+		children[i]->drawPickMode();
+		glPopName();
+	}
+
+	glPopMatrix();
+}
+
+IPerson * PersonGraphic::getPerson() {
+	return _person;
+}
+
 bool PersonGraphic::operator==(IPerson * person) {
 	return _person == person;
 }

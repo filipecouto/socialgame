@@ -20,9 +20,13 @@ class PersonGraphic : public IGraphic {
 		PersonGraphic(IPerson * person, GLfloat startAngle);
 		
 		virtual void load(GameContext * context);
+		
 		virtual void draw();
+		virtual void drawPickMode();
 		
 		virtual bool operator==(IPerson * person);
+		
+		IPerson * getPerson();
 		
 		GLfloat x = 0, y = 0, z = 0;
 

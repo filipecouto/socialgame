@@ -8,7 +8,7 @@
 
 #include "User.h"
 
-User::User() : ritinha("AAA  Ritinha", Mood("Maybe Happy")) {
+User::User() : ritinha("AAA Ritinha Nogueirinha", Mood("Maybe Happy")) {
 	Person * p1 = new Person("AAz Miquelina", Mood("Maybe Maybe"));
 	Person * p2 = new Person("Azz Alface", Mood("Maybe Fresh"));
 	Person * p3 = new Person("zzz Fernando", Mood("Maybe I don't know"));
