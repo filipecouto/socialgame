@@ -11,9 +11,14 @@
 #include "GUI/ButtonWidget.h"
 #include "GUI/TextBoxWidget.h"
 
+#include "Mods/TestMod/TestMod.h"
+#include "Models/IMessageNotification.h"
+
 Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(controller) {
 	gui->setEventsListener(this);
 	controller->setListener(this);
+
+	controller->start(new TestMod());
 }
 #include <cstdio>
 bool Bridge::onWidgetClicked(Widget * widget) {
@@ -31,6 +36,11 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 	} else if (windowPersonInfo && windowPersonInfo->visible) {
 		if (widget == windowPersonInfo->getCloseButton()) {
 			windowPersonInfo->hide();
+		} else if (widget == windowPersonInfo->getGoToButton()) {
+			_controller->flyTo(_controller->getSelectedPerson());
+		} else if (widget == windowPersonInfo->getAddFriendButton()) {
+			_controller->getIdentity()->addFriend(_controller->getSelectedPerson());
+			windowPersonInfo->hide();
 		}
 	}
 }
@@ -47,9 +57,9 @@ void Bridge::onMouseButton(int button, int state, int x, int y) {
 }
 
 void Bridge::onPersonClicked(IPerson * person) {
-	if (windowPersonInfo) windowPersonInfo->display(person);
+	if (windowPersonInfo) windowPersonInfo->display(_controller->getIdentityPerson(), person);
 	else {
-		windowPersonInfo = new PersonInfoWindow(person);
+		windowPersonInfo = new PersonInfoWindow(_controller->getIdentityPerson(), person);
 		_gui->addWidget(windowPersonInfo);
 	}
 
@@ -75,11 +85,15 @@ Widget * Bridge::getTopBar() {
 	return bar;
 }
 
+void Bridge::onNewNotification(INotification * notification) {
+	_gui->addWidget(new TextWidget(((IMessageNotification*)notification)->getMessage(), 0, 140));
+}
+
 Bridge::~Bridge() {
 
 }
 
-PersonInfoWindow::PersonInfoWindow(IPerson * person): Window() {
+PersonInfoWindow::PersonInfoWindow(IPerson * me, IPerson * person): Window() {
 	LinearContainer * layout = new LinearContainer();
 	layout->setSpacing(8);
 	layout->setVertical();
@@ -96,7 +110,7 @@ PersonInfoWindow::PersonInfoWindow(IPerson * person): Window() {
 	LinearContainer * buttons = new LinearContainer();
 	buttonAddFriend = new ButtonWidget(new TextWidget("Add Friend", 0, 0));
 	buttons->addWidget(buttonAddFriend);
-	buttonGoTo = new ButtonWidget(new TextWidget("Go To", 0, 0));
+	buttonGoTo = new ButtonWidget(new TextWidget("Fly to Here", 0, 0));
 	buttons->addWidget(buttonGoTo);
 	buttonClose = new ButtonWidget(new TextWidget("Close", 0, 0));
 	buttons->addWidget(buttonClose);
@@ -104,13 +118,16 @@ PersonInfoWindow::PersonInfoWindow(IPerson * person): Window() {
 
 	setContent(layout);
 
-	display(person);
+	display(me, person);
 }
 
-void PersonInfoWindow::display(IPerson * person) {
+void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	textName->setText(person->getName());
 	textMood->setText(person->getMood().getDescription());
 	textFriends->setText(std::to_string(person->getConnections().size()) + " friend(s)");
+
+	buttonAddFriend->visible = me != person;
+	// TODO the add friend button should say "remove friend" if they are already friends
 }
 
 PersonInfoWindow::~PersonInfoWindow() {

@@ -7,27 +7,32 @@
  */
 
 #include "TestMod.h"
+#include "MessageNotification.h"
 
 TestMod::TestMod() {
 
 }
 
-TestMod::~TestMod() {
-
-}
-
 void TestMod::load() {
-
+	_listener->onNewNotification(new MessageNotification("Welcome to the Social Game, you are playing in a test mod."));
 }
 
 IUser * TestMod::getIdentity() {
 	return &user;
 }
 
-void * TestMod::getNotifications() {
+std::vector<INotification *> * TestMod::getNotifications() {
 	return NULL;
 }
 
 void * TestMod::getPendingGames() {
 	return NULL;
+}
+
+void TestMod::setEventListener(GameModEventListener * listener) {
+	_listener = listener;
+}
+
+TestMod::~TestMod() {
+
 }

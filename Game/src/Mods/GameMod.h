@@ -10,21 +10,21 @@
 #define GAMEMOD_H
 
 #include "../Models/IUser.h"
+#include "../Models/INotification.h"
+#include "GameModEventListener.h"
 
 class GameMod {
 	public:
 		virtual void load() { }
-		
+
 		virtual IUser * getIdentity() = 0;
-		
-		// TODO interface missing
-		virtual void * getNotifications() = 0;
-		
+
+		virtual std::vector<INotification *> * getNotifications() = 0;
+
 		// TODO interface missing
 		virtual void * getPendingGames() = 0;
 
-	private:
-		
+		virtual void setEventListener(GameModEventListener * listener) { }
 };
 
 #endif

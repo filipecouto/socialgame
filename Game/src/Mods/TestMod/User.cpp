@@ -14,10 +14,12 @@ User::User() : ritinha("AAA Ritinha Nogueirinha", Mood("Maybe Happy")) {
 	Person * p3 = new Person("zzz Fernando", Mood("Maybe I don't know"));
 	Person * p4 = new Person("zzA Alho Batata", Mood("Maybe Salty"));
 	Person * p5 = new Person("zAA Batata Frita", Mood("Maybe Salty"));
+	Person * p6 = new Person("zAA Batata Cozida", Mood("Maybe Salty"));
 	
 	ritinha.connect(p1);
 	ritinha.connect(p2);
 	ritinha.connect(p3);
+	ritinha.connect(p6);
 	p3->connect(p2);
 	p2->connect(p4);
 	p4->connect(p5);

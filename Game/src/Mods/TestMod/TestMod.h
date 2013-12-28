@@ -10,19 +10,25 @@
 #define TESTMOD_H
 
 #include "../GameMod.h"
+#include "../GameModEventListener.h"
 #include "User.h"
 
 class TestMod : public GameMod {
 	public:
 		TestMod();
-		~TestMod();
+		
 		virtual void load();
+		
 		virtual IUser * getIdentity();
-		virtual void * getNotifications();
+		virtual std::vector<INotification *> * getNotifications();
 		virtual void * getPendingGames();
-
+		
+		virtual void setEventListener(GameModEventListener * listener);
+		
+		~TestMod();
 	private:
 		User user;
+		GameModEventListener * _listener;
 };
 
 #endif // TESTMOD_H

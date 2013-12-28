@@ -36,6 +36,9 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		// events from GameController
 		virtual void onPersonClicked(IPerson * person);
 		
+		// events from GameMod
+		virtual void onNewNotification(INotification * notification);
+		
 		// other events
 		void onMouseButton( int button, int state, int x, int y );
 
@@ -53,9 +56,9 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 
 class PersonInfoWindow : public Window {
 	public:
-		PersonInfoWindow(IPerson * person);
+		PersonInfoWindow(IPerson * me, IPerson * person);
 
-		void display(IPerson * person);
+		void display(IPerson * me, IPerson * person);
 		
 		Widget * getAddFriendButton();
 		Widget * getGoToButton();
