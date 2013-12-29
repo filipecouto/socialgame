@@ -1,0 +1,19 @@
+#########################################################################################################
+# To incorporate the curl library in the project, the next steps should be followed:                    #
+# (For Visual Studio)                                                                                   #
+# Information taken from: http://quantcorner.wordpress.com/2012/04/08/using-libcurl-with-visual-c-2010/ #
+#########################################################################################################
+
+- Properties > Configuration Properties > VC++ Directories > Include directories
+Include the Curl_IncludeDirectories directory.
+For example: "..\..\Curl_IncludeDirectories".
+
+- ... VC++ Directories > Library directories
+Include the Curl_IncludeLibraries directory.
+For example: "..\..\Curl_IncludeLibraries".
+
+- Configuration Properties, go to Linker > Input > Additional Dependencies
+Add the library name: "curllib.lib".
+
+- Go to the Debug Directory of the Project
+Copy the files that are inside Curl_DebugDirectory into there.

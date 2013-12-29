@@ -1,0 +1,17 @@
+﻿Build started 29-12-2013 15:45:44.
+     1>Project "C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\CppHttpCommunication\ExampleProject\Project2\Project2.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         Project2.vcxproj -> C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\CppHttpCommunication\ExampleProject\Debug\Project2.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\Project2.unsuccessfulbuild".
+         Touching "Debug\Project2.lastbuildstate".
+     1>Done Building Project "C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\CppHttpCommunication\ExampleProject\Project2\Project2.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.05
