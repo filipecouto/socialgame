@@ -20,14 +20,15 @@
 				$result = $function();
 			}
 			if(is_resource($result)){
-				$array = array();
+				$array_tmp = array();
 				while ($row = mysql_fetch_array($result)) {
-				   $array[] = get_object_vars((object)$row);
+				   $array_tmp[] = get_object_vars((object)$row);
 				}
 			}
 			else{
-				$array = get_object_vars((object)$result);
+				$array_tmp = $result;
 			}
+				$array = array("data" => $array_tmp);
 			print_r(json_encode($array));
 		}
 	}
