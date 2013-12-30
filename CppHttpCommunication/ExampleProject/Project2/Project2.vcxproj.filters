@@ -18,9 +18,15 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Curl_Helper\CurlHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\libcurl-7.19.3-win32-ssl-msvc\include\curl\curl.h">
+    <ClInclude Include="..\..\Curl_IncludeDirectories\curl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Curl_Helper\CurlHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\Curl_IncludeDirectories;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Curl_IncludeDirectories;..\..\Curl_Helper;..\..\Rapidjson;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\Curl_IncludeLibraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -66,10 +66,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Curl_Helper\CurlHelper.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\libcurl-7.19.3-win32-ssl-msvc\include\curl\curl.h" />
+    <ClInclude Include="..\..\Curl_Helper\CurlHelper.h" />
+    <ClInclude Include="..\..\Curl_IncludeDirectories\curl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
