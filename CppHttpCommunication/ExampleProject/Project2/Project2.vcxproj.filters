@@ -21,12 +21,24 @@
     <ClCompile Include="..\..\Curl_Helper\CurlHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InterfaceToPHP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mood.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Curl_IncludeDirectories\curl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Curl_Helper\CurlHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mood.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceToPHP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

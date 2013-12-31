@@ -67,11 +67,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Curl_Helper\CurlHelper.cpp" />
+    <ClCompile Include="InterfaceToPHP.cpp" />
+    <ClCompile Include="Mood.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Curl_Helper\CurlHelper.h" />
     <ClInclude Include="..\..\Curl_IncludeDirectories\curl.h" />
+    <ClInclude Include="InterfaceToPHP.h" />
+    <ClInclude Include="Mood.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
