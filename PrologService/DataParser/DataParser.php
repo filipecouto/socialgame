@@ -1,5 +1,10 @@
 <?php
-	require_once("PrologService.php");
+	if(file_exists("PrologService/PrologService.php")){
+		require_once("PrologService/PrologService.php");
+	}
+	else{
+		require_once("PrologService.php");
+	}
 
 	// Determines the size of a users network
 	function networkSize($Friends){

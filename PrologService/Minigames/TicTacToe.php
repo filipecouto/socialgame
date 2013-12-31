@@ -1,5 +1,10 @@
 <?php
-	require_once("PrologService.php");
+	if(file_exists("PrologService/PrologService.php")){
+		require_once("PrologService/PrologService.php");
+	}
+	else{
+		require_once("PrologService.php");
+	}
 
 	// TIC TAC TOE GAME
 	// Analysis the game status and makes the next move
