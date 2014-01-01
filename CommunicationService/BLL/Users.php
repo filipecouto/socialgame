@@ -70,7 +70,17 @@
 		$user = getUserIdByEmail($email);
 		if($user!=-1)
 		{
-				return $user;
+			return $user;
+		}else{
+			return false;
+		}
+	}
+
+	function findUserNameByEmail($email){
+		$user = getUserNameByEmail($email);
+		if($user!=-1)
+		{
+			return $user;
 		}else{
 			return false;
 		}

@@ -79,6 +79,22 @@ require_once('DAL/Sessions.php');
 		return $user;
 	}
 
+	function getUserNameByEmail($Email){
+		$id = getUserIdByEmail($Email);
+		$dal = new DAL();
+		$sqlFind = "SELECT username FROM Users WHERE id = '$id'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$user = $record["username"];
+		}
+		else{
+			$user = -1;
+		}
+		return $user;
+	}
+
 	function getUserId($Username){
 		$dal = new DAL();
 		$sqlFind = "SELECT id FROM Users WHERE username = '$Username'";
