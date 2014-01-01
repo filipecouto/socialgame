@@ -2,7 +2,7 @@
 
 require_once('DAL/DAL.php');
 require_once('DAL/Tags.php');
-require_once('DAL/Session.php');
+require_once('DAL/Sessions.php');
 //Insert User
     function insertUser($Username,$Password,$Email){
 		$dal = new DAL();
