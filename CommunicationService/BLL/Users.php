@@ -3,7 +3,7 @@
 	require_once('DAL/Sessions.php');
 	
 	function createUser($userName, $password, $email){
-		$encriptedPassword = crypt($password);
+		$encriptedPassword = sha1($password);
 		insertUser($userName, $encriptedPassword, $email);
 		$userId =getUserIdByEmail($email);
 		echo $userId;
@@ -52,14 +52,18 @@
 			$userId = getUserIdByEmail($Email);
 			$newToken = token();
 			insertSession($userId, $newToken);
-			$session = getSession($newToken);
-		}else{
+			//$session = getSession($newToken);
+			return $newToken;
+		}elseif ($token != -2 && $token != -1) {
+			return $token;
+		}
+		/*}else{
 			if($token == -2){
 				$session = false;
 			}else{
 				$session = getSession($newToken);
 			}
-		}
+		}*/
 	}
 		
 	function findUserIdByEmail($email){

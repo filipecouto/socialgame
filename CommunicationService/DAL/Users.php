@@ -32,7 +32,8 @@ require_once('DAL/Sessions.php');
 	//returns its ID or -1 if error
 	function login($Email,$Password){
 		$dal = new DAL();
-		$sqlFind = "SELECT UserId FROM Logins WHERE Email = '$Email' AND Password = '$Password'";
+		$encriptedPassword = sha1("$Password");
+		$sqlFind = "SELECT UserId FROM Logins WHERE Email = '$Email' AND Password = '$encriptedPassword'";
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
