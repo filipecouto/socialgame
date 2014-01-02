@@ -9,6 +9,7 @@
 #include "GameController.h"
 
 #include "Graphics/GraphicFactory.h"
+#include "Models/IConnectionsList.h"
 
 #include <math.h>
 #include <GL/freeglut.h>
@@ -16,6 +17,8 @@
 #ifdef DEBUG
 #include <cstdio>
 #endif
+
+#define GameController_isInMinigame _minigame && _minigameState == 1
 
 GameController::GameController() : _graphFactory() {
 }
@@ -26,45 +29,51 @@ void GameController::start(GameMod * mod) {
 	}
 
 	_mod = mod;
-	if(_listener) _mod->setEventListener(_listener);
+
+	if (_listener) _mod->setEventListener(_listener);
+
 	_mod->load();
 
 	start();
 }
 
 void GameController::draw() {
-	_camera.setUp();
-
 	glPushMatrix();
 
-	int len = personObjects.size();
+	if (_minigame && _minigameState == 1) {
+		_minigame->draw();
+	} else {
+		_camera.setUp();
 
-	for (int i = 0; i < len; i++) {
-		personObjects[i]->draw();
-	}
+		int len = personObjects.size();
+
+		for (int i = 0; i < len; i++) {
+			personObjects[i]->draw();
+		}
 
 #ifdef DEBUG
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glLineWidth(2);
-	glColor3f(1, 0, 0);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(1, 0, 0);
-	glEnd();
-	glColor3f(0, 1, 0);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 1, 0);
-	glEnd();
-	glColor3f(0, 0, 1);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 0, 1);
-	glEnd();
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
+		glDisable(GL_DEPTH_TEST);
+		glLineWidth(2);
+		glColor3f(1, 0, 0);
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(1, 0, 0);
+		glEnd();
+		glColor3f(0, 1, 0);
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 1, 0);
+		glEnd();
+		glColor3f(0, 0, 1);
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0, 1);
+		glEnd();
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LIGHTING);
 #endif
+	}
 
 	glPopMatrix();
 }
@@ -106,8 +115,6 @@ void GameController::pick(int x, int y) {
 
 	hits = glRenderMode(GL_RENDER);
 	onOpenGlPick(hits, selectBuf);
-
-	//glutPostRedisplay();
 }
 
 void GameController::onOpenGlPick(GLint hits, GLuint buffer[]) {
@@ -151,18 +158,35 @@ void GameController::onOpenGlPick(GLint hits, GLuint buffer[]) {
 void GameController::flyTo(IPerson * person) {
 	PersonGraphic * g = ((PersonGraphic *)getGraphic(getIdentityPerson()));
 
-	if (person == getIdentityPerson()) {
-		_camera.lookAt(g->x + 1, g->y + g->getRadius() * 2, g->z + 1);
-		_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
-	} else {
-		_camera.lookAt(g->x, g->y + g->getRadius(), g->z);
-		g = ((PersonGraphic *) getGraphic(person));
-		_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+	if (g) {
+		if (person == getIdentityPerson()) {
+			_camera.lookAt(g->x + 1, g->y + g->getRadius() * 2, g->z + 1);
+			_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+		} else {
+			_camera.lookAt(g->x, g->y + g->getRadius(), g->z);
+			g = ((PersonGraphic *) getGraphic(person));
+			_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+		}
 	}
 }
 
-void GameController::tick(int delta, int absolute) {
-	_camera.tick(delta, absolute);
+void GameController::tick(int delta, int current) {
+	_camera.tick(delta, current);
+
+	if (_minigame) {
+		if (_minigameState == 0) {
+			if (_camera.getY() >= 18) {
+				_minigameState = 1;
+			}
+		} else if (_minigameState == 1) {
+			_minigame->tick(delta, current);
+		} else if (_minigameState == -1) {
+			if (_camera.getY() < 18) {
+				delete _minigame;
+				_minigame = NULL;
+			}
+		}
+	}
 }
 
 void GameController::start() {
@@ -184,7 +208,7 @@ IUser * GameController::getIdentity() {
 }
 
 void GameController::load() {
-	loadPeople(_identity->getPerson(), 3);
+	loadPeople(_identity->getPerson(), 6); // FIXME just for testing, depth should be 3
 	loadConnections();
 }
 
@@ -217,7 +241,7 @@ void GameController::createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z) 
 		personObjects.push_back(g);
 
 		g->x = x;
-		g->y = y + p->getConnections().size() * 0.8f;
+		g->y = y + p->getConnections()->getFriendsCount() * 1.0f;
 		g->z = z;
 
 		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
@@ -231,24 +255,21 @@ void GameController::loadPeople(IPerson * p, int depth) {
 }
 
 void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z) {
-	if (depth != 0 && p/* && !findGraphic(p)*/) {
-// 		PersonGraphic * g = (PersonGraphic *)_graphFactory->build(p);
-// 		personObjects.push_back(g);
-
-		std::vector<IConnection *> cons = p->getConnections();
-		int len = cons.size();
-// 		g->x = x;
-// 		g->y = y + len * 0.5f;
-// 		g->z = z;
+	if (depth != 0 && p) {
+		IList<IConnection *> * cons = p->getConnections();
+		int len = cons->size();
 
 		for (int i = 0; i < len; i++) {
-			GLfloat distance = 8.0f + rand() % 3 - 1;
-			createPerson(cons[i]->getPerson(), x + distance * cos(i * 2 * M_PI / (len)), y, z + distance * sin(i * 2 * M_PI / (len)));
+			// RULES FOR DISTANCE:
+			// 1) if this person has too many friends, putting them further will help make the graph easier to understand
+			// 2) addding some randomness to slightly displace people will avoid possible overlapping
+			GLfloat distance = 5.0f + rand() % 3 - 1 + len * 0.8f;
+			createPerson((*cons)[i]->getPerson(), x + distance * cos(i * 2 * M_PI / (len)), y, z + distance * sin(i * 2 * M_PI / (len)));
 		}
 
 		for (int i = 0; i < len; i++) {
-			PersonGraphic * g = (PersonGraphic *) findGraphic(cons[i]->getPerson());
-			loadPeople(cons[i]->getPerson(), depth - 1, g->x, y, g->z);
+			PersonGraphic * g = (PersonGraphic *) findGraphic((*cons)[i]->getPerson());
+			loadPeople((*cons)[i]->getPerson(), depth - 1, g->x, y, g->z);
 		}
 	}
 }
@@ -258,6 +279,39 @@ void GameController::loadConnections() {
 
 	for (int i = 0; i < len; i++) {
 		personObjects[i]->load(this);
+	}
+}
+
+void GameController::invalidatePerson(IPerson * person) {
+	int i;
+	int len = personObjects.size();
+
+	PersonGraphic * g = (PersonGraphic *) findGraphic(person);
+
+	if (g) g->y = person->getConnections()->getFriendsCount() * 1.0f;
+
+	for (i = 0; i < len; i++) {
+		personObjects[i]->invalidate(person);
+	}
+}
+
+void GameController::startMinigame(IMinigame * minigame) {
+	_minigame = minigame->newGame();
+	_minigameState = 0;
+	_minigame->start();
+	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
+	_camera.translate(0, 20 - _camera.getY(), 0);
+}
+
+bool GameController::isInMinigame() {
+	GameController_isInMinigame;
+}
+
+void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
+	if (instance == _minigame) {
+		printf("The minigame just ended\n");
+		flyTo(getIdentityPerson());
+		_minigameState = -1;
 	}
 }
 
@@ -292,6 +346,26 @@ void GameController::onKeyDown(int key, int special) {
 			_camera.translate(0, -1, 0);
 			break;
 	}
+
+	if (GameController_isInMinigame) _minigame->onKeyDown(key, special);
+}
+
+void GameController::onKeyUp(int key, int special) {
+	if (GameController_isInMinigame) _minigame->onKeyUp(key, special);
+}
+
+void GameController::onMouseButton(int state, int button, int x, int y) {
+	if (GameController_isInMinigame) _minigame->onMouseButton(state, button, x, y);
+}
+
+void GameController::onMouseMove(int x, int y) {
+	if (GameController_isInMinigame) _minigame->onMouseMove(x, y);
+}
+
+void GameController::setViewportDimensions(int width, int height) {
+	GameFragment::setViewportDimensions(width, height);
+
+	if (GameController_isInMinigame) _minigame->setViewportDimensions(width, height);
 }
 
 Camera * GameController::getCamera() {
@@ -308,5 +382,6 @@ IPerson * GameController::getSelectedPerson() {
 
 void GameController::setListener(IGameControllerListener * listener) {
 	_listener = listener;
-	if(_mod) _mod->setEventListener(listener);
+
+	if (_mod) _mod->setEventListener(listener);
 }
