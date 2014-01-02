@@ -1,0 +1,49 @@
+
+				  ___|                   \ \        /    |    
+				 |      __| _ \   __|  __|\ \  \   / _ \ __ \ 
+				 |     |   (   |\__ \\__ \ \ \  \ /  __/ |   |
+				\____|_|  \___/ ____/____/  \_/\_/ \___|_.__/
+					 ___     _                    _         
+					| __|_ _| |_ ___ _ _ _ __ _ _(_)___ ___ 
+					| _|| ' \  _/ -_) '_| '_ \ '_| (_-</ -_)
+					|___|_||_\__\___|_| | .__/_| |_/__/\___|
+					                    |_|                 
+
+#########################################################################################################
+# To incorporate the curl library in the project, the next steps should be followed:                    #
+# (For Visual Studio)                                                                                   #
+# Information taken from: http://quantcorner.wordpress.com/2012/04/08/using-libcurl-with-visual-c-2010/ #
+# And for the Curl_Helper: http://www.zedwood.com/article/cpp-libcurl-function                          #
+#########################################################################################################
+
+- Properties > Configuration Properties > VC++ Directories > Include directories
+Include the Curl_IncludeDirectories directory.
+For example: "..\..\Curl_IncludeDirectories".
+And include the Curl_Helper directory.
+For example: "..\..\Curl_Helper".
+
+- ... VC++ Directories > Library directories
+Include the Curl_IncludeLibraries directory.
+For example: "..\..\Curl_IncludeLibraries".
+
+- Configuration Properties, go to Linker > Input > Additional Dependencies
+Add the library name: "curllib.lib".
+
+- Go to the Debug Directory of the Project
+Copy the files that are inside Curl_DebugDirectory into there.
+
+###########################################################################################
+# To incorporate the rapidjson library in the project, the next steps should be followed: #
+# (For Visual Studio)                                                                     #
+# Usefull Links:                                                                          #
+# + http://code.google.com/p/rapidjson/                                                   #
+# + http://stackoverflow.com/questions/6739871/php-create-array-for-json                  #
+###########################################################################################
+
+- Properties > Configuration Properties > VC++ Directories > Include directories
+Include the Rapidjson directory.
+For example: "..\..\Rapidjson".
+
+#################################################################################
+# For examples and to see what includes to use please open the example project. #
+#################################################################################

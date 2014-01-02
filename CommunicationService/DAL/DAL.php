@@ -27,7 +27,8 @@ class DAL{
         {
             die('Could not execute query insert:' . mysql_error());
         } else {
-            echo "<br>1 registo colocado<br>";
+            //Only remove the comment for testing purposes, place it after!
+            //echo "<br>Query well executed<br>";
         }
         if(!mysql_close($conn)) {
             die('Could not close BD:' . mysql_error());

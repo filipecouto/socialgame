@@ -3,7 +3,7 @@
 		$theme = $_GET["Theme"];
 		$function = $_GET["Function"];
 		if(isset($_GET["Params"])){
-			$params = explode("»", $_GET["Params"]);
+			$params = explode("^", $_GET["Params"]);
 		}
 
 		$theme = strtolower($theme);
@@ -20,16 +20,16 @@
 				$result = $function();
 			}
 			if(is_resource($result)){
-				$array = array();
+				$array_tmp = array();
 				while ($row = mysql_fetch_array($result)) {
-				   $array[] = get_object_vars((object)$row);
+				   $array_tmp[] = get_object_vars((object)$row);
 				}
 			}
 			else{
-				$array = get_object_vars((object)$result);
+				$array_tmp = $result;
 			}
-			echo json_encode($array);
-			return(json_encode($array));
+				$array = array("data" => $array_tmp);
+			print_r(json_encode($array));
 		}
 	}
 ?>

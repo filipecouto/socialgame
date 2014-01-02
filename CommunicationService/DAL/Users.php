@@ -2,7 +2,7 @@
 
 require_once('DAL/DAL.php');
 require_once('DAL/Tags.php');
-require_once('DAL/Session.php');
+require_once('DAL/Sessions.php');
 //Insert User
     function insertUser($Username,$Password,$Email){
 		$dal = new DAL();
@@ -32,7 +32,8 @@ require_once('DAL/Session.php');
 	//returns its ID or -1 if error
 	function login($Email,$Password){
 		$dal = new DAL();
-		$sqlFind = "SELECT UserId FROM Logins WHERE Email = '$Email' AND Password = '$Password'";
+		$encriptedPassword = sha1("$Password");
+		$sqlFind = "SELECT UserId FROM Logins WHERE Email = '$Email' AND Password = '$encriptedPassword'";
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
@@ -78,6 +79,22 @@ require_once('DAL/Session.php');
 		return $user;
 	}
 
+	function getUserNameByEmail($Email){
+		$id = getUserIdByEmail($Email);
+		$dal = new DAL();
+		$sqlFind = "SELECT username FROM Users WHERE id = '$id'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$user = $record["username"];
+		}
+		else{
+			$user = -1;
+		}
+		return $user;
+	}
+
 	function getUserId($Username){
 		$dal = new DAL();
 		$sqlFind = "SELECT id FROM Users WHERE username = '$Username'";
@@ -91,6 +108,36 @@ require_once('DAL/Session.php');
 			$user = -1;
 		}
 		return $user;
+	}
+
+	function getUserPassword($UserId){
+		$dal = new DAL();
+		$sqlFind = "SELECT password FROM Logins WHERE userID = '$UserId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$password = $record["password"];
+		}
+		else{
+			$password = -1;
+		}
+		return $password;
+	}
+
+	function getUserType($UserId){
+		$dal = new DAL();
+		$sqlFind = "SELECT type FROM Users WHERE id = '$UserId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$type = $record["type"];
+		}
+		else{
+			$type = false;
+		}
+		return $type;
 	}
 
 	function deleteUser($userId){
@@ -128,7 +175,6 @@ require_once('DAL/Session.php');
 	function changeUserPassword($UserId,$Password){
 		$dal = new DAL();
 		$sql = "UPDATE Logins SET password = '$Password' WHERE userID = '$UserId'";
-		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
