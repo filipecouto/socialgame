@@ -168,3 +168,4 @@ C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\SocialGame\SocialGame\bin
 C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\SocialGame\SocialGame\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\SocialGame\SocialGame\obj\Debug\SocialGame.dll
 C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\SocialGame\SocialGame\obj\Debug\SocialGame.pdb
+C:\Users\PIPOKID\Desktop\SocialGame\crosswebsocialgame\SocialGame\SocialGame\obj\Debug\SocialGame.csprojResolveAssemblyReference.cache
