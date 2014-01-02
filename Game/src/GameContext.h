@@ -13,6 +13,7 @@
 #include <vector>
 #include "Models/IPerson.h"
 
+class IMinigameInstance;
 class IGraphic;
 class GraphicFactory;
 
@@ -20,6 +21,8 @@ class GameContext {
 	public:
 		virtual GraphicFactory * getFactory() = 0;
 		virtual IGraphic * getGraphic(IPerson *) = 0;
+		
+		virtual void notifyMinigameFinished(IMinigameInstance *) = 0;
 
 		virtual ~GameContext() { }
 };

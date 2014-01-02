@@ -18,15 +18,18 @@
 #include "Graphics/Camera.h"
 #include "GameContext.h"
 #include "IGameControllerListener.h"
+#include "GameFragment.h"
+#include "Minigames/IMinigame.h"
+#include "Minigames/IMinigameInstance.h"
 
-class GameController : public GameContext {
+class GameController : public GameContext, GameFragment {
 	public:
 		GameController();
 		
 		void start(GameMod * mod);
 		
 		void draw();
-		void tick(int delta, int absolute);
+		void tick(int delta, int current);
 		
 		Camera * getCamera();
 		
@@ -35,11 +38,27 @@ class GameController : public GameContext {
 		IPerson * getSelectedPerson();
 		
 		void onKeyDown(int key, int special);
+		void onKeyUp(int key, int special);
+		
+		void onMouseMove(int x, int y);
+		void onMouseButton(int state, int button, int x, int y);
+		
+		void setViewportDimensions(int width, int height);
 		
 		void pick(int x, int y);
 		void flyTo(IPerson * person);
 		
 		void setListener(IGameControllerListener * listener);
+		
+		void startMinigame(IMinigame * minigame);
+		bool isInMinigame();
+		void notifyMinigameFinished(IMinigameInstance *);
+		
+		/**
+		 * Notifies the GameController this person (and its connections) are not valid anymore
+		 * and it needs to be refreshed.
+		 */
+		void invalidatePerson(IPerson * person);
 		
 		// GameContext methods
 		virtual GraphicFactory * getFactory();
@@ -49,6 +68,9 @@ class GameController : public GameContext {
 		GraphicFactory * _graphFactory = NULL;
 		
 		GameMod * _mod = NULL;
+		
+		IMinigameInstance * _minigame = NULL;
+		int _minigameState = 0;
 		
 		IUser * _identity = NULL;
 		
@@ -66,6 +88,7 @@ class GameController : public GameContext {
 		
 		void load();
 		void createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z);
+		//void setPersonPosition(IPerson * p, GLfloat x, GLfloat y, GLfloat z);
 		void loadPeople(IPerson * p, int depth);
 		void loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z);
 		void loadConnections();

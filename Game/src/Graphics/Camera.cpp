@@ -89,6 +89,10 @@ void Camera::animate(GLfloat target, GLfloat & value) {
 	value += (target - value) * 0.04f;
 }
 
+GLfloat Camera::getY() {
+	return cey;
+}
+
 Camera::~Camera() {
 
 }

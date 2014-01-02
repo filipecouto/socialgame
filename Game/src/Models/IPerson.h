@@ -16,6 +16,7 @@
 #include "Tag.h"
 
 class IConnection;
+class IConnectionsList;
 
 class IPerson {
 	public:
@@ -29,7 +30,7 @@ class IPerson {
 
 		virtual std::vector<Tag*> getTags() = 0;
 
-		virtual std::vector<IConnection*> getConnections() = 0;
+		virtual IConnectionsList* getConnections() = 0;
 
 		virtual ~IPerson(){}
 };

@@ -10,13 +10,13 @@
 #define IMESSAGENOTIFICATION_H
 
 #include "INotification.h"
-#include "IUser.h"
+#include "IPerson.h"
 
 class IMessageNotification : public INotification {
 	public:
 		NotificationType getType() { return Message; };
 
-		virtual IUser * getFrom() = 0;
+		virtual IPerson * getFrom() = 0;
 		
 		virtual std::string getMessage() = 0;
 

@@ -49,9 +49,10 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		GameController * _controller;
 		PersonInfoWindow * windowPersonInfo = NULL;
 		WidgetContainer * bar = NULL;
-		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings;
+		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
 		
 		int _mouseX, _mouseY;
+		int timeFriendAdded = -1;
 };
 
 class PersonInfoWindow : public Window {

@@ -7,6 +7,7 @@
  */
 
 #include "PersonGraphic.h"
+#include "../Models/IConnectionsList.h"
 #include "GraphicFactory.h"
 
 PersonGraphic::PersonGraphic(IPerson * person) : PersonGraphic(person, 0) {
@@ -16,16 +17,79 @@ PersonGraphic::PersonGraphic(IPerson * person, GLfloat startAngle) : _person(per
 }
 
 void PersonGraphic::load(GameContext * context) {
-	int len = _person->getConnections().size();
+	_context = context;
+
+	IConnectionsList * conns = _person->getConnections();
+	int len = conns->size();
 
 	for (int i = 0; i < len; i++) {
-		IConnection * connection = _person->getConnections()[i];
-		ConnectionGraphic * c = (ConnectionGraphic *) context->getFactory()->build(connection);
-		children.push_back(c);
-		PersonGraphic * pointingTo = (PersonGraphic *) context->getGraphic(connection->getPerson());
-		c->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+		IConnection * connection = (*conns)[i];
+		createConnection(connection);
 	}
 }
+
+void PersonGraphic::invalidate(IPerson * person) {
+	if (_person == person) {
+		IConnectionsList * conns = _person->getConnections();
+		int len = conns->size();
+
+		for (int i = 0; i < len; i++) {
+			IConnection * connection = (*conns)[i];
+			ConnectionGraphic * g = getConnection(connection);
+
+			if (g) {
+				PersonGraphic * pointingTo = (PersonGraphic *) _context->getGraphic(connection->getPerson());
+				g->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+			} else {
+				// connection is still not represented, let's create it
+				createConnection(connection);
+			}
+
+			// TODO remove old connections
+		}
+	} else {
+		IConnection * conn = NULL;
+		IConnectionsList * conns = _person->getConnections();
+		int len = conns->size();
+
+		for (int i = 0; i < len; i++) {
+			IConnection * connection = (*conns)[i];
+
+			if (connection && connection->getPerson() == person) {
+				conn = connection;
+				ConnectionGraphic * g = getConnection(connection);
+
+				if (g) {
+					PersonGraphic * pointingTo = (PersonGraphic *) _context->getGraphic(connection->getPerson());
+					g->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+					return;
+				}
+			}
+		}
+
+		// couldn't find it, let's create it
+		if (conn) createConnection(conn);
+	}
+}
+
+void PersonGraphic::createConnection(IConnection * connection) {
+	ConnectionGraphic * c = (ConnectionGraphic *) _context->getFactory()->build(connection);
+	c->load(_context);
+	children.push_back(c);
+	PersonGraphic * pointingTo = (PersonGraphic *) _context->getGraphic(connection->getPerson());
+	c->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+}
+
+ConnectionGraphic * PersonGraphic::getConnection(IConnection * connection) {
+	for (int i = 0; i < children.size(); i++) {
+		ConnectionGraphic * g = children[i];
+
+		if (g->getConnection() == connection) return g;
+	}
+
+	return NULL;
+}
+
 
 void PersonGraphic::draw() {
 	glPushMatrix();

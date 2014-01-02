@@ -30,9 +30,7 @@ void WidgetContainer::draw() {
 }
 
 Widget * WidgetContainer::getWidget(int x, int y) {
-	int size = m_widgetVector.size();
-
-	for (int i = 0; i < size; ++i) {
+	for (int i = m_widgetVector.size() - 1; i >= 0; i--) {
 		Widget * w = m_widgetVector[i];
 
 		if (w->visible &&

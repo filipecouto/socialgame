@@ -12,9 +12,10 @@
 #include "IGraphic.h"
 #include "PersonGraphic.h"
 #include "ConnectionGraphic.h"
-#include "../Models/IPerson.h"
-#include "../Models/IConnection.h"
-#include "../Models/Tag.h"
+
+class IPerson;
+class IConnection;
+class Tag;
 
 /**
  * This factory will create IGraphic's based on the object it gets
@@ -24,21 +25,13 @@ class GraphicFactory {
 		GraphicFactory() {
 		}
 
-		IGraphic * build(IPerson * person) {
-			return new PersonGraphic(person);
-		}
-		IGraphic * build(IPerson * person, GLfloat angle) {
-			return new PersonGraphic(person, angle);
-		}
-		IGraphic * build(IConnection * connection) {
-			return new ConnectionGraphic(connection);
-		}
-		IGraphic * build(IConnection * connection, GLfloat angle) {
-			return new ConnectionGraphic(connection, angle);
-		}
-		IGraphic * build(Tag * tag) {
-			return NULL;
-		}
+		IGraphic * build(IPerson * person);
+		IGraphic * build(IPerson * person, GLfloat angle);
+
+		IGraphic * build(IConnection * connection);
+		IGraphic * build(IConnection * connection, GLfloat angle);
+
+		IGraphic * build(Tag * tag);
 };
 
 #endif

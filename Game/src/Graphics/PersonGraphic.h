@@ -10,9 +10,13 @@
 #define PERSONGRAPHIC_H
 
 #include "IGraphic.h"
+#include "ConnectionGraphic.h"
 #include "../Models/IPerson.h"
 #include "../GameContext.h"
+
 #include <GL/freeglut.h>
+
+class GraphicFactory;
 
 class PersonGraphic : public IGraphic {
 	public:
@@ -24,6 +28,8 @@ class PersonGraphic : public IGraphic {
 		virtual void draw();
 		virtual void drawPickMode();
 		
+		void invalidate(IPerson * person);
+		
 		virtual bool operator==(IPerson * person);
 		
 		IPerson * getPerson();
@@ -34,10 +40,14 @@ class PersonGraphic : public IGraphic {
 		~PersonGraphic();
 
 	private:
+		GameContext * _context;
+		
 		IPerson * _person = NULL;
 		GLfloat _startAngle;
 
-		std::vector<IGraphic *> children;
+		std::vector<ConnectionGraphic *> children;
+		void createConnection(IConnection * connection);
+		ConnectionGraphic * getConnection(IConnection * connection);
 		
 		GLdouble radius;
 };

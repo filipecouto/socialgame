@@ -8,7 +8,7 @@ std::string MessageNotification::getMessage() {
 	return _message;
 }
 
-IUser * MessageNotification::getFrom() {
+IPerson * MessageNotification::getFrom() {
 	return NULL;
 }
 

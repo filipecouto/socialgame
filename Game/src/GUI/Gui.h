@@ -3,6 +3,7 @@
 
 #include "WidgetContainer.h"
 #include "IWidgetEventsListener.h"
+#include "Dialog.h"
 
 class Gui : public WidgetContainer {
 	public:
@@ -34,11 +35,16 @@ class Gui : public WidgetContainer {
 		
 		void setEventsListener(IWidgetEventsListener * listener);
 		virtual void onWidgetClicked(Widget * clicked);
+		
+		Dialog * showMessage(std::string message);
+		Dialog * showMessage(std::string id, std::string message);
 
 	private:
 		int _width, _height;
 		
 		IWidgetEventsListener * _listener;
+		
+		Dialog * _dialog = NULL;
 };
 
 #endif // GUI_H

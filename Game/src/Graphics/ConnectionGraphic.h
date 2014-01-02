@@ -18,8 +18,12 @@ class ConnectionGraphic : public IGraphic {
 		ConnectionGraphic(IConnection * connection);
 		ConnectionGraphic(IConnection * connection, GLfloat angle);
 		
+		virtual void load(GameContext * context);
+		
 		virtual void draw();
 		void pointTo(GLfloat x, GLfloat y, GLfloat z);
+		
+		IConnection * getConnection();
 		
 		~ConnectionGraphic();
 
@@ -29,6 +33,7 @@ class ConnectionGraphic : public IGraphic {
 		//GLfloat _angle;
 		GLfloat _angle[3];
 		GLfloat _length;
+		int mode = 0;
 };
 
 #endif // CONNECTIONGRAPHIC_H

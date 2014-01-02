@@ -7,6 +7,8 @@ class Window : public WidgetContainer {
 	public:
 		Window();
 		Window(Widget * contents);
+		
+		virtual void setContent(Widget * content);
 
 		virtual void draw();
 		virtual void drawBackground();
@@ -16,15 +18,13 @@ class Window : public WidgetContainer {
 		
 		void setPadding(GLfloat padding);
 		
-		void setContent(Widget * content);
-		
 		virtual GLboolean isAnimating();
 		virtual void tick(int delta, int absolute);
 		
 		virtual void onParentGeometryChange(Widget * widget);
 		
-		void hide();
-		void show();
+		virtual void hide();
+		virtual void show();
 		
 		void avoidOutside();
 
@@ -34,12 +34,12 @@ class Window : public WidgetContainer {
 		virtual GLfloat getBiggestMinimumHeight();
 		virtual GLfloat getBiggestMinimumWidth();
 		
+		GLfloat _ct = 0, _tt = 0;
+		
 	private:
 		Widget * _contents = NULL;
 		
 		GLfloat _padding;
-		
-		GLfloat _ct = 0, _tt = 0;
 };
 
 #endif // WINDOW_H
