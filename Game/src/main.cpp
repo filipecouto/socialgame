@@ -89,10 +89,14 @@ void onKeyDown(unsigned char c, int x, int y) {
 
 void onKeyUp(unsigned char c, int x, int y) {
 	if (gui.onKeyUp(c)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	
+	controller.onKeyUp(c, 0);
 }
 
 void onSpecialKeyUp(int key, int x, int y) {
 	if (gui.onKeyUp(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	
+	controller.onKeyUp(0, key);
 }
 
 void timer(int value) {
@@ -151,6 +155,8 @@ void setCamera() {
 
 void onMouseMove(int x, int y) {
 	gui.onMouseMove(x, y);
+	
+	controller.onMouseMove(x, y);
 }
 
 void onMouseButton(int button, int state, int x, int y) {
@@ -165,6 +171,7 @@ void onMouseButton(int button, int state, int x, int y) {
 
 void onReshape(int width, int height) {
 	gui.setDimensions(width, height);
+	controller.setViewportDimensions(width, height);
 
 	windowWidth = width;
 	windowHeight = height;
