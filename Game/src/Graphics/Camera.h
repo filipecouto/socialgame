@@ -30,6 +30,8 @@ class Camera {
 		void moveTo(GLfloat x, GLfloat y, GLfloat z);
 		void lookAt(GLfloat x, GLfloat y, GLfloat z);
 		
+		GLfloat getY();
+		
 		~Camera();
 
 	private:
@@ -41,9 +43,9 @@ class Camera {
 				tux, tuy, tuz;
 		
 		// current values (which will gradually change to equal the target ones)
-		GLfloat cex, cey, cez,
-				ccx, ccy, ccz,
-				cux, cuy, cuz;
+		GLfloat cex = 0, cey = 0, cez = 0,
+				ccx = 0, ccy = 0, ccz = 0,
+				cux = 0, cuy = 1, cuz = 0;
 		
 		void animate(GLfloat target, GLfloat &value);
 };

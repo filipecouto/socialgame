@@ -9,7 +9,7 @@
 #ifndef IGRAPHIC_H
 #define IGRAPHIC_H
 
-#include "../GameContext.h"
+class GameContext;
 
 /**
  * This interface represents something visual that will represent things
