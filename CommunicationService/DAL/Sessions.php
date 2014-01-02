@@ -48,13 +48,10 @@ require_once('DAL/DAL.php');
 		if (isset($token) && $token) {
 			$dal = new DAL();
 			$query = "SELECT * FROM Session WHERE token='$token'";
-			$sql = $dal->executeQuery($query);
-			if($sql != NULL){
-				if (mysql_num_rows($sql) > 0) {
-					return true;
-				} else {
-					return false;
-				}
+			$recordset = $dal->executeNonQuery($query);
+			$length = mysql_num_rows($recordset);
+			if ($length > 0) {
+				return true;
 			} else {
 				return false;
 			}

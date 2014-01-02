@@ -6,7 +6,6 @@
 		$encriptedPassword = sha1($password);
 		insertUser($userName, $encriptedPassword, $email);
 		$userId =getUserIdByEmail($email);
-		echo $userId;
 		if($userId !=-1)
 		{
 			$token = token();
@@ -28,24 +27,26 @@
 		}
 	}
 
-	function modifyUserPassword($token,$password){
+	function modifyUserPassword($token,$oldpassword,$newpassword){
 		$userId = getUserBySession($token);
-		print_r($userId);
-		if($userId !=-1)
+		if($userId != -1)
 		{
-			$encriptedPassword = crypt($password);
-			print_r($password);
-			echo "\n";
-			print_r($encriptedPassword );
-			changeUserPassword($userId,$encriptedPassword);
-			return true;
+			$encriptedOldPassword = sha1($oldpassword);
+			if($encriptedOldPassword == getUserPassword($userId)){
+				$encriptedPassword = sha1($newpassword);
+				changeUserPassword($userId,$encriptedPassword);
+				return true;
+			}
+			else{
+				return false;
+			}
 		}else{
 			return false;
 		}
 	}
 	
 	//Token = -1 -> token doesn't exist -> create session
-	//Token =-2 -> user doesn't exist
+	//Token = -2 -> user doesn't exist
 	function doLogin($Email,$Password){
 		$token = login($Email,$Password);
 		if($token == -1){
@@ -96,5 +97,20 @@
 	
 	function modifyUserMood($UserId,$MoodId){
 		changeUserMood($UserId,$MoodId);
+	}
+
+	function isUserAuthorized($token,$Type){
+		$userId = getUserBySession($token);
+		$userType = getUserType($userId);
+		if($userType != false && $userType == $Type){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	function isTokenValid($token){
+		return isToken($token);
 	}
 ?>

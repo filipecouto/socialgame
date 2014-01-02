@@ -110,6 +110,36 @@ require_once('DAL/Sessions.php');
 		return $user;
 	}
 
+	function getUserPassword($UserId){
+		$dal = new DAL();
+		$sqlFind = "SELECT password FROM Logins WHERE userID = '$UserId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$password = $record["password"];
+		}
+		else{
+			$password = -1;
+		}
+		return $password;
+	}
+
+	function getUserType($UserId){
+		$dal = new DAL();
+		$sqlFind = "SELECT type FROM Users WHERE id = '$UserId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$type = $record["type"];
+		}
+		else{
+			$type = false;
+		}
+		return $type;
+	}
+
 	function deleteUser($userId){
 		$dal = new DAL();
 		$sql = "DELETE FROM Users WHERE id = '$userId'";
@@ -145,7 +175,6 @@ require_once('DAL/Sessions.php');
 	function changeUserPassword($UserId,$Password){
 		$dal = new DAL();
 		$sql = "UPDATE Logins SET password = '$Password' WHERE userID = '$UserId'";
-		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
