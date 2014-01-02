@@ -13,6 +13,8 @@
 
 #include "Mods/TestMod/TestMod.h"
 #include "Models/IMessageNotification.h"
+#include "Models/IFriendshipRequestNotification.h"
+#include "Minigames/Test/TestMinigame.h"
 
 Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(controller) {
 	gui->setEventsListener(this);
@@ -33,12 +35,19 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_controller->getCamera()->setType(ThirdPerson);
 			printf("Switching camera to third person...\n");
 		}
+	} else if (widget == barTest1) {
+		_controller->startMinigame(new TestMinigame(_controller));
+	} else if (widget == barTest2) {
+		_controller->startMinigame(new TestMinigame(_controller));
+	} else if (widget == barTest3) {
+		_controller->startMinigame(new TestMinigame(_controller));
 	} else if (windowPersonInfo && windowPersonInfo->visible) {
 		if (widget == windowPersonInfo->getCloseButton()) {
 			windowPersonInfo->hide();
 		} else if (widget == windowPersonInfo->getGoToButton()) {
 			_controller->flyTo(_controller->getSelectedPerson());
 		} else if (widget == windowPersonInfo->getAddFriendButton()) {
+			timeFriendAdded = glutGet(GLUT_ELAPSED_TIME);
 			_controller->getIdentity()->addFriend(_controller->getSelectedPerson());
 			windowPersonInfo->hide();
 		}
@@ -46,7 +55,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 }
 
 void Bridge::onMouseButton(int button, int state, int x, int y) {
-	if (state == 0 && button == 0) {
+	if (state == 0 && button == 0 && !_controller->isInMinigame()) {
 		_mouseX = x;
 		_mouseY = y;
 
@@ -80,13 +89,55 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barNotifications);
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
+		
+		barTest1 = new ButtonWidget(new TextWidget("Minigame 1", 0, 0));
+		barTest2 = new ButtonWidget(new TextWidget("Minigame 2", 0, 0));
+		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
+		bar->addWidget(barTest1);
+		bar->addWidget(barTest2);
+		bar->addWidget(barTest3);
 	}
 
 	return bar;
 }
 
 void Bridge::onNewNotification(INotification * notification) {
-	_gui->addWidget(new TextWidget(((IMessageNotification*)notification)->getMessage(), 0, 140));
+	Dialog * message = NULL;
+
+	switch (notification->getType()) {
+		case INotification::Message: {
+			message = _gui->showMessage(((IMessageNotification *)notification)->getMessage());
+		}
+		break;
+
+		case INotification::FriendshipRequest: {
+			IFriendshipRequestNotification * n = (IFriendshipRequestNotification *) notification;
+
+			switch (n->getConnection()->getState()) {
+				case -1:
+					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " refused to be friends with you.");
+					break;
+
+				case 0:
+					_gui->showMessage(n->getConnection()->getPerson()->getName() + " sent you a friendship request.");
+					break;
+
+				case 1:
+					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " accepted to be friends with you.");
+					break;
+			}
+
+			_controller->invalidatePerson(_controller->getIdentityPerson());
+			_controller->invalidatePerson(n->getConnection()->getPerson());
+		}
+		break;
+	}
+
+	if (message && windowPersonInfo && glutGet(GLUT_ELAPSED_TIME) - timeFriendAdded < 5) {
+		message->x = windowPersonInfo->x;
+		message->y = windowPersonInfo->y;
+		message->avoidOutside();
+	}
 }
 
 Bridge::~Bridge() {
@@ -124,10 +175,14 @@ PersonInfoWindow::PersonInfoWindow(IPerson * me, IPerson * person): Window() {
 void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	textName->setText(person->getName());
 	textMood->setText(person->getMood().getDescription());
-	textFriends->setText(std::to_string(person->getConnections().size()) + " friend(s)");
+	textFriends->setText(std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)");
 
-	buttonAddFriend->visible = me != person;
-	// TODO the add friend button should say "remove friend" if they are already friends
+	if (me == person) {
+		buttonAddFriend->visible = false;
+	} else {
+		buttonAddFriend->visible = true;
+		((TextWidget *) buttonAddFriend->getContainingWidget())->setText(me->getConnections()->isFriendsWith(person) ? "Remove friend" : "Add friend");
+	}
 }
 
 PersonInfoWindow::~PersonInfoWindow() {
