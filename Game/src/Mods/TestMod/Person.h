@@ -11,6 +11,8 @@
 #define PERSON_H
 
 #include "../../Models/IPerson.h"
+#include "../../Models/IConnectionsList.h"
+#include "FriendsList.h"
 
 class Person : public IPerson {
 	public:
@@ -21,9 +23,10 @@ class Person : public IPerson {
 		virtual int getScore();
 		virtual int getStrength();
 		virtual std::vector< Tag * > getTags();
-		virtual std::vector< IConnection * > getConnections();
+		virtual IConnectionsList* getConnections();
 		
 		void connect(Person * other);
+		void connect(Person * other, int state);
 		
 		void test(int n) {
 			_test = n;
@@ -31,7 +34,7 @@ class Person : public IPerson {
 		
 		virtual ~Person();
 	private:
-		std::vector<IConnection *> * _connections;
+		FriendsList* _connections;
 		
 		int _test = 0;
 		std::string _name;

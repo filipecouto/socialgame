@@ -8,11 +8,15 @@
 
 #include "Connection.h"
 
-Connection::Connection() {
+// Connection::Connection() {
+// 
+// }
 
+Connection::Connection(Person * p) : _state(1) {
+	_p = p;
 }
 
-Connection::Connection(Person * p) {
+Connection::Connection(Person * p, int state) : _state(state) {
 	_p = p;
 }
 
@@ -29,11 +33,11 @@ int Connection::getStrength() {
 }
 
 int Connection::getState() {
-	return 0;
+	return _state;
 }
 
 IPerson * Connection::getPerson() {
-	return _p;
+	return (IPerson *) _p;
 }
 
 Connection::~Connection() {

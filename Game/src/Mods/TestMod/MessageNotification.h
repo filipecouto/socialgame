@@ -7,7 +7,7 @@ class MessageNotification : public IMessageNotification {
 	public:
 		MessageNotification(std::string message);
 
-		virtual IUser * getFrom();
+		IPerson * getFrom();
 		virtual std::string getMessage();
 
 		virtual long int getDate();

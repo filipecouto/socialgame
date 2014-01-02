@@ -10,23 +10,31 @@
 #define CONNECTION_H
 
 #include "../../Models/IConnection.h"
-#include "Person.h"
+
+class Person;
 
 class Connection : public IConnection {
 	public:
-		Connection();
+// 		Connection();
 		Connection(Person * p);
+		Connection(Person * p, int state);
 
 		virtual std::vector< Tag * > getTags();
+		
 		virtual int getScore();
+		
 		virtual int getStrength();
+		
 		virtual int getState();
+		
 		virtual IPerson * getPerson();
 
 		virtual ~Connection();
 
 	private:
 		Person * _p = NULL;
+		
+		int _state;
 };
 
 #endif // CONNECTION_H

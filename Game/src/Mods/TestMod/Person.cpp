@@ -14,7 +14,7 @@ Person::Person(std::string name, Mood mood) {
 	_name = name;
 	_mood = mood;
 	
-	_connections = new std::vector<IConnection*>();
+	_connections = new FriendsList();
 }
 
 std::string Person::getName() {
@@ -38,11 +38,16 @@ std::vector<Tag *> Person::getTags() {
 }
 
 void Person::connect(Person * other) {
-	_connections->push_back(new Connection(other));
-	other->_connections->push_back(new Connection(this));
+	_connections->add(new Connection(other));
+	other->_connections->add(new Connection(this));
 }
 
-std::vector< IConnection * > Person::getConnections() {
+void Person::connect(Person * other, int state) {
+	_connections->add(new Connection(other, state));
+	other->_connections->add(new Connection(this, state));
+}
+
+IConnectionsList * Person::getConnections() {
 // 	if (_connections == NULL) {
 // 		_connections = new std::vector<IConnection *>();
 // 
@@ -63,7 +68,7 @@ std::vector< IConnection * > Person::getConnections() {
 // 		}
 // 	}
 
-	return std::vector<IConnection *>(*_connections);
+	return _connections;
 }
 
 Person::~Person() {

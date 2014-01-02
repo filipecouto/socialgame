@@ -11,6 +11,7 @@
 
 #include "../../Models/IUser.h"
 #include "Person.h"
+#include "../GameModEventListener.h"
 
 class User : public IUser {
 	public:
@@ -18,10 +19,14 @@ class User : public IUser {
 		
 		virtual IPerson * getPerson();
 		virtual void addFriend(IPerson * friendToAdd);
+		
+		virtual void setEventListener(GameModEventListener * listener);
+		
 		virtual ~User();
 
 	private:
 		Person ritinha;
+		GameModEventListener * _listener;
 };
 
 #endif // USER_H
