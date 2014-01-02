@@ -4,9 +4,15 @@ Window::Window() {
 	setPadding(8);
 }
 
-Window::Window(Widget * contents) : _contents(contents) {
-	addWidget(contents);
+Window::Window(Widget * contents) {
+	setContent(contents);
 	setPadding(8);
+}
+
+void Window::setContent(Widget * content) {
+	addWidget(content);
+	_contents = content;
+	setPadding(_padding);
 }
 
 void Window::draw() {
@@ -56,12 +62,6 @@ GLboolean Window::onMouseButtonDown(int button, int x, int y) {
 GLboolean Window::onMouseButtonUp(int button, int x, int y) {
 	WidgetContainer::onMouseButtonUp(button, x, y);
 	return true;
-}
-
-void Window::setContent(Widget * content) {
-	addWidget(content);
-	_contents = content;
-	setPadding(_padding);
 }
 
 GLboolean Window::isAnimating() {

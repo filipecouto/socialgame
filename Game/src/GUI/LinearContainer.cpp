@@ -19,8 +19,8 @@ void LinearContainer::removeWidget(Widget * oldWidget) {
 }
 
 void LinearContainer::onParentGeometryChange(Widget * widget) {
-	WidgetContainer::onParentGeometryChange(widget);
 	revalidate();
+	WidgetContainer::onParentGeometryChange(widget);
 }
 
 void LinearContainer::revalidate() {

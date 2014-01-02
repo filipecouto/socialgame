@@ -57,6 +57,8 @@ void Gui::requestFocus(Widget * from) {
 void Gui::setDimensions(int width, int height) {
 	_width = width;
 	_height = height;
+	
+	if(_dialog) _dialog->centerOnParent();
 }
 
 void Gui::setEventsListener(IWidgetEventsListener * listener) {
@@ -73,4 +75,15 @@ int Gui::getWidth() {
 
 int Gui::getHeigth() {
 	return _height;
+}
+
+Dialog * Gui::showMessage(std::string message) {
+	return showMessage("", message);
+}
+
+Dialog * Gui::showMessage(std::string id, std::string message) {
+	_dialog = new Dialog(id, message);
+	addWidget(_dialog);
+	_dialog->show();
+	return _dialog;
 }
