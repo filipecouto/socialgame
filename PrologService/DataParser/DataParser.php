@@ -18,18 +18,19 @@
         return $prolog->executePredicate($predicate);
 	}
 
-	function StrongestPath($connections){
+	function StrongestPath($Origin,$Destiny,$connections){
 		foreach($connections as $connection)
 		{
-			$origin = $connection->origin; 
-			$destiny = $connection->destiny;
-			$strength = $connection->strength;
-			$predicate.="liga($origin,$destiny,$strength).";
+			$origin = $connection["origin"]; 
+			$destiny = $connection["destiny"];
+			$strength = $connection["strength"];
+			$predicate.="liga($origin,$destiny,$strength).\n";
 		}
+	
 		$predicate.= "
 			caminhoMaisForte(Origem, Destino, Caminho,P):-
-				caminho([(0,[Origem])],Destino,C,P),
-				reverse(C,Caminho).
+			caminho([(0,[Origem])],Destino,C,P),
+			reverse(C,Caminho).
 
 			caminho([(P,Prim)|_],Dest,Prim,P):- Prim=[Dest|_].
 
@@ -44,12 +45,11 @@
 				reverse(NPerc1,NPerc2),
 				caminho(NPerc2,Dest,Perc,P).
 
-
 			proximo_no(X,T,Z,C):- liga(X,Z,C), \+ member(Z,T).
 
 			go :-
-					caminhoMaisForte($Origin, $Destiny, Path),
-					write(Path)."
+				caminhoMaisForte($Origin, $Destiny, Path,P),write(Path),nl,write(P).";
+					
 					
 		$prolog = new Prolog;
 		return $prolog->executePredicate($predicate);
