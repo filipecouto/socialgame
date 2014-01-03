@@ -18,6 +18,43 @@
         return $prolog->executePredicate($predicate);
 	}
 
+	function StrongestPath($connections){
+		foreach($connections as $connection)
+		{
+			$origin = $connection->origin; 
+			$destiny = $connection->destiny;
+			$strength = $connection->strength;
+			$predicate.="liga($origin,$destiny,$strength).";
+		}
+		$predicate.= "
+			caminhoMaisForte(Origem, Destino, Caminho,P):-
+				caminho([(0,[Origem])],Destino,C,P),
+				reverse(C,Caminho).
+
+			caminho([(P,Prim)|_],Dest,Prim,P):- Prim=[Dest|_].
+
+			caminho([(_,[Dest|_])|Resto],Dest,Perc,P):- !,
+				caminho(Resto,Dest,Perc,P).
+
+			caminho([(C,[Ult|T])|Outros],Dest,Perc,P):-
+				findall((NC,[Z,Ult|T]),
+				(proximo_no(Ult,T,Z,C1),NC is C+C1),Lista),
+				append(Outros,Lista,NPerc),
+				sort(NPerc,NPerc1),
+				reverse(NPerc1,NPerc2),
+				caminho(NPerc2,Dest,Perc,P).
+
+
+			proximo_no(X,T,Z,C):- liga(X,Z,C), \+ member(Z,T).
+
+			go :-
+					caminhoMaisForte($Origin, $Destiny, Path),
+					write(Path)."
+					
+		$prolog = new Prolog;
+		return $prolog->executePredicate($predicate);
+	}
+	
 	// Gets friends with a list of tags in common
 	function friendsWithTags($Friends,$Tags){
 		$predicate =
