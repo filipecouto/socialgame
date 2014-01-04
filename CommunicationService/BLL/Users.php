@@ -99,6 +99,7 @@
 		changeUserMood($UserId,$MoodId);
 	}
 
+	//Returns if the user has a specified type
 	function isUserAuthorized($token,$Type){
 		$userId = getUserBySession($token);
 		$userType = getUserType($userId);
@@ -112,5 +113,11 @@
 
 	function isTokenValid($token){
 		return isToken($token);
+	}
+
+	//Returns the user information using its session token
+	function returnUser($token){
+		$userId = getUserBySession($token);
+		return getUser($userId);
 	}
 ?>

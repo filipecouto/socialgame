@@ -79,6 +79,7 @@ require_once('DAL/Sessions.php');
 		return $user;
 	}
 
+	//Gets the user name using its email
 	function getUserNameByEmail($Email){
 		$id = getUserIdByEmail($Email);
 		$dal = new DAL();
@@ -95,6 +96,7 @@ require_once('DAL/Sessions.php');
 		return $user;
 	}
 
+	//Gets the user id using its username
 	function getUserId($Username){
 		$dal = new DAL();
 		$sqlFind = "SELECT id FROM Users WHERE username = '$Username'";
@@ -110,6 +112,7 @@ require_once('DAL/Sessions.php');
 		return $user;
 	}
 
+	//Gets the user password using its id
 	function getUserPassword($UserId){
 		$dal = new DAL();
 		$sqlFind = "SELECT password FROM Logins WHERE userID = '$UserId'";
@@ -125,6 +128,7 @@ require_once('DAL/Sessions.php');
 		return $password;
 	}
 
+	//Gets the user type using its id
 	function getUserType($UserId){
 		$dal = new DAL();
 		$sqlFind = "SELECT type FROM Users WHERE id = '$UserId'";
@@ -140,6 +144,7 @@ require_once('DAL/Sessions.php');
 		return $type;
 	}
 
+	//Deletes a user
 	function deleteUser($userId){
 		$dal = new DAL();
 		$sql = "DELETE FROM Users WHERE id = '$userId'";
@@ -185,4 +190,18 @@ require_once('DAL/Sessions.php');
 		$dal->executeQuery($sql);
 	}
 	
+	//Gets all the user information using its id
+	function getUser($UserId){
+		$dal = new DAL();
+		$sqlFind = "SELECT * FROM Users WHERE id = '$UserId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$user = $recordset;
+		}
+		else{
+			$user = false;
+		}
+		return $user;
+	}
 ?>
