@@ -5,12 +5,23 @@ require_once('DAL/Tags.php');
 require_once('DAL/Sessions.php');
 //Insert User
     function insertUser($Username,$Password,$Email){
-		$dal = new DAL();
-        $sqlUser = "INSERT INTO Users (Username, `type`) VALUES('$Username',1)";
-		$dal->executeQuery($sqlUser);
-		$userId = getUserId($Username);
-		$sqlLogin = "INSERT INTO Logins (UserId,Password,Email) VALUES('$userId','$Password','$Email')";
-		$dal->executeQuery($sqlLogin);
+    	//If there's no one with this email then proceede
+    	if(getUserIdByEmail($Email) == -1) {
+    		try{
+				$dal = new DAL();
+		        $sqlUser = "INSERT INTO Users (Username, `type`) VALUES('$Username',1)";
+				$dal->executeQuery($sqlUser);
+				$userId = getUserId($Username);
+				$sqlLogin = "INSERT INTO Logins (UserId,Password,Email) VALUES('$userId','$Password','$Email')";
+				$dal->executeQuery($sqlLogin);
+				return true;
+    		} catch (Exception $e) {
+				return $e;
+    		}
+    	}
+    	else{
+    		return "DuplicateEmail";
+    	}
     }
 	
 	//Change User Name
@@ -18,14 +29,14 @@ require_once('DAL/Sessions.php');
 		$UserId = getUserBySession($token);
 		$dal = new DAL();
 		$sql = "UPDATE Users SET username = '$Username' WHERE id = '$UserId'";
-		print_r($sql);
 		$dal->executeQuery($sql);
 	}
+
+	//Sets the user type to admin
 	function administrator($token){
 		$UserId = getUserBySession($token);
 		$dal = new DAL();
 		$sql = "UPDATE Users SET `type` = 100 WHERE id = '$UserId'";
-		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	//Login a user
@@ -162,7 +173,6 @@ require_once('DAL/Sessions.php');
 	function insertUserTag($UserId,$TagName,$TypeId){
 		$dal = new DAL();
 		$sqlFind = "Select id From Tags Where name = '$TagName'";
-		print_r($sqlFind);
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
@@ -203,5 +213,21 @@ require_once('DAL/Sessions.php');
 			$user = false;
 		}
 		return $user;
+	}
+
+	//Gets all the users information that have the given username
+	function getUsersByName($Username){
+		if($Username == '') return false;
+		$dal = new DAL();
+		$sqlFind = "SELECT * FROM Users WHERE username LIKE '%$Username%' ORDER BY username";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$users = $recordset;
+		}
+		else{
+			$users = false;
+		}
+		return $users;
 	}
 ?>

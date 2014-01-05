@@ -4,8 +4,7 @@ require_once('DAL/DAL.php');
 	function insertSession($userId,$token){
 		$dal = new DAL();
         $sql = "INSERT INTO Session (userId, token) VALUES('$userId', '$token')";
-		echo $sql;
-		$dal->executeQuery($sql);
+        $dal->executeQuery($sql);
     }
 	
 	function changeSession($UserId,$token){

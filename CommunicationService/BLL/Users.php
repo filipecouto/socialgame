@@ -4,15 +4,20 @@
 	
 	function createUser($userName, $password, $email){
 		$encriptedPassword = sha1($password);
-		insertUser($userName, $encriptedPassword, $email);
-		$userId =getUserIdByEmail($email);
-		if($userId !=-1)
-		{
-			$token = token();
-			insertSession($userId,$token);
-			return true;
-		}else{
-			return false;
+		$state = insertUser($userName, $encriptedPassword, $email);
+		if($state != "True"){
+			return $state; 
+		}
+		else{
+			$userId = getUserIdByEmail($email);
+			if($userId !=-1)
+			{
+				$token = token();
+				insertSession($userId,$token);
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
 	
@@ -118,6 +123,22 @@
 	//Returns the user information using its session token
 	function returnUser($token){
 		$userId = getUserBySession($token);
+		return returnUserById($userId);
+	}
+
+	//Returns the user information using its id
+	function returnUserById($userId){
 		return getUser($userId);
+	}
+
+	//Returns information of users with the sent username
+	function returnUsers($username){
+		return getUsersByName($username);
+	}
+
+	//Return the users friends
+	function returnUsersFriends($token){
+		$userId = getUserBySession($token);
+
 	}
 ?>
