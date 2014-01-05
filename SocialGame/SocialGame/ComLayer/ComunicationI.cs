@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Data;
 using System.IO;
 using System.Net;
 
@@ -19,6 +19,21 @@ namespace SocialGame.ComLayer
             reader.Close();
             response.Close();
             return responseFromServer;
+        }
+
+        public string GetSingleData(string url)
+        {
+            string jsonRequest = MakeRequest(url);
+            string answer = JsonConvert.DeserializeObject<SingleData>(jsonRequest).Data;
+            return answer;
+        }
+
+        public DataTable GetMultipleData(string url)
+        {
+            string jsonRequest = MakeRequest(url);
+            DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(jsonRequest);
+            DataTable dataTable = dataSet.Tables["data"];
+            return dataTable;
         }
     }
 }

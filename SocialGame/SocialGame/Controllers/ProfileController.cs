@@ -9,100 +9,31 @@ namespace SocialGame.Controllers
 {
     public class ProfileController : Controller
     {
-        //
-        // GET: /Profile/
+        private ComUsers comUsers = new ComUsers();
 
+        // GET: /Profile/
         public ActionResult Index()
         {
-            HttpSession session = new HttpSession();
-            ViewBag.UserName = session.readFromSession("UserName");
+            ViewBag.User = comUsers.GetUserInformation();
+            ViewBag.Users = comUsers.GetUserFriends();
+            ViewBag.TableTitle = "Friends";
             return View();
         }
 
-        //
-        // GET: /Profile/Details/5
-
-        public ActionResult Details(int id)
+        public ActionResult People(string userName)
         {
+            ViewBag.Users = comUsers.GetUsersByName(userName);
+            ViewBag.TableTitle = "People";
             return View();
         }
 
-        //
-        // GET: /Profile/Create
-
-        public ActionResult Create()
+        public ActionResult PersonProfile(int id)
         {
-            return View();
-        }
-
-        //
-        // POST: /Profile/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Profile/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Profile/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Profile/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Profile/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.User = comUsers.GetUserInformation(id);
+            ViewBag.Users = comUsers.GetUserFriends(id);
+            ViewBag.TableTitle = "Friends";
+            ViewBag.Friend = "False";
+            return View("Index");
         }
     }
 }

@@ -10,52 +10,34 @@
     <title></title>
 </head>
 <body>
+    @Html.Partial("_FindPeople")
+    <br>
     <section class="featured">
         <div class="content-wrapper">
             <table align="center">
                 <tr>
-                    <td align="right">@ViewBag.UserName</td>
-                    <td rowspan="3"><img src="http://www.bubble-jobs.co.uk/blog/wp-content/uploads/2012/12/profile.jpg" alt="Picture" height="180"> </td>
-                    <td>HAPPY FACE</td>
+                    <td align="right">@ViewBag.User.username</td>
+                    <td rowspan="3"><img src="@ViewBag.User.picture" alt="Picture" height="180"> </td>
+                    <td>@ViewBag.User.mood = My Mood</td>
                 </tr>
                 <tr>
-                    <td align="right">TotalScore</td>
+                    <td align="right">TotalScore = @ViewBag.User.totalScore</td>
                     <td>3 most popular Tags</td>
                 </tr>
                 <tr>
-                    <td align="right">TotalStrength</td>
-                    <td>User Type</td>
+                    <td align="right">TotalStrength = @ViewBag.User.totalScore</td>
+                    <td>@ViewBag.User.type = User Type</td>
                 </tr>
+                @if (@ViewBag.Friend == "False")
+                {
+                <tr>
+                    <td colspan="3" align="center">ADD FRIEND</td>
+                </tr>
+                }
             </table>
         </div>
     </section>
-    </br>
-    <div>
-        <table align="center">
-            <tr>
-                <td colspan="3" align="center"><h1>Friends</h1></td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Mood</th>
-            </tr>
-            <tr>
-                <td>FilipeCouto</td>
-                <td>4234</td>
-                <td>: )</td>
-            </tr>
-            <tr>
-                <td>RitaNogueira</td>
-                <td>657</td>
-                <td>-.-</td>
-            </tr>
-            <tr>
-                <td>GilCastro</td>
-                <td>3453</td>
-                <td>: =)</td>
-            </tr>
-        </table>
-    </div>
+    <br>
+    @Html.Partial("_ListOfPeople")
 </body>
 </html>

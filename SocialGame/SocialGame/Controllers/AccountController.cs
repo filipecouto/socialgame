@@ -84,7 +84,7 @@ namespace SocialGame.Controllers
                 {
                     comUsers.CreateUserAndAccount(model.UserName, model.Email, model.Password);
                     comUsers.Login(model.Email, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Profile");
                 }
                 catch (MembershipCreateUserException e)
                 {
