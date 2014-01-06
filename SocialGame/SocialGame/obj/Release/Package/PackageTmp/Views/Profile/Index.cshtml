@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @Html.Partial("_FindPeople")
+    <br>
+    <section class="featured">
+        <div class="content-wrapper">
+            <table align="center">
+                <tr>
+                    <td align="right">@ViewBag.User.username</td>
+                    <td rowspan="3"><img src="@ViewBag.User.picture" alt="Picture" height="180"> </td>
+                    <td>@ViewBag.User.mood = My Mood</td>
+                </tr>
+                <tr>
+                    <td align="right">TotalScore = @ViewBag.User.totalScore</td>
+                    <td>3 most popular Tags</td>
+                </tr>
+                <tr>
+                    <td align="right">TotalStrength = @ViewBag.User.totalScore</td>
+                    <td>@ViewBag.User.type = User Type</td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        @if (@ViewBag.Friend == "False" || @ViewBag.Friend == "-1")
+                        {
+                        <div id="addFriendDivButton"><button id="addFriendButton" value="@ViewBag.User.id">ADD FRIEND</button></div>
+                        <div id="addFriendDivAnswer"></div>
+                        }
+                        else if (@ViewBag.Friend != "Self")
+                        {
+                            if (@ViewBag.Friend == "0")
+                            {
+                            <div id="addFriendDivAnswer"><font color="yellow">Request Pendent</font></div>
+                            }
+                            else
+                            {
+                            <div id="addFriendDivAnswer"><font color="green">Friends</font></div>
+                            }
+                        }
+                    </td>
+                </tr>
+            </table>
+            @Html.Partial("_AddFriend")
+        </div>
+    </section>
+    <br>
+    @Html.Partial("_ListOfConnections")
+</body>
+</html>
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.min.js")
+    @Styles.Render("~/Content/themes/base/css")
+    <style>
+        #relationStrengthSlider {
+            height: 10px;
+        }
+
+        #tagValues {
+            height: 17px;
+        }
+    </style>
+    <script type="text/javascript">
+        $("#addFriendDialog").dialog({ autoOpen: false, closeOnEscape: true, resizable: false, modal: true, height: 250, width: 358 });
+        $("#relationStrengthSlider").slider({
+            min: 1, max: 10, value: 1, range: "min",
+            change: function (event, ui) { $("#relationStrengthValue").text(ui.value); },
+            slide: function (event, ui) { $("#relationStrengthValue").text(ui.value); }
+        });
+        $("#addFriendButton").click(function () {
+            $("#addFriendDialog").dialog("open");
+        });
+        $("#addFriendDialogButton").click(function () {
+            var id = $("#addFriendButton").val();
+            var strength = $("#relationStrengthValue").text();
+            var tags = $("#tagValues").val();
+
+            $.post("/Profile/AddFriend", {id : id, strength : strength, tags : tags},
+                function (data) {
+                    if (data == "True") {
+                        $("#addFriendDivButton").hide();
+                        $("#addFriendDivAnswer").html("<font color='green'>Request Sent</font>");
+                        $("#addFriendDialog").dialog("close");
+                    }
+                    else {
+                        $("#addFriendDivAnswer").html("<font color='red'>Error Ocurred!</font>");
+                        $("#addFriendDialog").dialog("close");
+                    }
+                })
+        });
+    </script>
+}

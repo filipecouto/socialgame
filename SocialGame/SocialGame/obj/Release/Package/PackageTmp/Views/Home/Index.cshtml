@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Socialize and Have Fun";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+                SocialGame gives a whole <mark>new perpective</mark> to the social world. Make your friendship be more <mark>challenging</mark> through out many mini-games,
+                see who's leading the boards with more points and enjoy our @Html.ActionLink("social based game", "Login", "Account") for lots of fun.
+            </p>
+        </div>
+    </section>
+}
+<h3>How to get started:</h3>
+<ol class="round">
+    <li class="one">
+        <h5>Getting an Account</h5>
+        You can @Html.ActionLink("register", "Register", "Account") your account through the register form. But, if you already have one of the available
+        supported external accounts you are fine with that.
+    </li>
+
+    <li class="two">
+        <h5>Ready to go</h5>
+        @Html.ActionLink("Login", "Login", "Account") to the website and start exploring this new world, manage your profile, add friends and much more.
+    </li>
+
+    <li class="three">
+        <h5>Download the game</h5>
+        @Html.ActionLink("Download", "Login", "Account") our game for a better and enjoyable experience getting new friends.
+    </li>
+</ol>

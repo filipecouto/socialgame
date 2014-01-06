@@ -1,0 +1,16 @@
+﻿@model SocialGame.Models.User
+@using (Html.BeginForm("People","Profile",FormMethod.Post)) {
+<table align="center">
+    <tr>
+        <td>
+            Find: 
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.username)
+        </td>
+        <td>
+            <input type="submit" value="Search" />
+        </td>
+    </tr>
+</table>
+}
