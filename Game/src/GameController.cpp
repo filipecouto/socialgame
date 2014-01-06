@@ -18,6 +18,10 @@
 #include <cstdio>
 #endif
 
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
+
 #define GameController_isInMinigame _minigame && _minigameState == 1
 
 GameController::GameController() : _graphFactory() {
@@ -40,7 +44,7 @@ void GameController::start(GameMod * mod) {
 void GameController::draw() {
 	glPushMatrix();
 
-	if (_minigame && _minigameState == 1) {
+	if (GameController_isInMinigame) {
 		_minigame->draw();
 	} else {
 		_camera.setUp();
@@ -304,7 +308,7 @@ void GameController::startMinigame(IMinigame * minigame) {
 }
 
 bool GameController::isInMinigame() {
-	GameController_isInMinigame;
+	return GameController_isInMinigame;
 }
 
 void GameController::notifyMinigameFinished(IMinigameInstance * instance) {

@@ -47,7 +47,7 @@ class TestMinigame : public IMinigame {
 					GLfloat vx, vy;
 				} Thing;
 
-				bool keys[4] = { false, false, false, false };
+				bool keys[4];
 
 				Thing thing;
 				GLfloat mx, my;

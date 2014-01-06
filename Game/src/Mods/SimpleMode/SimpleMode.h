@@ -11,19 +11,24 @@
 
 #include "../GameMod.h"
 
-class GameMod {
-public:
-	virtual void load();
+class SimpleMode : public GameMod {
+	public:
 
-	virtual IPerson * getIdentity();
+		SimpleMode();
+		~SimpleMode();
 
-	// TODO interface missing
-	virtual void * getNotifications();
+		virtual void load();
 
-	// TODO interface missing
-	virtual void * getPendingGames();
+		virtual IUser * getIdentity();
+		virtual std::vector<INotification *> * getNotifications();
+		virtual void * getPendingGames();
+
+		virtual void setEventListener(GameModEventListener * listener);
+
 
 private:
+	User user;
+	GameModEventListener * _listener;
 
 };
 #endif

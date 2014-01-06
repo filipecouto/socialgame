@@ -71,6 +71,9 @@ void TestMinigame::TestInstance::tick(int delta, int current) {
 }
 
 TestMinigame::TestInstance::TestInstance(GameContext * context) : _context(context) {
+	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
+		keys[i] = false;
+	}
 
 }
 

@@ -10,7 +10,7 @@ std::string TicTacToeMinigame::getName() {
 }
 
 IMinigameInstance * TicTacToeMinigame::newGame() {
-	return new TestInstance(_context);
+	return new TicTacToeInstance(_context);
 }
 
 void TicTacToeMinigame::TicTacToeInstance::draw() {
@@ -71,7 +71,9 @@ void TicTacToeMinigame::TicTacToeInstance::tick(int delta, int current) {
 }
 
 TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) : _context(context) {
-
+	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
+		keys[i] = false;
+	}
 }
 
 void TicTacToeMinigame::TicTacToeInstance::finish() {

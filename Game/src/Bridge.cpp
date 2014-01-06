@@ -37,7 +37,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			printf("Switching camera to third person...\n");
 		}
 	} else if (widget == barTest1) {
-		_controller->startMinigame(new TicTacToe(_controller));
+		_controller->startMinigame(new TicTacToeMinigame(_controller));
 	} else if (widget == barTest2) {
 		_controller->startMinigame(new TestMinigame(_controller));
 	} else if (widget == barTest3) {
@@ -53,6 +53,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			windowPersonInfo->hide();
 		}
 	}
+	return true;
 }
 
 void Bridge::onMouseButton(int button, int state, int x, int y) {
