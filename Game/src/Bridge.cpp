@@ -15,6 +15,7 @@
 #include "Models/IMessageNotification.h"
 #include "Models/IFriendshipRequestNotification.h"
 #include "Minigames/Test/TestMinigame.h"
+#include "Minigames/TicTacToe/TicTacToe.h"
 
 Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(controller) {
 	gui->setEventsListener(this);
@@ -36,7 +37,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			printf("Switching camera to third person...\n");
 		}
 	} else if (widget == barTest1) {
-		_controller->startMinigame(new TestMinigame(_controller));
+		_controller->startMinigame(new TicTacToe(_controller));
 	} else if (widget == barTest2) {
 		_controller->startMinigame(new TestMinigame(_controller));
 	} else if (widget == barTest3) {
@@ -90,7 +91,7 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
 		
-		barTest1 = new ButtonWidget(new TextWidget("Minigame 1", 0, 0));
+		barTest1 = new ButtonWidget(new TextWidget("TIC TAC TOE", 0, 0));
 		barTest2 = new ButtonWidget(new TextWidget("Minigame 2", 0, 0));
 		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
 		bar->addWidget(barTest1);
