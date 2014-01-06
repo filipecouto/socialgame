@@ -2,11 +2,15 @@
 require_once('DAL/DAL.php');
 
 	//Add new Connection
-	function addConnection($UserId1, $UserId2){
-		$dal = new DAL();
-		$sql = "INSERT INTO Connections (user1,user2,state) VALUES('$UserId1','$UserId2',0)";
-		print_r($sql);
-		$dal->executeQuery($sql);
+	function addConnection($UserId1, $UserId2, $Strength){
+		try{
+			$dal = new DAL();
+			$sql = "INSERT INTO Connections (user1,user2,state,strength) VALUES('$UserId1','$UserId2',0,'$Strength')";
+			$connectionId = $dal->executeQuery($sql);
+			return $connectionId;
+		}catch(Exception $e){
+			return false;
+		}
 	}
 	
 	//Add a relation between a connection and a minigame
@@ -56,13 +60,28 @@ require_once('DAL/DAL.php');
 		$sql = "UPDATE Connections SET State = '$State' WHERE Id = '$Id'";
 		$dal->executeQuery($sql);
 	}
+
+	//Returns the connection state
+	function getConnectionState($ConnectionId){
+		$dal = new DAL();
+		$sqlFind = "SELECT state FROM Connections WHERE id = '$ConnectionId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$state = $record["state"];
+		}
+		else{
+			$state = false;
+		}
+		return $state;
+	}
 	
 	//Get a ConnectionID using the 2 User Id's
 	//returns its ID or -1 if error
 	function getConnectionIdByUsers($User1,$User2){
 		$dal = new DAL();
 		$sqlFind = "SELECT id FROM Connections WHERE (user1 = '$User1' AND user2 = '$User2') OR (user1 = '$User2' AND user2 = '$User1')";
-		print_r($sqlFind);
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){
@@ -73,6 +92,21 @@ require_once('DAL/DAL.php');
 			$connectionId = -1;
 		}
 		return $connectionId;
+	}
+
+	//Returns the connections of a user with a certain state
+	function getUserConnectionsWithState($UserId,$State){
+		$dal = new DAL();
+		$sqlFind = "SELECT * FROM Connections WHERE (user1 = '$UserId' OR user2 = '$UserId') AND state = '$State'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$connections = $recordset;
+		}
+		else{
+			$connections = false;
+		}
+		return $connections;
 	}
 ?>
 	
