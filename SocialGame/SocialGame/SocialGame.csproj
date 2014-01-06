@@ -195,6 +195,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -312,6 +313,8 @@
     <Content Include="Views\Profile\_ListOfPeople.cshtml" />
     <Content Include="Views\Profile\_FindPeople.cshtml" />
     <Content Include="Views\Profile\People.cshtml" />
+    <Content Include="Views\Profile\_AddFriend.cshtml" />
+    <Content Include="Views\Profile\_ListOfConnections.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
