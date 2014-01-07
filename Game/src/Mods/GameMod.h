@@ -24,7 +24,7 @@ class GameMod {
 		// TODO interface missing
 		virtual void * getPendingGames() = 0;
 
-		virtual void setEventListener(GameModEventListener * listener) { }
+		virtual void setEventListener(GameModEventListener * listener) = 0;
 };
 
 #endif

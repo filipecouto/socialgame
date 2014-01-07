@@ -30,6 +30,7 @@ class Camera {
 		void moveTo(GLfloat x, GLfloat y, GLfloat z);
 		void lookAt(GLfloat x, GLfloat y, GLfloat z);
 		void rotate(GLfloat x, GLfloat y, GLfloat z);
+		void walk(GLfloat x, GLfloat y, GLfloat z);
 		
 		GLfloat getY();
 		

@@ -79,15 +79,24 @@ void Camera::moveTo(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
+	tex+=x;
+	tey+=y;
+	tez+=z;
+	tcx+=x;
+	tcy+=y;
+	tcz+=z;
+}
+
+void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	// TODO doesn't behave correctly
 	GLfloat angle = getAngle();
 	printf("angle = %0.2f\n", angle);
 	if(x!=0 || y!=0) {
 		GLfloat value = x!=0? x : y;
 		tcx = ccx + (value * cos(-angle));
-		tcy = ccy + (value * sin(-angle));
+		tcz = ccz + (value * sin(-angle));
 		tex = cex + (value * cos(-angle));
-		tey = cey + (value * sin(-angle));
+		tez = cez + (value * sin(-angle));
 		return;
 	}
 	if(z!=0) {
@@ -97,6 +106,7 @@ void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
 	}
 }
 
+
 GLfloat Camera::getAngle() {
 	GLfloat dx = cex - ccx;
 	GLfloat dy = cey - ccy;
@@ -105,19 +115,14 @@ GLfloat Camera::getAngle() {
 }
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
-	
 	GLfloat oldAngle = getAngle(), angle;
-	
 	if(x != 0) { // rotation on X axis
-
 	} else if(y != 0) { // rotation on Y axis
 		angle = oldAngle + y;
 		tcz = cos(angle) + tez;
 		tcx = sin(angle) + tex;
 	} else if(z != 0) { // rotation on Z axis
-		
 	}
-
 }
 
 
