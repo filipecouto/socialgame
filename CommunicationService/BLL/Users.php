@@ -142,4 +142,15 @@
 	function returnUsers($username){
 		return getUsersByName($username);
 	}
+
+	function modifyUserPicture($token,$Link){
+		$userId = getUserBySession($token);
+		if($userId != -1)
+		{
+			changeUserPicture($userId,$Link);
+			return true;
+		}else{
+			return false;
+		}
+	}
 ?>
