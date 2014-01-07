@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{7a0b5a8c-c79e-4f2f-8104-c0c421e6a8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mods">
+      <UniqueIdentifier>{9082a4cc-d90c-436d-ac03-43a44839049d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{36be32c2-828e-49bc-ad32-024fd4001edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mods\TestMode">
+      <UniqueIdentifier>{744d227f-1e1d-4483-ad87-257316009d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{eff54228-77c2-4e13-8322-de455ca9d55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mods">
+      <UniqueIdentifier>{27930a1c-5281-46c8-8357-e9ef5d640a2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mods\TestMode">
+      <UniqueIdentifier>{1f6b3847-d5f7-4227-9644-21afff5243a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{e4cc6e61-b7f7-4444-95ff-61aad2816530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minigames">
+      <UniqueIdentifier>{81454be8-18e1-49e6-b32a-d232b111f28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minigames\Test">
+      <UniqueIdentifier>{3a1b031b-7313-4454-8930-b9796c89de54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Minigames">
+      <UniqueIdentifier>{f6c7c163-63a0-405b-858d-0a0d75e4f2a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Minigames\Test">
+      <UniqueIdentifier>{d850a6d7-9e8b-4be5-b11e-4a4c8dd3f1e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minigames\TicTacToe">
+      <UniqueIdentifier>{b50ee13f-71ae-4e70-b9a6-25e8e60c6022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Minigames\TicTacToe">
+      <UniqueIdentifier>{8df65ee4-c364-4a25-b0d9-37872cf8d0f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Models\Tag.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\TagType.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Mood.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IPerson.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IConnection.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\Person.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\TestMod.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GraphicFactory.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IGraphic.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\GameMod.h">
+      <Filter>Header Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\User.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ConnectionGraphic.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PersonGraphic.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Camera.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IConnectionsList.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IFriendshipRequestNotification.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IList.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IMessageNotification.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\INotification.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\IUser.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\Connection.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\FriendshipRequestNotification.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\FriendsList.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\TestMod\MessageNotification.h">
+      <Filter>Header Files\Mods\TestMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\GameModEventListener.h">
+      <Filter>Header Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigames\IMinigame.h">
+      <Filter>Header Files\Minigames</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigames\IMinigameInstance.h">
+      <Filter>Header Files\Minigames</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigames\Test\TestMinigame.h">
+      <Filter>Header Files\Minigames\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFragment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameControllerListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigames\TicTacToe\TicTacToe.h">
+      <Filter>Header Files\Minigames\TicTacToe</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Models\Tag.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\TagType.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Mood.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\Person.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\TestMod.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\User.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ConnectionGraphic.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PersonGraphic.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GraphicFactory.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\Connection.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\FriendshipRequestNotification.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\FriendsList.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TestMod\MessageNotification.cpp">
+      <Filter>Source Files\Mods\TestMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigames\Test\TestMinigame.cpp">
+      <Filter>Source Files\Minigames\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigames\TicTacToe\TicTacToe.cpp">
+      <Filter>Source Files\Minigames\TicTacToe</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

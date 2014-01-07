@@ -135,10 +135,4 @@
 	function returnUsers($username){
 		return getUsersByName($username);
 	}
-
-	//Return the users friends
-	function returnUsersFriends($token){
-		$userId = getUserBySession($token);
-
-	}
 ?>

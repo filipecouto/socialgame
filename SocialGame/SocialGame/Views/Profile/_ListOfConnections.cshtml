@@ -1,0 +1,34 @@
+﻿<div>
+    <table align="center">
+        <tr>
+            <td colspan="5" align="center"><b><font size="5">@ViewBag.TableTitle</font></b></td>
+        </tr>
+        @if (@ViewBag.Connections != null && @ViewBag.Connections.Count > 0)
+        {
+            <tr>
+                <td align="center"><b><font size="2">Picture</font></b></td>
+                <td align="center"><b><font size="2">Name</font></b></td>
+                <td align="center"><b><font size="2">Connection Strength</font></b></td>
+                <td align="center"><b><font size="2">Connection Score</font></b></td>
+                <td align="center"><b><font size="2">Tags</font></b></td>
+            </tr>
+            foreach (var item in @ViewBag.Connections)
+            {
+                <tr>
+                    <td><img src="@item.friend.picture" alt="Picture" height="40"></td>
+                    <td align="center">@Html.ActionLink((string)item.friend.username, "PersonProfile", "Profile", new { id = item.friend.id }, null)</td>
+                    <td align="center">@item.strength</td>
+                    <td align="center">@item.totalScore</td>
+                    <td align="center">Tags of the connection</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>No @ViewBag.TableTitle Found</td>
+            </tr>
+        }
+    </table>
+</div>
+

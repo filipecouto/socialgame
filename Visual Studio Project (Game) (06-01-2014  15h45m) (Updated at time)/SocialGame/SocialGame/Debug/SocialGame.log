@@ -1,0 +1,37 @@
+﻿Build started 06-01-2014 15:38:54.
+     1>Project "C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\SocialGame\SocialGame.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt GameController.cpp
+         GameController.cpp
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(147): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(167): warning C4244: 'argument' : conversion from 'GLdouble' to 'GLfloat', possible loss of data
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(168): warning C4244: 'argument' : conversion from 'GLdouble' to 'GLfloat', possible loss of data
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(170): warning C4244: 'argument' : conversion from 'GLdouble' to 'GLfloat', possible loss of data
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(172): warning C4244: 'argument' : conversion from 'GLdouble' to 'GLfloat', possible loss of data
+     1>c:\users\carlos tavares\documents\visual studio 2013\projects\socialgame\socialgame\gamecontroller.cpp(271): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\Debug\SocialGame.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\Debug\SocialGame.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\Debug\SocialGame.lib" /MACHINE:X86 Debug\Bridge.obj
+         Debug\GameController.obj
+         Debug\Camera.obj
+         Debug\ConnectionGraphic.obj
+         Debug\GraphicFactory.obj
+         Debug\PersonGraphic.obj
+         Debug\main.obj
+         Debug\TestMinigame.obj
+         Debug\TicTacToe.obj
+         Debug\Mood.obj
+         Debug\Tag.obj
+         Debug\TagType.obj
+         Debug\Connection.obj
+         Debug\FriendshipRequestNotification.obj
+         Debug\FriendsList.obj
+         Debug\MessageNotification.obj
+         Debug\Person.obj
+         Debug\TestMod.obj
+         Debug\User.obj
+         SocialGame.vcxproj -> C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\Debug\SocialGame.exe
+     1>Done Building Project "C:\Users\Carlos Tavares\Documents\Visual Studio 2013\Projects\SocialGame\SocialGame\SocialGame.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.95

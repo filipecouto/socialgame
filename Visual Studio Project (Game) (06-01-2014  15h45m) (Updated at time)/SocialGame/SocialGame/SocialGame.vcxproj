@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{194419E1-6FBD-409B-ABC0-9BC7D232EE57}</ProjectGuid>
+    <RootNamespace>SocialGame</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\GLUT;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GLUT;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\GLUT;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GLUT;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Bridge.h" />
+    <ClInclude Include="GameContext.h" />
+    <ClInclude Include="GameController.h" />
+    <ClInclude Include="GameFragment.h" />
+    <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\ConnectionGraphic.h" />
+    <ClInclude Include="Graphics\GraphicFactory.h" />
+    <ClInclude Include="Graphics\IGraphic.h" />
+    <ClInclude Include="Graphics\PersonGraphic.h" />
+    <ClInclude Include="IGameControllerListener.h" />
+    <ClInclude Include="Minigames\IMinigame.h" />
+    <ClInclude Include="Minigames\IMinigameInstance.h" />
+    <ClInclude Include="Minigames\Test\TestMinigame.h" />
+    <ClInclude Include="Minigames\TicTacToe\TicTacToe.h" />
+    <ClInclude Include="Models\IConnection.h" />
+    <ClInclude Include="Models\IConnectionsList.h" />
+    <ClInclude Include="Models\IFriendshipRequestNotification.h" />
+    <ClInclude Include="Models\IList.h" />
+    <ClInclude Include="Models\IMessageNotification.h" />
+    <ClInclude Include="Models\INotification.h" />
+    <ClInclude Include="Models\IUser.h" />
+    <ClInclude Include="Models\Mood.h" />
+    <ClInclude Include="Models\IPerson.h" />
+    <ClInclude Include="Models\Tag.h" />
+    <ClInclude Include="Models\TagType.h" />
+    <ClInclude Include="Mods\GameMod.h" />
+    <ClInclude Include="Mods\GameModEventListener.h" />
+    <ClInclude Include="Mods\TestMod\Connection.h" />
+    <ClInclude Include="Mods\TestMod\FriendshipRequestNotification.h" />
+    <ClInclude Include="Mods\TestMod\FriendsList.h" />
+    <ClInclude Include="Mods\TestMod\MessageNotification.h" />
+    <ClInclude Include="Mods\TestMod\Person.h" />
+    <ClInclude Include="Mods\TestMod\TestMod.h" />
+    <ClInclude Include="Mods\TestMod\User.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Bridge.cpp" />
+    <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\ConnectionGraphic.cpp" />
+    <ClCompile Include="Graphics\GraphicFactory.cpp" />
+    <ClCompile Include="Graphics\PersonGraphic.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Minigames\Test\TestMinigame.cpp" />
+    <ClCompile Include="Minigames\TicTacToe\TicTacToe.cpp" />
+    <ClCompile Include="Models\Mood.cpp" />
+    <ClCompile Include="Models\Tag.cpp" />
+    <ClCompile Include="Models\TagType.cpp" />
+    <ClCompile Include="Mods\TestMod\Connection.cpp" />
+    <ClCompile Include="Mods\TestMod\FriendshipRequestNotification.cpp" />
+    <ClCompile Include="Mods\TestMod\FriendsList.cpp" />
+    <ClCompile Include="Mods\TestMod\MessageNotification.cpp" />
+    <ClCompile Include="Mods\TestMod\Person.cpp" />
+    <ClCompile Include="Mods\TestMod\TestMod.cpp" />
+    <ClCompile Include="Mods\TestMod\User.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

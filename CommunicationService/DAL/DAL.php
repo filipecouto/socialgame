@@ -29,6 +29,7 @@ class DAL{
         } else {
             //Only remove the comment for testing purposes, place it after!
             //echo "<br>Query well executed<br>";
+            return mysql_insert_id();
         }
         if(!mysql_close($conn)) {
             die('Could not close BD:' . mysql_error());

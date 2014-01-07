@@ -36,21 +36,21 @@ namespace SocialGame.ComLayer
             string token = comInterface.GetSingleData(url);
             if (token != "-1" && token != "-2")
             {
-                //Get UserName
-                url = comInterface.comServer + "?Theme=Users&Function=findUserNameByEmail&Params=" + email;
-                string userName = comInterface.GetSingleData(url);
-                session.addToSession("UserName", userName); //Add username to session
-                session.addToSession("Email", email); //Add email to session
                 session.addToSession("Token", token); //Add token to session
+                session.addToSession("Email", email); //Add email to session
+                User user = GetUserInformation();
+                session.addToSession("UserName", user.username); //Add username to session
+                session.addToSession("UserId", user.id.ToString()); //Add id to session
             }
             return true;
         }
 
         public void Logout()
         {
-            session.removeFromSession("UserName");
-            session.removeFromSession("Email");
             session.removeFromSession("Token");
+            session.removeFromSession("Email");
+            session.removeFromSession("UserName");
+            session.removeFromSession("UserId");
         }
 
         public string GetSessionToken()
@@ -135,6 +135,10 @@ namespace SocialGame.ComLayer
             if (id == -1)
             {
                 string token = GetSessionToken();
+                if (token == null)
+                {
+                    return null;
+                }
                 url = comInterface.comServer + "?Theme=Users&Function=returnUser&Params=" + token;
             }
             else
@@ -162,24 +166,74 @@ namespace SocialGame.ComLayer
             return users;
         }
 
-        public bool AddFriend(){
+        public bool AddFriend(int friendId, int strength, string tags){
             string token = GetSessionToken();
-            return false;
+            string url = comInterface.comServer + "?Theme=Connections&Function=addFriend&Params=" + token + "^" + friendId + "^" + strength + "^" + tags;
+            string answer = comInterface.GetSingleData(url);
+            if (answer == "True")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public List<User> GetUserFriends(int id = -1)
+        public int? GetUserFriendState(int userId)
         {
-            List<User> users = new List<User>();
-            /*User aux = new User();
             string token = GetSessionToken();
-            string url = comInterface.comServer + "?Theme=Users&Function=returnUsers&Params=" + token;
+            string url = comInterface.comServer + "?Theme=Connections&Function=returnConnectionState&Params=" + token + "^" + userId;
+            string state = comInterface.GetSingleData(url);
+            if (state != "False")
+            {
+                return int.Parse(state);
+            }
+            return null;
+        }
+
+        public List<Connection> GetUserFriends(int id = -1)
+        {
+            List<Connection> connections = new List<Connection>();
+            string url;
+            int userId;
+            if (id == -1)
+            {
+                string token = GetSessionToken();
+                if (token == null)
+                {
+                    return null;
+                }
+                url = comInterface.comServer + "?Theme=Connections&Function=returnUserConnectionsWithState&Params=" + token + "^1";
+                userId = int.Parse(session.readFromSession("UserId"));
+            }
+            else
+            {
+                url = comInterface.comServer + "?Theme=Connections&Function=returnUserConnectionsWithStateById&Params=" + id + "^1";
+                userId = id;
+            }
+            
             DataTable dataTable = comInterface.GetMultipleData(url);
             foreach (DataRow row in dataTable.Rows)
             {
-                aux.populateUser(row);
-                users.Add(aux);
-            }*/
-            return users;
+                int user1 = int.Parse(row["user1"].ToString());
+                int user2 = int.Parse(row["user2"].ToString());
+                User aux;
+                if (userId == user1)
+                {
+                    aux = GetUserInformation(user2);
+                }
+                else
+                {
+                    aux = GetUserInformation(user1);
+                }
+                Connection con = new Connection();
+                con.friend = aux;
+                con.strength = int.Parse(row["strength"].ToString());
+                con.totalScore = int.Parse(row["totalScore"].ToString());
+                connections.Add(con);
+            }
+            return connections;
 
         }
     }

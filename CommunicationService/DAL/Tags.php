@@ -4,16 +4,17 @@ require_once('DAL/DAL.php');
 //Insert Tag
 	function insertTag($Name,$TypeId){
 		$dal = new DAL();
-		$sql = "INSERT INTO Tags (name,type) VALUES('$Name','$TypeId')";
-		print_r($sql);
-		$dal->executeQuery($sql);
+		$sql = "INSERT INTO Tags (name,type) VALUES('$Name',$TypeId)";
+		$tagId = $dal->executeQuery($sql);
+		return $tagId;
 	}
 	
 	//Insert new TagType
 	function insertTagType($Description){
 		$dal = new DAL();
 		$sql = "INSERT INTO TagTypes (Description) VALUES('$Description')";
-		$dal->executeQuery($sql);
+		$tagTypeId = $dal->executeQuery($sql);
+		return $tagTypeId;
 	}
 	
 	//Add Tag to a Connection with TagId
@@ -34,10 +35,17 @@ require_once('DAL/DAL.php');
 			$tagId = $record["Id"];
 		}
 		else{
-			insertTag($TagName,$TypeId);
-			$tagId = mysql_insert_id();
+			$tagId = insertTag($TagName,$TypeId);
 		}
 		addTagConnection($ConnectionId,$tagId);
+	}
+
+	//Insert multiple tags into a connection
+	function insertTagsConnection($ConnectionId,$Tags,$TypeId){
+		$tagsArray = explode(";", $Tags);
+		foreach($tagsArray as $tag){
+			insertTagConnection($ConnectionId,$tag,$TypeId);
+		}
 	}
 	
 	//Update Tag Type
