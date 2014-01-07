@@ -322,6 +322,16 @@ GraphicFactory * GameController::getFactory() {
 void GameController::onKeyDown(int key, int special) {
 	switch (key) {
 			// TODO this is ONLY FOR TESTING
+		case 0 :
+			switch(special) {
+				case GLUT_KEY_LEFT:
+						_camera.rotate(0,0.3,0);
+						break;
+				case GLUT_KEY_RIGHT:
+						_camera.rotate(0,-0.3,0);
+						break;
+			}
+			break;
 		case 'w':
 			_camera.translate(1, 0, 0);
 			break;
@@ -329,19 +339,15 @@ void GameController::onKeyDown(int key, int special) {
 		case 's':
 			_camera.translate(-1, 0, 0);
 			break;
-
 		case 'a':
 			_camera.translate(0, 0, -1);
 			break;
-
 		case 'd':
 			_camera.translate(0, 0, 1);
 			break;
-
 		case 'z':
 			_camera.translate(0, 1, 0);
 			break;
-
 		case 'x':
 			_camera.translate(0, -1, 0);
 			break;

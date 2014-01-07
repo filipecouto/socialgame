@@ -29,6 +29,7 @@ class Camera {
 		void translate(GLfloat x, GLfloat y, GLfloat z);
 		void moveTo(GLfloat x, GLfloat y, GLfloat z);
 		void lookAt(GLfloat x, GLfloat y, GLfloat z);
+		void rotate(GLfloat x, GLfloat y, GLfloat z);
 		
 		GLfloat getY();
 		
@@ -48,6 +49,8 @@ class Camera {
 				cux = 0, cuy = 1, cuz = 0;
 		
 		void animate(GLfloat target, GLfloat &value);
+		
+		GLfloat getAngle();
 };
 
 #endif // CAMERA_H

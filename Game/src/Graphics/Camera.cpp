@@ -7,6 +7,8 @@
  */
 
 #include "Camera.h"
+#include <cmath>
+#include <stdio.h>
 
 Camera::Camera() {
 	tex = -2;
@@ -31,11 +33,11 @@ CameraTypes Camera::getType() {
 void Camera::setType(CameraTypes type) {
 	currentType = type;
 
-	if (currentType == FreeMode) {
+	if(currentType == FreeMode) {
 		tex = -8;
 		tey = 8;
 		tez = 0;
-	} else if (currentType == FirstPerson) {
+	} else if(currentType == FirstPerson) {
 		tex = -3;
 		tey = 0;
 		tez = 3;
@@ -77,13 +79,47 @@ void Camera::moveTo(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
-	tcx += x;
-	tcy += y;
-	tcz += z;
-	tex += x;
-	tey += y;
-	tez += z;
+	// TODO doesn't behave correctly
+	GLfloat angle = getAngle();
+	printf("angle = %0.2f\n", angle);
+	if(x!=0 || y!=0) {
+		GLfloat value = x!=0? x : y;
+		tcx = ccx + (value * cos(-angle));
+		tcy = ccy + (value * sin(-angle));
+		tex = cex + (value * cos(-angle));
+		tey = cey + (value * sin(-angle));
+		return;
+	}
+	if(z!=0) {
+		tcz += z;
+		tez += z;
+		return;
+	}
 }
+
+GLfloat Camera::getAngle() {
+	GLfloat dx = cex - ccx;
+	GLfloat dy = cey - ccy;
+	GLfloat dz = cez - ccz;
+	return atan(dx/dz);
+}
+
+void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
+	
+	GLfloat oldAngle = getAngle(), angle;
+	
+	if(x != 0) { // rotation on X axis
+
+	} else if(y != 0) { // rotation on Y axis
+		angle = oldAngle + y;
+		tcz = cos(angle) + tez;
+		tcx = sin(angle) + tex;
+	} else if(z != 0) { // rotation on Z axis
+		
+	}
+
+}
+
 
 void Camera::animate(GLfloat target, GLfloat & value) {
 	value += (target - value) * 0.04f;
