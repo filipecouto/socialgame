@@ -9,6 +9,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include <vector>
 #include <GL/freeglut.h>
 
 #include "Mods/GameMod.h"
@@ -16,6 +17,7 @@
 #include "Graphics/IGraphic.h"
 #include "Graphics/GraphicFactory.h"
 #include "Graphics/Camera.h"
+#include "Graphics/SkyBox.h"
 #include "GameContext.h"
 #include "IGameControllerListener.h"
 #include "GameFragment.h"
@@ -63,6 +65,8 @@ class GameController : public GameContext, GameFragment {
 		// GameContext methods
 		virtual GraphicFactory * getFactory();
 		virtual IGraphic * getGraphic(IPerson * p);
+		
+		virtual GLuint loadTexture(std::string texture);
 
 	private:
 		GraphicFactory * _graphFactory = NULL;
@@ -83,6 +87,8 @@ class GameController : public GameContext, GameFragment {
 		
 		std::vector<PersonGraphic *> personObjects;
 		PersonGraphic* findGraphic(IPerson * p);
+		SkyBox skybox;
+		std::vector<GLuint> _textures;
 
 		IGameControllerListener * _listener = NULL;
 		
