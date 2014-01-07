@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
 
 namespace SocialGame.ComLayer
@@ -34,15 +35,17 @@ namespace SocialGame.ComLayer
             //Get Token
             string url = comInterface.comServer + "?Theme=Users&Function=doLogin&Params=" + email + "^" + password;
             string token = comInterface.GetSingleData(url);
-            if (token != "-1" && token != "-2")
+            System.Diagnostics.Debug.WriteLine(token);
+            if (token != "-1" && token != "-2" && token != null)
             {
                 session.addToSession("Token", token); //Add token to session
                 session.addToSession("Email", email); //Add email to session
                 User user = GetUserInformation();
                 session.addToSession("UserName", user.username); //Add username to session
                 session.addToSession("UserId", user.id.ToString()); //Add id to session
+                return true;
             }
-            return true;
+            return false;
         }
 
         public void Logout()
@@ -116,7 +119,7 @@ namespace SocialGame.ComLayer
         public bool ChangePassword(string oldPassword, string newPassword)
         {
             string token = GetSessionToken();
-            //if token empty
+            if (token == null) return false;
             string url = comInterface.comServer + "?Theme=Users&Function=modifyUserPassword&Params=" + token + "^" + oldPassword + "^" + newPassword;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
@@ -235,6 +238,76 @@ namespace SocialGame.ComLayer
             }
             return connections;
 
+        }
+
+        public bool ChangeUserName(string newUserName)
+        {
+            string token = GetSessionToken();
+            if (token == null) return false;
+            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserName&Params=" + token + "^" + newUserName;
+            string answer = comInterface.GetSingleData(url);
+            if (answer == "True")
+            {
+                session.removeFromSession("UserName");
+                session.addToSession("UserName", newUserName);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public DataTable GetMoods()
+        {
+            string url = comInterface.comServer + "?Theme=Moods&Function=getAllMoods";
+            DataTable dataTable = comInterface.GetMultipleData(url);
+            return dataTable;
+        }
+
+        public List<SelectListItem> GetMoodsSelectList()
+        {
+            var listMoods = new List<SelectListItem>();
+
+            DataTable dataTable = GetMoods();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                listMoods.Add(new SelectListItem { Text = row["description"].ToString(), Value = row["id"].ToString() });
+            }
+
+            return listMoods;
+        }
+
+        public bool ChangeUserMood(int moodId)
+        {
+            string token = GetSessionToken();
+            if (token == null) return false;
+            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserMood&Params=" + token + "^" + moodId;
+            string answer = comInterface.GetSingleData(url);
+            if (answer == "True")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ChangeUserPicture(string link)
+        {
+            string token = GetSessionToken();
+            if (token == null) return false;
+            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserPicture&Params=" + token + "^" + link;
+            string answer = comInterface.GetSingleData(url);
+            if (answer == "True")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

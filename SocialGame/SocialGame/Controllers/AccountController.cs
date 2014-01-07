@@ -18,6 +18,8 @@ namespace SocialGame.Controllers
     public class AccountController : Controller
     {
         private ComUsers comUsers = new ComUsers();
+        private HttpSession session = new HttpSession();
+        private IntExtension intExt = new IntExtension();
 
         //
         // GET: /Account/Login
@@ -44,7 +46,7 @@ namespace SocialGame.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", "The email or password provided is incorrect.");
             return View(model);
         }
 
@@ -125,39 +127,35 @@ namespace SocialGame.Controllers
             return RedirectToAction("Manage", new { Message = message });
         }
 
-        //
         // GET: /Account/Manage
         //[SGAuthorize(Types = new[] { 1, 2 })]
 
         [SGAuthorize]
-        public ActionResult Manage(ManageMessageId? message)
+        public ActionResult Manage()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
+            
             //ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            //ViewBag.ReturnUrl = Url.Action("Manage");
+
+            ViewBag.Moods = comUsers.GetMoodsSelectList();
+            ViewBag.PictureLink = comUsers.GetUserInformation().picture;
             return View();
         }
 
-        //
-        // POST: /Account/Manage
+        // POST: /Account/ChangePassword
 
-        [HttpPost]
         [SGAuthorize]
-        public ActionResult Manage(LocalPasswordModel model)
+        public ActionResult ChangePassword(LocalPasswordModel model)
         {
             /*bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;*/
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            //ViewBag.ReturnUrl = Url.Action("Manage");
             /*if (hasLocalAccount)
             {*/
                 if (ModelState.IsValid)
                 {
                     // ChangePassword will throw an exception rather than return false in certain failure scenarios.
-                    bool changePasswordSucceeded;
+                    bool changePasswordSucceeded = true;
                     try
                     {
                         changePasswordSucceeded = comUsers.ChangePassword(model.OldPassword, model.NewPassword);
@@ -169,11 +167,11 @@ namespace SocialGame.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangePasswordSuccess) });
                     }
                     else
                     {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.PasswordError) });
                     }
                 }
             /*}
@@ -202,7 +200,103 @@ namespace SocialGame.Controllers
             }*/
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Manage");
+        }
+
+        [SGAuthorize]
+        public ActionResult ChangeUserName(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                // ChangeUserName will throw an exception rather than return false in certain failure scenarios.
+                bool changeUserNameSucceeded = true;
+                try
+                {
+                    if (model.username == session.readFromSession("UserName"))
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.NoChanges) });
+                    }
+                    else if (model.username == "" || model.username == null)
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.BlankField) });
+                    }
+
+                    changeUserNameSucceeded = comUsers.ChangeUserName(model.username);
+                    if (changeUserNameSucceeded)
+                    {
+                        return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangeUserNameSuccess) });
+                    }
+                    else
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.PasswordError) });
+                    }
+                }
+                catch (Exception)
+                {
+                    changeUserNameSucceeded = false;
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Manage");
+        }
+
+        [SGAuthorize]
+        public ActionResult ChangeMood(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                // ChangeMood will throw an exception rather than return false in certain failure scenarios.
+                bool changeMoodSucceeded = true;
+                try
+                {
+                    changeMoodSucceeded = comUsers.ChangeUserMood(model.mood.GetValueOrDefault());
+                    if (changeMoodSucceeded)
+                    {
+                        return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangeMoodSuccess) });
+                    }
+                    else
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.NoChanges) });
+                    }
+                }
+                catch (Exception)
+                {
+                    changeMoodSucceeded = false;
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Manage");
+        }
+
+        [SGAuthorize]
+        public ActionResult ChangePicture(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                // ChangePicture will throw an exception rather than return false in certain failure scenarios.
+                bool changePictureSucceeded = true;
+                try
+                {
+                    changePictureSucceeded = comUsers.ChangeUserPicture(model.picture);
+                    if (changePictureSucceeded)
+                    {
+                        return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangePictureSuccess) });
+                    }
+                    else
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.NoChanges) });
+                    }
+                }
+                catch (Exception)
+                {
+                    changePictureSucceeded = false;
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Manage");
         }
 
         //
@@ -351,6 +445,27 @@ namespace SocialGame.Controllers
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
+            PasswordError,
+            NoChanges,
+            BlankField,
+            ChangeUserNameSuccess,
+            ChangeMoodSuccess,
+            ChangePictureSuccess,
+        }
+
+        public string MessageIdToString(ManageMessageId? message)
+        {
+            return 
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.PasswordError ? "The current password is incorrect or the new password is invalid."
+                : message == ManageMessageId.NoChanges ? "No changes made."
+                : message == ManageMessageId.BlankField ? "Cannot update blank field."
+                : message == ManageMessageId.ChangeUserNameSuccess ? "Your name has been changed."
+                : message == ManageMessageId.ChangeMoodSuccess ? "Your mood has been changed."
+                : message == ManageMessageId.ChangePictureSuccess ? "Your picture has been changed."
+                : "";
         }
 
         internal class ExternalLoginResult : ActionResult

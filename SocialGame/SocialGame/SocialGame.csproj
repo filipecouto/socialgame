@@ -316,6 +316,9 @@
     <Content Include="Views\Profile\People.cshtml" />
     <Content Include="Views\Profile\_AddFriend.cshtml" />
     <Content Include="Views\Profile\_ListOfConnections.cshtml" />
+    <Content Include="Views\Account\_ChangeUserNamePartial.cshtml" />
+    <Content Include="Views\Account\_ChangeMoodPartial.cshtml" />
+    <Content Include="Views\Account\_ChangePicturePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
