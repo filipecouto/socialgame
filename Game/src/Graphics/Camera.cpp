@@ -93,10 +93,10 @@ void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	printf("angle = %0.2f\n", angle);
 	if(x!=0 || y!=0) {
 		GLfloat value = x!=0? x : y;
-		tcx = ccx + (value * cos(-angle));
-		tcz = ccz + (value * sin(-angle));
-		tex = cex + (value * cos(-angle));
-		tez = cez + (value * sin(-angle));
+		tcx = ccx + (value * sin(angle));
+		tcz = ccz + (value * cos(angle));
+		tex = cex + (value * sin(angle));
+		tez = cez + (value * cos(angle));
 		return;
 	}
 	if(z!=0) {
@@ -111,16 +111,30 @@ GLfloat Camera::getAngle() {
 	GLfloat dx = cex - ccx;
 	GLfloat dy = cey - ccy;
 	GLfloat dz = cez - ccz;
-	return atan(dx/dz);
+	//printf("dx = %0.2f dz = %0.2f divisao = %0.2f\n", dx, dz, dx/dz);
+	printf(dx > 0? "P\t":"N\t");
+	printf(dz > 0? "P\n":"N\n");
+	GLfloat value; 
+	value = atan(dx/dz);
+	if((dx*dz)<0) {
+		value+=M_PI/2;
+	}
+	if(dz > 0) {
+		value+=M_PI/2;
+	}
+	return value;
 }
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat oldAngle = getAngle(), angle;
+	//if(oldAngle < 0) { oldAngle*=-1; }
+	printf("Angulo = %0.2f\n",oldAngle); 
 	if(x != 0) { // rotation on X axis
 	} else if(y != 0) { // rotation on Y axis
 		angle = oldAngle + y;
 		tcz = cos(angle) + tez;
 		tcx = sin(angle) + tex;
+		//printf("tcz = %0.2f ; cos = %0.2f ; tez = %0.2f\ntcx = %0.2f ; sin = %0.2f ; tex = %0.2f\n", tcz, cos(angle), tez, tcx, sin(angle), tex);
 	} else if(z != 0) { // rotation on Z axis
 	}
 }
