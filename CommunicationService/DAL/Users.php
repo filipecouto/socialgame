@@ -25,8 +25,7 @@ require_once('DAL/Sessions.php');
     }
 	
 	//Change User Name
-	function changeUserName($token,$Username){
-		$UserId = getUserBySession($token);
+	function changeUserName($UserId,$Username){
 		$dal = new DAL();
 		$sql = "UPDATE Users SET username = '$Username' WHERE id = '$UserId'";
 		$dal->executeQuery($sql);
@@ -200,6 +199,13 @@ require_once('DAL/Sessions.php');
 		$dal->executeQuery($sql);
 	}
 	
+	//Change User Picture
+	function changeUserPicture($UserId,$Link){
+		$dal = new DAL();
+		$sql = "UPDATE Users SET Picture = '$Link' WHERE Id = '$UserId'";
+		$dal->executeQuery($sql);
+	}
+
 	//Gets all the user information using its id
 	function getUser($UserId){
 		$dal = new DAL();

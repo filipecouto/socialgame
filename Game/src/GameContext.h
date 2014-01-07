@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <GL/gl.h>
 #include "Models/IPerson.h"
 
 class IMinigameInstance;
@@ -21,6 +22,8 @@ class GameContext {
 	public:
 		virtual GraphicFactory * getFactory() = 0;
 		virtual IGraphic * getGraphic(IPerson *) = 0;
+		
+		virtual GLuint loadTexture(std::string texture) = 0;
 		
 		virtual void notifyMinigameFinished(IMinigameInstance *) = 0;
 

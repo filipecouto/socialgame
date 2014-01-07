@@ -8,6 +8,7 @@
 
 #include "GameController.h"
 
+#include "Dependencies/readjpeg.c"
 #include "Graphics/GraphicFactory.h"
 #include "Models/IConnectionsList.h"
 
@@ -30,6 +31,14 @@ GameController::GameController() : _graphFactory() {
 void GameController::start(GameMod * mod) {
 	if (_mod != NULL) {
 		// TODO clean up
+	} else {
+		// first time loading
+		skybox.setTextureIds(loadTexture("Graphics/SkyBox Images/negx.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/negy.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/negz.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/posx.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/posy.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/posz.jpg"));
 	}
 
 	_mod = mod;
@@ -48,6 +57,8 @@ void GameController::draw() {
 		_minigame->draw();
 	} else {
 		_camera.setUp();
+
+		skybox.draw();
 
 		int len = personObjects.size();
 
@@ -327,15 +338,18 @@ void GameController::onKeyDown(int key, int special) {
 	switch (key) {
 			// TODO this is ONLY FOR TESTING
 		case 0 :
-			switch(special) {
+			switch (special) {
 				case GLUT_KEY_LEFT:
-						_camera.rotate(0,0.3,0);
-						break;
+					_camera.rotate(0, 0.3, 0);
+					break;
+
 				case GLUT_KEY_RIGHT:
-						_camera.rotate(0,-0.3,0);
-						break;
+					_camera.rotate(0, -0.3, 0);
+					break;
 			}
+
 			break;
+
 		case 'w':
 			_camera.walk(1, 0, 0);
 			break;
@@ -343,21 +357,48 @@ void GameController::onKeyDown(int key, int special) {
 		case 's':
 			_camera.walk(-1, 0, 0);
 			break;
+
 		case 'a':
 			_camera.walk(0, 0, -1);
 			break;
+
 		case 'd':
 			_camera.walk(0, 0, 1);
 			break;
+
 		case 'z':
 			_camera.walk(0, 1, 0);
 			break;
+
 		case 'x':
 			_camera.walk(0, -1, 0);
 			break;
 	}
 
 	if (GameController_isInMinigame) _minigame->onKeyDown(key, special);
+}
+
+GLuint GameController::loadTexture(std::string texture) {
+	char * image;
+	int w, h, bpp;
+
+	GLuint textureId;
+	glGenTextures(1, &textureId);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	if (read_JPEG_file(texture.c_str(), &image, &w, &h, &bpp)) {
+		glBindTexture(GL_TEXTURE_2D, textureId);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, w, h, GL_RGB, GL_UNSIGNED_BYTE, image);
+	} else {
+		printf("Texture \"%s\" not found\n", texture.c_str());
+	}
+
+	_textures.push_back(textureId);
+
+	return textureId;
 }
 
 void GameController::onKeyUp(int key, int special) {
