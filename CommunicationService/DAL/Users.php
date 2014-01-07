@@ -25,8 +25,7 @@ require_once('DAL/Sessions.php');
     }
 	
 	//Change User Name
-	function changeUserName($token,$Username){
-		$UserId = getUserBySession($token);
+	function changeUserName($UserId,$Username){
 		$dal = new DAL();
 		$sql = "UPDATE Users SET username = '$Username' WHERE id = '$UserId'";
 		$dal->executeQuery($sql);

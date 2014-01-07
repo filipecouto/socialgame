@@ -100,8 +100,15 @@
 		insertUserTag($UserId,$TagName,$TypeId);
 	}
 	
-	function modifyUserMood($UserId,$MoodId){
-		changeUserMood($UserId,$MoodId);
+	function modifyUserMood($token,$MoodId){
+		$userId = getUserBySession($token);
+		if($userId != -1)
+		{
+			changeUserMood($userId,$MoodId);
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	//Returns if the user has a specified type
