@@ -337,23 +337,23 @@ void GameController::onKeyDown(int key, int special) {
 			}
 			break;
 		case 'w':
-			_camera.translate(1, 0, 0);
+			_camera.walk(1, 0, 0);
 			break;
 
 		case 's':
-			_camera.translate(-1, 0, 0);
+			_camera.walk(-1, 0, 0);
 			break;
 		case 'a':
-			_camera.translate(0, 0, -1);
+			_camera.walk(0, 0, -1);
 			break;
 		case 'd':
-			_camera.translate(0, 0, 1);
+			_camera.walk(0, 0, 1);
 			break;
 		case 'z':
-			_camera.translate(0, 1, 0);
+			_camera.walk(0, 1, 0);
 			break;
 		case 'x':
-			_camera.translate(0, -1, 0);
+			_camera.walk(0, -1, 0);
 			break;
 	}
 
