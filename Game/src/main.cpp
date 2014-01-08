@@ -22,6 +22,7 @@
 #ifdef _WIN32
 #include <GL/glaux.h>
 #define M_PI 3.14159265358979323846
+#define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
 #include "GUI/Gui.h"
