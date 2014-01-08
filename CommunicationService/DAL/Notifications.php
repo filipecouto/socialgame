@@ -5,7 +5,6 @@ require_once('DAL/DAL.php');
 	function insertNotificationType($Description){
 		$dal = new DAL();
 		$sql = "INSERT INTO NotificationTypes (Description) VALUES('$Description')";
-		print_r($sql);
 		$dal->executeQuery($sql);
 	}
 	
@@ -13,9 +12,8 @@ require_once('DAL/DAL.php');
 	function insertNotification($TypeId,$ToUserId,$ObjectId){
 		$dal = new DAL();
 		$sql = "INSERT INTO Notifications (`type`,`to`,`read`,`object`) VALUES('$TypeId','$ToUserId','0','$ObjectId')";
-		print_r($sql);
-		echo "\n";
-		$dal->executeQuery($sql);
+		$notificationId = $dal->executeQuery($sql);
+		return $notificationId;
 	}
 	
 	//Update Notification Type
@@ -37,6 +35,29 @@ require_once('DAL/DAL.php');
 		$dal = new DAL();
 		$sqlFind = "SELECT * FROM Notifications WHERE `to` = '$UserId' AND `read` = '$ReadState'";
 		$recordset = $dal->executeNonQuery($sqlFind);
-		return $recordset;
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$notifications = $recordset;
+		}
+		else{
+			$notifications = false;
+		}
+		return $notifications;
+	}
+
+	//Returns the connection id that is attached to a notification
+	function getConnectionIdByNotification($notificationId){
+		$dal = new DAL();
+		$sqlFind = "SELECT object FROM Notifications WHERE id = '$notificationId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$record = mysql_fetch_array($recordset);
+			$connectionId = $record["object"];
+		}
+		else{
+			$connectionId = -1;
+		}
+		return $connectionId;
 	}
 ?>

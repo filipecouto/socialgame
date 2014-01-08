@@ -2,6 +2,7 @@
 	require_once('DAL/Connections.php');
 	require_once('DAL/Sessions.php');
 	require_once('DAL/Tags.php');
+	require_once('DAL/Notifications.php');
 
 	
 	function addFriend($User1Token, $UserdId2, $Strength, $Tags){
@@ -15,9 +16,25 @@
 			else{
 				return false;
 			}
-			//add notification
+			//insert notification
+			insertNotification(1,$UserdId2,$connId);
 			return true;
 		}else{
+			return false;
+		}
+	}
+
+	//Either accept or deny a friend request
+	//$action will be 1 or -1
+	function actionToFriend($notificationId,$action){
+		try{
+			//Accept or deny the request
+			$connId = getConnectionIdByNotification($notificationId);
+			changeConnectionState($connId,$action);
+			//Notification was read
+			changeNotificationRead($notificationId);
+			return true;
+		}catch(Exception $e){
 			return false;
 		}
 	}
