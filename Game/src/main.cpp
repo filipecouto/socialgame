@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include <GL/glaux.h>
+#define M_PI 3.14159265358979323846
 #endif
 
 #include "GUI/Gui.h"
@@ -66,13 +67,13 @@ void onVisibilityChange(int state) {
 }
 
 void onSpecialKeyDown(int key, int x, int y) {
-	if (gui.onKeyDown(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	if (gui.onKeyDown(0, key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
 
 	controller.onKeyDown(0, key);
 }
 
 void onKeyDown(unsigned char c, int x, int y) {
-	if (gui.onKeyDown(c)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	if (gui.onKeyDown(c, 0)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
 
 	controller.onKeyDown(c, 0);
 
@@ -84,13 +85,13 @@ void onKeyDown(unsigned char c, int x, int y) {
 }
 
 void onKeyUp(unsigned char c, int x, int y) {
-	if (gui.onKeyUp(c)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	if (gui.onKeyUp(c, 0)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
 	
 	controller.onKeyUp(c, 0);
 }
 
 void onSpecialKeyUp(int key, int x, int y) {
-	if (gui.onKeyUp(key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
+	if (gui.onKeyUp(0, key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
 	
 	controller.onKeyUp(0, key);
 }
