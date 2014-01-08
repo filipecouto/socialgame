@@ -2,10 +2,12 @@
 #define FRIENDSHIPREQUESTNOTIFICATION_H
 
 #include "../../Models/IFriendshipRequestNotification.h"
+#include "User.h"
 
 class FriendshipRequestNotification : public IFriendshipRequestNotification {
 	public:
 		FriendshipRequestNotification(IConnection * connection);
+		FriendshipRequestNotification(User * user, IConnection * connection);
 
 		virtual IPerson * getFrom();
 		virtual IConnection * getConnection();
@@ -14,10 +16,14 @@ class FriendshipRequestNotification : public IFriendshipRequestNotification {
 
 		virtual bool isRead();
 		virtual void setRead();
+		
+		virtual bool accept();
+		virtual bool refuse();
 
 		~FriendshipRequestNotification();
 
 	private:
+		User * _user = NULL;
 		IConnection * _connection;
 };
 #endif // FRIENDSHIPREQUESTNOTIFICATION_H

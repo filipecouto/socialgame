@@ -26,7 +26,7 @@ class Person : public IPerson {
 		virtual IConnectionsList* getConnections();
 		
 		void connect(Person * other);
-		void connect(Person * other, int state);
+		IConnection * connect(Person * other, int state);
 		
 		void test(int n) {
 			_test = n;

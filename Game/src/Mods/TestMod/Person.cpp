@@ -42,9 +42,11 @@ void Person::connect(Person * other) {
 	other->_connections->add(new Connection(this));
 }
 
-void Person::connect(Person * other, int state) {
-	_connections->add(new Connection(other, state));
+IConnection * Person::connect(Person * other, int state) {
+	IConnection * connection = new Connection(other, state);
+	_connections->add(connection);
 	other->_connections->add(new Connection(this, state));
+	return connection;
 }
 
 IConnectionsList * Person::getConnections() {

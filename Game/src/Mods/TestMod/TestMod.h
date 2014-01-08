@@ -25,6 +25,9 @@ class TestMod : public GameMod {
 		
 		virtual void setEventListener(GameModEventListener * listener);
 		
+		// just a test
+		void doSomething();
+		
 		~TestMod();
 	private:
 		User user;
