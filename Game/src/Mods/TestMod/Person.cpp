@@ -13,7 +13,7 @@
 Person::Person(std::string name, Mood mood) {
 	_name = name;
 	_mood = mood;
-	
+
 	_connections = new FriendsList();
 }
 
@@ -43,16 +43,40 @@ void Person::connect(Person * other) {
 }
 
 IConnection * Person::connect(Person * other, int state) {
-	IConnection * connection = new Connection(other, state);
-	_connections->add(connection);
-	other->_connections->add(new Connection(this, state));
+	Connection * connection ;
+
+	if (_connections->hasFriend(other)) {
+		int len = _connections->size();
+
+		for (int i = 0; i < len; i++) {
+			if (_connections->operator[](i)->getPerson() == other) {
+				connection = (Connection *)_connections->operator[](i);
+				connection->setState(state);
+				break;
+			}
+		}
+
+		len = other->_connections->size();
+
+		for (int i = 0; i < len; i++) {
+			if (other->_connections->operator[](i)->getPerson() == this) {
+				((Connection *) other->_connections->operator[](i))->setState(state);
+				break;
+			}
+		}
+	} else {
+		connection = new Connection(other, state);
+		_connections->add(connection);
+		other->_connections->add(new Connection(this, state));
+	}
+
 	return connection;
 }
 
 IConnectionsList * Person::getConnections() {
 // 	if (_connections == NULL) {
 // 		_connections = new std::vector<IConnection *>();
-// 
+//
 // 		if (_test < 2) {
 // 			Person * p = new Person();
 // 			p->test(_test == 0 ? 1 : 2);
@@ -60,7 +84,7 @@ IConnectionsList * Person::getConnections() {
 // 			_connections->push_back(new Connection());
 // 			_connections->push_back(new Connection());
 // 			_connections->push_back(new Connection());
-// 
+//
 // 			if (_test == 0) {
 // 				_connections->push_back(new Connection());
 // 				_connections->push_back(new Connection());

@@ -26,6 +26,7 @@ class Connection : public IConnection {
 		virtual int getStrength();
 		
 		virtual int getState();
+		void setState(int state);
 		
 		virtual IPerson * getPerson();
 
