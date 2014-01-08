@@ -33,6 +33,7 @@ LoginForm::LoginForm() {
 	line->setVertical();
 	line->addWidget(new TextWidget("Password", 0, 0));
 	tPassword = new TextBoxWidget("123456", 0, 0);
+	tPassword->setPassword(true);
 	line->addWidget(tPassword);
 	layout->addWidget(line);
 	

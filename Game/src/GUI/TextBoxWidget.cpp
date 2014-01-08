@@ -18,8 +18,21 @@ TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, 
 
 TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void * font, GLfloat xPos, GLfloat yPos): TextWidget(text, r, g, b, a, font, xPos, yPos), _borderWidth(3) {
 	cursorPosition = text.size();
-	textSize = glutBitmapLength(getFont(), (const unsigned char *) text.substr(0, cursorPosition).c_str());
+	updateTextSize();
 	updateDimensions();
+}
+
+void TextBoxWidget::updateTextSize() {
+	std::string tmptext = "";
+	std::string text = getText();
+	if(isPassword()) {
+		for(int i=0;i<text.size();i++) {
+			tmptext.append("*");
+		}
+	} else {
+		tmptext = text;
+	}
+	textSize = glutBitmapLength(getFont(), (const unsigned char *) tmptext.substr(0, cursorPosition).c_str());
 }
 
 TextBoxWidget::~TextBoxWidget() {
@@ -132,8 +145,7 @@ GLboolean TextBoxWidget::onKeyDown(int key, int special) {
 			cursorPosition++;
 		}
 	}
-
-	textSize = glutBitmapLength(getFont(), (const unsigned char *) text.substr(0, cursorPosition).c_str());
+	updateTextSize();
 	setText(text);
 	return true;
 }

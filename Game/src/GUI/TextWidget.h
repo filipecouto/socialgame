@@ -29,6 +29,9 @@ class TextWidget : public Widget {
 		virtual GLfloat getMinimumHeight();
 		
 		virtual void draw();
+		
+		virtual bool isPassword();
+		virtual void setPassword(bool value);
 
 protected:
 	virtual void updateDimensions();
@@ -38,6 +41,8 @@ protected:
 		void * _font;
 		float _textColor[4];
 		GLfloat _minWidth, _minHeight;
+		bool _isPassword;
+		std::string _shownText;
 };
 
 #endif // TEXTWIDGET_H

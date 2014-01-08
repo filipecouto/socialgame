@@ -37,6 +37,8 @@ private:
     GLfloat textSize;
 	long pastTime = 0;
 	bool showCursor;
+	
+	void updateTextSize();
 };
 
 #endif // TEXTBOXWIDGET_H

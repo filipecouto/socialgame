@@ -16,6 +16,8 @@ TextWidget::TextWidget ( std::string text, GLfloat r, GLfloat g, GLfloat b, GLfl
 	_font ( font ), Widget ( xPos, yPos ) {
 	setTextColor(r, g, b, a);
 	setText ( text );
+	setPassword(false);
+	_shownText = text;
 }
 
 TextWidget::~TextWidget ( ) { }
@@ -40,7 +42,7 @@ void TextWidget::setFont ( void* font ) {
 }
 
 void TextWidget::updateDimensions() {
-	_minWidth = glutBitmapLength ( _font, ( const unsigned char* ) _text.c_str() );
+	_minWidth = glutBitmapLength ( _font, ( const unsigned char* ) (isPassword() ? _shownText.c_str() : _text.c_str()) );
 	_minHeight = glutBitmapHeight ( _font ) - 7;
 
 	w = _minWidth;
@@ -77,5 +79,23 @@ void TextWidget::draw ( ) {
 
 	glRasterPos2d ( 0, 0 );
 	GLfloat n = _text.length();
-	glutBitmapString(_font, (const unsigned char*) _text.c_str());
+	
+	if(isPassword()) {
+		_shownText.clear();
+		for(int i=0;i<_text.size();i++) {
+			_shownText.append("*");
+		}
+	} else {
+		_shownText = _text;
+	}
+	
+	glutBitmapString(_font, (const unsigned char*) _shownText.c_str());
+}
+
+bool TextWidget::isPassword() {
+	return _isPassword;
+}
+
+void TextWidget::setPassword(bool value) {
+	_isPassword = value;
 }
