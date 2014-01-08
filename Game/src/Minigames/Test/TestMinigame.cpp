@@ -74,7 +74,6 @@ TestMinigame::TestInstance::TestInstance(GameContext * context) : _context(conte
 	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
 		keys[i] = false;
 	}
-
 }
 
 void TestMinigame::TestInstance::finish() {
