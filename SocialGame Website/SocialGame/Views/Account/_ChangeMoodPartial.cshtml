@@ -1,0 +1,24 @@
+﻿@model SocialGame.Models.User
+
+<h3>Change mood</h3>
+
+<div id="changeMood-message-status"></div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "changeMoodForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Change Mood Form</legend>
+        <ol>
+            <li>
+                <label for="Mood">Mood</label>
+                @Html.DropDownList("Mood", new SelectList(@ViewBag.Moods, "Value", "Text"))
+            </li>
+        </ol>
+        <input type="button" value="Change mood" id="changeMoodButton" />
+    </fieldset>
+}
+
+

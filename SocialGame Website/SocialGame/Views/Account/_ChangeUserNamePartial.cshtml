@@ -1,0 +1,23 @@
+﻿@model SocialGame.Models.User
+
+<h3>Change name</h3>
+
+<div id="changeUserName-message-status"></div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "changeUserNameForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Change Name Form</legend>
+        <ol>
+            <li>
+                <label for="Name">Name</label>
+                @Html.TextBoxFor(m => m.username, new { @Value = @Session["UserName"] })
+            </li>
+        </ol>
+        <input type="button" value="Change name" id="changeUserNameButton" />
+    </fieldset>
+}
+
