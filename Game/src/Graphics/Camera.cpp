@@ -91,17 +91,17 @@ void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	// TODO doesn't behave correctly
 	GLfloat angle = getAngle();
 	printf("angle = %0.2f\n", angle);
-	if(x!=0 || y!=0) {
-		GLfloat value = x!=0? x : y;
+	if(x!=0 || z!=0) {
+		GLfloat value = x!=0? x : z;
 		tcx = ccx + (value * sin(angle));
 		tcz = ccz + (value * cos(angle));
 		tex = cex + (value * sin(angle));
 		tez = cez + (value * cos(angle));
 		return;
 	}
-	if(z!=0) {
-		tcz += z;
-		tez += z;
+	if(y!=0) {
+		tcy += y;
+		tey += y;
 		return;
 	}
 }
