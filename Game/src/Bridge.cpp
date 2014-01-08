@@ -16,6 +16,7 @@
 #include "Models/IFriendshipRequestNotification.h"
 #include "Minigames/Test/TestMinigame.h"
 #include "Minigames/TicTacToe/TicTacToe.h"
+#include "Minigames/Hangman/Hangman.h"
 
 Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(controller) {
 	gui->setEventsListener(this);
@@ -39,7 +40,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 	} else if (widget == barTest1) {
 		_controller->startMinigame(new TicTacToeMinigame(_controller));
 	} else if (widget == barTest2) {
-		_controller->startMinigame(new TestMinigame(_controller));
+		_controller->startMinigame(new HangmanMinigame(_controller));
 	} else if (widget == barTest3) {
 		_controller->startMinigame(new TestMinigame(_controller));
 	} else if (windowPersonInfo && windowPersonInfo->visible) {
@@ -126,7 +127,7 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barSettings);
 
 		barTest1 = new ButtonWidget(new TextWidget("TIC TAC TOE", 0, 0));
-		barTest2 = new ButtonWidget(new TextWidget("Minigame 2", 0, 0));
+		barTest2 = new ButtonWidget(new TextWidget("Hangman", 0, 0));
 		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
 		bar->addWidget(barTest1);
 		bar->addWidget(barTest2);
