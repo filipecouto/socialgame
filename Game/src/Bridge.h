@@ -54,6 +54,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;
+		bool showFirstMessage = false;
 };
 
 class PersonInfoWindow : public Window {

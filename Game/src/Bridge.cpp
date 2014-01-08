@@ -58,10 +58,11 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 }
 
 bool Bridge::onDialogResult(Dialog * dialog, int buttonId) {
-	if (dialog->getId() == "message") {
+	if (dialog->getId() == "message" && !showFirstMessage) {
 		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
 			((TestMod *)_controller->getGameMod())->doSomething();
 		}
+		showFirstMessage = true;
 	} else if (dialog->getId() == "friendship request") {
 		dialog->hide();
 
