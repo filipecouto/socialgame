@@ -17,12 +17,16 @@
 #include "Minigames/Test/TestMinigame.h"
 #include "Minigames/TicTacToe/TicTacToe.h"
 #include "Minigames/Maze/MazeMinigame.h"
+#include "Minigames/Hangman/Hangman.h"
 
 Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(controller) {
 	gui->setEventsListener(this);
 	controller->setListener(this);
 
 	controller->start(new TestMod());
+
+	loginForm = new LoginForm();
+	_gui->addWidget(loginForm);
 }
 #include <cstdio>
 bool Bridge::onWidgetClicked(Widget * widget) {
@@ -42,7 +46,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 	} else if (widget == barTest2) {
 		_controller->startMinigame(new MazeMinigame(_controller));
 	} else if (widget == barTest3) {
-		_controller->startMinigame(new TestMinigame(_controller));
+		_controller->startMinigame(new HangmanMinigame(_controller));
 	} else if (windowPersonInfo && windowPersonInfo->visible) {
 		if (widget == windowPersonInfo->getCloseButton()) {
 			windowPersonInfo->hide();
@@ -63,6 +67,7 @@ bool Bridge::onDialogResult(Dialog * dialog, int buttonId) {
 		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
 			((TestMod *)_controller->getGameMod())->doSomething();
 		}
+
 		showFirstMessage = true;
 	} else if (dialog->getId() == "friendship request") {
 		dialog->hide();
@@ -127,12 +132,14 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barSettings);
 
 		barTest1 = new ButtonWidget(new TextWidget("TIC TAC TOE", 0, 0));
-		barTest2 = new ButtonWidget(new TextWidget("Minigame 2", 0, 0));
+		barTest2 = new ButtonWidget(new TextWidget("Hangman", 0, 0));
 		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
 		bar->addWidget(barTest1);
 		bar->addWidget(barTest2);
 		bar->addWidget(barTest3);
 	}
+
+	if (loginForm->visible) loginForm->centerOnParent();
 
 	return bar;
 }

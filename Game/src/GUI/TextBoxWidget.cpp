@@ -40,10 +40,10 @@ void TextBoxWidget::draw() {
 
 	if (focused && showCursor) {
 		glBegin(GL_QUADS);
-		glVertex2f(textSize, -1);
-		glVertex2f(textSize, TextWidget::getMinimumHeight() + 1);
-		glVertex2f(textSize + 1, TextWidget::getMinimumHeight() + 1);
-		glVertex2f(textSize + 1, -1);
+		glVertex2f(textSize + 1, -2);
+		glVertex2f(textSize + 1, TextWidget::getMinimumHeight() + 2);
+		glVertex2f(textSize, TextWidget::getMinimumHeight() + 2);
+		glVertex2f(textSize, -2);
 		glEnd();
 	}
 
@@ -87,54 +87,50 @@ GLboolean TextBoxWidget::onMouseButtonUp(int button, int x, int y) {
 	return TextWidget::onMouseButtonUp(button, x, y);
 }
 
-GLboolean TextBoxWidget::onKeyDown(int key) {
+GLboolean TextBoxWidget::onKeyDown(int key, int special) {
 	std::string text = getText();
 	int currentPosition = cursorPosition;
 
-	switch (key) {
-		case GLUT_KEY_LEFT:
-			currentPosition--;
+	if (key == 0) {
+		switch (special) {
+			case GLUT_KEY_LEFT:
+				currentPosition--;
 
-			if (currentPosition < 0) {
-				currentPosition = 0;
-			}
+				if (currentPosition < 0) {
+					currentPosition = 0;
+				}
 
-			cursorPosition = currentPosition;
-			break;
+				cursorPosition = currentPosition;
+				break;
 
-		case GLUT_KEY_RIGHT:
-			currentPosition++;
+			case GLUT_KEY_RIGHT:
+				currentPosition++;
 
-			if (currentPosition > text.length()) {
-				currentPosition = text.length();
-			}
+				if (currentPosition > text.length()) {
+					currentPosition = text.length();
+				}
 
-			cursorPosition = currentPosition;
-			break;
-
-		case 8:
-
+				cursorPosition = currentPosition;
+				break;
+		}
+	} else {
+		if (key == 8) {
 			if (currentPosition > 0) {
 				text.erase(currentPosition - 1, 1);
 				currentPosition--;
 			}
 
 			cursorPosition = currentPosition;
-			break;
-
-		case 127:
-
+		} else if (key == 127) {
 			if (currentPosition < text.length()) {
 				text.erase(currentPosition, 1);
 			}
 
 			cursorPosition = currentPosition;
-			break;
-
-		default:
+		} else {
 			text.insert(cursorPosition, 1, (char)key);
 			cursorPosition++;
-			break;
+		}
 	}
 
 	textSize = glutBitmapLength(getFont(), (const unsigned char *) text.substr(0, cursorPosition).c_str());
@@ -142,7 +138,7 @@ GLboolean TextBoxWidget::onKeyDown(int key) {
 	return true;
 }
 
-GLboolean TextBoxWidget::onKeyUp(int key) {
+GLboolean TextBoxWidget::onKeyUp(int key, int special) {
 	return true;
 }
 
@@ -159,6 +155,7 @@ void TextBoxWidget::updateDimensions() {
 	TextWidget::updateDimensions();
 	w += _borderWidth * 2;
 	h += _borderWidth * 2;
+	notifyGeometryChange();
 }
 
 void TextBoxWidget::tick(int delta, int absolute) {

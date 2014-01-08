@@ -105,6 +105,11 @@ void Window::onParentGeometryChange(Widget * widget) {
 	if (getParent()) getParent()->onParentGeometryChange(widget);
 }
 
+void Window::centerOnParent() {
+	x = getParent()->getWidth() / 2 - getWidth() / 2;
+	y = getParent()->getHeigth() / 2 - getHeigth() / 2;
+}
+
 void Window::avoidOutside() {
 	if(x + w > getParent()->getWidth()) x = getParent()->getWidth() - w;
 	if(y + h > getParent()->getHeigth()) y = getParent()->getHeigth() - h;

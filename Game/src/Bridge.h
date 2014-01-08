@@ -16,6 +16,7 @@
 #include "GUI/ButtonWidget.h"
 #include "GameController.h"
 #include "IGameControllerListener.h"
+#include "LoginForm.h"
 
 class PersonInfoWindow;
 
@@ -48,9 +49,12 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 	private:
 		Gui * _gui;
 		GameController * _controller;
+		
+		// GUI components
 		PersonInfoWindow * windowPersonInfo = NULL;
 		WidgetContainer * bar = NULL;
 		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
+		LoginForm * loginForm;
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;
