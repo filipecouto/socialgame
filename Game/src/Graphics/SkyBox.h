@@ -20,6 +20,7 @@ class SkyBox {
 		GLuint skyboxTextId5;
 		GLuint skyboxTextId6;
 
+		void drawSide(GLuint textId, GLfloat v1x, GLfloat v1y, GLfloat v1z, GLfloat v2x, GLfloat v2y, GLfloat v2z, GLfloat side7, GLfloat side8, GLfloat side9, GLfloat side10, GLfloat side11, GLfloat side12);
 		void drawSides(GLuint skyboxTextId, GLfloat side1, GLfloat side2, GLfloat side3, GLfloat side4, GLfloat side5, GLfloat side6, GLfloat side7, GLfloat side8, GLfloat side9, GLfloat side10, GLfloat side11, GLfloat side12);
 		void drawGround(GLuint skyboxTextId, GLfloat side1, GLfloat side2, GLfloat side3, GLfloat side4, GLfloat side5, GLfloat side6, GLfloat side7, GLfloat side8, GLfloat side9, GLfloat side10, GLfloat side11, GLfloat side12);
 };
