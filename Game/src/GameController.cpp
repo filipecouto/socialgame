@@ -33,12 +33,12 @@ void GameController::start(GameMod * mod) {
 		// TODO clean up
 	} else {
 		// first time loading
-		skybox.setTextureIds(loadTexture("Graphics/SkyBox Images/negx.jpg"),
-		                     loadTexture("Graphics/SkyBox Images/negy.jpg"),
-		                     loadTexture("Graphics/SkyBox Images/negz.jpg"),
+		skybox.setTextureIds(loadTexture("Graphics/SkyBox Images/negz.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/negx.jpg"),
+		                     loadTexture("Graphics/SkyBox Images/posz.jpg"),
 		                     loadTexture("Graphics/SkyBox Images/posx.jpg"),
 		                     loadTexture("Graphics/SkyBox Images/posy.jpg"),
-		                     loadTexture("Graphics/SkyBox Images/posz.jpg"));
+		                     loadTexture("Graphics/SkyBox Images/negy.jpg"));
 	}
 
 	_mod = mod;
@@ -58,7 +58,12 @@ void GameController::draw() {
 	} else {
 		_camera.setUp();
 
+		glEnable(GL_TEXTURE_2D);
+		glPushMatrix();
+		_camera.translateToCamera();
 		skybox.draw();
+		glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
 
 		int len = personObjects.size();
 
@@ -367,11 +372,11 @@ void GameController::onKeyDown(int key, int special) {
 			break;
 
 		case 'z':
-			_camera.walk(0, 1, 0);
+			_camera.translate(0, 1, 0);
 			break;
 
 		case 'x':
-			_camera.walk(0, -1, 0);
+			_camera.translate(0, -1, 0);
 			break;
 	}
 
@@ -390,6 +395,8 @@ GLuint GameController::loadTexture(std::string texture) {
 		glBindTexture(GL_TEXTURE_2D, textureId);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, w, h, GL_RGB, GL_UNSIGNED_BYTE, image);
 	} else {
@@ -435,4 +442,15 @@ void GameController::setListener(IGameControllerListener * listener) {
 	_listener = listener;
 
 	if (_mod) _mod->setEventListener(listener);
+}
+
+GameMod * GameController::getGameMod() {
+	return _mod;
+}
+
+GameController::~GameController() {
+	int len = _textures.size();
+
+	for (int i = 0; i < len; i++)
+		glDeleteTextures(1, &_textures[i]);
 }

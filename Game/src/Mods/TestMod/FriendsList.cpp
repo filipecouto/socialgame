@@ -22,3 +22,13 @@ bool FriendsList::isFriendsWith(IPerson * person) {
 	
 	return false;
 }
+
+bool FriendsList::hasFriend(IPerson * person) {
+	int len = size();
+
+	for (int i = 0; i < len; i++) {
+		if (person == operator[](i)->getPerson()) return true;
+	}
+	
+	return false;
+}

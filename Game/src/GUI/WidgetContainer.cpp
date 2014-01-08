@@ -47,6 +47,10 @@ void WidgetContainer::onWidgetClicked(Widget * clicked) {
 	if (_parent != NULL) _parent->onWidgetClicked(clicked);
 }
 
+void WidgetContainer::onDialogResult(Dialog * dialog, int buttonId) {
+	if (_parent != NULL) _parent->onDialogResult(dialog, buttonId);
+}
+
 void WidgetContainer::onMouseMove(int x, int y) {
 	Widget * w = getWidget(x, y);
 

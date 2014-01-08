@@ -53,6 +53,39 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			windowPersonInfo->hide();
 		}
 	}
+
+	return true;
+}
+
+bool Bridge::onDialogResult(Dialog * dialog, int buttonId) {
+	if (dialog->getId() == "message" && !showFirstMessage) {
+		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
+			((TestMod *)_controller->getGameMod())->doSomething();
+		}
+		showFirstMessage = true;
+	} else if (dialog->getId() == "friendship request") {
+		dialog->hide();
+
+		IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)dialog->getTag();
+
+		switch (buttonId) {
+			case Dialog::DIALOG_BUTTON_ID_POSITIVE:
+				n->accept();
+				_controller->invalidatePerson(_controller->getIdentityPerson());
+				_controller->invalidatePerson(n->getConnection()->getPerson());
+				break;
+
+			case Dialog::DIALOG_BUTTON_ID_NEGATIVE:
+				n->refuse();
+				_controller->invalidatePerson(_controller->getIdentityPerson());
+				_controller->invalidatePerson(n->getConnection()->getPerson());
+				break;
+
+			case Dialog::DIALOG_BUTTON_ID_NEUTRAL:
+				break;
+		}
+	}
+
 	return true;
 }
 
@@ -91,7 +124,7 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barNotifications);
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
-		
+
 		barTest1 = new ButtonWidget(new TextWidget("TIC TAC TOE", 0, 0));
 		barTest2 = new ButtonWidget(new TextWidget("Minigame 2", 0, 0));
 		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
@@ -108,7 +141,7 @@ void Bridge::onNewNotification(INotification * notification) {
 
 	switch (notification->getType()) {
 		case INotification::Message: {
-			message = _gui->showMessage(((IMessageNotification *)notification)->getMessage());
+			message = _gui->showMessage("message", ((IMessageNotification *)notification)->getMessage());
 		}
 		break;
 
@@ -120,9 +153,13 @@ void Bridge::onNewNotification(INotification * notification) {
 					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " refused to be friends with you.");
 					break;
 
-				case 0:
-					_gui->showMessage(n->getConnection()->getPerson()->getName() + " sent you a friendship request.");
-					break;
+				case 0: {
+					Dialog * d = _gui->showYesNoCancelMessage("friendship request",
+					                                          n->getConnection()->getPerson()->getName() + " sent you a friendship request.",
+					                                          "Accept", "Refuse", "Later");
+					d->setTag(n);
+				}
+				break;
 
 				case 1:
 					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " accepted to be friends with you.");

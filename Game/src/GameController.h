@@ -35,6 +35,7 @@ class GameController : public GameContext, GameFragment {
 		
 		Camera * getCamera();
 		
+		GameMod * getGameMod();
 		IUser * getIdentity();
 		IPerson * getIdentityPerson();
 		IPerson * getSelectedPerson();
@@ -67,6 +68,8 @@ class GameController : public GameContext, GameFragment {
 		virtual IGraphic * getGraphic(IPerson * p);
 		
 		virtual GLuint loadTexture(std::string texture);
+		
+		virtual ~GameController();
 
 	private:
 		GraphicFactory * _graphFactory = NULL;

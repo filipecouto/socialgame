@@ -17,50 +17,66 @@ void SkyBox::setTextureIds(GLuint Skybox1, GLuint Skybox2, GLuint Skybox3, GLuin
 	this->skyboxTextId6 = Skybox6;
 }
 
-void SkyBox::drawSides(GLuint skyboxTextId, GLfloat side1, GLfloat side2, GLfloat side3, GLfloat side4, GLfloat side5, GLfloat side6, GLfloat side7, GLfloat side8, GLfloat side9, GLfloat side10, GLfloat side11, GLfloat side12) {
-	glBindTexture(GL_TEXTURE_2D, skyboxTextId);
+void SkyBox::drawSide(GLuint textId,
+                      GLfloat v1x, GLfloat v1y, GLfloat v1z,
+                      GLfloat v2x, GLfloat v2y, GLfloat v2z,
+                      GLfloat v3x, GLfloat v3y, GLfloat v3z,
+                      GLfloat v4x, GLfloat v4y, GLfloat v4z) {
+	glBindTexture(GL_TEXTURE_2D, textId);
 	glBegin(GL_QUADS);
-	glTexCoord2f(1, 1);
-	glVertex3f(side1, side2, side3);
-	glTexCoord2f(0, 1);
-	glVertex3f(side4, side5, side6);
-	glTexCoord2f(0, 0);
-	glVertex3f(side7, side8, side9);
 	glTexCoord2f(1, 0);
-	glVertex3f(side10, side11, side12);
-	glEnd();
-}
-
-void SkyBox::drawGround(GLuint skyboxTextId, GLfloat side1, GLfloat side2, GLfloat side3, GLfloat side4, GLfloat side5, GLfloat side6, GLfloat side7, GLfloat side8, GLfloat side9, GLfloat side10, GLfloat side11, GLfloat side12) {
-	glBindTexture(GL_TEXTURE_2D, skyboxTextId);
-	glBegin(GL_QUADS);
+	glVertex3f(v1x, v1y, v1z);
 	glTexCoord2f(0, 0);
-	glVertex3f(side1, side2, side3);
-	glTexCoord2f(1, 0);
-	glVertex3f(side4, side5, side6);
-	glTexCoord2f(1, 1);
-	glVertex3f(side7, side8, side9);
+	glVertex3f(v2x, v2y, v2z);
 	glTexCoord2f(0, 1);
-	glVertex3f(side10, side11, side12);
+	glVertex3f(v3x, v3y, v3z);
+	glTexCoord2f(1, 1);
+	glVertex3f(v4x, v4y, v4z);
 	glEnd();
 }
 
 void SkyBox::draw() {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+	glDisable(GL_COLOR_MATERIAL);
 
+	glEnable(GL_TEXTURE0);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	drawSides(skyboxTextId1, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, -0.5f,  0.5f,  0.5f, -0.5f);
-	drawSides(skyboxTextId2, 0.5f, -0.5f,  0.5f,  0.5f, -0.5f, -0.5f, 0.5f,  0.5f, -0.5f, 0.5f,  0.5f,  0.5f);
-	drawSides(skyboxTextId3, -0.5f, -0.5f,  0.5f , 0.5f, -0.5f,  0.5f, 0.5f,  0.5f,  0.5f, -0.5f,  0.5f,  0.5f);
-	drawSides(skyboxTextId4, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, -0.5f,  0.5f,  0.5f , -0.5f,  0.5f, -0.5f);
-	drawSides(skyboxTextId5, -0.5f,  0.5f, -0.5f, -0.5f,  0.5f,  0.5f, 0.5f,  0.5f,  0.5f , 0.5f,  0.5f, -0.5f);
-	drawGround(skyboxTextId6, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,  0.5f, 0.5f, -0.5f,  0.5f,  0.5f, -0.5f, -0.5f);
+	drawSide(skyboxTextId1,
+	         +0.5f, +0.5f, -0.5f,
+	         -0.5f, +0.5f, -0.5f,
+	         -0.5f, -0.5f, -0.5f,
+	         +0.5f, -0.5f, -0.5f);
+	drawSide(skyboxTextId2,
+	         +0.5f, +0.5f, +0.5f,
+	         +0.5f, +0.5f, -0.5f,
+	         +0.5f, -0.5f, -0.5f,
+	         +0.5f, -0.5f, +0.5f);
+	drawSide(skyboxTextId3,
+	         -0.5f, +0.5f, +0.5f,
+	         +0.5f, +0.5f, +0.5f,
+	         +0.5f, -0.5f, +0.5f,
+	         -0.5f, -0.5f, +0.5f);
+	drawSide(skyboxTextId4,
+	         -0.5f, +0.5f, -0.5f,
+	         -0.5f, +0.5f, +0.5f,
+	         -0.5f, -0.5f, +0.5f,
+	         -0.5f, -0.5f, -0.5f);
+	drawSide(skyboxTextId5,
+	         -0.5f, +0.5f, -0.5f,
+	         +0.5f, +0.5f, -0.5f,
+	         +0.5f, +0.5f, +0.5f,
+	         -0.5f, +0.5f, +0.5f);
+	drawSide(skyboxTextId6,
+	         -0.5f, -0.5f, +0.5f,
+	         +0.5f, -0.5f, +0.5f,
+	         +0.5f, -0.5f, -0.5f,
+	         -0.5f, -0.5f, -0.5f);
+	
+	glDisable(GL_TEXTURE0);
 
-	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 }

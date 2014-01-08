@@ -32,6 +32,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 
 		// events from GUI
 		virtual bool onWidgetClicked(Widget * widget);
+		virtual bool onDialogResult(Dialog * dialog, int buttonId);
 
 		// events from GameController
 		virtual void onPersonClicked(IPerson * person);
@@ -53,6 +54,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;
+		bool showFirstMessage = false;
 };
 
 class PersonInfoWindow : public Window {

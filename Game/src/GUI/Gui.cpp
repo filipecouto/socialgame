@@ -69,6 +69,10 @@ void Gui::onWidgetClicked(Widget * clicked) {
 	if(_listener != NULL) _listener->onWidgetClicked(clicked);
 }
 
+void Gui::onDialogResult(Dialog * dialog, int buttonId) {
+	if(_listener != NULL) _listener->onDialogResult(dialog, buttonId);
+}
+
 int Gui::getWidth() {
 	return _width;
 }
@@ -83,6 +87,17 @@ Dialog * Gui::showMessage(std::string message) {
 
 Dialog * Gui::showMessage(std::string id, std::string message) {
 	_dialog = new Dialog(id, message);
+	addWidget(_dialog);
+	_dialog->show();
+	return _dialog;
+}
+
+Dialog * Gui::showYesNoCancelMessage(std::string id, std::string message) {
+	return showYesNoCancelMessage(id, message, "Yes", "No", "Cancel");
+}
+
+Dialog * Gui::showYesNoCancelMessage(std::string id, std::string message, std::string yes, std::string no, std::string cancel) {
+	_dialog = new Dialog(id, message, yes, no, cancel);
 	addWidget(_dialog);
 	_dialog->show();
 	return _dialog;

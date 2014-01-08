@@ -36,6 +36,10 @@ int Connection::getState() {
 	return _state;
 }
 
+void Connection::setState(int state) {
+	_state = state;
+}
+
 IPerson * Connection::getPerson() {
 	return (IPerson *) _p;
 }
