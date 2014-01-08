@@ -2,6 +2,34 @@
 #include "LinearContainer.h"
 
 Dialog::Dialog(std::string id, std::string message) : _id(id) {
+	LinearContainer * buttons = new LinearContainer();
+	buttons->setHorizontal();
+
+	buttonOk = new ButtonWidget(new TextWidget("Ok", 0, 0));
+	buttons->addWidget(buttonOk);
+
+	setLayout(setTextMessage(message), buttons);
+
+	_ct = -getWidth();
+}
+
+Dialog::Dialog(std::string id, std::string message, std::string positiveButton, std::string negativeButton, std::string neutralButton) : _id(id) {
+	LinearContainer * buttons = new LinearContainer();
+	buttons->setHorizontal();
+
+	buttonPositive = new ButtonWidget(new TextWidget(positiveButton, 0, 0));
+	buttons->addWidget(buttonPositive);
+	buttonNegative = new ButtonWidget(new TextWidget(negativeButton, 0, 0));
+	buttons->addWidget(buttonNegative);
+	buttonNeutral = new ButtonWidget(new TextWidget(neutralButton, 0, 0));
+	buttons->addWidget(buttonNeutral);
+
+	setLayout(setTextMessage(message), buttons);
+
+	_ct = -getWidth();
+}
+
+Widget * Dialog::setTextMessage(std::string message) {
 	LinearContainer * text = new LinearContainer();
 	text->setSpacing(4);
 	text->setVertical();
@@ -14,18 +42,23 @@ Dialog::Dialog(std::string id, std::string message) : _id(id) {
 	}
 	
 	text->addWidget(new TextWidget(message.substr(0, message.length()), 0, 0));
+	return text;
+}
 
-	//TextWidget * _message = new TextWidget(message, 0, 0);
+std::string Dialog::getId() {
+	return _id;
+}
 
-	LinearContainer * buttons = new LinearContainer();
-	buttons->setHorizontal();
+bool Dialog::operator==(std::string id) {
+	return _id == id;
+}
 
-	buttonOk = new ButtonWidget(new TextWidget("Ok", 0, 0));
-	buttons->addWidget(buttonOk);
+void * Dialog::getTag() {
+	return _tag;
+}
 
-	setLayout(text, buttons);
-
-	_ct = -getWidth();
+void Dialog::setTag(void * tag) {
+	_tag = tag;
 }
 
 void Dialog::show() {
@@ -53,6 +86,13 @@ void Dialog::setLayout(Widget * contents, Widget * buttons) {
 void Dialog::onWidgetClicked(Widget * clicked) {
 	if (clicked == buttonOk) {
 		hide();
+		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_OK);
+	} else if (clicked == buttonPositive) {
+		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_POSITIVE);
+	} else if (clicked == buttonNegative) {
+		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEGATIVE);
+	} else if (clicked == buttonNeutral) {
+		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEUTRAL);
 	} else {
 		WidgetContainer::onWidgetClicked(clicked);
 	}

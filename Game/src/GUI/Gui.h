@@ -35,9 +35,12 @@ class Gui : public WidgetContainer {
 		
 		void setEventsListener(IWidgetEventsListener * listener);
 		virtual void onWidgetClicked(Widget * clicked);
+		virtual void onDialogResult(Dialog * dialog, int buttonId);
 		
 		Dialog * showMessage(std::string message);
 		Dialog * showMessage(std::string id, std::string message);
+		Dialog * showYesNoCancelMessage(std::string id, std::string message);
+		Dialog * showYesNoCancelMessage(std::string id, std::string message, std::string yes, std::string no, std::string cancel);
 
 	private:
 		int _width, _height;

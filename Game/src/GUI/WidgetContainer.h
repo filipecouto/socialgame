@@ -18,6 +18,8 @@ class WidgetContainer : public Widget, public IWidgetContainer {
 		virtual void onMouseMove ( int x, int y );
 
 		virtual void onWidgetClicked(Widget * clicked);
+		virtual void onDialogResult(Dialog * dialog, int buttonId);
+		
 		virtual GLboolean onMouseButtonDown ( int button, int x, int y );
 		virtual GLboolean onMouseButtonUp ( int button, int x, int y );
 
