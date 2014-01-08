@@ -40,6 +40,7 @@ void PersonGraphic::invalidate(IPerson * person) {
 			if (g) {
 				PersonGraphic * pointingTo = (PersonGraphic *) _context->getGraphic(connection->getPerson());
 				g->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+				g->load(_context);
 			} else {
 				// connection is still not represented, let's create it
 				createConnection(connection);
@@ -62,6 +63,7 @@ void PersonGraphic::invalidate(IPerson * person) {
 				if (g) {
 					PersonGraphic * pointingTo = (PersonGraphic *) _context->getGraphic(connection->getPerson());
 					g->pointTo(pointingTo->x - x, pointingTo->y - y, pointingTo->z - z);
+					g->load(_context);
 					return;
 				}
 			}
