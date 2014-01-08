@@ -34,11 +34,11 @@ CameraTypes Camera::getType() {
 void Camera::setType(CameraTypes type) {
 	currentType = type;
 
-	if(currentType == FreeMode) {
+	if (currentType == FreeMode) {
 		tex = -8;
 		tey = 8;
 		tez = 0;
-	} else if(currentType == FirstPerson) {
+	} else if (currentType == FirstPerson) {
 		tex = -3;
 		tey = 0;
 		tez = 3;
@@ -80,32 +80,35 @@ void Camera::moveTo(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
-	tex+=x;
-	tey+=y;
-	tez+=z;
-	tcx+=x;
-	tcy+=y;
-	tcz+=z;
+	tex += x;
+	tey += y;
+	tez += z;
+	tcx += x;
+	tcy += y;
+	tcz += z;
 }
 
 void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
+
 	//printf("angle = %0.2f\n", angle);
-	if(x!=0) {
+	if (x != 0) {
 		tcx = ccx + (x * cos(angle));
 		tcz = ccz + (x * sin(angle));
 		tex = cex + (x * cos(angle));
 		tez = cez + (x * sin(angle));
 		return;
 	}
-	if(z!=0) {
+
+	if (z != 0) {
 		tcx = ccx + (z * sin(angle));
 		tcz = ccz + (z * cos(angle));
 		tex = cex + (z * sin(angle));
 		tez = cez + (z * cos(angle));
 		return;
 	}
-	if(y!=0) {
+
+	if (y != 0) {
 		tcy += y;
 		tey += y;
 		return;
@@ -115,33 +118,26 @@ void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 
 GLfloat Camera::getAngle() {
 	GLfloat dx = cex - ccx;
-	GLfloat dy = cey - ccy;
 	GLfloat dz = cez - ccz;
-	//printf("dx = %0.2f dz = %0.2f divisao = %0.2f\n", dx, dz, dx/dz);
-	printf(dx > 0? "P\t":"N\t");
-	printf(dz > 0? "P\n":"N\n");
-	GLfloat value; 
-	value = atan(dx/dz);
-	if((dx*dz)<0) {
-		value+=M_PI/2;
-	}
-	if(dz > 0) {
-		value+=M_PI/2;
-	}
+
+	GLfloat value = dz == 0 ? M_PI / 2 : atan(dx / dz);
+
+	if (dz > 0) value -= M_PI;
+
 	return value;
 }
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
-	GLfloat oldAngle = getAngle(), angle;
-	//if(oldAngle < 0) { oldAngle*=-1; }
-	printf("Angulo = %0.2f\n",oldAngle); 
-	if(x != 0) { // rotation on X axis
-	} else if(y != 0) { // rotation on Y axis
-		angle = oldAngle + y;
-		tcz = cos(angle) + tez;
+	GLfloat angle = getAngle();
+	printf("Angulo = %0.2f\n", angle);
+
+	if (x != 0) { // rotation on X axis
+	} else if (y != 0) { // rotation on Y axis
+		angle += y;
 		tcx = sin(angle) + tex;
+		tcz = cos(angle) + tez;
 		//printf("tcz = %0.2f ; cos = %0.2f ; tez = %0.2f\ntcx = %0.2f ; sin = %0.2f ; tex = %0.2f\n", tcz, cos(angle), tez, tcx, sin(angle), tex);
-	} else if(z != 0) { // rotation on Z axis
+	} else if (z != 0) { // rotation on Z axis
 	}
 }
 

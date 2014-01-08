@@ -131,9 +131,9 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
 
-		barTest1 = new ButtonWidget(new TextWidget("TIC TAC TOE", 0, 0));
-		barTest2 = new ButtonWidget(new TextWidget("Hangman", 0, 0));
-		barTest3 = new ButtonWidget(new TextWidget("Minigame 3", 0, 0));
+		barTest1 = new ButtonWidget(new TextWidget("Tic Tac Toe", 0, 0));
+		barTest2 = new ButtonWidget(new TextWidget("Maze", 0, 0));
+		barTest3 = new ButtonWidget(new TextWidget("Hangman", 0, 0));
 		bar->addWidget(barTest1);
 		bar->addWidget(barTest2);
 		bar->addWidget(barTest3);

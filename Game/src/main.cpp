@@ -21,8 +21,12 @@
 
 #ifdef _WIN32
 #include <GL/glaux.h>
+#ifndef M_PI
 #define M_PI 3.14159265358979323846
+#endif
+#ifndef GL_CLAMP_TO_EDGE
 #define GL_CLAMP_TO_EDGE 0x812F
+#endif
 #endif
 
 #include "GUI/Gui.h"
@@ -87,13 +91,13 @@ void onKeyDown(unsigned char c, int x, int y) {
 
 void onKeyUp(unsigned char c, int x, int y) {
 	if (gui.onKeyUp(c, 0)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
-	
+
 	controller.onKeyUp(c, 0);
 }
 
 void onSpecialKeyUp(int key, int x, int y) {
 	if (gui.onKeyUp(0, key)) return; // if the GUI consumed the event it should mean it was not meant for the GameController
-	
+
 	controller.onKeyUp(0, key);
 }
 
@@ -153,7 +157,7 @@ void setCamera() {
 
 void onMouseMove(int x, int y) {
 	gui.onMouseMove(x, y);
-	
+
 	controller.onMouseMove(x, y);
 }
 
@@ -192,10 +196,6 @@ int main(int argc, char * argv[]) {
 
 	load();
 
-	//gui.addWidget(new ButtonWidget(new TextWidget("ola", 0, 0), 0, 0));
-	gui.addWidget(new TextBoxWidget("texto", 0, 25));
-	//gui.addWidget(new ButtonWidget(new TextWidget("xau", 0, 0), 40, 0));
-
 	glutReshapeFunc(onReshape);
 	glutVisibilityFunc(onVisibilityChange);
 	glutDisplayFunc(onDraw);
@@ -210,7 +210,7 @@ int main(int argc, char * argv[]) {
 	glutMotionFunc(onMouseMove);
 
 	srand(glutGet(GLUT_ELAPSED_TIME));
-	
+
 	bridge = new Bridge(&gui, &controller);
 
 	glutTimerFunc(20, timer, 0);
@@ -225,7 +225,7 @@ int main(int argc, char * argv[]) {
 	gui.addWidget(bridge->getTopBar());
 
 	glutMainLoop();
-	
+
 	delete bridge;
 
 	return 0;

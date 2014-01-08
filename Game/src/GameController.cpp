@@ -181,7 +181,7 @@ void GameController::flyTo(IPerson * person) {
 
 	if (g) {
 		if (person == getIdentityPerson()) {
-			_camera.lookAt(g->x + 1, g->y + g->getRadius() * 2, g->z + 1);
+			_camera.lookAt(g->x - 1, g->y + g->getRadius() * 2, g->z - 0);
 			_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
 		} else {
 			_camera.lookAt(g->x, g->y + g->getRadius(), g->z);
@@ -346,22 +346,22 @@ void GameController::onKeyDown(int key, int special) {
 		case 0 :
 			switch (special) {
 				case GLUT_KEY_LEFT:
-					_camera.rotate(0, 0.3, 0);
+					_camera.rotate(0, 0.4, 0);
 					break;
 
 				case GLUT_KEY_RIGHT:
-					_camera.rotate(0, -0.3, 0);
+					_camera.rotate(0, -0.4, 0);
 					break;
 			}
 
 			break;
 
 		case 'w':
-			_camera.walk(0, 0, 1);
+			_camera.walk(0, 0, 2.5f);
 			break;
 
 		case 's':
-			_camera.walk(0, 0, -1);
+			_camera.walk(0, 0, -2.5f);
 			break;
 
 		case 'a':
