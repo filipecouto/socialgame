@@ -1,10 +1,6 @@
 #include "Hangman.h"
 #include "../../GameContext.h"
 
-
-
-
-
 HangmanMinigame::HangmanMinigame(GameContext* context): _context(context)
 {
 
@@ -22,14 +18,14 @@ IMinigameInstance* HangmanMinigame::newGame()
 
 void HangmanMinigame::HangmanInstance::draw() {
     camera.setUp();
-
+//glDisable(GL_DEPTH_TEST);
     glColor3f(0, 0.25, 0);
-    drawGround(-20, 0,  20,20, 0,  20,20, 0, -20,-20, 0, -20);
+    drawGround(-400,-81,400,400,-81,400,200,-81,-200,-200, -81,-200);
     glPushMatrix();
     glColor3f(0.46, 0.32, 0.1);
     drawLines(20.0,10.0, -80.0, 20.0,50.0, -80.0,20.0);
     drawLines(10.0,30.0, -80.0, 20.0,30.0, -80.0,-40.0);
-    drawLines(10.0,30.0, -82.0,-40.0,70.0, -82.0,-40.0);
+    drawLines(10.0,30.0, -80.0,-40.0,70.0, -80.0,-40.0);
     drawLines(10.0,69.0, -80.0,-40.0,69.0, -80.0,-30.0);
 
     glColor3f(1, 1, 1);
@@ -38,9 +34,10 @@ void HangmanMinigame::HangmanInstance::draw() {
 
     drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
     drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
-    drawLines(5.0,  69.0, -80.0,5.0, 59.0, -80.0,15.0 );
-    drawLines(5.0,  69.0, -80.0,5.0, 79.0, -80.0,15.0 );
+    drawLines(5.0,  69.0, -80.0,5.0, 59.0, -80.0, 15.0 );
+    drawLines(5.0,  69.0, -80.0,5.0, 79.0, -80.0, 15.0 );
     glPopMatrix();
+    //glEnable(GL_DEPTH_TEST);
 
 //
 // 	glutSolidSphere(2, 32, 32);
@@ -80,7 +77,7 @@ void HangmanMinigame::HangmanInstance::drawCircle(double distance, double pX, do
         grau+=(salto/100);
         x= -distance*cos(grau) + pX;
         z= distance*sin(grau) + pZ;
-        glVertex3f(x, -80.0,z);
+        glVertex3f(x, -79.0,z);
     }
     glEnd();
 }
@@ -90,7 +87,7 @@ void HangmanMinigame::HangmanInstance::start() {
     my = 19;
     thing.x = thing.y = thing.vx = thing.vy = 0;
     camera.moveTo(0,10, 1);
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, 1, 0);
 // 	camera.moveTo(0, 8, -28);
 // 	camera.lookAt(0, 0, 0);
 }
@@ -183,3 +180,4 @@ void HangmanMinigame::HangmanInstance::onMouseMove(int x, int y) {
 HangmanMinigame::HangmanInstance::~HangmanInstance() {
 
 }
+
