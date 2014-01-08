@@ -356,19 +356,19 @@ void GameController::onKeyDown(int key, int special) {
 			break;
 
 		case 'w':
-			_camera.walk(1, 0, 0);
+			_camera.walk(0, 0, 1);
 			break;
 
 		case 's':
-			_camera.walk(-1, 0, 0);
-			break;
-
-		case 'a':
 			_camera.walk(0, 0, -1);
 			break;
 
+		case 'a':
+			_camera.walk(-1, 0, 0);
+			break;
+
 		case 'd':
-			_camera.walk(0, 0, 1);
+			_camera.walk(1, 0, 0);
 			break;
 
 		case 'z':
