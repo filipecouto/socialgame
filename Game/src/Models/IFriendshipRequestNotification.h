@@ -20,6 +20,9 @@ class IFriendshipRequestNotification : public INotification {
 		virtual IPerson * getFrom() = 0;
 		
 		virtual IConnection * getConnection() = 0;
+		
+		virtual bool accept() = 0;
+		virtual bool refuse() = 0;
 
 		virtual ~IFriendshipRequestNotification() { }
 };
