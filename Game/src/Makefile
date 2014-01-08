@@ -9,7 +9,7 @@ OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 all : obj SocialGame ;
 
 SocialGame : Mods/AdvancedMode.a GUI/GUI.a $(OBJ_FILES)
-	g++ $^ -ggdb -lGL -lGLU -lglut -ljpeg Mods/AdvancedMode.a GUI/GUI.a -o $@
+	g++ $^ -ggdb -lGL -lGLU -lglut -ljpeg -lcurl Mods/AdvancedMode.a GUI/GUI.a -o $@
 
 GUI/GUI.a :
 	cd GUI; make
