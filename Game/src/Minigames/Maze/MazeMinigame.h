@@ -9,7 +9,7 @@
 
 class MazeMinigame : public IMinigame {
 	public:
-		Maze(GameContext * context);
+		MazeMinigame(GameContext * context);
 
 		virtual std::string getName();
 

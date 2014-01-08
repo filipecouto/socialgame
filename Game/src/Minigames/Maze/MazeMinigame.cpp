@@ -1,7 +1,7 @@
 #include "Maze.h"
 #include "../../GameContext.h"
 
-MazeMinigame::Maze(GameContext * context) : _context(context) {
+MazeMinigame::MazeMinigame(GameContext * context) : _context(context) {
 
 }
 
