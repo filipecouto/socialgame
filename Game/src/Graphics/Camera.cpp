@@ -91,19 +91,18 @@ void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
 void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
 	//printf("angle = %0.2f\n", angle);
-	GLfloat value = x!=0? x : z;
 	if(x!=0) {
-		tcx = ccx + (value * cos(angle));
-		tcz = ccz + (value * sin(angle));
-		tex = cex + (value * cos(angle));
-		tez = cez + (value * sin(angle));
+		tcx = ccx + (x * cos(angle));
+		tcz = ccz + (x * sin(angle));
+		tex = cex + (x * cos(angle));
+		tez = cez + (x * sin(angle));
 		return;
 	}
 	if(z!=0) {
-		tcx = ccx + (value * sin(angle));
-		tcz = ccz + (value * cos(angle));
-		tex = cex + (value * sin(angle));
-		tez = cez + (value * cos(angle));
+		tcx = ccx + (z * sin(angle));
+		tcz = ccz + (z * cos(angle));
+		tex = cex + (z * sin(angle));
+		tez = cez + (z * cos(angle));
 		return;
 	}
 	if(y!=0) {
