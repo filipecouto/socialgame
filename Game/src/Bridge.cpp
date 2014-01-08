@@ -22,6 +22,9 @@ Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(
 	controller->setListener(this);
 
 	controller->start(new TestMod());
+
+	loginForm = new LoginForm();
+	_gui->addWidget(loginForm);
 }
 #include <cstdio>
 bool Bridge::onWidgetClicked(Widget * widget) {
@@ -62,6 +65,7 @@ bool Bridge::onDialogResult(Dialog * dialog, int buttonId) {
 		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
 			((TestMod *)_controller->getGameMod())->doSomething();
 		}
+
 		showFirstMessage = true;
 	} else if (dialog->getId() == "friendship request") {
 		dialog->hide();
@@ -132,6 +136,8 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barTest2);
 		bar->addWidget(barTest3);
 	}
+
+	if (loginForm->visible) loginForm->centerOnParent();
 
 	return bar;
 }
