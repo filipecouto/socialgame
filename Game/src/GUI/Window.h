@@ -17,6 +17,7 @@ class Window : public WidgetContainer {
 		virtual GLboolean onMouseButtonUp(int button, int x, int y);
 		
 		void setPadding(GLfloat padding);
+		virtual void centerOnParent();
 		
 		virtual GLboolean isAnimating();
 		virtual void tick(int delta, int absolute);

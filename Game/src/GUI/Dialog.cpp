@@ -33,14 +33,14 @@ Widget * Dialog::setTextMessage(std::string message) {
 	LinearContainer * text = new LinearContainer();
 	text->setSpacing(4);
 	text->setVertical();
-	
+
 	size_t index = 0;
 
 	while ((index = message.find('\n')) != std::string::npos) {
 		text->addWidget(new TextWidget(message.substr(0, index), 0, 0));
 		message.erase(0, index + 1);
 	}
-	
+
 	text->addWidget(new TextWidget(message.substr(0, message.length()), 0, 0));
 	return text;
 }
@@ -66,11 +66,6 @@ void Dialog::show() {
 	centerOnParent();
 }
 
-void Dialog::centerOnParent() {
-	x = getParent()->getWidth() / 2 - getWidth() / 2;
-	y = getParent()->getHeigth() / 2 - getHeigth() / 2;
-}
-
 void Dialog::setLayout(Widget * contents, Widget * buttons) {
 	LinearContainer * container = new LinearContainer();
 	container->setVertical();
@@ -86,13 +81,14 @@ void Dialog::setLayout(Widget * contents, Widget * buttons) {
 void Dialog::onWidgetClicked(Widget * clicked) {
 	if (clicked == buttonOk) {
 		hide();
-		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_OK);
+
+		if (getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_OK);
 	} else if (clicked == buttonPositive) {
-		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_POSITIVE);
+		if (getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_POSITIVE);
 	} else if (clicked == buttonNegative) {
-		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEGATIVE);
+		if (getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEGATIVE);
 	} else if (clicked == buttonNeutral) {
-		if(getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEUTRAL);
+		if (getParent() != NULL) getParent()->onDialogResult(this, DIALOG_BUTTON_ID_NEUTRAL);
 	} else {
 		WidgetContainer::onWidgetClicked(clicked);
 	}

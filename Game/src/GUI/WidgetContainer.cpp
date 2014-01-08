@@ -110,16 +110,16 @@ void WidgetContainer::onFocus() {
 	if (_focused != NULL) _focused->onFocus();
 }
 
-GLboolean WidgetContainer::onKeyDown(int key) {
+GLboolean WidgetContainer::onKeyDown(int key, int special) {
 	if (_focused == NULL) return false;
 
-	return _focused->onKeyDown(key);
+	return _focused->onKeyDown(key, special);
 }
 
-GLboolean WidgetContainer::onKeyUp(int key) {
+GLboolean WidgetContainer::onKeyUp(int key, int special) {
 	if (_focused == NULL) return false;
 
-	return _focused->onKeyUp(key);
+	return _focused->onKeyUp(key, special);
 }
 
 void WidgetContainer::addWidget(Widget * add_object) {
