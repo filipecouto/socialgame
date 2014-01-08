@@ -26,6 +26,8 @@ private:
 	TextBoxWidget * tEmail;
 	TextBoxWidget * tPassword;
 	
+	TextWidget * tError;
+	
 	ButtonWidget * bNormalMode;
 	ButtonWidget * bAdvancedMode;
 };

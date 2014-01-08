@@ -20,10 +20,13 @@ public:
 	 * Gets a parsed rapidjson Document containing the requested data.
 	 * important: do not forget to free the document from memory
 	 */
-	rapidjson::Document * getData(const std::string type, const std::string function);
+	rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
+	
+	int login(std::string email, std::string password);
 	
 private:
 	std::string baseUrl;
+	std::string token;
 };
 
 #endif // CENTRALSERVERWEBSERVICE_H
