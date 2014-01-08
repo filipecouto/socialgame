@@ -65,11 +65,11 @@ class Widget {
 			return false;
 		}
 
-		virtual GLboolean onKeyDown ( int key ) {
+		virtual GLboolean onKeyDown ( int key, int special ) {
 			return false;
 		}
 
-		virtual GLboolean onKeyUp ( int key ) {
+		virtual GLboolean onKeyUp ( int key, int special ) {
 			return false;
 		}
 

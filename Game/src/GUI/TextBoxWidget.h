@@ -20,8 +20,8 @@ public:
     virtual void onMouseExit();
     virtual GLboolean onMouseButtonDown(int button, int x, int y);
     virtual GLboolean onMouseButtonUp(int button, int x, int y);
-    virtual GLboolean onKeyDown(int key);
-    virtual GLboolean onKeyUp(int key);
+    virtual GLboolean onKeyDown(int key, int special);
+    virtual GLboolean onKeyUp(int key, int special);
     virtual void onFocus();
     virtual void onBlur();
 	

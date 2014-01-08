@@ -11,18 +11,16 @@ class Dialog : public Window {
 		Dialog(std::string id, std::string message);
 		Dialog(std::string id, std::string message, std::string positiveButton, std::string negativeButton, std::string neutralButton);
 
-		virtual void centerOnParent();
-		
 		virtual void show();
 
 		virtual void onWidgetClicked(Widget * clicked);
-		
+
 		std::string getId();
 		bool operator==(std::string id);
-		
+
 		void setTag(void * tag);
 		void * getTag();
-		
+
 		const static int DIALOG_BUTTON_ID_OK = 1;
 		const static int DIALOG_BUTTON_ID_POSITIVE = 2;
 		const static int DIALOG_BUTTON_ID_NEGATIVE = 4;
