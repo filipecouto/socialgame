@@ -15,17 +15,22 @@
 class AdvancedMode : public GameMod {
 	public:
 		AdvancedMode();
+		
+		int login(std::string email, std::string password);
 
 		virtual void load();
 
 		virtual void * getPendingGames();
 		virtual std::vector< INotification * > * getNotifications();
 		virtual IUser * getIdentity();
+		
+		virtual void setEventListener(GameModEventListener * listener);
 
 		~AdvancedMode();
 
 	private:
 		CentralServerWebService service;
+		GameModEventListener * listener;
 };
 
 #endif // ADVANCEDMODE_H

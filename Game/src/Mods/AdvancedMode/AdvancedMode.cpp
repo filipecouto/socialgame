@@ -12,6 +12,10 @@ AdvancedMode::AdvancedMode() {
 
 }
 
+int AdvancedMode::login(string email, string password) {
+	return service.login(email, password);
+}
+
 void AdvancedMode::load() {
 
 }
@@ -26,6 +30,10 @@ std::vector< INotification * > * AdvancedMode::getNotifications() {
 
 IUser * AdvancedMode::getIdentity() {
 	return NULL;
+}
+
+void AdvancedMode::setEventListener(GameModEventListener * listener) {
+
 }
 
 AdvancedMode::~AdvancedMode() {

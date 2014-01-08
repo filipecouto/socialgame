@@ -24,7 +24,7 @@ LoginForm::LoginForm() {
 	line->setSpacing(4);
 	line->setVertical();
 	line->addWidget(new TextWidget("E-mail", 0, 0));
-	tEmail = new TextBoxWidget("teste@teste.com", 0, 0);
+	tEmail = new TextBoxWidget("teste@teste.teste", 0, 0);
 	line->addWidget(tEmail);
 	layout->addWidget(line);
 
@@ -35,6 +35,10 @@ LoginForm::LoginForm() {
 	tPassword = new TextBoxWidget("123456", 0, 0);
 	line->addWidget(tPassword);
 	layout->addWidget(line);
+	
+	tError = new TextWidget("", 0.8f, 0, 0, 1, 0, 0);
+	tError->visible = false;
+	layout->addWidget(tError);
 
 	LinearContainer * buttons = new LinearContainer();
 	buttons->setHorizontal();
@@ -53,8 +57,14 @@ void LoginForm::onWidgetClicked(Widget * clicked) {
 	if (bNormalMode == clicked) {
 		hide();
 	} else if (bAdvancedMode == clicked) {
-		//AdvancedMode * mode = new AdvancedMode();
-		hide();
+		AdvancedMode * mode = new AdvancedMode();
+		int result = mode->login(tEmail->getText(), tPassword->getText());
+		if(result == -1) {
+			tError->visible = true;
+			tError->setText("Wrong e-mail or password");
+		} else {
+			hide();
+		}
 	}
 }
 
