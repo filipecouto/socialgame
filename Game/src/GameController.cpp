@@ -54,6 +54,7 @@ void GameController::draw() {
 	glPushMatrix();
 
 	if (GameController_isInMinigame) {
+		glEnable(GL_DEPTH_TEST);
 		_minigame->draw();
 	} else {
 		_camera.setUp();
