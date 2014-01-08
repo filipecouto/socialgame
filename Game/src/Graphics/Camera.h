@@ -32,6 +32,12 @@ class Camera {
 		void rotate(GLfloat x, GLfloat y, GLfloat z);
 		void walk(GLfloat x, GLfloat y, GLfloat z);
 		
+		/**
+		 * Translates current matrix to the position of the camera,
+		 * useful to place the skybox
+		 */
+		void translateToCamera();
+		
 		GLfloat getY();
 		
 		~Camera();

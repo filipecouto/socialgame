@@ -7,6 +7,7 @@
  */
 
 #include "Camera.h"
+#include <GL/gl.h>
 #include <cmath>
 #include <stdio.h>
 
@@ -125,6 +126,9 @@ void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 	}
 }
 
+void Camera::translateToCamera() {
+	glTranslatef(cex, cey, cez);
+}
 
 void Camera::animate(GLfloat target, GLfloat & value) {
 	value += (target - value) * 0.04f;
