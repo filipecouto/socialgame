@@ -18,25 +18,7 @@ TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, 
 
 TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void * font, GLfloat xPos, GLfloat yPos): TextWidget(text, r, g, b, a, font, xPos, yPos), _borderWidth(3) {
 	cursorPosition = text.size();
-	updateTextSize();
 	updateDimensions();
-}
-
-void TextBoxWidget::updateTextSize() {
-	std::string tmptext = "";
-	std::string text = getText();
-	if(isPassword()) {
-		for(int i=0;i<text.size();i++) {
-			tmptext.append("*");
-		}
-	} else {
-		tmptext = text;
-	}
-	textSize = glutBitmapLength(getFont(), (const unsigned char *) tmptext.substr(0, cursorPosition).c_str());
-}
-
-TextBoxWidget::~TextBoxWidget() {
-
 }
 
 GLfloat TextBoxWidget::getMinimumWidth() {
@@ -53,10 +35,10 @@ void TextBoxWidget::draw() {
 
 	if (focused && showCursor) {
 		glBegin(GL_QUADS);
-		glVertex2f(textSize + 1, -2);
-		glVertex2f(textSize + 1, TextWidget::getMinimumHeight() + 2);
-		glVertex2f(textSize, TextWidget::getMinimumHeight() + 2);
-		glVertex2f(textSize, -2);
+		glVertex2f(cursorVisualPosition + 1, -1);
+		glVertex2f(cursorVisualPosition + 1, TextWidget::getMinimumHeight() + 2);
+		glVertex2f(cursorVisualPosition, TextWidget::getMinimumHeight() + 2);
+		glVertex2f(cursorVisualPosition, -1);
 		glEnd();
 	}
 
@@ -114,6 +96,7 @@ GLboolean TextBoxWidget::onKeyDown(int key, int special) {
 				}
 
 				cursorPosition = currentPosition;
+				showCursor = true;
 				break;
 
 			case GLUT_KEY_RIGHT:
@@ -124,8 +107,11 @@ GLboolean TextBoxWidget::onKeyDown(int key, int special) {
 				}
 
 				cursorPosition = currentPosition;
+				showCursor = true;
 				break;
 		}
+		
+		updateCursorPosition();
 	} else {
 		if (key == 8) {
 			if (currentPosition > 0) {
@@ -144,10 +130,15 @@ GLboolean TextBoxWidget::onKeyDown(int key, int special) {
 			text.insert(cursorPosition, 1, (char)key);
 			cursorPosition++;
 		}
+
+		setText(text);
 	}
-	updateTextSize();
-	setText(text);
+
 	return true;
+}
+
+void TextBoxWidget::updateCursorPosition() {
+	cursorVisualPosition = isPassword() ? glutBitmapWidth(getFont(), '*') * cursorPosition : glutBitmapLength(getFont(), (const unsigned char *) getText().substr(0, cursorPosition).c_str());
 }
 
 GLboolean TextBoxWidget::onKeyUp(int key, int special) {
@@ -167,13 +158,14 @@ void TextBoxWidget::updateDimensions() {
 	TextWidget::updateDimensions();
 	w += _borderWidth * 2;
 	h += _borderWidth * 2;
+	updateCursorPosition();
 	notifyGeometryChange();
 }
 
 void TextBoxWidget::tick(int delta, int absolute) {
 	pastTime += delta;
 
-	if (pastTime > 650) {
+	if (pastTime > 600) {
 		pastTime = 0;
 		showCursor = !showCursor;
 	}
@@ -181,4 +173,8 @@ void TextBoxWidget::tick(int delta, int absolute) {
 
 GLboolean TextBoxWidget::isAnimating() {
 	return focused;
+}
+
+TextBoxWidget::~TextBoxWidget() {
+
 }

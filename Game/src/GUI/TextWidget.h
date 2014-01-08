@@ -42,7 +42,6 @@ protected:
 		float _textColor[4];
 		GLfloat _minWidth, _minHeight;
 		bool _isPassword;
-		std::string _shownText;
 };
 
 #endif // TEXTWIDGET_H
