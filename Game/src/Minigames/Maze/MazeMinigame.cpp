@@ -35,6 +35,8 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
 		keys[i] = false;
 	}
+	maze = new Maze(12, 12);
+	maze->generate();
 }
 
 void MazeMinigame::MazeInstance::finish() {
