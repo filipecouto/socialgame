@@ -5,6 +5,11 @@
 	else{
 		require_once("PrologService.php");
 	}
+	require_once("CommunicationService/BLL/Hangman.php");
+	
+	function beginGame(){
+		return getWord();
+	}
 	
 	function move($letter, $word){
 		$predicate = 
