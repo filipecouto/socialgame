@@ -80,5 +80,22 @@ namespace SocialGame.Controllers
                 return Json("False");
             }
         }
+
+        public JsonResult GetNotifications(int state)
+        {
+            var notifications = comUsers.GetUserNotifications(state);
+            if (notifications == null) //If session goes down
+            {
+                comUsers.Logout();
+                return null;
+            }
+
+            return Json(notifications);
+        }
+        public JsonResult ActionToFriend(int notificationId, int action)
+        {
+            bool result = comUsers.ActionToFriend(notificationId, action);
+            return Json(result);
+        }
     }
 }

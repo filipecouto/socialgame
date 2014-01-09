@@ -83,7 +83,7 @@
             var strength = $("#relationStrengthValue").text();
             var tags = $("#tagValues").val();
 
-            $.post("/Profile/AddFriend", {id : id, strength : strength, tags : tags},
+            $.post("@Url.Action("AddFriend", "Profile")", {id : id, strength : strength, tags : tags},
                 function (data) {
                     if (data == "True") {
                         $("#addFriendDivButton").hide();

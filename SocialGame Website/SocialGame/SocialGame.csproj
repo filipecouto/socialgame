@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -319,6 +320,7 @@
     <Content Include="Views\Account\_ChangeUserNamePartial.cshtml" />
     <Content Include="Views\Account\_ChangeMoodPartial.cshtml" />
     <Content Include="Views\Account\_ChangePicturePartial.cshtml" />
+    <Content Include="Views\Shared\_NotificationSystemPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

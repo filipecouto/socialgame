@@ -26,14 +26,14 @@ require_once('DAL/DAL.php');
 	//Change Notification Read Status
 	function changeNotificationRead($Id){
 		$dal = new DAL();
-		$sql = "UPDATE Notifications SET `read` = 1 WHERE id = '$Id'";
+		$sql = "UPDATE Notifications SET `read` = 1 WHERE id = $Id";
 		$dal->executeQuery($sql);
 	}
 	
 	//Get Users Notifications either Read (1) or To Be Read (0)
 	function getNotificationsByUser($UserId,$ReadState){
 		$dal = new DAL();
-		$sqlFind = "SELECT * FROM Notifications WHERE `to` = '$UserId' AND `read` = '$ReadState'";
+		$sqlFind = "SELECT * FROM Notifications AS N WHERE N.to = $UserId AND N.read = $ReadState";
 		$recordset = $dal->executeNonQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
 		if($length != 0){

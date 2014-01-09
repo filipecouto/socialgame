@@ -108,5 +108,20 @@ require_once('DAL/DAL.php');
 		}
 		return $connections;
 	}
+
+	//Returns the connection
+	function getConnection($ConnectionId){
+		$dal = new DAL();
+		$sqlFind = "SELECT * FROM Connections WHERE id = '$ConnectionId'";
+		$recordset = $dal->executeNonQuery($sqlFind);
+		$length = mysql_num_rows($recordset);
+		if($length != 0){
+			$connection = $recordset;
+		}
+		else{
+			$connection = false;
+		}
+		return $connection;
+	}
 ?>
 	

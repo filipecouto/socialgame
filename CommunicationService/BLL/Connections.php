@@ -69,6 +69,11 @@
 		return $connections;
 	}
 	
+	function returnConnection($ConnectionId){
+		$connection = getConnection($ConnectionId);
+		return $connection;
+	}
+
 	function createConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score){
 		addConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score);
 	}
