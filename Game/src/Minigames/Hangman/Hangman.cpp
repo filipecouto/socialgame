@@ -18,9 +18,9 @@ IMinigameInstance* HangmanMinigame::newGame()
 
 void HangmanMinigame::HangmanInstance::draw() {
     camera.setUp();
-//glDisable(GL_DEPTH_TEST);
+    
     glColor3f(0, 0.25, 0);
-    drawGround(-400,-81,400,400,-81,400,200,-81,-200,-200, -81,-200);
+    drawSquare(-400,-81,400,400,-81,400,200,-81,-200,-200, -81,-200);
     glPushMatrix();
     glColor3f(0.46, 0.32, 0.1);
     drawLines(20.0,10.0, -80.0, 20.0,50.0, -80.0,20.0);
@@ -36,11 +36,14 @@ void HangmanMinigame::HangmanInstance::draw() {
     drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
     drawLines(5.0,  69.0, -80.0,5.0, 59.0, -80.0, 15.0 );
     drawLines(5.0,  69.0, -80.0,5.0, 79.0, -80.0, 15.0 );
-    glPopMatrix();
-    //glEnable(GL_DEPTH_TEST);
 
-//
-// 	glutSolidSphere(2, 32, 32);
+    glColor3f(0,0,1);
+    drawLetterSpaces(2);
+    glColor3f(0,0,0);
+   
+   drawSquare(-98.0,-80.0,20.0,0,-80.0,20.0,0,-80.0,0,-100.0,-80.0,0);
+    glPopMatrix();
+    gui->drawGui();
 }
 void HangmanMinigame::HangmanInstance::drawLines(GLfloat width,
         GLfloat beginX, GLfloat beginY, GLfloat beginZ,
@@ -53,7 +56,7 @@ void HangmanMinigame::HangmanInstance::drawLines(GLfloat width,
     glEnd();
 }
 
-void HangmanMinigame::HangmanInstance::drawGround(GLfloat v1x, GLfloat v1y, GLfloat v1z,
+void HangmanMinigame::HangmanInstance::drawSquare(GLfloat v1x, GLfloat v1y, GLfloat v1z,
         GLfloat v2x, GLfloat v2y, GLfloat v2z,
         GLfloat v3x, GLfloat v3y, GLfloat v3z,
         GLfloat v4x, GLfloat v4y, GLfloat v4z)
@@ -80,6 +83,20 @@ void HangmanMinigame::HangmanInstance::drawCircle(double distance, double pX, do
         glVertex3f(x, -79.0,z);
     }
     glEnd();
+}
+
+void HangmanMinigame::HangmanInstance::drawLetterSpaces(int length)
+{
+  GLfloat x = -100.0, y = -80.0, z =-40.0;
+    for(int i =0; i<length; i++) {
+        glLineWidth(3.0);
+        glBegin(GL_LINES);
+        glVertex3f(x,y,z);
+	x+=5.0;
+        glVertex3f(x,y,z);
+        glEnd();
+	x+=1.0;
+    }
 }
 
 void HangmanMinigame::HangmanInstance::start() {
@@ -123,6 +140,8 @@ HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _cont
     for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
         keys[i] = false;
     }
+    gui = new Gui();
+    gui->addWidget(new TextWidget("Ritinha!!!", 0, 0));
 }
 
 void HangmanMinigame::HangmanInstance::finish() {
@@ -180,4 +199,14 @@ void HangmanMinigame::HangmanInstance::onMouseMove(int x, int y) {
 HangmanMinigame::HangmanInstance::~HangmanInstance() {
 
 }
+
+bool HangmanMinigame::HangmanInstance::determinateLetter(char chosenLetter, string word, int wordLength)
+{
+    for(int i = 0 ; i < wordLength; i++) {
+        if(chosenLetter == word[i])
+            return true;
+    }
+    return false;
+}
+
 
