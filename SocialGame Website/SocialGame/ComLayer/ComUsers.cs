@@ -309,5 +309,46 @@ namespace SocialGame.ComLayer
                 return false;
             }
         }
+
+        public List<Notification> GetUserNotifications(int state)
+        {
+            string token = GetSessionToken();
+            if (token == null) return null;
+            List<Notification> notifications = new List<Notification>();
+            string url = comInterface.comServer + "?Theme=Notifications&Function=findNotificationsByToken&Params=" + token + "^" + state;
+            DataTable dataTable = comInterface.GetMultipleData(url);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Notification aux = new Notification();
+                aux.populateNotification(row);
+                notifications.Add(aux);
+            }
+            return notifications;
+        }
+
+        public bool ActionToFriend(int notificationId, int action)
+        {
+            string token = GetSessionToken();
+            if (token == null) return false;
+            string url = comInterface.comServer + "?Theme=Connections&Function=actionToFriend&Params=" + notificationId + "^" + action;
+            string answer = comInterface.GetSingleData(url);
+            if (answer == "True")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public Connection GetConnection(int connectionId)
+        {
+            string url = comInterface.comServer + "?Theme=Connections&Function=returnConnection&Params=" + connectionId;
+            DataTable dataTable = comInterface.GetMultipleData(url);
+            DataRow row = dataTable.Rows[0];
+            Connection connection = new Connection();
+            connection.populateConnection(row);
+            return connection;
+        }
     }
 }
