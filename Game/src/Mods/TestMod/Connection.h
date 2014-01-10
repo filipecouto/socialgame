@@ -19,7 +19,7 @@ class Connection : public IConnection {
 		Connection(Person * p);
 		Connection(Person * p, int state);
 
-		virtual std::vector< Tag * > getTags();
+		virtual ITagsList * getTags();
 		
 		virtual int getScore();
 		

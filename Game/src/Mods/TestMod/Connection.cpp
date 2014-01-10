@@ -20,8 +20,8 @@ Connection::Connection(Person * p, int state) : _state(state) {
 	_p = p;
 }
 
-std::vector< Tag * > Connection::getTags() {
-	return std::vector<Tag *>();
+ITagsList * Connection::getTags() {
+	return NULL;
 }
 
 int Connection::getScore() {

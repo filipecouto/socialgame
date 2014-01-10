@@ -10,7 +10,7 @@
 #include "Person.h"
 #include "Connection.h"
 
-Person::Person(std::string name, Mood mood) {
+Person::Person(std::string name, IMood * mood) {
 	_name = name;
 	_mood = mood;
 
@@ -21,7 +21,7 @@ std::string Person::getName() {
 	return _name;
 }
 
-Mood Person::getMood() {
+IMood * Person::getMood() {
 	return _mood;
 }
 
@@ -33,8 +33,8 @@ int Person::getStrength() {
 	return 8;
 }
 
-std::vector<Tag *> Person::getTags() {
-	return std::vector<Tag *>();
+ITagsList * Person::getTags() {
+	return NULL;
 }
 
 void Person::connect(Person * other) {
