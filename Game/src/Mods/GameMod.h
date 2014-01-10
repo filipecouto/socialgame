@@ -13,6 +13,8 @@
 #include "../Models/INotification.h"
 #include "GameModEventListener.h"
 
+class IMoodsList;
+
 class GameMod {
 	public:
 		virtual void load() { }
@@ -20,6 +22,8 @@ class GameMod {
 		virtual IUser * getIdentity() = 0;
 
 		virtual std::vector<INotification *> * getNotifications() = 0;
+		
+		virtual IMoodsList * getMoods() { }; // TODO make it abstract once all mods support it
 
 		// TODO interface missing
 		virtual void * getPendingGames() = 0;
