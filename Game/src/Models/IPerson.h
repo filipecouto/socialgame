@@ -12,9 +12,10 @@
 #include <string>
 #include <vector>
 #include "IConnection.h"
-#include "Mood.h"
+#include "IMood.h"
 #include "Tag.h"
 
+class ITagsList;
 class IConnection;
 class IConnectionsList;
 
@@ -22,17 +23,17 @@ class IPerson {
 	public:
 		virtual std::string getName() = 0;
 
-		virtual Mood getMood() = 0;
+		virtual IMood * getMood() = 0;
 
 		virtual int getScore() = 0;
 
 		virtual int getStrength() = 0;
 
-		virtual std::vector<Tag*> getTags() = 0;
+		virtual ITagsList * getTags() { }; // TODO make it abstract once all mods support it
 
-		virtual IConnectionsList* getConnections() = 0;
+		virtual IConnectionsList * getConnections() = 0;
 
-		virtual ~IPerson(){}
+		virtual ~IPerson() {}
 };
 
 #endif

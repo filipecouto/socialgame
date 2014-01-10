@@ -15,6 +15,7 @@
 #include "Tag.h"
 #include "IPerson.h"
 
+class ITagsList;
 class IPerson;
 
 class IConnection {
@@ -27,7 +28,7 @@ class IConnection {
 
 		virtual int getScore() = 0;
 
-		virtual std::vector<Tag*> getTags() = 0;
+		virtual ITagsList * getTags() { }; // TODO make it abstract once all mods support it
 
 		virtual ~IConnection() { }
 };
