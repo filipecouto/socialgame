@@ -29,7 +29,7 @@ public:
 	
 	rapidjson::Value & getMoods();
 	
-	rapidjson::Value & getConnectionsFromUser(const int userId);
+	rapidjson::Value & getConnectionsOfUser(const int userId);
 	
 private:
 	std::string baseUrl;

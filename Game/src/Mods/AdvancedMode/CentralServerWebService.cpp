@@ -42,8 +42,8 @@ rapidjson::Value & CentralServerWebService::getMoods() {
 	return getData("Moods", "getAllMoods", "")->operator[]("data");
 }
 
-rapidjson::Value & CentralServerWebService::getConnectionsFromUser(const int userId) {
-	return getData("Connections", "getConnectionsFromUser", std::to_string(userId))->operator[]("data");
+rapidjson::Value & CentralServerWebService::getConnectionsOfUser(const int userId) {
+	return getData("Connections", "getConnectionsOfUser", std::to_string(userId))->operator[]("data");
 }
 
 rapidjson::Document * CentralServerWebService::getData(const string type, const string function, const string params) {

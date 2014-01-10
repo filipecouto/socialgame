@@ -7,7 +7,7 @@
 using namespace AdvancedMode;
 
 ConnectionsList::ConnectionsList(Person * from, Cache * cache) : cache(cache) {
-	const rapidjson::Value & list = cache->getService()->getConnectionsFromUser(from->getId());
+	const rapidjson::Value & list = cache->getService()->getConnectionsOfUser(from->getId());
 
 	rapidjson::SizeType len = list.Size();
 
