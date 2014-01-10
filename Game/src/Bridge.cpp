@@ -103,6 +103,8 @@ void Bridge::onMouseButton(int button, int state, int x, int y) {
 		if (windowPersonInfo) windowPersonInfo->hide();
 
 		_controller->pick(x, y);
+	} else {
+		_controller->onMouseButton(state, button, x, y);
 	}
 }
 
