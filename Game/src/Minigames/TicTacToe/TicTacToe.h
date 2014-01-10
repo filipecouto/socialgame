@@ -37,6 +37,10 @@ class TicTacToeMinigame : public IMinigame {
 				
 				virtual ~TicTacToeInstance();
 
+				void drawLine(GLfloat addZ = 0);
+				void drawX();
+				void drawO();
+
 			private:
 				GameContext * _context;
 
@@ -51,6 +55,7 @@ class TicTacToeMinigame : public IMinigame {
 
 				Thing thing;
 				GLfloat mx, my;
+				GLfloat rotateY = 0;
 		};
 };
 
