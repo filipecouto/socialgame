@@ -9,6 +9,7 @@
 #ifndef CENTRALSERVERWEBSERVICE_H
 #define CENTRALSERVERWEBSERVICE_H
 
+#include <string>
 #include "dependencies/CurlHelper/CurlHelper.h"
 #include "dependencies/rapidjson/document.h"
 
@@ -23,6 +24,12 @@ public:
 	rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
 	
 	int login(std::string email, std::string password);
+	int getUserId();
+	rapidjson::Value & getPerson(const int id);
+	
+	rapidjson::Value & getMoods();
+	
+	rapidjson::Value & getConnectionsFromUser(const int userId);
 	
 private:
 	std::string baseUrl;

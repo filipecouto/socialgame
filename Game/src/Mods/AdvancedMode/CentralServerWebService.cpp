@@ -8,26 +8,47 @@
 
 #include "CentralServerWebService.h"
 
-CentralServerWebService::CentralServerWebService() : baseUrl("http://172.31.100.1/SocialGame/") {
+CentralServerWebService::CentralServerWebService() : baseUrl("http://uvm001.dei.isep.ipp.pt//SocialGame/") {
 
 }
 
 int CentralServerWebService::login(string email, string password) {
-	const rapidjson::Value& v = getData("Users", "doLogin", email + "^" + password)->operator[]("data");
+	const rapidjson::Value & v = getData("Users", "doLogin", email + "^" + password)->operator[]("data");
 
 	if (v.IsNull()) {
 		return -1;
-	}
-	else {
+	} else {
 		token = v.GetString();
-		//printf("My token is %s :D\n", token.c_str());
 		return 1;
 	}
 }
 
+int CentralServerWebService::getUserId() {
+	// TODO it should use a function that only returns the ID
+	const rapidjson::Value & v = getData("Users", "getUserIdFromSession", token)->operator[]("data");
+
+	if (v.IsNull()) {
+		return -1;
+	} else {
+		return std::stoi(v.GetString());
+	}
+}
+
+rapidjson::Value & CentralServerWebService::getPerson(const int id) {
+	return getData("Users", "getUserInfo", std::to_string(id))->operator[]("data");
+}
+
+rapidjson::Value & CentralServerWebService::getMoods() {
+	return getData("Moods", "getAllMoods", "")->operator[]("data");
+}
+
+rapidjson::Value & CentralServerWebService::getConnectionsFromUser(const int userId) {
+	return getData("Connections", "getConnectionsFromUser", std::to_string(userId))->operator[]("data");
+}
+
 rapidjson::Document * CentralServerWebService::getData(const string type, const string function, const string params) {
-	std::string result = curl_httpget(baseUrl + type + '/' + function + "?Params=" + params);
-	//printf("Received: %s\n", result.c_str());
+	std::string result = curl_httpget(baseUrl + type + '/' + (params.length() == 0 ? function : function + "?Params=" + params));
+	printf("Queried %s...\nReceived: %s\n", (baseUrl + type + '/' + function + "?Params=" + params).c_str(), result.c_str());
 
 	rapidjson::Document * d = new rapidjson::Document();
 	d->Parse<0>(result.c_str());

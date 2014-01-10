@@ -8,6 +8,9 @@ AdvancedMode.a : $(OBJ_FILES)
 
 CurlHelper.o : dependencies/CurlHelper/CurlHelper.cpp
 	g++ -std=c++11 -ggdb -c -o $@ $<
+	
+%.o : %.cpp
+	g++ -std=c++11 -ggdb -c -o $@ $<
 
 clean :
-	rm *.o
+	rm *.o; rm ../AdvancedMode.a
