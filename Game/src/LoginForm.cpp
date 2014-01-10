@@ -9,8 +9,10 @@
 #include "LoginForm.h"
 #include "GUI/LinearContainer.h"
 #include "Mods/AdvancedMode/AdvancedMode.h"
+#include "GameController.h"
+#include "Models/IMoodsList.h"
 
-LoginForm::LoginForm() {
+LoginForm::LoginForm(GameController * controller) : controller(controller) {
 	setPadding(16);
 
 	LinearContainer * layout = new LinearContainer();
@@ -58,12 +60,15 @@ void LoginForm::onWidgetClicked(Widget * clicked) {
 	if (bNormalMode == clicked) {
 		hide();
 	} else if (bAdvancedMode == clicked) {
-		AdvancedMode * mode = new AdvancedMode();
+		AdvancedMode::AdvancedMode * mode = new AdvancedMode::AdvancedMode();
 		int result = mode->login(tEmail->getText(), tPassword->getText());
 		if(result == -1) {
 			tError->visible = true;
 			tError->setText("Wrong e-mail or password");
 		} else {
+			//printf("Welcome %s!\n", mode->getIdentity()->getPerson()->getName().c_str());
+			//printf("There are %d moods.\n", mode->getMoods()->size());
+			controller->start(mode);
 			hide();
 		}
 	}

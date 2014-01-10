@@ -25,7 +25,7 @@ Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(
 
 	controller->start(new TestMod());
 
-	loginForm = new LoginForm();
+	loginForm = new LoginForm(controller);
 	_gui->addWidget(loginForm);
 }
 #include <cstdio>
@@ -221,8 +221,8 @@ PersonInfoWindow::PersonInfoWindow(IPerson * me, IPerson * person): Window() {
 
 void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	textName->setText(person->getName());
-	textMood->setText(person->getMood().getDescription());
-	textFriends->setText(std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)");
+	textMood->setText(person->getMood() ? person->getMood()->getDescription() : "Couldn't understand mood");
+	textFriends->setText(person->getConnections() ? std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)" : "Couldn't count friends");
 
 	if (me == person) {
 		buttonAddFriend->visible = false;
