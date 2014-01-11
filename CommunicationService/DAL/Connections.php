@@ -61,6 +61,18 @@ require_once('DAL/DAL.php');
 		$dal->executeQuery($sql);
 	}
 
+	// Changes user's connection state
+	function changeConnectionStateByUser($id, $userId, $state){
+		$dal = new DAL();
+		$userId = mysql_real_escape_string($userId);
+		$sql = sprintf("UPDATE Connections SET state='%d' WHERE id='%d' AND (user1='%d' OR user2='%d')",
+					   mysql_real_escape_string($state),
+					   mysql_real_escape_string($id),
+					   $userId,
+					   $userId);
+		$dal->executeQuery($sql);
+	}
+
 	//Returns the connection state
 	function getConnectionState($ConnectionId){
 		$dal = new DAL();
