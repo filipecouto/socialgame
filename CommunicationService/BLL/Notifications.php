@@ -31,6 +31,22 @@
 	}
 
 	function findNotificationsByUser($UserId,$ReadState){
-		return getNotificationsByUser($UserId,$ReadState);
+		return DAL_getNotificationsByUserAndState($UserId,$ReadState);
+	}
+	
+	function getNotificationBasesForUser($token) {
+		$userId = getUserBySession($token);
+		return DAL_getNotificationIdsByUser($userId);
+	}
+	
+	function getNotification($token, $id) {
+		$userId = getUserBySession($token);
+		return DAL_getNotificationByUser($userId, $id);
+	}
+	
+	function markNotificationRead($token, $id, $read) {
+		$userId = getUserBySession($token);
+		changeNotificationOfUserRead($id, $userId, $read);
+		return true;
 	}
 ?>

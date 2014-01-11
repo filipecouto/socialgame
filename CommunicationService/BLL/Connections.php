@@ -90,6 +90,10 @@
 		changeConnectionState($Id,$State);
 	}
 	
+	function getConnectionsOfUser($userId) {
+		return DAL_getConnectionsOfUser($userId);
+	}
+	
 	function findConnectionIdByUsers($User1,$User2){
 		return getConnectionIdByUsers($User1,$User2);
 	}

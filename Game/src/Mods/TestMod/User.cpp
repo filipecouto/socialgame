@@ -9,17 +9,18 @@
 #include "User.h"
 #include "MessageNotification.h"
 #include "FriendshipRequestNotification.h"
+#include "Mood.h"
 
-User::User() : ritinha("Bbb Ritinha Nogueirinha", Mood("Maybe Happy")) {
-	Person * p1 = new Person("AAz Miquelina", Mood("Maybe Maybe"));
-	Person * p2 = new Person("Azz Alface", Mood("Maybe Fresh"));
-	Person * p3 = new Person("zzz Fernando", Mood("Maybe I don't know"));
-	Person * p4 = new Person("zzA Alho Batata", Mood("Maybe Salty"));
-	Person * p5 = new Person("zAA Batata Frita", Mood("Maybe Salty"));
-	Person * p6 = new Person("zAz Batata Cozida", Mood("Maybe Salty"));
-	Person * p7 = new Person("Alguem", Mood("..."));
-	Person * p8 = new Person("Outro Alguem", Mood("......"));
-	Person * p9 = new Person("qwerty", Mood("uiop"));
+User::User() : ritinha("Bbb Ritinha Nogueirinha", new Mood("Maybe Happy")) {
+	Person * p1 = new Person("AAz Miquelina", new Mood("Maybe Maybe"));
+	Person * p2 = new Person("Azz Alface", new Mood("Maybe Fresh"));
+	Person * p3 = new Person("zzz Fernando", new Mood("Maybe I don't know"));
+	Person * p4 = new Person("zzA Alho Batata", new Mood("Maybe Salty"));
+	Person * p5 = new Person("zAA Batata Frita", new Mood("Maybe Salty"));
+	Person * p6 = new Person("zAz Batata Cozida", new Mood("Maybe Salty"));
+	Person * p7 = new Person("Alguem", new Mood("..."));
+	Person * p8 = new Person("Outro Alguem", new Mood("......"));
+	Person * p9 = new Person("qwerty", new Mood("uiop"));
 
 	ritinha.connect(p1);
 	ritinha.connect(p2);

@@ -7,35 +7,57 @@
  */
 
 #include "AdvancedMode.h"
+#include "User.h"
+#include "MoodsList.h"
+#include "Cache.h"
+#include "NotificationsList.h"
 
-AdvancedMode::AdvancedMode() {
-
-}
-
-int AdvancedMode::login(string email, string password) {
-	return service.login(email, password);
-}
-
-void AdvancedMode::load() {
+AdvancedMode::AdvancedMode::AdvancedMode() {
 
 }
 
-void * AdvancedMode::getPendingGames() {
+void AdvancedMode::AdvancedMode::load() {
+	moods = new MoodsList(service.getMoods(), &service);
+
+	if (cache) delete cache;
+
+	cache = new Cache(&service, moods);
+}
+
+int AdvancedMode::AdvancedMode::login(string email, string password) {
+	int result = service.login(email, password);
+
+	return result;
+}
+
+void * AdvancedMode::AdvancedMode::getPendingGames() {
 	return NULL;
 }
 
-std::vector< INotification * > * AdvancedMode::getNotifications() {
-	return new std::vector<INotification*>();
+INotificationsList * AdvancedMode::AdvancedMode::getNotifications() {
+	if(!notificationsList) {
+		notificationsList = new NotificationsList(cache);
+	}
+	
+	return notificationsList;
 }
 
-IUser * AdvancedMode::getIdentity() {
-	return NULL;
+IUser * AdvancedMode::AdvancedMode::getIdentity() {
+	if (!user) {
+		user = new User(cache);
+	}
+
+	return user;
 }
 
-void AdvancedMode::setEventListener(GameModEventListener * listener) {
+IMoodsList * AdvancedMode::AdvancedMode::getMoods() {
+	return moods;
+}
+
+void AdvancedMode::AdvancedMode::setEventListener(GameModEventListener * listener) {
 
 }
 
-AdvancedMode::~AdvancedMode() {
+AdvancedMode::AdvancedMode::~AdvancedMode() {
 
 }

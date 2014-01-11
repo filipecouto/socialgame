@@ -34,8 +34,16 @@ class TicTacToeMinigame : public IMinigame {
 				virtual void onMouseMove(int x, int y);
 
 				virtual void finish();
-				
+
 				virtual ~TicTacToeInstance();
+
+				void drawLine(GLfloat addZ = 0);
+				void drawX(int x, int y);
+				void drawXLine(GLfloat ang);
+				void drawO();
+		char matriz[3][3] = {{' ', ' ', ' '},
+								{' ', ' ', ' '},
+								{' ', ' ', ' '}};
 
 			private:
 				GameContext * _context;

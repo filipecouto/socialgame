@@ -13,23 +13,27 @@
 #include "GUI/TextBoxWidget.h"
 #include "GUI/ButtonWidget.h"
 
+class GameController;
+
 class LoginForm : public Window {
 	public:
-		LoginForm();
-		
+		LoginForm(GameController * controller);
+
 		virtual void onWidgetClicked(Widget * clicked);
 		virtual void onParentGeometryChange(Widget * widget);
-		
+
 		~LoginForm();
 
-private:
-	TextBoxWidget * tEmail;
-	TextBoxWidget * tPassword;
-	
-	TextWidget * tError;
-	
-	ButtonWidget * bNormalMode;
-	ButtonWidget * bAdvancedMode;
+	private:
+		GameController * controller;
+
+		TextBoxWidget * tEmail;
+		TextBoxWidget * tPassword;
+
+		TextWidget * tError;
+
+		ButtonWidget * bNormalMode;
+		ButtonWidget * bAdvancedMode;
 };
 
 #endif // LOGINFORM_H

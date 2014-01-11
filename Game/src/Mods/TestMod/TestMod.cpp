@@ -9,6 +9,7 @@
 #include "TestMod.h"
 #include "MessageNotification.h"
 #include "FriendshipRequestNotification.h"
+#include "Mood.h"
 
 TestMod::TestMod() {
 
@@ -25,7 +26,7 @@ void TestMod::load() {
 }
 
 void TestMod::doSomething() {
-	Person * p10 = new Person("Pessoa que quer ser amiga", Mood("Feliz se for amiga"));
+	Person * p10 = new Person("Pessoa que quer ser amiga", new Mood("Feliz se for amiga"));
 	_listener->onNewNotification(new FriendshipRequestNotification(&user, ((Person *) user.getPerson())->connect(p10, 0)));
 }
 
@@ -33,7 +34,7 @@ IUser * TestMod::getIdentity() {
 	return &user;
 }
 
-std::vector<INotification *> * TestMod::getNotifications() {
+INotificationsList * TestMod::getNotifications() {
 	return NULL;
 }
 

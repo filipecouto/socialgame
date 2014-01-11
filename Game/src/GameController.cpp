@@ -11,6 +11,7 @@
 #include "Dependencies/readjpeg.c"
 #include "Graphics/GraphicFactory.h"
 #include "Models/IConnectionsList.h"
+#include "Models/INotificationsList.h"
 
 #include <math.h>
 #include <GL/freeglut.h>
@@ -30,6 +31,7 @@ GameController::GameController() : _graphFactory() {
 
 void GameController::start(GameMod * mod) {
 	if (_mod != NULL) {
+		personObjects.clear();
 		// TODO clean up
 	} else {
 		// first time loading
@@ -48,6 +50,8 @@ void GameController::start(GameMod * mod) {
 	_mod->load();
 
 	start();
+	
+	_listener->onGameLoaded();
 }
 
 void GameController::draw() {
@@ -262,7 +266,7 @@ void GameController::createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z) 
 		personObjects.push_back(g);
 
 		g->x = x;
-		g->y = y + p->getConnections()->getFriendsCount() * 1.0f;
+		g->y = y + (p->getConnections() ? (p->getConnections()->getFriendsCount() * 1.0f) : 0);
 		g->z = z;
 
 		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
@@ -276,7 +280,7 @@ void GameController::loadPeople(IPerson * p, int depth) {
 }
 
 void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GLfloat z) {
-	if (depth != 0 && p) {
+	if (depth != 0 && p && p->getConnections()) {
 		IList<IConnection *> * cons = p->getConnections();
 		int len = cons->size();
 

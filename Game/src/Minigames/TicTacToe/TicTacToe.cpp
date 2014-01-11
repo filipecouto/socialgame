@@ -6,7 +6,7 @@ TicTacToeMinigame::TicTacToeMinigame(GameContext * context) : _context(context) 
 }
 
 std::string TicTacToeMinigame::getName() {
-	return "Test minigame";
+	return "Tic Tac Toe";
 }
 
 IMinigameInstance * TicTacToeMinigame::newGame() {
@@ -16,23 +16,131 @@ IMinigameInstance * TicTacToeMinigame::newGame() {
 void TicTacToeMinigame::TicTacToeInstance::draw() {
 	camera.setUp();
 
+	//PLANO DE BAIXO
 	glColor3f(0.8, 0.8, 0.8);
 	glBegin(GL_QUADS);
-	glVertex3i(-20, 0,  20);
-	glVertex3i(20, 0,  20);
+	glVertex3i(-20, 0, 20);
+	glVertex3i(20, 0, 20);
 	glVertex3i(20, 0, -20);
 	glVertex3i(-20, 0, -20);
 	glEnd();
-	
-	glPushMatrix();
+
+	/*glPushMatrix();
 	glColor3f(0.2, 0.6, 0.9);
 	glTranslatef(mx - 0.5f, 1, my - 0.5f);
 	glutSolidTeapot(1);
-	glPopMatrix();
+	glPopMatrix();*/
 
-	glColor3f(1.0, 0.6, 0.0);
+	/*glColor3f(1.0, 0.6, 0.0);
 	glTranslatef(thing.x, 2, thing.y);
-	glutSolidSphere(2, 32, 32);
+	glutSolidSphere(2, 32, 32);*/
+
+	glPushMatrix();
+		
+
+		glPushMatrix();
+			//Right External Line
+			drawLine();
+		glPopMatrix();
+		glPushMatrix();
+			//Left External Line
+			glTranslatef(9.8, 0, 0);
+			drawLine();
+		glPopMatrix();
+		glPushMatrix();
+			//Right Internal Line
+			glTranslatef(3.3, 0, 0);
+			drawLine();
+		glPopMatrix();
+		glPushMatrix();
+			//Left Internal Line
+			glTranslatef(6.7, 0, 0);
+			drawLine();
+		glPopMatrix();
+
+		glPushMatrix();
+			//Upper External Line
+			glTranslatef(5, 14.8, 0);
+			glRotatef(90, 0.0, 0.0, 1.0);
+			drawLine(0.1);
+		glPopMatrix();
+		glPushMatrix();
+			//Lower External Line
+			glTranslatef(5, 5, 0);
+			glRotatef(90, 0.0, 0.0, 1.0);
+			drawLine(0.1);
+		glPopMatrix();
+		glPushMatrix();
+			//Lower Internal Line
+			glTranslatef(5, 5 + 3.3, 0);
+			glRotatef(90, 0.0, 0.0, 1.0);
+			drawLine(0.1);
+		glPopMatrix();
+		glPushMatrix();
+			//Upper Internal Line
+			glTranslatef(5, 5 + 6.7, 0);
+			glRotatef(90, 0.0, 0.0, 1.0);
+			drawLine(0.1);
+		glPopMatrix();
+
+		glPushMatrix();
+			//Base
+			glColor3f(0.3, 0.3, 0.3);
+			glBegin(GL_QUADS);
+			glVertex3i(-5, 0, -15);
+			glVertex3i(-5, 10, -15);
+			glVertex3i(5, 10, -15);
+			glVertex3i(5, 0, -15);
+			glEnd();
+		glPopMatrix();
+	glPopMatrix();
+	/*char matriz[3][3] = {'X','X','X',
+								'X','X','X',
+								'X','X','X' };*/
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			switch(matriz[i][j]) {
+				case 'X':
+					drawX(i,j);
+					break;
+				case 'O':
+					break;
+			}
+		}
+	}
+}
+
+void TicTacToeMinigame::TicTacToeInstance::drawLine(GLfloat addZ){
+	glColor3f(0.5, 0.1, 0.8);
+	glBegin(GL_QUADS);
+		glVertex3f(-5, 0, -15 - addZ);
+		glVertex3f(-5, 10, -15 - addZ);
+		glVertex3f(-4.8, 10, -15 - addZ);
+		glVertex3f(-4.8, 0, -15 - addZ);
+	glEnd();
+}
+
+void TicTacToeMinigame::TicTacToeInstance::drawX(int x, int y){
+	glPushMatrix();
+	glTranslatef(3.3 - (x * 3.3), 8.3 - (y * 3.3), -15.2);
+		drawXLine(45);
+		drawXLine(-90);
+	glPopMatrix();
+}
+
+void TicTacToeMinigame::TicTacToeInstance::drawXLine(GLfloat ang){
+	glColor3f(0.2, 0.6, 0.3);
+	glRotatef(ang, 0.0, 0.0, 1.0);
+	glBegin(GL_QUADS);
+		glVertex3f(-0.25, 1, 0);
+		glVertex3f(0.25, 1, 0);
+		glVertex3f(0.25, -1, 0);
+		glVertex3f(-0.25, -1, 0);
+	glEnd();
+}
+
+void TicTacToeMinigame::TicTacToeInstance::drawO(){
+
 }
 
 void TicTacToeMinigame::TicTacToeInstance::start() {
@@ -46,7 +154,11 @@ void TicTacToeMinigame::TicTacToeInstance::start() {
 void TicTacToeMinigame::TicTacToeInstance::tick(int delta, int current) {
 	camera.tick(delta, current);
 
-	if (keys[1]) thing.vx += 0.005;
+	if (keys[1]) camera.rotate(0.0, 1.0, 0.0);
+	if (keys[3]) camera.rotate(0.0, -1.0, 0.0);
+	
+
+	/*if (keys[1]) thing.vx += 0.005;
 
 	if (keys[3]) thing.vx -= 0.005;
 
@@ -67,7 +179,7 @@ void TicTacToeMinigame::TicTacToeInstance::tick(int delta, int current) {
 	else if (thing.y > 20) thing.y = 20;
 	
 	if(mx - 1.0f <= thing.x && mx + 1.0f >= thing.x &&
-		my - 1.0f <= thing.y && my + 1.0f >= thing.y) finish();
+		my - 1.0f <= thing.y && my + 1.0f >= thing.y) finish();*/
 }
 
 TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) : _context(context) {
@@ -121,6 +233,58 @@ void TicTacToeMinigame::TicTacToeInstance::onKeyUp(int key, int special) {
 }
 
 void TicTacToeMinigame::TicTacToeInstance::onMouseButton(int state, int button, int x, int y) {
+	if (state == 1){
+		if (mx >= 2.6 && mx <= 6.75 &&
+			my >= 6 && my <= 13.3){
+			printf("<-----------1---------->");
+			matriz[0][0] = 'X';
+			
+		}
+
+		if (mx >= -2.0 && mx <= 2.3 &&
+			my >= 6 && my <= 13.3){
+			printf("<-----------2---------->");
+			matriz[1][0] = 'X';
+		}
+
+		if (mx >= -6.75 && mx <= -2.3 &&
+			my >= 6 && my <= 13.3){
+			printf("<-----------3---------->");
+		}
+
+		if (mx >= 2.4 && mx <= 6.0 &&
+			my >= -1.6 && my <= 5.4){
+			printf("<-----------4---------->");
+		}
+
+		if (mx >= -1.8 && mx <= 2.1 &&
+			my >= -1.6 && my <= 5.4){
+			printf("<-----------5---------->");
+		}
+
+		if (mx >= -6.0 && mx <= -2.1 &&
+			my >= -1.6 && my <= 5.4){
+			printf("<-----------6---------->");
+		}
+
+		if (mx >= 2.2 && mx <= 6.0 &&
+			my >= -8.0 && my <= -2.1){
+			printf("<-----------7---------->");
+		}
+
+		if (mx >= -1.7 && mx <= 2.0 &&
+			my >= -8.0 && my <= -2.1){
+			printf("<-----------8---------->");
+		}
+
+		if (mx >= -5.6 && mx <= -2.0 &&
+			my >= -8.0 && my <= -2.1){
+			printf("<-----------9---------->");
+		}
+
+		printf("%f %f\n", mx, my);
+	}
+	
 }
 
 void TicTacToeMinigame::TicTacToeInstance::onMouseMove(int x, int y) {

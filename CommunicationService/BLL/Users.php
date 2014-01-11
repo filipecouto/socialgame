@@ -1,6 +1,7 @@
 <?php
 	require_once('DAL/Users.php');
 	require_once('DAL/Sessions.php');
+	require_once('DAL/Moods.php');
 	
 	function createUser($userName, $password, $email){
 		$encriptedPassword = sha1($password);
@@ -127,6 +128,13 @@
 		return isToken($token);
 	}
 
+	/**
+	 * Gets the ID of the user using this session
+	 */
+	function getUserIdFromSession($token){
+		return getUserBySession($token);
+	}
+
 	//Returns the user information using its session token
 	function returnUser($token){
 		$userId = getUserBySession($token);
@@ -153,4 +161,23 @@
 			return false;
 		}
 	}
+	
+	function getUserInfo($id) {
+		$userObject = returnUserById($id);
+		$userInformation = array();
+		$userArray = mysql_fetch_array($userObject);
+		$userInformation["id"] = $userArray["id"];
+		$userInformation["username"] = $userArray["username"];
+		$moodId = $userArray["moodID"];
+		$userInformation["moodId"] = $moodId;
+		if($moodId != null) {
+			$moodObject = getMoodById($moodId);
+			$mood = mysql_fetch_array($moodObject);
+			$userInformation["mood"] = $mood["description"];
+		} else {
+			$userInformation["mood"] = null;
+		}
+		return $userInformation;
+	}
+	
 ?>

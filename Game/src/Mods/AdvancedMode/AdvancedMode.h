@@ -12,25 +12,40 @@
 #include "../../Mods/GameMod.h"
 #include "CentralServerWebService.h"
 
-class AdvancedMode : public GameMod {
-	public:
-		AdvancedMode();
-		
-		int login(std::string email, std::string password);
+namespace AdvancedMode {
+	class NotificationsList;
+	class MoodsList;
+	class Cache;
+	
+	class AdvancedMode : public GameMod {
+		public:
+			AdvancedMode();
 
-		virtual void load();
+			int login(std::string email, std::string password);
 
-		virtual void * getPendingGames();
-		virtual std::vector< INotification * > * getNotifications();
-		virtual IUser * getIdentity();
-		
-		virtual void setEventListener(GameModEventListener * listener);
+			virtual void load();
 
-		~AdvancedMode();
+			virtual IUser * getIdentity();
+			
+			virtual void * getPendingGames();
+			virtual INotificationsList * getNotifications();
+			virtual IMoodsList * getMoods();
 
-	private:
-		CentralServerWebService service;
-		GameModEventListener * listener;
-};
+			virtual void setEventListener(GameModEventListener * listener);
+
+			~AdvancedMode();
+
+		private:
+			CentralServerWebService service;
+			GameModEventListener * listener;
+			
+			Cache * cache = NULL;
+
+			IUser * user = NULL;
+			MoodsList * moods = NULL;
+			
+			NotificationsList * notificationsList = NULL;
+	};
+}
 
 #endif // ADVANCEDMODE_H

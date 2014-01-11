@@ -8,23 +8,27 @@
 
 #include "PersonGraphic.h"
 #include "../Models/IConnectionsList.h"
+#include "../Models/ITagsList.h"
 #include "GraphicFactory.h"
 
 PersonGraphic::PersonGraphic(IPerson * person) : PersonGraphic(person, 0) {
 }
 PersonGraphic::PersonGraphic(IPerson * person, GLfloat startAngle) : _person(person), _startAngle(startAngle) {
-	radius = 1.0 + _person->getTags().size() * 0.4;
+	radius = 1.0 + (_person->getTags() ? _person->getTags()->size() * 0.4 : 0);
 }
 
 void PersonGraphic::load(GameContext * context) {
 	_context = context;
 
 	IConnectionsList * conns = _person->getConnections();
-	int len = conns->size();
 
-	for (int i = 0; i < len; i++) {
-		IConnection * connection = (*conns)[i];
-		createConnection(connection);
+	if (conns) {
+		int len = conns->size();
+
+		for (int i = 0; i < len; i++) {
+			IConnection * connection = (*conns)[i];
+			createConnection(connection);
+		}
 	}
 }
 

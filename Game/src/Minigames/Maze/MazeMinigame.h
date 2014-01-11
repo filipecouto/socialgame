@@ -3,6 +3,7 @@
 
 #include "../IMinigame.h"
 #include "../IMinigameInstance.h"
+#include "Maze.h"
 #include "../../Graphics/Camera.h"
 
 #include <GL/glut.h>
@@ -25,6 +26,7 @@ class MazeMinigame : public IMinigame {
 				virtual void start();
 
 				virtual void draw();
+				virtual void drawCube();
 				virtual void tick(int delta, int current);
 
 				virtual void onKeyDown(int key, int special);
@@ -39,6 +41,7 @@ class MazeMinigame : public IMinigame {
 
 			private:
 				GameContext * _context;
+				Maze * maze;
 
 				Camera camera;
 

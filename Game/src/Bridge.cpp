@@ -14,6 +14,7 @@
 #include "Mods/TestMod/TestMod.h"
 #include "Models/IMessageNotification.h"
 #include "Models/IFriendshipRequestNotification.h"
+#include "Models/INotificationsList.h"
 #include "Minigames/Test/TestMinigame.h"
 #include "Minigames/TicTacToe/TicTacToe.h"
 #include "Minigames/Maze/MazeMinigame.h"
@@ -25,7 +26,7 @@ Bridge::Bridge(Gui * gui, GameController * controller) : _gui(gui), _controller(
 
 	controller->start(new TestMod());
 
-	loginForm = new LoginForm();
+	loginForm = new LoginForm(controller);
 	_gui->addWidget(loginForm);
 }
 #include <cstdio>
@@ -40,6 +41,22 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 		} else {
 			_controller->getCamera()->setType(ThirdPerson);
 			printf("Switching camera to third person...\n");
+		}
+	} else if (widget == barNotifications) {
+		if (!notifications) {
+			notifications = new NotificationsNavigator(_controller);
+			notifications->visible = false;
+			_gui->addWidget(notifications);
+		}
+
+		notifications->x = _gui->getWidth() - notifications->w;
+		notifications->y = _gui->getHeigth() - bar->getHeigth() - notifications->h;
+
+		if (notifications->visible) {
+			notifications->hide();
+			updateNotificationsButton();
+		} else {
+			notifications->show();
 		}
 	} else if (widget == barTest1) {
 		_controller->startMinigame(new TicTacToeMinigame(_controller));
@@ -103,6 +120,8 @@ void Bridge::onMouseButton(int button, int state, int x, int y) {
 		if (windowPersonInfo) windowPersonInfo->hide();
 
 		_controller->pick(x, y);
+	} else {
+		_controller->onMouseButton(state, button, x, y);
 	}
 }
 
@@ -123,7 +142,15 @@ Widget * Bridge::getTopBar() {
 	if (bar == NULL) {
 		bar = new LinearContainer();
 		barCamera = new ButtonWidget(new TextWidget("Camera", 0, 0));
-		barNotifications = new ButtonWidget(new TextWidget("Notifications", 0, 0));
+		LinearContainer * buttonNotifications = new LinearContainer();
+		buttonNotifications->setHorizontal();
+		buttonNotifications->setSpacing(4);
+		buttonNotifications->addWidget(new TextWidget("Notifications", 0, 0));
+
+		if (!tNotifications) tNotifications = new TextWidget("", 0, 0);
+
+		buttonNotifications->addWidget(tNotifications);
+		barNotifications = new ButtonWidget(buttonNotifications);
 		barPendingGames = new ButtonWidget(new TextWidget("Pending Games", 0, 0));
 		barSettings = new ButtonWidget(new TextWidget("Settings", 0, 0));
 		bar->addWidget(barCamera);
@@ -187,6 +214,25 @@ void Bridge::onNewNotification(INotification * notification) {
 	}
 }
 
+void Bridge::onGameLoaded() {
+	updateNotificationsButton();
+}
+
+void Bridge::updateNotificationsButton() {
+	GameMod * mod = _controller->getGameMod();
+
+	if (!tNotifications) tNotifications = new TextWidget("", 0, 0);
+
+	if (mod->getNotifications()) {
+		int count = mod->getNotifications()->getUnreadCount();
+		tNotifications->setText(std::to_string(count));
+		tNotifications->setTextColor(count == 0 ? 0.8 : 0.1, count == 0 ? 0.8 : 0.9, count == 0 ? 0.8 : 0.1);
+	} else {
+		tNotifications->setText("-");
+		tNotifications->setTextColor(0.5, 0.5, 0.5);
+	}
+}
+
 Bridge::~Bridge() {
 
 }
@@ -221,8 +267,8 @@ PersonInfoWindow::PersonInfoWindow(IPerson * me, IPerson * person): Window() {
 
 void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	textName->setText(person->getName());
-	textMood->setText(person->getMood().getDescription());
-	textFriends->setText(std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)");
+	textMood->setText(person->getMood() ? person->getMood()->getDescription() : "Couldn't understand mood");
+	textFriends->setText(person->getConnections() ? std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)" : "Couldn't count friends");
 
 	if (me == person) {
 		buttonAddFriend->visible = false;

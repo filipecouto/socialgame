@@ -16,13 +16,14 @@
 
 class Person : public IPerson {
 	public:
-		Person(std::string name, Mood mood);
+		Person(std::string name, IMood * mood);
 		
 		virtual std::string getName();
-		virtual Mood getMood();
+		virtual IMood * getMood();
 		virtual int getScore();
 		virtual int getStrength();
-		virtual std::vector< Tag * > getTags();
+		
+		virtual ITagsList * getTags();
 		virtual IConnectionsList* getConnections();
 		
 		void connect(Person * other);
@@ -38,7 +39,7 @@ class Person : public IPerson {
 		
 		int _test = 0;
 		std::string _name;
-		Mood _mood;
+		IMood * _mood;
 };
 
 #endif // PERSON_H
