@@ -12,7 +12,7 @@ ConnectionsList::ConnectionsList(Person * from, Cache * cache) : cache(cache) {
 	rapidjson::SizeType len = list.Size();
 
 	for (rapidjson::SizeType i = 0; i < len; i++) {
-		connections.push_back(new Connection(list[i], cache));
+		connections.push_back(new Connection(from->getId(), list[i], cache));
 	}
 }
 

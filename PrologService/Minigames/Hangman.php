@@ -5,7 +5,7 @@
 	else{
 		require_once("PrologService.php");
 	}
-	require_once("CommunicationService/BLL/Hangman.php");
+	require_once("BLL/Hangman.php");
 	
 	function beginGame(){
 		return getWord();
