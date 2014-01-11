@@ -80,5 +80,9 @@ void LoginForm::onParentGeometryChange(Widget * widget) {
 }
 
 LoginForm::~LoginForm() {
-
+	delete tEmail;
+	delete tError;
+	delete tPassword;
+	delete bAdvancedMode;
+	delete bNormalMode;
 }

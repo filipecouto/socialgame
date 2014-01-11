@@ -10,6 +10,7 @@
 #include "User.h"
 #include "MoodsList.h"
 #include "Cache.h"
+#include "NotificationsList.h"
 
 AdvancedMode::AdvancedMode::AdvancedMode() {
 
@@ -33,8 +34,12 @@ void * AdvancedMode::AdvancedMode::getPendingGames() {
 	return NULL;
 }
 
-std::vector< INotification * > * AdvancedMode::AdvancedMode::getNotifications() {
-	return new std::vector<INotification *>();
+INotificationsList * AdvancedMode::AdvancedMode::getNotifications() {
+	if(!notificationsList) {
+		notificationsList = new NotificationsList(cache);
+	}
+	
+	return notificationsList;
 }
 
 IUser * AdvancedMode::AdvancedMode::getIdentity() {

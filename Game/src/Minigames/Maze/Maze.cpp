@@ -8,6 +8,7 @@
 
 #include "Maze.h"
 #include <stdlib.h>
+#include <cstdio>
 
 Maze::Maze(const int width, const int height) : width(width), height(height) {
 	matrix = new bool*[width];
@@ -19,8 +20,6 @@ Maze::Maze(const int width, const int height) : width(width), height(height) {
 			matrix[x][y] = true;
 	}
 }
-
-#include <cstdio>
 
 void Maze::getNeighbours(Cell cell, Maze::Cell * neighbours, int & count) {
 	count = 0;
@@ -94,6 +93,20 @@ void Maze::generate() {
 		printf("\n");
 	}
 }
+
+int Maze::getWidth() {
+	return width;
+}
+
+
+int Maze::getHeight() {
+	return height;
+}
+
+bool Maze::getValue(int width, int height) {
+	return matrix[width][height];
+}
+
 
 Maze::~Maze() {
 	for (int i = 0; i < width; i++) delete matrix[i];

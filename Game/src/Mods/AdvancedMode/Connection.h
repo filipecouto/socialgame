@@ -13,6 +13,7 @@ namespace AdvancedMode {
 	
 	class Connection : public IConnection {
 		public:
+			Connection(const rapidjson::Value & data, Cache * cache);
 			Connection(int from, const rapidjson::Value & data, Cache * cache);
 
 			virtual int getScore();

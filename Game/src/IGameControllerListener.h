@@ -18,9 +18,9 @@ class IGraphic;
 
 class IGameControllerListener : public GameModEventListener {
 	public:
-		virtual void onPersonClicked(IPerson * person) { }
-
-		virtual ~IGameControllerListener() { }
+		virtual void onGameLoaded() = 0;
+		
+		virtual void onPersonClicked(IPerson * person) = 0;
 };
 
 #endif

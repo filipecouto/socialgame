@@ -42,16 +42,37 @@ rapidjson::Value & CentralServerWebService::getMoods() {
 	return getData("Moods", "getAllMoods", "")->operator[]("data");
 }
 
+rapidjson::Value & CentralServerWebService::getConnection(const int id) {
+	return getData("Connections", "returnConnection", std::to_string(id))->operator[]("data")[(rapidjson::SizeType) 0];
+}
+
 rapidjson::Value & CentralServerWebService::getConnectionsOfUser(const int userId) {
 	return getData("Connections", "getConnectionsOfUser", std::to_string(userId))->operator[]("data");
 }
 
+rapidjson::Value & CentralServerWebService::getNotification(const int id) {
+	return getData("Notifications", "getNotification", token + "^" + std::to_string(id))->operator[]("data");
+}
+
+rapidjson::Value & CentralServerWebService::getNotificationBases() {
+	return getData("Notifications", "getNotificationBasesForUser", token)->operator[]("data");
+}
+
+rapidjson::Value & CentralServerWebService::setNotificationRead(const int id, const bool read) {
+	execute("Notifications", "markNotificationRead", token + "^" + std::to_string(id) + (read ? "^1" : "^0"));
+}
+
 rapidjson::Document * CentralServerWebService::getData(const string type, const string function, const string params) {
-	std::string result = curl_httpget(baseUrl + type + '/' + (params.length() == 0 ? function : function + "?Params=" + params));
-	printf("Queried %s...\nReceived: %s\n", (baseUrl + type + '/' + function + "?Params=" + params).c_str(), result.c_str());
+	std::string result = execute(type, function, params);
 
 	rapidjson::Document * d = new rapidjson::Document();
 	d->Parse<0>(result.c_str());
 
 	return d;
+}
+
+std::string CentralServerWebService::execute(const string type, const string function, const string params) {
+	std::string result = curl_httpget(baseUrl + type + '/' + (params.length() == 0 ? function : function + "?Params=" + params));
+	printf("Queried %s...\nReceived: %s\n", (baseUrl + type + '/' + function + "?Params=" + params).c_str(), result.c_str());
+	return result;
 }

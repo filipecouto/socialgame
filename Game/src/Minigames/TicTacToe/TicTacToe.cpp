@@ -16,6 +16,7 @@ IMinigameInstance * TicTacToeMinigame::newGame() {
 void TicTacToeMinigame::TicTacToeInstance::draw() {
 	camera.setUp();
 
+	//PLANO DE BAIXO
 	glColor3f(0.8, 0.8, 0.8);
 	glBegin(GL_QUADS);
 	glVertex3i(-20, 0, 20);
@@ -35,10 +36,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 	glutSolidSphere(2, 32, 32);*/
 
 	glPushMatrix();
-		glPushMatrix();
-			//glTranslatef(12, 0, 0);
-			drawX();
-		glPopMatrix();
+		
 
 		glPushMatrix();
 			//Right External Line
@@ -85,7 +83,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 			drawLine(0.1);
 		glPopMatrix();
 
-		/*glPushMatrix();
+		glPushMatrix();
 			//Base
 			glColor3f(0.3, 0.3, 0.3);
 			glBegin(GL_QUADS);
@@ -94,8 +92,22 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 			glVertex3i(5, 10, -15);
 			glVertex3i(5, 0, -15);
 			glEnd();
-		glPopMatrix();*/
+		glPopMatrix();
 	glPopMatrix();
+	/*char matriz[3][3] = {'X','X','X',
+								'X','X','X',
+								'X','X','X' };*/
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			switch(matriz[i][j]) {
+				case 'X':
+					drawX(i,j);
+					break;
+				case 'O':
+					break;
+			}
+		}
+	}
 }
 
 void TicTacToeMinigame::TicTacToeInstance::drawLine(GLfloat addZ){
@@ -108,14 +120,22 @@ void TicTacToeMinigame::TicTacToeInstance::drawLine(GLfloat addZ){
 	glEnd();
 }
 
-void TicTacToeMinigame::TicTacToeInstance::drawX(){
+void TicTacToeMinigame::TicTacToeInstance::drawX(int x, int y){
+	glPushMatrix();
+	glTranslatef(3.3 - (x * 3.3), 8.3 - (y * 3.3), -15.2);
+		drawXLine(45);
+		drawXLine(-90);
+	glPopMatrix();
+}
+
+void TicTacToeMinigame::TicTacToeInstance::drawXLine(GLfloat ang){
 	glColor3f(0.2, 0.6, 0.3);
-	glRotatef(45, 0.0, 1.0, 0.0);
+	glRotatef(ang, 0.0, 0.0, 1.0);
 	glBegin(GL_QUADS);
-		glVertex3f(-5, 0, -18);
-		glVertex3f(-5, 2, -18);
-		glVertex3f(-4, 2, -18);
-		glVertex3f(-4, 0, -18);
+		glVertex3f(-0.25, 1, 0);
+		glVertex3f(0.25, 1, 0);
+		glVertex3f(0.25, -1, 0);
+		glVertex3f(-0.25, -1, 0);
 	glEnd();
 }
 
@@ -217,11 +237,14 @@ void TicTacToeMinigame::TicTacToeInstance::onMouseButton(int state, int button, 
 		if (mx >= 2.6 && mx <= 6.75 &&
 			my >= 6 && my <= 13.3){
 			printf("<-----------1---------->");
+			matriz[0][0] = 'X';
+			
 		}
 
 		if (mx >= -2.0 && mx <= 2.3 &&
 			my >= 6 && my <= 13.3){
 			printf("<-----------2---------->");
+			matriz[1][0] = 'X';
 		}
 
 		if (mx >= -6.75 && mx <= -2.3 &&
