@@ -16,6 +16,8 @@ namespace AdvancedMode {
 		public:
 			ConnectionsList(Person * from, Cache * cache);
 			
+			void loadList();
+			
 			virtual int getFriendsCount();
 			virtual bool isFriendsWith(IPerson * person);
 			virtual IConnection * getConnectionWith(IPerson * person);
@@ -31,8 +33,6 @@ namespace AdvancedMode {
 			Person * from;
 			
 			std::vector<IConnection *> connections;
-			
-			void loadList();
 	};
 }
 

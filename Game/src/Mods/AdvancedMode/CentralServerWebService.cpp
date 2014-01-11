@@ -60,6 +60,16 @@ bool CentralServerWebService::refuseFriendship(const int idConnection) {
 	return true;
 }
 
+bool CentralServerWebService::addFriend(const int idFriend) {
+	execute("Connections", "addFriend", token + "^" + std::to_string(idFriend) + "^0^0");
+	return true;
+}
+
+bool CentralServerWebService::removeFriend(const int idFriend) {
+	execute("Connections", "removeFriend", token + "^" + std::to_string(idFriend));
+	return true;
+}
+
 rapidjson::Value & CentralServerWebService::getNotification(const int id) {
 	return getData("Notifications", "getNotification", token + "^" + std::to_string(id))->operator[]("data");
 }

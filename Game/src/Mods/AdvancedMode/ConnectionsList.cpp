@@ -11,6 +11,8 @@ ConnectionsList::ConnectionsList(Person * from, Cache * cache) : from(from), cac
 }
 
 void ConnectionsList::loadList() {
+	connections.clear();
+	
 	const rapidjson::Value & list = cache->getService()->getConnectionsOfUser(from->getId());
 
 	rapidjson::SizeType len = list.Size();

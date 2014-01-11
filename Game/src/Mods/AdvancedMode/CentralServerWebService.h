@@ -32,6 +32,8 @@ class CentralServerWebService {
 		rapidjson::Value & getConnectionsOfUser(const int userId);
 		bool acceptFriendship(const int idConnection);
 		bool refuseFriendship(const int idConnection);
+		bool addFriend(const int idFriend);
+		bool removeFriend(const int idFriend);
 
 		rapidjson::Value & getNotification(const int id);
 		rapidjson::Value & getNotificationBases();
