@@ -7,6 +7,7 @@ class CentralServerWebService;
 class IMoodsList;
 
 namespace AdvancedMode {
+	class Person;
 	class Cache;
 	class MoodsList;
 	class Person;
@@ -15,8 +16,13 @@ namespace AdvancedMode {
 		public:
 			ConnectionsList(Person * from, Cache * cache);
 			
+			void loadList();
+			
 			virtual int getFriendsCount();
 			virtual bool isFriendsWith(IPerson * person);
+			virtual IConnection * getConnectionWith(IPerson * person);
+			
+			virtual void removeConnection(IPerson * person);
 			
 			virtual int size();
 			virtual bool contains(IConnection * item);
@@ -24,6 +30,7 @@ namespace AdvancedMode {
 
 		private:
 			Cache * cache;
+			Person * from;
 			
 			std::vector<IConnection *> connections;
 	};

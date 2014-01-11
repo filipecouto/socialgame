@@ -29,7 +29,8 @@ namespace AdvancedMode {
 			
 			int id;
 			bool read;
-			IConnection * connection;
+			int connectionId;
+			IConnection * connectionToMe, * connectionFromMe;
 			
 			bool loaded; // lazy loading
 			

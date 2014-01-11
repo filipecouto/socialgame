@@ -28,6 +28,7 @@ class FriendsList : public IConnectionsList, private std::vector<IConnection*> {
 		
 		virtual int getFriendsCount();
 		
+		virtual IConnection * getConnectionWith(IPerson * person);
 		virtual bool isFriendsWith(IPerson * person);
 		
 		bool hasFriend(IPerson * person);

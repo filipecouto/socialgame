@@ -13,6 +13,16 @@ int FriendsList::getFriendsCount() {
 	return result;
 }
 
+IConnection * FriendsList::getConnectionWith(IPerson * person) {
+	int len = size();
+
+	for (int i = 0; i < len; i++) {
+		if (person == operator[](i)->getPerson()) return operator[](i);
+	}
+	
+	return NULL;
+}
+
 bool FriendsList::isFriendsWith(IPerson * person) {
 	int len = size();
 

@@ -26,6 +26,7 @@
 
 	//Either accept or deny a friend request
 	//$action will be 1 or -1
+	//DEPRECATED please consider using the token-based methods
 	function actionToFriend($notificationId,$action){
 		try{
 			//Accept or deny the request
@@ -35,6 +36,32 @@
 			changeNotificationRead($notificationId);
 			return true;
 		}catch(Exception $e){
+			return false;
+		}
+	}
+	
+	// Accepts a friendship request
+	function acceptFriendship($token, $connectionId){
+		try {
+			$userId = getUserBySession($token);
+			
+			changeConnectionStateByUser($connectionId, $userId, 1);
+			
+			return true;
+		} catch(Exception $e) {
+			return false;
+		}
+	}
+	
+	// Refuses a friendship request
+	function refuseFriendship($token, $connectionId){
+		try {
+			$userId = getUserBySession($token);
+			
+			changeConnectionStateByUser($connectionId, $userId, -1);
+			
+			return true;
+		} catch(Exception $e) {
 			return false;
 		}
 	}

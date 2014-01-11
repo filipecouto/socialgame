@@ -71,7 +71,17 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_controller->flyTo(_controller->getSelectedPerson());
 		} else if (widget == windowPersonInfo->getAddFriendButton()) {
 			timeFriendAdded = glutGet(GLUT_ELAPSED_TIME);
-			_controller->getIdentity()->addFriend(_controller->getSelectedPerson());
+			
+			IPerson * selected = _controller->getSelectedPerson();
+
+			if (_controller->getIdentity()->getPerson()->getConnections()->getConnectionWith(selected))
+				_controller->getIdentity()->removeFriend(selected);
+			else
+				_controller->getIdentity()->addFriend(selected);
+			
+			_controller->invalidatePerson(_controller->getIdentityPerson());
+			_controller->invalidatePerson(selected);
+
 			windowPersonInfo->hide();
 		}
 	}

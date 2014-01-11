@@ -13,11 +13,12 @@
 #include "IConnection.h"
 #include "IPerson.h"
 
-class IConnectionsList : public IList<IConnection*> {
+class IConnectionsList : public IList<IConnection *> {
 	public:
-		virtual bool isFriendsWith(IPerson * person) = 0;
-		
 		virtual int getFriendsCount() = 0;
+
+		virtual IConnection * getConnectionWith(IPerson * person) = 0;
+		virtual bool isFriendsWith(IPerson * person) = 0;
 
 		virtual ~IConnectionsList() { }
 };

@@ -6,7 +6,13 @@
 
 using namespace AdvancedMode;
 
-ConnectionsList::ConnectionsList(Person * from, Cache * cache) : cache(cache) {
+ConnectionsList::ConnectionsList(Person * from, Cache * cache) : from(from), cache(cache) {
+	loadList();
+}
+
+void ConnectionsList::loadList() {
+	connections.clear();
+	
 	const rapidjson::Value & list = cache->getService()->getConnectionsOfUser(from->getId());
 
 	rapidjson::SizeType len = list.Size();
@@ -28,13 +34,37 @@ int ConnectionsList::getFriendsCount() {
 }
 
 bool ConnectionsList::isFriendsWith(IPerson * person) {
+	IConnection * connection = getConnectionWith(person);
+
+	return connection && connection->getState() == 1;
+}
+
+IConnection * ConnectionsList::getConnectionWith(IPerson * person) {
 	int len = size();
 
 	for (int i = 0; i < len; i++) {
-		if (person == connections[i]->getPerson() && connections[i]->getState() == 1) return true;
+		if (person == connections[i]->getPerson()) return connections[i];
 	}
 
-	return false;
+	loadList();
+	len = size();
+
+	for (int i = 0; i < len; i++) {
+		if (person == connections[i]->getPerson()) return connections[i];
+	}
+
+	return NULL;
+}
+
+void ConnectionsList::removeConnection(IPerson * person) {
+	int len = size();
+	
+	for(int i = 0; i < len; i++) {
+		if(connections[i]->getPerson() == person) {
+			connections.erase(connections.begin() + i);
+			return;
+		}
+	}
 }
 
 int ConnectionsList::size() {

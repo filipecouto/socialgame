@@ -26,6 +26,12 @@ class IUser {
 		 * The connection may be accepted or not by friendToAdd.
 		 */
 		virtual void addFriend(IPerson * friendToAdd) { }
+		
+		/**
+		 * Removes a connection between friendToRemove and "this" person.
+		 * This will remove the connection from both sides.
+		 */
+		virtual void removeFriend(IPerson * friendToRemove) { }
 };
 
 #endif
