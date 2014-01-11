@@ -15,6 +15,11 @@ class Maze {
 		Maze(const int width, const int height);
 
 		void generate();
+		
+		bool getValue(int width, int height);
+		
+		int getHeight();
+		int getWidth();
 
 		~Maze();
 
