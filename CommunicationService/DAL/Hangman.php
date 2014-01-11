@@ -37,9 +37,9 @@ class DAL{
             die('Could not select BD: ' . mysql_error());
         }
 		$recordset = mysql_query($SQL,$conn);
-    //    if(!mysql_close($conn)) {
-      //      die('Could not close BD:' . mysql_error());
-        //}
+     if(!mysql_close($conn)) {
+            die('Could not close BD:' . mysql_error());
+       }
 		return $recordset;
 	}
 }
@@ -84,6 +84,24 @@ class DAL{
 		return getRandomWord();
 		
 	}
+	
+	function getRandomWord1(){
+		$dal = new DAL();
+		$sql = "SELECT word FROM Words";
+		$recordset = $dal->executeQuery($sql);
+		print_r($recordset);
+		$array = mysql_fetch_array($recordset);
+		foreach($array as  $row) {
+			print_r($row);
+		}
+		$length = mysql_num_rows($recordset);
+		print_r($length);
+		if($length != 0){
+			$n = rand(0,$length-1);
+			$a= $array[$n];
+		}
+		
+	}
 	function getRandomWord()
 	{
 		$dal = new DAL();
@@ -91,17 +109,20 @@ class DAL{
 		$sqlFind = "SELECT COUNT(1) FROM Words";
 		$recordset = $dal->executeQuery($sqlFind);
 		$length = mysql_num_rows($recordset);
+		
 		if($length != 0){
-			$wordsNumber = $recordset;
-			print_r($wordsNumber);
+		
+			$wordsNumber = $array[0] -1;
 			$id = rand(0,$wordsNumber);
-			$sql = "SELECT h.word, c.name FROM Words h, Categories c WHERE h.category=c.id LIMIT $id, $id+1";
+			$id1=$id+1;
+			$sql = "SELECT h.word, c.name FROM Words h, Categories c WHERE h.category=c.id LIMIT $id,$id1";
 			$recordset = $dal->executeQuery($sql);
 			$length = mysql_num_rows($recordset);
 			if($length != 0){
-				$result = array("word" => $recordset[0], "category" => $recordset[1]);
+				$array = mysql_fetch_array($recordset);
+				$result = array("word" => $array["word"], "category" => $array["name"]);
 			}
-			mysql_free_result($resultset);
+			mysql_free_result($recordset);
 		}
 		else{
 		}
