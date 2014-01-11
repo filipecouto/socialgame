@@ -4,8 +4,11 @@
 #include <vector>
 #include "CentralServerWebService.h"
 
+class IConnection;
 class IPerson;
+
 namespace AdvancedMode {
+	class Connection;
 	class Person;
 	class MoodsList;
 	
@@ -15,6 +18,9 @@ namespace AdvancedMode {
 			
 			CentralServerWebService * getService();
 			
+			void setIdentityPerson(IPerson * person);
+			IPerson * getIdentityPerson();
+			
 			IPerson * getPerson(int id);
 			
 			MoodsList * getMoods();
@@ -23,10 +29,13 @@ namespace AdvancedMode {
 
 		private:
 			CentralServerWebService * service;
+			
+			IPerson * identityPerson;
 
 			MoodsList * moods;
 			
 			std::vector<Person *> people;
+			std::vector<Connection *> connections;
 	};
 }
 

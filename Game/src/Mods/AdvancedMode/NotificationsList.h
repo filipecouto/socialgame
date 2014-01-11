@@ -4,6 +4,8 @@
 #include "../../Models/INotificationsList.h"
 #include <vector>
 
+class IPerson;
+
 namespace AdvancedMode {
 	class Cache;
 	

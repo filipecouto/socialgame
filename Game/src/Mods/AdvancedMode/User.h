@@ -13,7 +13,9 @@ namespace AdvancedMode {
 			User(Cache * cache);
 
 			virtual IPerson * getPerson();
+			
 			virtual void addFriend(IPerson * friendToAdd);
+			virtual void removeFriend(IPerson * friendToRemove);
 
 			~User();
 

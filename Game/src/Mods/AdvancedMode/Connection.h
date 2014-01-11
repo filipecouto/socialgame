@@ -18,7 +18,10 @@ namespace AdvancedMode {
 
 			virtual int getScore();
 			virtual int getStrength();
+			
 			virtual int getState();
+			virtual void setState(int state);
+			
 			virtual IPerson * getPerson();
 
 		private:

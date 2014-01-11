@@ -1,5 +1,6 @@
 #include "Cache.h"
 #include "Person.h"
+#include "Connection.h"
 
 AdvancedMode::Cache::Cache(CentralServerWebService * service, MoodsList * moods) : service(service), moods(moods) {
 
@@ -12,6 +13,15 @@ CentralServerWebService * AdvancedMode::Cache::getService() {
 AdvancedMode::MoodsList * AdvancedMode::Cache::getMoods() {
 	return moods;
 }
+
+IPerson * AdvancedMode::Cache::getIdentityPerson() {
+	return identityPerson;
+}
+
+void AdvancedMode::Cache::setIdentityPerson(IPerson * person) {
+	identityPerson = person;
+}
+
 
 IPerson * AdvancedMode::Cache::getPerson(int id) {
 	const int len = people.size();

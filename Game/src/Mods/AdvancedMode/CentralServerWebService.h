@@ -14,32 +14,33 @@
 #include "dependencies/rapidjson/document.h"
 
 class CentralServerWebService {
-public:
-	CentralServerWebService();
-	
-	/**
-	 * Gets a parsed rapidjson Document containing the requested data.
-	 * important: do not forget to free the document from memory
-	 */
-	rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
-	
-	int login(std::string email, std::string password);
-	int getUserId();
-	rapidjson::Value & getPerson(const int id);
-	
-	rapidjson::Value & getMoods();
-	
-	rapidjson::Value & getConnection(const int id);
-	rapidjson::Value & getConnectionsOfUser(const int userId);
-	
-	rapidjson::Value & getNotification(const int id);
-	rapidjson::Value & getNotificationBases();
-	rapidjson::Value & setNotificationRead(const int id, const bool read);
-	
-private:
-	std::string baseUrl;
-	std::string token;
-	
+	public:
+		CentralServerWebService();
+
+		/**
+		 * Gets a parsed rapidjson Document containing the requested data.
+		 */
+		rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
+
+		int login(std::string email, std::string password);
+		int getUserId();
+		rapidjson::Value & getPerson(const int id);
+
+		rapidjson::Value & getMoods();
+
+		rapidjson::Value & getConnection(const int id);
+		rapidjson::Value & getConnectionsOfUser(const int userId);
+		bool acceptFriendship(const int idConnection);
+		bool refuseFriendship(const int idConnection);
+
+		rapidjson::Value & getNotification(const int id);
+		rapidjson::Value & getNotificationBases();
+		bool setNotificationRead(const int id, const bool read);
+
+	private:
+		std::string baseUrl;
+		std::string token;
+
 		string execute(const string type, const string function, const string params);
 };
 

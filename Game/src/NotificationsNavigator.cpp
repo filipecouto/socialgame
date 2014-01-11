@@ -3,6 +3,7 @@
 #include "GUI/ButtonWidget.h"
 #include "Models/IFriendshipRequestNotification.h"
 #include "Models/INotificationsList.h"
+#include "Models/IConnectionsList.h"
 
 NotificationsNavigator::NotificationsNavigator(GameController * controller) : controller(controller) {
 	index = 0;
@@ -67,10 +68,24 @@ void NotificationsNavigator::loadNotification(INotification * notification) {
 			tNotification->setText("Notification " + std::to_string(index + 1) +
 			                       " of " + std::to_string(controller->getGameMod()->getNotifications()->size()));
 			tType->setText("Friendship request");
-			tData->setText("From: " + n->getFrom()->getName());
+
+			bool canAccept = n->getConnection() != NULL && !controller->getGameMod()->getIdentity()->getPerson()->getConnections()->isFriendsWith(n->getFrom());
+
+			if (canAccept) {
+				tData->setText("From: " + n->getFrom()->getName());
+
+				bAccept->visible = true;
+				bRefuse->visible = true;
+			} else {
+				tData->setText("Already responded");
+
+				bAccept->visible = false;
+				bRefuse->visible = false;
+			}
 		}
 
-		notification->setRead(true);
+		if (!notification->isRead())
+			notification->setRead(true);
 	}
 }
 
@@ -87,6 +102,18 @@ void NotificationsNavigator::onWidgetClicked(Widget * clicked) {
 			if (index > 0) {
 				index--;
 				loadNotification(controller->getGameMod()->getNotifications()->operator[](index));
+			}
+		} else if (clicked == bAccept || clicked == bRefuse) {
+			INotification * notification = controller->getGameMod()->getNotifications()->operator[](index);
+
+			if (notification && notification->getType() == INotification::FriendshipRequest) {
+				IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)notification;
+
+				if (clicked == bAccept) n->accept();
+				else if (clicked == bRefuse) n->refuse();
+
+				controller->invalidatePerson(controller->getIdentityPerson());
+				controller->invalidatePerson(n->getFrom());
 			}
 		}
 	}
