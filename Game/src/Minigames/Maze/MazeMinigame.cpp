@@ -16,10 +16,35 @@ IMinigameInstance * MazeMinigame::newGame() {
 void MazeMinigame::MazeInstance::draw() {
 	camera.setUp();
 	//TODO design
+	
+	int width = maze->getWidth(), heigth = maze->getHeight();
+	
+	for(int i = 0; i < width; i++) {
+		for(int j = 0; j < heigth; j++) {	
+			if(maze->getValue(i,j)) {
+				glPushMatrix();
+					glTranslatef(i,j,0);
+					glColor3f(0,0,1);
+					drawCube();
+				glPopMatrix();
+			}
+		}
+	}
+	
+}
+
+void MazeMinigame::MazeInstance::drawCube() {
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(1.0,1.0,0.0);
+		glVertex3f(1.0,0.0,0.0);
+		glVertex3f(0.0,1.0,0.0);
+		glVertex3f(0.0,0.0,0.0);
+	glEnd();
 }
 
 void MazeMinigame::MazeInstance::start() {
-
+	camera.moveTo(0,0,-28);
+	camera.lookAt(0,0,0);
 }
 
 bool MazeMinigame::MazeInstance::detectCollision() {
@@ -35,7 +60,7 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
 		keys[i] = false;
 	}
-	maze = new Maze(180, 18);
+	maze = new Maze(10,10);
 	maze->generate();
 }
 
