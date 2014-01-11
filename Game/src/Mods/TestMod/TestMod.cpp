@@ -34,7 +34,7 @@ IUser * TestMod::getIdentity() {
 	return &user;
 }
 
-std::vector<INotification *> * TestMod::getNotifications() {
+INotificationsList * TestMod::getNotifications() {
 	return NULL;
 }
 

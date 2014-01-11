@@ -20,7 +20,7 @@ class TestMod : public GameMod {
 		virtual void load();
 		
 		virtual IUser * getIdentity();
-		virtual std::vector<INotification *> * getNotifications();
+		virtual INotificationsList * getNotifications();
 		virtual void * getPendingGames();
 		
 		virtual void setEventListener(GameModEventListener * listener);

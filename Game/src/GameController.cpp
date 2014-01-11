@@ -11,6 +11,7 @@
 #include "Dependencies/readjpeg.c"
 #include "Graphics/GraphicFactory.h"
 #include "Models/IConnectionsList.h"
+#include "Models/INotificationsList.h"
 
 #include <math.h>
 #include <GL/freeglut.h>
@@ -49,6 +50,8 @@ void GameController::start(GameMod * mod) {
 	_mod->load();
 
 	start();
+	
+	_listener->onGameLoaded();
 }
 
 void GameController::draw() {

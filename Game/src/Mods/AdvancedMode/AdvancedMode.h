@@ -13,6 +13,7 @@
 #include "CentralServerWebService.h"
 
 namespace AdvancedMode {
+	class NotificationsList;
 	class MoodsList;
 	class Cache;
 	
@@ -27,7 +28,7 @@ namespace AdvancedMode {
 			virtual IUser * getIdentity();
 			
 			virtual void * getPendingGames();
-			virtual std::vector< INotification * > * getNotifications();
+			virtual INotificationsList * getNotifications();
 			virtual IMoodsList * getMoods();
 
 			virtual void setEventListener(GameModEventListener * listener);
@@ -42,6 +43,8 @@ namespace AdvancedMode {
 
 			IUser * user = NULL;
 			MoodsList * moods = NULL;
+			
+			NotificationsList * notificationsList = NULL;
 	};
 }
 

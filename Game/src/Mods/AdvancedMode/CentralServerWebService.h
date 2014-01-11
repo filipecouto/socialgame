@@ -29,11 +29,18 @@ public:
 	
 	rapidjson::Value & getMoods();
 	
+	rapidjson::Value & getConnection(const int id);
 	rapidjson::Value & getConnectionsOfUser(const int userId);
+	
+	rapidjson::Value & getNotification(const int id);
+	rapidjson::Value & getNotificationBases();
+	rapidjson::Value & setNotificationRead(const int id, const bool read);
 	
 private:
 	std::string baseUrl;
 	std::string token;
+	
+		string execute(const string type, const string function, const string params);
 };
 
 #endif // CENTRALSERVERWEBSERVICE_H

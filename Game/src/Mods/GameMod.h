@@ -10,9 +10,9 @@
 #define GAMEMOD_H
 
 #include "../Models/IUser.h"
-#include "../Models/INotification.h"
 #include "GameModEventListener.h"
 
+class INotificationsList;
 class IMoodsList;
 
 class GameMod {
@@ -21,7 +21,7 @@ class GameMod {
 
 		virtual IUser * getIdentity() = 0;
 
-		virtual std::vector<INotification *> * getNotifications() = 0;
+		virtual INotificationsList * getNotifications() = 0;
 		
 		virtual IMoodsList * getMoods() { }; // TODO make it abstract once all mods support it
 

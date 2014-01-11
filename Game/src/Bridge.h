@@ -17,6 +17,7 @@
 #include "GameController.h"
 #include "IGameControllerListener.h"
 #include "LoginForm.h"
+#include "NotificationsNavigator.h"
 
 class PersonInfoWindow;
 
@@ -36,6 +37,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		virtual bool onDialogResult(Dialog * dialog, int buttonId);
 
 		// events from GameController
+		virtual void onGameLoaded();
 		virtual void onPersonClicked(IPerson * person);
 		
 		// events from GameMod
@@ -51,14 +53,18 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		GameController * _controller;
 		
 		// GUI components
+		LoginForm * loginForm;
 		PersonInfoWindow * windowPersonInfo = NULL;
+		NotificationsNavigator * notifications = NULL;
 		WidgetContainer * bar = NULL;
 		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
-		LoginForm * loginForm;
+		TextWidget * tNotifications = NULL;
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;
 		bool showFirstMessage = false;
+		
+		void updateNotificationsButton();
 };
 
 class PersonInfoWindow : public Window {
