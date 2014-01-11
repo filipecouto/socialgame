@@ -123,5 +123,13 @@ require_once('DAL/DAL.php');
 		}
 		return $connection;
 	}
+	
+	function DAL_getConnectionsOfUser($userId) {
+		$dal = new DAL();
+		$userId = mysql_real_escape_string($userId);
+		$result = $dal->executeNonQuery(sprintf("SELECT * FROM Connections WHERE user1=%d OR user2=%d", $userId, $userId));
+		
+		return $result;
+	}
 ?>
 	
