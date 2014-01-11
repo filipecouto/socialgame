@@ -1,63 +1,52 @@
 <?php
-require_once('DAL/DAL.php');
 
-//Insert new Notification Type
-	function insertNotificationType($Description){
-		$dal = new DAL();
-		$sql = "INSERT INTO NotificationTypes (Description) VALUES('$Description')";
-		$dal->executeQuery($sql);
+	require_once('DAL/Notifications.php');
+	require_once('DAL/Sessions.php');
+	
+	function createNotificationType($Description){
+		insertNotificationType($Description);
 	}
 	
-	//Create new Notification
-	function insertNotification($TypeId,$ToUserId,$ObjectId){
-		$dal = new DAL();
-		$sql = "INSERT INTO Notifications (`type`,`to`,`read`,`object`) VALUES('$TypeId','$ToUserId','0','$ObjectId')";
-		$notificationId = $dal->executeQuery($sql);
-		return $notificationId;
+	function createNotification($TypeId,$ToUserId,$ObjectId){
+		insertNotification($TypeId,$ToUserId,$ObjectId);
 	}
 	
-	//Update Notification Type
-	function updateNotificationType($Id,$Description){
-		$dal = new DAL();
-		$sql = "UPDATE NotificationTypes SET Description = '$Description' WHERE Id = '$Id'";
-		$dal->executeQuery($sql);
-	}
-
-	//Change Notification Read Status
-	function changeNotificationRead($Id){
-		$dal = new DAL();
-		$sql = "UPDATE Notifications SET `read` = 1 WHERE id = $Id";
-		$dal->executeQuery($sql);
+	function modifyNotificationType($Id,$Description){
+		updateNotificationType($Id,$Description);
 	}
 	
-	//Get Users Notifications either Read (1) or To Be Read (0)
-	function getNotificationsByUser($UserId,$ReadState){
-		$dal = new DAL();
-		$sqlFind = "SELECT * FROM Notifications AS N WHERE N.to = $UserId AND N.read = $ReadState";
-		$recordset = $dal->executeNonQuery($sqlFind);
-		$length = mysql_num_rows($recordset);
-		if($length != 0){
-			$notifications = $recordset;
+	function modifyNotificationRead($Id){
+		changeNotificationRead($Id);
+	}
+	
+	function findNotificationsByToken($Token,$ReadState){
+		$userId = getUserBySession($Token);
+		if($userId !=-1)
+		{
+			$notifications = findNotificationsByUser($userId,$ReadState);
+			return $notifications;
+		}else{
+			return false;
 		}
-		else{
-			$notifications = false;
-		}
-		return $notifications;
 	}
 
-	//Returns the connection id that is attached to a notification
-	function getConnectionIdByNotification($notificationId){
-		$dal = new DAL();
-		$sqlFind = "SELECT object FROM Notifications WHERE id = '$notificationId'";
-		$recordset = $dal->executeNonQuery($sqlFind);
-		$length = mysql_num_rows($recordset);
-		if($length != 0){
-			$record = mysql_fetch_array($recordset);
-			$connectionId = $record["object"];
-		}
-		else{
-			$connectionId = -1;
-		}
-		return $connectionId;
+	function findNotificationsByUser($UserId,$ReadState){
+		return DAL_getNotificationsByUserAndState($UserId,$ReadState);
+	}
+	
+	function getNotificationBasesForUser($token) {
+		$userId = getUserBySession($token);
+		return DAL_getNotificationIdsByUser($userId);
+	}
+	
+	function getNotification($token, $id) {
+		$userId = getUserBySession($token);
+		return DAL_getNotificationByUser($userId, $id);
+	}
+	
+	function markNotificationRead($token, $id, $read) {
+		$userId = getUserBySession($token);
+		changeNotificationOfUserRead($id, $userId, $read);
+		return true;
 	}
 ?>
