@@ -31,7 +31,6 @@ void HangmanMinigame::HangmanInstance::draw() {
     glColor3f(1, 1, 1);
     drawCircle(8.0, 69.0,-25.0);
     drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
-
     drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
     drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
     drawLines(5.0,  69.0, -80.0,5.0, 59.0, -80.0, 15.0 );
@@ -200,13 +199,8 @@ HangmanMinigame::HangmanInstance::~HangmanInstance() {
 
 }
 
-bool HangmanMinigame::HangmanInstance::determinateLetter(char chosenLetter, string word, int wordLength)
+bool HangmanMinigame::HangmanInstance::determinateLetter(char chosenLetter, string word)
 {
-    for(int i = 0 ; i < wordLength; i++) {
-        if(chosenLetter == word[i])
-            return true;
-    }
-    return false;
 }
 
 
