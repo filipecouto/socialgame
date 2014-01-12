@@ -105,13 +105,13 @@ void Maze::generate() {
 		}
 	}
 		// finds the end
-	int minWidth = (int)width/3; // 33% of the maze
-	int minHeight = (int)height/3; // 33% of the maze
+	int minWidth = (int)width/2; // 33% of the maze
+	int minHeight = (int)height/2; // 33% of the maze
 	int startRangeX , endRangeX;
 	int startRangeY , endRangeY;
 	startRangeX = (start.x >= minWidth) ? start.x - minWidth : start.x + minWidth;
 	endRangeX = (start.x >= minWidth) ? 0 : width;
-	startRangeY = (start.y >= minHeight) ? start.y - minHeight : start.y + minHeight;
+	startRangeY = (start.y >= minHeight) ?	 start.y - minHeight : start.y + minHeight;
 	endRangeY = (start.y >= minHeight) ? 0 : height;
 	int endX, endY;
 	Cell test;
