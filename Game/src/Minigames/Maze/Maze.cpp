@@ -62,7 +62,6 @@ void Maze::generate() {
 	int neighbourCount;
 
 	int size;
-	bool startFound = false, endFound = false;
 
 	while ((size = cells.size()) != 0) {
 		random = rand() % size;
@@ -94,39 +93,75 @@ void Maze::generate() {
 	}
 
 	// finds the start
-	for(int i=0; i < width; i++) { // j = 0
-		if(!matrix[i][0]) {
-			startFound = true;
-			start = {i, 0};
-			break;
-		}
-		
-	}
-	for(int i=0; i < width; i++) { // j = height
-		if(startFound) break;
-		if(!matrix[i][height]) {
-			startFound = true;
-			start = {i, height};
-		}
-	}
-	for(int i=0; i < height; i++) { // j = 0
-		if(startFound) break;
-		if(!matrix[0][i]) {
-			startFound = true;
-			start = {0, i};
-		}
-	}
-	for(int i=0; i < height; i++) { // j = width
-		if(startFound) break;
-		if(!matrix[width][i]) {
-			startFound = true;
-			start = {width, i};
+// 	for(int i=0; i < width; i++) { // j = 0
+// 		if(!matrix[i][0]) {
+// 			startFound = true;
+// 			start = {i, 0};
+// 			break;
+// 		}
+// 		
+// 	}
+// 	for(int i=0; i < width; i++) { // j = height
+// 		if(startFound) break;
+// 		if(!matrix[i][height]) {
+// 			startFound = true;
+// 			start = {i, height};
+// 		}
+// 	}
+// 	for(int i=0; i < height; i++) { // j = 0
+// 		if(startFound) break;
+// 		if(!matrix[0][i]) {
+// 			startFound = true;
+// 			start = {0, i};
+// 		}
+// 	}
+// 	for(int i=0; i < height; i++) { // j = width
+// 		if(startFound) break;
+// 		if(!matrix[width][i]) {
+// 			startFound = true;
+// 			start = {width, i};
+// 		}
+// 	}
+// 	
+
+
+	bool startFound = false;
+	bool flag = true;
+	int depth = 1;
+	Cell temp;
+	while(!startFound) {
+		if(flag) {
+			temp = findFreePosition(0, 0, depth);
+			printf("I'm searching depth = %d\n", depth);
+			if(!(temp.x != -1 && temp.y != -1)) {
+				depth++;
+			} else {
+				startFound = true;
+			}
+			if(depth >= width && depth >= height) {
+				flag=false;
+				depth=-1;
+			}
+		} else {
+			temp = findFreePosition(0, 0, depth);
+			printf("I'm searching depth = %d\n", depth);
+			if(!(temp.x != -1 && temp.y != -1)) {
+				depth--;
+			} else {
+				startFound = true;
+			}
+			if(depth <= -width && depth <= -height) {
+				break;
+			}
 		}
 	}
 	
-	// finds the end
-	int minWidth = (int)width/2; // 50% of the maze
-	int minHeight = (int)height/2; // 50% of the maze
+	start.x = temp.x;
+	start.y = temp.y;
+	
+		// finds the end
+	int minWidth = (int)width/3; // 33% of the maze
+	int minHeight = (int)height/3; // 33% of the maze
 	int startRangeX , endRangeX;
 	int startRangeY , endRangeY;
 	startRangeX = (start.x >= minWidth) ? start.x - minWidth : start.x + minWidth;
@@ -143,9 +178,31 @@ void Maze::generate() {
 		test.y = endY-1;
 		if(!hasWall(test)) break; 
 	} 
-	end = {endX, endY};
+	end = {endX-1, endY-1};
 	
 	printf("Start (%d,%d) = %d\nEnd (%d,%d) = %d\n", start.x, start.y, matrix[start.x][start.y], end.x, end.y, matrix[end.x][end.y]);
+}
+
+
+Maze::Cell Maze::findFreePosition(int x, int y, int depth) {
+	Cell found = {-1,-1};
+	for(int i = 0; i < depth && ((x+i) < width || (x+i) > 0); i++) {
+		printf("Checking [%d][%d]\n", (x+i), y);
+		if(!matrix[x+i][y])  {
+			found.x = x+i;
+			found.y = y;
+			return found;
+		}
+	}
+	for(int i = 0; i < depth && ((y+i) < height || (y+i) > 0); i++) {
+		printf("Checking [%d][%d]\n", x, (y+i));
+		if(!matrix[x][y+i]) {
+			found.x = x;
+			found.y = y+i;
+			return found;
+		}
+	}
+	return found;
 }
 
 int Maze::getWidth() {
