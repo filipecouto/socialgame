@@ -4,6 +4,9 @@
 #include "../IMinigame.h"
 #include "../IMinigameInstance.h"
 #include "../../Graphics/Camera.h"
+#include "../../Mods/AdvancedMode/dependencies/CurlHelper/CurlHelper.h"
+#include "../../Mods/AdvancedMode/dependencies/rapidjson/document.h"
+#include <math.h>
 
 #include <GL/glut.h>
 
@@ -40,10 +43,14 @@ class TicTacToeMinigame : public IMinigame {
 				void drawLine(GLfloat addZ = 0);
 				void drawX(int x, int y);
 				void drawXLine(GLfloat ang);
-				void drawO();
-		char matriz[3][3] = {{' ', ' ', ' '},
-								{' ', ' ', ' '},
-								{' ', ' ', ' '}};
+				void drawO(int x, int y);
+				void drawCircle(GLfloat radius);
+				bool checkMatriz(int x, int y);
+				string convertMatrizToPrologList();
+				void Game(string list);
+		char matriz[3][3] = {{'z', 'z', 'z'},
+				    {'z', 'z', 'z'},
+				    {'z', 'z', 'z'}};
 
 			private:
 				GameContext * _context;
@@ -59,6 +66,7 @@ class TicTacToeMinigame : public IMinigame {
 
 				Thing thing;
 				GLfloat mx, my;
+				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL";
 		};
 };
 
