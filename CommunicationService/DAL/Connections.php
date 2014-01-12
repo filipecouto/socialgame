@@ -143,5 +143,21 @@ require_once('DAL/DAL.php');
 		
 		return $result;
 	}
-?>
 	
+	function DAL_removeConnection($userId, $otherUser) {
+		$dal = new DAL();
+		$userId = mysql_real_escape_string($userId);
+		$otherUser = mysql_real_escape_string($otherUser);
+		
+		$sql = sprintf("DELETE FROM Connections WHERE (user1='%d' AND user2='%d') OR (user1='%d' AND user2='%d')",
+					   $userId, $otherUser,
+					   $otherUser, $userId);
+					   
+		try {
+			$dal->executeQuery($sql);
+			return true;
+		} catch(Exception $e) {
+			return false;
+		}
+	}
+?>
