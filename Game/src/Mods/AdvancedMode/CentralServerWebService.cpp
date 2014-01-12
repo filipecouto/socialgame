@@ -42,8 +42,13 @@ rapidjson::Value & CentralServerWebService::getMoods() {
 	return getData("Moods", "getAllMoods", "")->operator[]("data");
 }
 
+bool CentralServerWebService::setMood(const int idMood) {
+	execute("Users", "modifyUserMood", token + "^" + std::to_string(idMood));
+	return true;
+}
+
 rapidjson::Value & CentralServerWebService::getConnection(const int id) {
-	return getData("Connections", "returnConnection", std::to_string(id))->operator[]("data")[(rapidjson::SizeType) 0];
+	return getData("Connections", "returnConnection", std::to_string(id))->operator[]("data");
 }
 
 rapidjson::Value & CentralServerWebService::getConnectionsOfUser(const int userId) {

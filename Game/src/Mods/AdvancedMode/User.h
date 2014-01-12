@@ -16,6 +16,8 @@ namespace AdvancedMode {
 			
 			virtual void addFriend(IPerson * friendToAdd);
 			virtual void removeFriend(IPerson * friendToRemove);
+			
+			virtual void setMood(IMood * mood);
 
 			~User();
 

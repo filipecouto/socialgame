@@ -22,7 +22,9 @@ namespace AdvancedMode {
 			virtual std::string getName();
 			virtual int getStrength();
 			virtual int getScore();
+			
 			virtual IMood * getMood();
+			void setMood(IMood * mood);
 
 			~Person();
 

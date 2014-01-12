@@ -65,6 +65,13 @@
 			return false;
 		}
 	}
+	
+	function removeFriend($token, $otherUser) {
+		$userId = getUserBySession($token);
+		if($userID == -1) return false;
+		
+		return DAL_removeConnection($userId, $otherUser);
+	}
 
 	function returnConnectionState($User1Token, $UserId2){
 		$UserId1 = getUserBySession($User1Token);

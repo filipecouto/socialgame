@@ -27,9 +27,10 @@ void LinearContainer::revalidate() {
 	GLfloat newX = 0;
 	GLfloat newY = 0;
 
+	int len = m_widgetVector.size();
 
 	if (orientation) {
-		for (int i = m_widgetVector.size() - 1; i >= 0; i--) {
+		for (int i = len - 1; i >= 0; i--) {
 			Widget * widget = m_widgetVector.at(i);
 			widget->x = newX;
 			widget->y = newY;
@@ -37,8 +38,6 @@ void LinearContainer::revalidate() {
 			newY += i == 0 ? widget->h : widget->h + _spacing;
 		}
 	} else {
-		int len = m_widgetVector.size();
-
 		for (int i = 0; i < len; i ++) {
 			Widget * widget = m_widgetVector.at(i);
 			widget->x = newX;

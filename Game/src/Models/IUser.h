@@ -32,6 +32,11 @@ class IUser {
 		 * This will remove the connection from both sides.
 		 */
 		virtual void removeFriend(IPerson * friendToRemove) { }
+		
+		/**
+		 * Sets the mood of "this" person
+		 */
+		virtual void setMood(IMood * mood) { }
 };
 
 #endif
