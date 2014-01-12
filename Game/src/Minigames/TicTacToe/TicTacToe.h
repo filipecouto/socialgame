@@ -7,6 +7,10 @@
 #include "../../Mods/AdvancedMode/dependencies/CurlHelper/CurlHelper.h"
 #include "../../Mods/AdvancedMode/dependencies/rapidjson/document.h"
 #include <math.h>
+#include "../../GUI/IWidgetEventsListener.h"
+#include "../../GUI/Gui.h"
+#include "../../GUI/WidgetContainer.h"
+#include "../../GUI/ButtonWidget.h"
 
 #include <GL/glut.h>
 
@@ -21,7 +25,7 @@ class TicTacToeMinigame : public IMinigame {
 	private:
 		GameContext * _context;
 
-		class TicTacToeInstance : public IMinigameInstance {
+		class TicTacToeInstance : public IMinigameInstance, public IWidgetEventsListener{
 			public:
 				TicTacToeInstance(GameContext * context);
 
@@ -48,9 +52,15 @@ class TicTacToeMinigame : public IMinigame {
 				bool checkMatriz(int x, int y);
 				string convertMatrizToPrologList();
 				void Game(string list);
-		char matriz[3][3] = {{'z', 'z', 'z'},
-				    {'z', 'z', 'z'},
-				    {'z', 'z', 'z'}};
+				void endGame(string label, string action);
+				char matriz[3][3] = {{'z', 'z', 'z'},
+						    {'z', 'z', 'z'},
+						    {'z', 'z', 'z'}};
+				
+				// events from GUI
+				virtual bool onDialogResult(Dialog * dialog, int buttonId);
+				virtual bool onWidgetClicked(Widget* widget);
+				
 
 			private:
 				GameContext * _context;
@@ -67,6 +77,11 @@ class TicTacToeMinigame : public IMinigame {
 				Thing thing;
 				GLfloat mx, my;
 				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL";
+				
+				TextWidget * labelText;
+				ButtonWidget * finishButton;
+				
+				Gui * _gui;
 		};
 };
 
