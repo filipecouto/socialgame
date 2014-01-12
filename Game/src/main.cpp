@@ -140,7 +140,7 @@ void load() {
 	glEnable(GL_LIGHTING);
 
 	// ligar e definir fonte de luz 0
-	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT0);	
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);

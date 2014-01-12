@@ -91,7 +91,6 @@ void Camera::translate(GLfloat x, GLfloat y, GLfloat z) {
 void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
 
-	//printf("angle = %0.2f\n", angle);
 	if (x != 0) {
 		tcx = ccx + (x * cos(angle));
 		tcz = ccz + (x * sin(angle));
@@ -129,14 +128,11 @@ GLfloat Camera::getAngle() {
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
-	printf("Angulo = %0.2f\n", angle);
-
 	if (x != 0) { // rotation on X axis
 	} else if (y != 0) { // rotation on Y axis
 		angle += y;
 		tcx = sin(angle) + tex;
 		tcz = cos(angle) + tez;
-		//printf("tcz = %0.2f ; cos = %0.2f ; tez = %0.2f\ntcx = %0.2f ; sin = %0.2f ; tex = %0.2f\n", tcz, cos(angle), tez, tcx, sin(angle), tex);
 	} else if (z != 0) { // rotation on Z axis
 	}
 }

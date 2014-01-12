@@ -60,6 +60,7 @@ void Maze::generate() {
 
 	Cell * neighbours = new Cell[4];
 	int neighbourCount;
+	bool startFound, endFound;
 
 	int size;
 
@@ -89,9 +90,64 @@ void Maze::generate() {
 		for (int x = 0; x < width; x++) {
 			printf(matrix[x][y] ? "█" : " ");
 		}
-
 		printf("\n");
 	}
+
+	//finds the start
+	for(int delta = 0 ; delta < height; delta++) {
+		for(int i=0; i < width; i++) { // j = 0
+			if(!matrix[i][delta]) {
+				startFound = true;
+				start = {i, delta};
+				break;
+			}
+			
+		}
+	}
+		// finds the end
+	int minWidth = (int)width/3; // 33% of the maze
+	int minHeight = (int)height/3; // 33% of the maze
+	int startRangeX , endRangeX;
+	int startRangeY , endRangeY;
+	startRangeX = (start.x >= minWidth) ? start.x - minWidth : start.x + minWidth;
+	endRangeX = (start.x >= minWidth) ? 0 : width;
+	startRangeY = (start.y >= minHeight) ? start.y - minHeight : start.y + minHeight;
+	endRangeY = (start.y >= minHeight) ? 0 : height;
+	int endX, endY;
+	Cell test;
+	while(true) {
+		
+		endX = rand() % (endRangeX - startRangeX) + startRangeX;
+		endY = rand() % (endRangeY - startRangeY) + startRangeY;
+		test.x = endX-1;
+		test.y = endY-1;
+		if(!hasWall(test)) break; 
+	} 
+	end = {endX-1, endY-1};
+	
+	printf("Start (%d,%d) = %d\nEnd (%d,%d) = %d\n", start.x, start.y, matrix[start.x][start.y], end.x, end.y, matrix[end.x][end.y]);
+}
+
+
+Maze::Cell Maze::findFreePosition(int x, int y, int depth) {
+	Cell found = {-1,-1};
+	for(int i = 0; i < depth && ((x+i) < width || (x+i) > 0); i++) {
+		printf("Checking [%d][%d]\n", (x+i), y);
+		if(!matrix[x+i][y])  {
+			found.x = x+i;
+			found.y = y;
+			return found;
+		}
+	}
+	for(int i = 0; i < depth && ((y+i) < height || (y+i) > 0); i++) {
+		printf("Checking [%d][%d]\n", x, (y+i));
+		if(!matrix[x][y+i]) {
+			found.x = x;
+			found.y = y+i;
+			return found;
+		}
+	}
+	return found;
 }
 
 int Maze::getWidth() {
@@ -112,6 +168,21 @@ Maze::~Maze() {
 	for (int i = 0; i < width; i++) delete matrix[i];
 
 	delete matrix;
+}
+
+int * Maze::getEnd() {
+	int * ret = new int[2];
+	ret[0] = end.x;
+	ret[1] = end.y;
+	return ret;
+}
+
+int * Maze::getStart() {
+	int * ret = new int[2];
+	ret[0] = start.x;
+	ret[1] = start.y;
+	return ret;
+
 }
 
 

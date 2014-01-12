@@ -20,19 +20,27 @@ class Maze {
 		
 		int getHeight();
 		int getWidth();
+		int* getStart();
+		int* getEnd();
 
 		~Maze();
+		
 
 	private:
 		int width, height;
 		bool ** matrix;
+		
+		
 
 		typedef struct Cell {
 			int x;
 			int y;
 		} Cell;
+		
+		Cell start, end;
 		void getNeighbours(Maze::Cell cell, Maze::Cell * neighbours, int & count);
-		bool hasWall(Cell cell);
+		bool hasWall(Maze::Cell cell);
+		Cell findFreePosition(int , int , int);
 };
 
 #endif // MAZE_H
