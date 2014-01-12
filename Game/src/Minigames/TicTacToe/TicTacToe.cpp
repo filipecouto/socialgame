@@ -281,7 +281,7 @@ void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 	else{
 		int value = atoi(result.c_str());
 		if(value == 0){ //Draw
-			cout << "DRAW2" <<endl;
+			cout << "DRAsW2" <<endl;
 		}
 		else{ //Computer will play
 			int positions[9][2] = { {0,0}, {1,0}, {2,0}, {0,1}, {1,1}, {2,1}, {0,2}, {1,2}, {2,2} };
