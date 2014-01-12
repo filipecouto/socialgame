@@ -40,7 +40,7 @@ class Maze {
 		Cell start, end;
 		void getNeighbours(Maze::Cell cell, Maze::Cell * neighbours, int & count);
 		bool hasWall(Maze::Cell cell);
-		Cell findFreePosition(int , int , int);
+		Cell findFreePosition(int corner, int depth);
 };
 
 #endif // MAZE_H
