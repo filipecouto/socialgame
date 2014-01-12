@@ -16,7 +16,7 @@ TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, 
 
 }
 
-TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void * font, GLfloat xPos, GLfloat yPos): TextWidget(text, r, g, b, a, font, xPos, yPos), _borderWidth(3) {
+TextBoxWidget::TextBoxWidget(std::string text, GLfloat r, GLfloat g, GLfloat b, GLfloat a, void * font, GLfloat xPos, GLfloat yPos): TextWidget(text, r, g, b, a, font, xPos, yPos), _borderWidth(5) {
 	cursorPosition = text.size();
 	updateDimensions();
 }

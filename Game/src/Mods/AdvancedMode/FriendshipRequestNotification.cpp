@@ -60,10 +60,14 @@ void FriendshipRequestNotification::setRead(bool read) {
 void FriendshipRequestNotification::load() {
 	const rapidjson::Value & data = cache->getService()->getNotification(id);
 	connectionId = std::stoi(data["object"].GetString());
-	IConnection * connection = new Connection(cache->getService()->getConnection(connectionId), cache);
+	const rapidjson::Value & connectionData = cache->getService()->getConnection(connectionId);
 
-	connectionToMe = ((ConnectionsList *)connection->getPerson()->getConnections())->getConnectionWith(cache->getIdentityPerson());
-	connectionFromMe = ((ConnectionsList *)cache->getIdentityPerson()->getConnections())->getConnectionWith(connection->getPerson());
+	if (!connectionData.IsFalse()) {
+		IConnection * connection = new Connection(connectionData[(rapidjson::SizeType)0], cache);
+
+		connectionToMe = ((ConnectionsList *)connection->getPerson()->getConnections())->getConnectionWith(cache->getIdentityPerson());
+		connectionFromMe = ((ConnectionsList *)cache->getIdentityPerson()->getConnections())->getConnectionWith(connection->getPerson());
+	}
 
 	loaded = true;
 }

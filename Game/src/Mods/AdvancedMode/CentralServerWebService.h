@@ -27,6 +27,7 @@ class CentralServerWebService {
 		rapidjson::Value & getPerson(const int id);
 
 		rapidjson::Value & getMoods();
+		bool setMood(const int idMood);
 
 		rapidjson::Value & getConnection(const int id);
 		rapidjson::Value & getConnectionsOfUser(const int userId);

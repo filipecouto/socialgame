@@ -58,6 +58,14 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 		} else {
 			notifications->show();
 		}
+	} else if (widget == barSettings) {
+		if (!settingsWindow) {
+			settingsWindow = new SettingsWindow(_controller);
+			_gui->addWidget(settingsWindow);
+		}
+
+		settingsWindow->centerOnParent();
+		settingsWindow->show();
 	} else if (widget == barTest1) {
 		_controller->startMinigame(new TicTacToeMinigame(_controller));
 	} else if (widget == barTest2) {
@@ -71,14 +79,14 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_controller->flyTo(_controller->getSelectedPerson());
 		} else if (widget == windowPersonInfo->getAddFriendButton()) {
 			timeFriendAdded = glutGet(GLUT_ELAPSED_TIME);
-			
+
 			IPerson * selected = _controller->getSelectedPerson();
 
 			if (_controller->getIdentity()->getPerson()->getConnections()->getConnectionWith(selected))
 				_controller->getIdentity()->removeFriend(selected);
 			else
 				_controller->getIdentity()->addFriend(selected);
-			
+
 			_controller->invalidatePerson(_controller->getIdentityPerson());
 			_controller->invalidatePerson(selected);
 

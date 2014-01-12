@@ -46,6 +46,10 @@ IMood * AdvancedMode::Person::getMood() {
 	return mood;
 }
 
+void AdvancedMode::Person::setMood(IMood * mood) {
+	this->mood = mood;
+}
+
 AdvancedMode::Person::~Person() {
 
 }

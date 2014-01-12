@@ -18,6 +18,7 @@
 #include "IGameControllerListener.h"
 #include "LoginForm.h"
 #include "NotificationsNavigator.h"
+#include "SettingsWindow.h"
 
 class PersonInfoWindow;
 
@@ -56,6 +57,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		LoginForm * loginForm;
 		PersonInfoWindow * windowPersonInfo = NULL;
 		NotificationsNavigator * notifications = NULL;
+		SettingsWindow * settingsWindow = NULL;
 		WidgetContainer * bar = NULL;
 		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
 		TextWidget * tNotifications = NULL;
