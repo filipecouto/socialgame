@@ -172,5 +172,11 @@ int * Maze::getStart() {
 }
 
 
+void Maze::addStart(int x, int y) {
+	start.x += x;
+	start.y += y;
+}
+
+
 
 

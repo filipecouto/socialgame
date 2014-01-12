@@ -87,26 +87,54 @@ void MazeMinigame::MazeInstance::finish() {
 }
 
 void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
+	int * pos = maze->getStart();
+	int * end = maze->getEnd();
 	switch (key) {
 		case 'w':
 			keys[0] = true;
+			if(pos[1]+1 > maze->getHeight()) {
+				break;
+			}
+			if(!maze->getValue(pos[0],pos[1]+1)) {
+				maze->addStart(0,1);
+			}
 			break;
-
 		case 'a':
 			keys[1] = true;
+			if(pos[0]+1 > maze->getWidth()) {
+				break;
+			}
+			if(!maze->getValue(pos[0]+1,pos[1])) {
+				maze->addStart(1,0);
+			}
 			break;
-
 		case 's':
 			keys[2] = true;
+			if(pos[1]-1 < 0) {
+				break;
+			}
+			if(!maze->getValue(pos[0],pos[1]-1)) {
+				maze->addStart(0,-1);
+			}
 			break;
 
 		case 'd':
 			keys[3] = true;
+			if(pos[0]-1 < 0) {
+				break;
+			}
+			if(!maze->getValue(pos[0]-1,pos[1])) {
+				maze->addStart(-1,0);
+			}
 			break;
 	}
+	if(pos[0] == end[0] && pos[1] == end[1]) finish();
+	
 }
 
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
+	int * pos = maze->getStart();
+	int * end = maze->getEnd();
 	switch(key) {
 		case 'w':
 			keys[0] = false;
@@ -124,6 +152,7 @@ void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
 			keys[3] = false;
 			break;
 	}
+	if(pos[0] == end[0] && pos[1] == end[1]) finish();
 }
 
 void MazeMinigame::MazeInstance::onMouseButton(int state, int button, int x, int y) {

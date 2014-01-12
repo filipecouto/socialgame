@@ -22,6 +22,7 @@ class Maze {
 		int getWidth();
 		int* getStart();
 		int* getEnd();
+		void addStart(int x, int y);
 
 		~Maze();
 		
