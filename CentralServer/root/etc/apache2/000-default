@@ -13,7 +13,7 @@
 		allow from all
 		RewriteEngine On
 		RewriteBase /
-		RewriteRule ^SocialGame/Minigames/Hangman/([A-Z0-9a-z_]{1,})(/.*)?$ SocialGameCommunicationService/PrologService/Minigames/interfaceToHangmanMinigame.php?method=$1&params=$2
+		RewriteRule ^SocialGame/Minigames/Hangman/([A-Z0-9a-z_]{1,})(/.*)?$ SocialGameCommunicationService/PrologService/Minigames/interfaceToHangmanMinigame.php?method=$1
 		RewriteRule ^SocialGame/([A-Za-z]{1,})/([A-Z0-9a-z_]{1,})(/.*)?$ SocialGameCommunicationService/InterfaceToBLL.php?Theme=$1&Function=$2 [QSA,L]
 	</Directory>
 

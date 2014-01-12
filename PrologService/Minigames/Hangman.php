@@ -1,27 +1,20 @@
 <?php
-	if(file_exists("PrologService/PrologService.php")){
-		require_once("PrologService/PrologService.php");
-	}
-	else{
-		require_once("PrologService.php");
-	}
+	require_once("PrologService.php");
 	require_once("BLL/Hangman.php");
 	
 	function beginGame(){
-		return getWord();
+		return generateRandomWord();
 	}
 	
-	function move($letter, $word){
-	
+	function move($letter, $wordString){
+	 $word = str_split($wordString);
 	$length = count($word);
 	$list = '['.$word[0];
-	
 	for($i =1; $i<$length;$i++)
 	{
 		$list.=",".$word[$i];
 	}
 	$list.=']';
-	print_r($list);
 	$predicate = 
 		"searchLetter(Letter,[Letter|_],Answer):-Answer is 0.
 		searchLetter(_, [], Answer):-Answer is 1.
@@ -31,7 +24,6 @@
 		go :-
 			doMove($letter,$list,Answer),
 			write(Answer).";
-			print_r($predicate);
         $prolog = new Prolog;
         return $prolog->executePredicate($predicate);
 	}
