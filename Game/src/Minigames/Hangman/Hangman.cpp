@@ -84,7 +84,7 @@ void HangmanMinigame::HangmanInstance::drawLetterSpaces(int length)
 {
     int x = 43;
     for(int i=0; i<wordLength; i++) {
-        letters->push_back(new LetterWidget("",x,380));
+        letters.push_back(new LetterWidget("",x,380));
         x+=22;
     }
 
