@@ -20,10 +20,12 @@ class Maze {
 		
 		int getHeight();
 		int getWidth();
-		double* getStart();
+		int* getStart();
 		int* getEnd();
 		void addStart(double x, double y);
 		void setStart(double x, double y);
+		
+		bool isEnd(int x, int y);
 		
 		~Maze();
 		

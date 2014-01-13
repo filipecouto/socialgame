@@ -58,7 +58,7 @@ void GameController::start(GameMod * mod) {
 	_mod->load();
 
 	start();
-	
+
 	_listener->onGameLoaded();
 }
 
@@ -353,52 +353,53 @@ GraphicFactory * GameController::getFactory() {
 }
 
 void GameController::onKeyDown(int key, int special) {
-	switch (key) {
-			// TODO this is ONLY FOR TESTING
-		case 0 :
-			switch (special) {
-				case GLUT_KEY_LEFT:
-					_camera.rotate(0, 0.4, 0);
-					break;
-
-				case GLUT_KEY_RIGHT:
-					_camera.rotate(0, -0.4, 0);
-					break;
-			}
-
-			break;
-
-		case 'w':
-			_camera.walk(0, 0, +2.5f);
-			break;
-
-		case 's':
-			_camera.walk(0, 0, -2.5f);
-			break;
-
-		case 'a':
-			_camera.walk(-2.5f, 0, 0);
-			break;
-
-		case 'd':
-			_camera.walk(+2.5f, 0, 0);
-			break;
-
-		case 'z':
-			_camera.translate(0, 1, 0);
-			break;
-
-		case 'x':
-			_camera.translate(0, -1, 0);
-			break;
-	}
-
 	if (GameController_isInMinigame) _minigame->onKeyDown(key, special);
+	else {
+		switch (key) {
+				// TODO this is ONLY FOR TESTING
+			case 0 :
+				switch (special) {
+					case GLUT_KEY_LEFT:
+						_camera.rotate(0, 0.4, 0);
+						break;
+
+					case GLUT_KEY_RIGHT:
+						_camera.rotate(0, -0.4, 0);
+						break;
+				}
+
+				break;
+
+			case 'w':
+				_camera.walk(0, 0, +2.5f);
+				break;
+
+			case 's':
+				_camera.walk(0, 0, -2.5f);
+				break;
+
+			case 'a':
+				_camera.walk(-2.5f, 0, 0);
+				break;
+
+			case 'd':
+				_camera.walk(+2.5f, 0, 0);
+				break;
+
+			case 'z':
+				_camera.translate(0, 1, 0);
+				break;
+
+			case 'x':
+				_camera.translate(0, -1, 0);
+				break;
+		}
+	}
 }
 
 GLuint GameController::loadTexture(std::string texture) {
 	printf("Loading texture \"%s\"...\n", texture.c_str());
-	
+
 	char * image;
 	int w, h, bpp;
 

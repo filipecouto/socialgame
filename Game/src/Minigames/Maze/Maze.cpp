@@ -52,7 +52,7 @@ bool Maze::hasWall(Maze::Cell cell) {
 
 void Maze::generate() {
 	std::vector<Cell> cells;
-	Cell nc, c = {rand() % width, rand() % height};
+	Cell nc, c = {(rand() % (width / 2)) * 2 + 1, (rand() % (height / 2)) * 2 + 1};
 	matrix[c.x][c.y] = false;
 	cells.push_back(c);
 
@@ -97,19 +97,21 @@ void Maze::generate() {
 	int depth = 1;
 
 	start = { -1, -1};
+
 	// looks for a start
 	while (start.x == -1 && depth < width / 2) start = findFreePosition(0, depth++);
 
 	depth = 1;
 
 	end = { -1, -1};
+
 	// looks for an end
 	while (end.x == -1 && depth < width / 2) end = findFreePosition(2, depth++);
 
 	printf("Start (%d,%d) = %d\nEnd (%d,%d) = %d\n", start.x, start.y, matrix[start.x][start.y], end.x, end.y, matrix[end.x][end.y]);
 	startD[0] = start.x;
 	startD[1] = start.y;
-	
+
 }
 
 
@@ -166,10 +168,16 @@ int * Maze::getEnd() {
 	return ret;
 }
 
-double * Maze::getStart() {
-	return startD;
+int * Maze::getStart() {
+	int * ret = new int[2];
+	ret[0] = start.x;
+	ret[1] = start.y;
+	return ret;
 }
 
+bool Maze::isEnd(int x, int y) {
+	return x == end.x && y == end.y;
+}
 
 void Maze::addStart(double x, double y) {
 	startD[0] += x;
@@ -180,8 +188,3 @@ void Maze::setStart(double x, double y) {
 	startD[0] = x;
 	startD[1] = y;
 }
-
-
-
-
-

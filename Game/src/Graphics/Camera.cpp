@@ -127,10 +127,13 @@ GLfloat Camera::getAngle() {
 	GLfloat dx = cex - ccx;
 	GLfloat dz = cez - ccz;
 
-	GLfloat value = dz == 0 ? M_PI / 2 : atan(dx / dz);
+	GLfloat value = dz == 0 ? (dx < 0 ? -M_PI / 2 : M_PI / 2) : atan(dx / dz);
 
 	if (dz > 0) value -= M_PI;
 
+	//while(value <= 0) value += 2 * M_PI;
+
+		printf("angle = %.2f rad\n", value);
 	return value;
 }
 
@@ -139,7 +142,6 @@ void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 
 	if (x != 0) { // rotation on X axis
 	} else if (y != 0) { // rotation on Y axis
-		printf("angle = %.2f rad\n", angle);
 		//printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
 		angle += y;
 		double n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));
