@@ -1,10 +1,13 @@
-#include "SkyBox.h"
 
 #if _WIN32
 #define GL_GLEXT_PROTOTYPES
-#include <GL\GL.h>
+#include <GL\glew.h>
 #include <GL\glext.h>
 #endif
+#include "SkyBox.h"
+
+
+	#include <stdio.h>
 SkyBox::SkyBox() : skyboxTextId1(0), skyboxTextId2(0), skyboxTextId3(0), skyboxTextId4(0), skyboxTextId5(0), skyboxTextId6(0) {
 
 }
@@ -46,39 +49,39 @@ void SkyBox::draw() {
 	glDisable(GL_COLOR_MATERIAL);
 
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE0);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	drawSide(skyboxTextId1,
 	         +0.5f, +0.5f, -0.5f,
 	         -0.5f, +0.5f, -0.5f,
 	         -0.5f, -0.5f, -0.5f,
-	         +0.5f, -0.5f, -0.5f);
+			 +0.5f, -0.5f, -0.5f);
 	drawSide(skyboxTextId2,
 	         +0.5f, +0.5f, +0.5f,
 	         +0.5f, +0.5f, -0.5f,
 	         +0.5f, -0.5f, -0.5f,
-	         +0.5f, -0.5f, +0.5f);
+			 +0.5f, -0.5f, +0.5f);
 	drawSide(skyboxTextId3,
 	         -0.5f, +0.5f, +0.5f,
 	         +0.5f, +0.5f, +0.5f,
 	         +0.5f, -0.5f, +0.5f,
-	         -0.5f, -0.5f, +0.5f);
+			 -0.5f, -0.5f, +0.5f);
 	drawSide(skyboxTextId4,
 	         -0.5f, +0.5f, -0.5f,
 	         -0.5f, +0.5f, +0.5f,
 	         -0.5f, -0.5f, +0.5f,
-	         -0.5f, -0.5f, -0.5f);
+			 -0.5f, -0.5f, -0.5f);
 	drawSide(skyboxTextId5,
 	         -0.5f, +0.5f, -0.5f,
 	         +0.5f, +0.5f, -0.5f,
 	         +0.5f, +0.5f, +0.5f,
-	         -0.5f, +0.5f, +0.5f);
+			 -0.5f, +0.5f, +0.5f);
 	drawSide(skyboxTextId6,
 	         -0.5f, -0.5f, +0.5f,
 	         +0.5f, -0.5f, +0.5f,
 	         +0.5f, -0.5f, -0.5f,
-	         -0.5f, -0.5f, -0.5f);
+			 -0.5f, -0.5f, -0.5f);
 	
 	glDisable(GL_TEXTURE_2D);
 

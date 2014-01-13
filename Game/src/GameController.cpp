@@ -68,7 +68,7 @@ void GameController::draw() {
 	if (GameController_isInMinigame) {
 		glEnable(GL_DEPTH_TEST);
 		_minigame->draw();
-	} else {
+	}else {
 		_camera.setUp();
 
 		glEnable(GL_TEXTURE_2D);

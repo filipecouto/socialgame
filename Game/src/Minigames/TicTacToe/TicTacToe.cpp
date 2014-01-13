@@ -26,7 +26,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 	//PLANO DE BAIXO
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId1);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1, 0);

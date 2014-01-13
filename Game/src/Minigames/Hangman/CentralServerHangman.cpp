@@ -22,6 +22,7 @@ bool CentralServerHangman::findLetterInWord(string letter, string word)
 
 string CentralServerHangman::getWordAndCategory()
 {
+	printf("Hello\n");
     // const rapidjson::Value & v = getData("beginGame","")->operator[]("data");
     std::string result = execute("beginGame", "");
     return result;
