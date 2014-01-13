@@ -47,6 +47,20 @@ bool CentralServerWebService::setMood(const int idMood) {
 	return true;
 }
 
+rapidjson::Value & CentralServerWebService::getUserTags(const int userId) {
+	return getData("Tags", "getUserTags", std::to_string(userId))->operator[]("data");
+}
+
+bool CentralServerWebService::setTags(const std::vector< std::string > tags) {
+	std::string param = "";
+	for(int i = 0; i < tags.size(); i++) {
+		if(i != 0) param += ';';
+		param += tags.at(i);
+	}
+	execute("Users", "setUserTags", token + "^" + param + "^;");
+	return true;
+}
+
 rapidjson::Value & CentralServerWebService::getConnection(const int id) {
 	return getData("Connections", "returnConnection", std::to_string(id))->operator[]("data");
 }

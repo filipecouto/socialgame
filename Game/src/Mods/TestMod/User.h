@@ -19,6 +19,7 @@ class User : public IUser {
 		
 		virtual IPerson * getPerson();
 		virtual void addFriend(IPerson * friendToAdd);
+		virtual void removeFriend(IPerson * friendToRemove);
 		
 		virtual void setEventListener(GameModEventListener * listener);
 		

@@ -20,7 +20,7 @@ class SettingsWindow : public Window {
 
 		TextWidget * tMood;
 		TextBoxWidget * tTags;
-		ButtonWidget * bSaveTag, * bClose;
+		ButtonWidget * bSaveTags, * bClose;
 		
 		WidgetContainer * lMoods;
 		

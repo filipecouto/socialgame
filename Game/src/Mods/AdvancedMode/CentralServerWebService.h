@@ -10,6 +10,7 @@
 #define CENTRALSERVERWEBSERVICE_H
 
 #include <string>
+#include <vector>
 #include "dependencies/CurlHelper/CurlHelper.h"
 #include "dependencies/rapidjson/document.h"
 
@@ -28,6 +29,9 @@ class CentralServerWebService {
 
 		rapidjson::Value & getMoods();
 		bool setMood(const int idMood);
+		
+		rapidjson::Value & getUserTags(const int userId);
+		bool setTags(const vector< string > tags);
 
 		rapidjson::Value & getConnection(const int id);
 		rapidjson::Value & getConnectionsOfUser(const int userId);

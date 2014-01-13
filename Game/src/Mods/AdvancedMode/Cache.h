@@ -4,10 +4,13 @@
 #include <vector>
 #include "CentralServerWebService.h"
 
+class ITag;
 class IConnection;
 class IPerson;
 
 namespace AdvancedMode {
+
+	class Tag;
 	class Connection;
 	class Person;
 	class MoodsList;
@@ -23,6 +26,8 @@ namespace AdvancedMode {
 			
 			IPerson * getPerson(int id);
 			
+			ITag * getUserTag(int id);
+			
 			MoodsList * getMoods();
 
 			~Cache();
@@ -35,7 +40,8 @@ namespace AdvancedMode {
 			MoodsList * moods;
 			
 			std::vector<Person *> people;
-			std::vector<Connection *> connections;
+			std::vector<Tag *> userTags;
+			//std::vector<Connection *> connections;
 	};
 }
 

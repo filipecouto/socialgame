@@ -37,6 +37,10 @@ void AdvancedMode::User::setMood(IMood * mood) {
 	}
 }
 
+void AdvancedMode::User::setTags(vector< string > tags) {
+	
+}
+
 AdvancedMode::User::~User() {
 
 }

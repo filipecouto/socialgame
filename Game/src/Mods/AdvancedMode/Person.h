@@ -37,6 +37,7 @@ namespace AdvancedMode {
 			IMood * mood = NULL;
 
 			IConnectionsList * connections = NULL;
+			ITagsList * tags = NULL;
 	};
 }
 
