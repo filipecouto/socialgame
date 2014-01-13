@@ -30,6 +30,8 @@
 #include <GL\glext.h>
 #endif
 
+#pragma comment (lib, "libjpeg.lib")
+
 #define GameController_isInMinigame _minigame && _minigameState == 1
 
 GameController::GameController() : _graphFactory() {

@@ -13,10 +13,12 @@ IConnection * FriendshipRequestNotification::getConnection() {
 
 bool FriendshipRequestNotification::accept() {
 	((Person*)_user->getPerson())->connect((Person*)_connection->getPerson(), 1);
+	return true;
 }
 
 bool FriendshipRequestNotification::refuse() {
 	((Person*)_user->getPerson())->connect((Person*)_connection->getPerson(), -1);
+	return true;
 }
 
 IPerson * FriendshipRequestNotification::getFrom() {

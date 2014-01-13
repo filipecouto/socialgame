@@ -43,7 +43,7 @@ void Person::connect(Person * other) {
 }
 
 IConnection * Person::connect(Person * other, int state) {
-	Connection * connection ;
+	Connection * connection = NULL;
 
 	if (_connections->hasFriend(other)) {
 		int len = _connections->size();
