@@ -5,13 +5,19 @@
 #include "../IMinigameInstance.h"
 #include "../../Graphics/Camera.h"
 #include "../../GUI/Gui.h"
+#include "CentralServerHangman.h"
 #include<math.h>
+#include <GL/glut.h>
+#include <algorithm>
+#include <string.h> 
+
+
 
 using namespace std;
 #ifndef M_PI
 #define M_PI 3.1415926535897932384626433832795
 #endif
-#include <GL/glut.h>
+
 
 class HangmanMinigame : public IMinigame {
 public:
@@ -42,15 +48,25 @@ private:
         virtual void finish();
 
         virtual ~HangmanInstance();
-	virtual void drawCircle(double distance, double pX, double pZ);
-	virtual void drawLines (GLfloat width,GLfloat beginX, GLfloat beginY, GLfloat beginZ,GLfloat endX, GLfloat endY, GLfloat endZ);
-	virtual void drawSquare(GLfloat v1x, GLfloat v1y, GLfloat v1z,GLfloat v2x, GLfloat v2y, GLfloat v2z,GLfloat v3x, GLfloat v3y, GLfloat v3z,GLfloat v4x, GLfloat v4y, GLfloat v4z);
-	virtual void drawLetterSpaces(int length);
-	virtual bool determinateLetter(char chosenLetter, string word);
-	
+        virtual void drawCircle(double distance, double pX, double pZ);
+        virtual void drawLines (GLfloat width,GLfloat beginX, GLfloat beginY, GLfloat beginZ,GLfloat endX, GLfloat endY, GLfloat endZ);
+        virtual void drawSquare(GLfloat v1x, GLfloat v1y, GLfloat v1z,GLfloat v2x, GLfloat v2y, GLfloat v2z,GLfloat v3x, GLfloat v3y, GLfloat v3z,GLfloat v4x, GLfloat v4y, GLfloat v4z);
+        virtual void drawLetterSpaces(int length);
+        virtual void determinateLetter(string chosenLetter, string word);
+	virtual void drawHangman();
+	virtual void drawLetters();
+	void getWord();
+
     private:
+        int attempts;
+	string word;
+	string category;
+	char  letterPlayed;
+	int wordLength;
+	bool right;
+        CentralServerHangman centralServer;
         GameContext * _context;
-	Gui * gui;
+        Gui * gui;
 
         Camera camera;
 
@@ -59,7 +75,7 @@ private:
             GLfloat vx, vy;
         } Thing;
 
-        bool keys[4];
+        bool keys[26];
 
         Thing thing;
         GLfloat mx, my;
