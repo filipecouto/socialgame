@@ -35,7 +35,6 @@ void HangmanMinigame::HangmanInstance::draw() {
     glColor3f(0,0,1);
     drawLetterSpaces(word.length());
     glColor3f(0,0,0);
-    drawSquare(-98.0,-80.0,20.0,0,-80.0,20.0,0,-80.0,0,-100.0,-80.0,0);
     glPopMatrix();
     gui->drawGui();
 
@@ -84,7 +83,7 @@ void HangmanMinigame::HangmanInstance::drawLetterSpaces(int length)
 {
     int x = 43;
     for(int i=0; i<wordLength; i++) {
-        letters.push_back(new LetterWidget("",x,380));
+        letters.push_back(new LetterWidget(" ",x,380));
         x+=22;
     }
 
@@ -147,26 +146,9 @@ void HangmanMinigame::HangmanInstance::tick(int delta, int current) {
     camera.tick(delta, current);
     gui->tick(delta,current);
     gui->setDimensions(getViewportWidth(),getViewportHeight());
-    if (keys[1]) thing.vx += 0.005;
-
-    if (keys[3]) thing.vx -= 0.005;
-
-    if (keys[0]) thing.vy += 0.005;
-
-    if (keys[2]) thing.vy -= 0.005;
-
-    thing.x += thing.vx * delta;
-    thing.y += thing.vy * delta;
-
-    thing.vx *= 0.75;
-    thing.vy *= 0.75;
-
-    if (thing.x < -20) thing.x = -20;
-    else if (thing.x > 20) thing.x = 20;
-
-    if (thing.y < -20) thing.y = -20;
-    else if (thing.y > 20) thing.y = 20;
-
+   for(int i=0;i<wordLength;i++){
+     gui->addWidget(letters.at(i));
+   }
     if(attempts ==0 ||numberOfLettersRightPlayed == wordLength) finish();
 }
 
@@ -184,7 +166,7 @@ HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _cont
     right = false;
     wrong = false;
     gui = new Gui();
-    gui->addWidget(new TextWidget(category, 80, 450));
+    gui->addWidget(new LetterWidget("CATEGORY: " + category, 0, 0));
 
 }
 
@@ -390,7 +372,7 @@ void HangmanMinigame::HangmanInstance::drawLetters()
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
                 numberOfLettersRightPlayed++;
-                gui->addWidget(new LetterWidget(letter, x, 380));
+		letters.at(i)->setText(letter);
             }
             x+=22;
         }

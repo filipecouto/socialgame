@@ -5,10 +5,13 @@
   $params = explode(",",$_GET["params"]);
   if($method == "beginGame"){
     $array = beginGame();
-    echo $array["category"].','.$array["word"];
+    $result = $array["category"].','.$array["word"];
+   
   }if ($method == "move") {
     $letter= $params[0];
     $word = $params[1];
-    echo move($letter, $word);
+    $result=  move($letter, $word);
   }
+  
+  print_r(json_encode($result)); 
   ?>
