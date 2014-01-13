@@ -28,7 +28,7 @@ void MazeMinigame::MazeInstance::draw() {
 				glPushMatrix();
 					glTranslatef(i,0,j);
 					glColor3f(0,0,1);
-					drawCube();
+					drawCube(1);
 				glPopMatrix();
 			}
 		}
@@ -37,17 +37,17 @@ void MazeMinigame::MazeInstance::draw() {
 		glTranslatef(start[0],0,start[1]);
 		glRotatef(-rotateAngle , rotateX, 0 , rotateZ);
 		glColor3f(0,1,0);
-		drawCube();
+		drawCube(0.5);
 	glPopMatrix();
 	glPushMatrix();
 		glTranslatef(end[0],0,end[1]);
 		glColor3f(1,0,0);
-		drawCube();
+		drawCube(0.5);
 	glPopMatrix();
 }
 
-void MazeMinigame::MazeInstance::drawCube() {
-		glutSolidCube(1);
+void MazeMinigame::MazeInstance::drawCube(double size) {
+		glutSolidCube(size);
 }
 
 void MazeMinigame::MazeInstance::start() {
@@ -85,36 +85,44 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	double rotateValueZ = 0;
 	
 	if(!pressed && rotateAngle != 0) {
+		double angle = (delta * 9.0) / 100.0;
+		double ang;
+		if((rotateAngle + angle) >= 90.0) {
+			angle = 90.0 - rotateAngle;
+		} else if ((rotateAngle - angle) <= -	90.0) {
+			angle = -90.0 + rotateAngle;
+		}
+		double movement = (0.1*angle)/9.0;
 		if(rotateAngle >= 90 || rotateAngle <= -90) {
 			cleanRotate();
 		} else {
 			if(rotateAngle > 45) {
-				rotateAngle+=9;
+				rotateAngle+=angle;
 				if(rotateX == 1) {
-					rotateValueX = -0.1;
+					rotateValueX = -movement;
 				} else if(rotateZ == 1) {
-					rotateValueZ = 0.1;
+					rotateValueZ = movement;
 				}
 			} else if(rotateAngle < -45) {
-				rotateAngle-=9;
+				rotateAngle-=angle;
 				if(rotateX == 1) {
-					rotateValueX = 0.1;
+					rotateValueX = movement;
 				} else if(rotateZ == 1) {
-					rotateValueZ = -0.1;
+					rotateValueZ = -movement;
 				}
 			} else if(rotateAngle > 0) {
-				rotateAngle-=9;
+				rotateAngle-=angle;
 				if(rotateX == 1) {
-					rotateValueX = 0.1;
+					rotateValueX = movement;
 				} else if(rotateZ == 1) {
-					rotateValueZ = -0.1;
+					rotateValueZ = -movement;
 				}
 			} else if(rotateAngle < 0) {
-				rotateAngle+=9;
+				rotateAngle+=angle;
 				if(rotateX == 1) {
-					rotateValueX = -0.1;
+					rotateValueX = -movement;
 				} else if(rotateZ == 1) {
-					rotateValueZ = 0.1;
+					rotateValueZ = movement;
 				}
 			}
 		}

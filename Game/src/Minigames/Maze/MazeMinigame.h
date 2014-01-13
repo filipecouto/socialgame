@@ -27,7 +27,7 @@ class MazeMinigame : public IMinigame {
 				virtual void start();
 
 				virtual void draw();
-				virtual void drawCube();
+				virtual void drawCube(double size);
 				virtual void tick(int delta, int current);
 
 				virtual void onKeyDown(int key, int special);
