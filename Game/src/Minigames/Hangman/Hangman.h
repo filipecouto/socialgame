@@ -90,7 +90,7 @@ class HangmanMinigame : public IMinigame {
 						
 						virtual void drawBackground();
 				};
-				vector<LetterWidget> * letters;
+				vector<LetterWidget*> letters;
 		};
 };
 
