@@ -29,23 +29,37 @@ void MazeMinigame::MazeInstance::draw() {
 
 	int width = maze->getWidth(), height = maze->getHeight();
 	int * end = maze->getEnd();
-	
-	glEnable(GL_TEXTURE_2D);
+	if(textures) {
+		glEnable(GL_TEXTURE_2D);
+	} else {
+		glDisable(GL_TEXTURE_2D);
+	}
 	glActiveTexture(GL_TEXTURE0);
+	
+	int colors[3];
+	if(textures) {
+		colors[0] = 1;
+		colors[1] = 1;
+		colors[2] = 1;
+	} else {
+		colors[0] = 0;
+		colors[1] = 0;
+		colors[2] = 1;
+	}
 	
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			if (maze->getValue(i, j)) {
 				glPushMatrix();
 					glTranslatef(i, 0, j);
-					glColor3f(1, 1, 1);
+					glColor3f(colors[0], colors[1], colors[2]);
 					glBindTexture(GL_TEXTURE_2D, textureId1);
 					glCallList(cubeList);
 				glPopMatrix();
 			} else {
 				glPushMatrix();
 					glTranslatef(i, 0, j);
-					glColor3f(1, 1, 1);
+					glColor3f(colors[0], colors[1], colors[2]);
 					glBindTexture(GL_TEXTURE_2D, textureId2);
 					glCallList(floorList);
 				glPopMatrix();
@@ -265,7 +279,7 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
 		keys[i] = false;
 	}
-
+	textures = false;
 	maze = new Maze(31, 21);
 	maze->generate();
 	cleanRotate();
@@ -301,6 +315,9 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 
 		case 'd':
 			keys[3] = true;
+			break;
+		case 't':
+			textures = !textures;
 			break;
 	}
 }
