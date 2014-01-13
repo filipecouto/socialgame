@@ -51,6 +51,7 @@ class TicTacToeMinigame : public IMinigame {
 				string convertMatrizToPrologList();
 				void Game(string list);
 				void endGame(string message, bool win);
+				void startNewGame();
 				char matriz[3][3] = {{'z', 'z', 'z'},
 						    {'z', 'z', 'z'},
 						    {'z', 'z', 'z'}};
