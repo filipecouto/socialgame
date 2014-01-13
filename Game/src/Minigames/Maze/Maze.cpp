@@ -106,7 +106,7 @@ void Maze::generate() {
 	end = { -1, -1};
 
 	// looks for an end
-	while (end.x == -1 && depth < width / 2) end = findFreePosition(2, depth++);
+	while (end.x == -1 && depth < width / 2) end = findFreePosition(rand() % 3 + 1, depth++);
 
 	printf("Start (%d,%d) = %d\nEnd (%d,%d) = %d\n", start.x, start.y, matrix[start.x][start.y], end.x, end.y, matrix[end.x][end.y]);
 	startD[0] = start.x;
@@ -128,12 +128,32 @@ Maze::Cell Maze::findFreePosition(int corner, int depth) {
 				}
 			}
 		}
+	} else if (corner == 1) {
+		for (int y = 0; y < depth && y < height; y++) {
+			for (int x = 0; x < depth && x < width; x++) {
+				if (!matrix[x][height - 1 - y]) {
+					found.x = x;
+					found.y = height - 1 - y;
+					return found;
+				}
+			}
+		}
 	} else if (corner == 2) {
 		for (int y = 0; y < depth && y < height; y++) {
 			for (int x = 0; x < depth && x < width; x++) {
 				if (!matrix[width - 1 - x][height - 1 - y]) {
 					found.x = width - 1 - x;
 					found.y = height - 1 - y;
+					return found;
+				}
+			}
+		}
+	} else if (corner == 3) {
+		for (int y = 0; y < depth && y < height; y++) {
+			for (int x = 0; x < depth && x < width; x++) {
+				if (!matrix[width - 1 - x][y]) {
+					found.x = width - 1 - x;
+					found.y = y;
 					return found;
 				}
 			}
