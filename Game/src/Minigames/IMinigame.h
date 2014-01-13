@@ -21,9 +21,20 @@ class GameContext;
 class IMinigame {
 	public:
 		/**
+		 * Returns the internal name of this mini-game
+		 * This may be used so the GameMod can store the right data about mini-games
+		 */
+		virtual std::string getInternalName() { return ""; }
+		
+		/**
 		 * Returns the name of this mini-game
 		 */
 		virtual std::string getName() = 0;
+		
+		/**
+		 * Returns the description of this mini-game
+		 */
+		virtual std::string getDescription() { return ""; }
 
 		/**
 		 * Loads any resources this mini-game needs in order to work

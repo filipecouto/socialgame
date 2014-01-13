@@ -10,19 +10,19 @@ class NotificationsNavigator : public Window {
 		NotificationsNavigator(GameController * controller);
 
 		virtual void onWidgetClicked(Widget * clicked);
-		
+
 		virtual void show();
 
 	private:
 		GameController * controller;
 
-		Widget * bAccept, * bRefuse;
+		Widget * bAccept, * bChallenge, * bRefuse;
 
 		Widget * bPrev, * bNext;
 		TextWidget * tNotification, * tType, * tData;
-		
+
 		int index;
-		
+
 		void loadNotification(INotification * notification);
 
 		class Space : public Widget {
@@ -31,6 +31,18 @@ class NotificationsNavigator : public Window {
 					w = 160;
 				}
 		};
+
+		class MinigameSelector : public Window {
+			public:
+				MinigameSelector(NotificationsNavigator * parent);
+
+				virtual void show();
+
+			private:
+				NotificationsNavigator * parent;
+		};
+		
+		MinigameSelector * minigameSelector = NULL;
 };
 
 #endif // NOTIFICATIONSNAVIGATOR_H
