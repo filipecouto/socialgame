@@ -60,15 +60,18 @@ class MazeMinigame : public IMinigame {
 				GLfloat rotateAngle = 0;
 				GLfloat tx, ty;
 				GLuint textureId1, textureId2;
-				GLuint cubeList, floorList;
+				GLuint mazeList;
 				int pos[2];
 				bool rotating[4];
 				bool textures;
+				int colors[3];
 				
 				bool detectCollision();
 				void applyRotating(int);
 				void cleanRotate();
 				void cleanKeys();
+				void createList();
+				void deleteList();
 				
 		};
 };

@@ -19,45 +19,27 @@ void MazeMinigame::MazeInstance::draw() {
 
 	camera.setUp();
 
-	int width = maze->getWidth(), height = maze->getHeight();
 	int * end = maze->getEnd();
+
 	if(textures) {
 		glEnable(GL_TEXTURE_2D);
-	} else {
-		glDisable(GL_TEXTURE_2D);
-	}
-	glActiveTexture(GL_TEXTURE0);
-	
-	int colors[3];
-	if(textures) {
 		colors[0] = 1;
 		colors[1] = 1;
 		colors[2] = 1;
+		deleteList();
+		createList();
 	} else {
+		glDisable(GL_TEXTURE_2D);
 		colors[0] = 0;
 		colors[1] = 0;
 		colors[2] = 1;
+		deleteList();
+		createList();
 	}
-	
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			if (maze->getValue(i, j)) {
-				glPushMatrix();
-					glTranslatef(i, 0, j);
-					glColor3f(colors[0], colors[1], colors[2]);
-					glBindTexture(GL_TEXTURE_2D, textureId1);
-					glCallList(cubeList);
-				glPopMatrix();
-			} else {
-				glPushMatrix();
-					glTranslatef(i, 0, j);
-					glColor3f(colors[0], colors[1], colors[2]);
-					glBindTexture(GL_TEXTURE_2D, textureId2);
-					glCallList(floorList);
-				glPopMatrix();
-			}
-		}
-	}
+
+	glActiveTexture(GL_TEXTURE0);
+	glCallList(mazeList);
+
 
 	glPushMatrix();
 	glTranslatef(pos[0] + tx, 0, pos[1] + ty);
@@ -73,17 +55,15 @@ void MazeMinigame::MazeInstance::draw() {
 	glPopMatrix();
 }
 
-static GLfloat n[6][3] =
-{
-	{-1.0, 0.0, 0.0},
+static GLfloat n[6][3] = {
+	{ -1.0, 0.0, 0.0},
 	{0.0, 1.0, 0.0},
 	{1.0, 0.0, 0.0},
 	{0.0, -1.0, 0.0},
 	{0.0, 0.0, 1.0},
 	{0.0, 0.0, -1.0}
 };
-static GLint faces[6][4] =
-{
+static GLint faces[6][4] = {
 	{0, 1, 2, 3},
 	{3, 2, 6, 7},
 	{7, 6, 5, 4},
@@ -103,7 +83,7 @@ void MazeMinigame::MazeInstance::drawCube(double size) {
 	v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
 	v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-	for (i = 5; i >= 0; i--) {
+	for(i = 5; i >= 0; i--) {
 		glBegin(GL_QUADS);
 		glNormal3fv(&n[i][0]);
 		glTexCoord2f(0, 1);
@@ -120,18 +100,18 @@ void MazeMinigame::MazeInstance::drawCube(double size) {
 
 void MazeMinigame::MazeInstance::drawFloor() {
 	glBegin(GL_TRIANGLE_STRIP);
-		glTexCoord2f(0,1);
-		glNormal3f(0, 1, 0);
-		glVertex3f(-0.5,-0.5,0.5);
-		glTexCoord2f(1,1);
-		glNormal3f(0, 1, 0);
-		glVertex3f(0.5,-0.5,0.5);
-		glTexCoord2f(0,0);
-		glNormal3f(0, 1, 0);
-		glVertex3f(-0.5,-0.5,-0.5);
-		glTexCoord2f(1,0);
-		glNormal3f(0, 1, 0);
-		glVertex3f(0.5,-0.5,-0.5);
+	glTexCoord2f(0, 1);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-0.5, -0.5, 0.5);
+	glTexCoord2f(1, 1);
+	glNormal3f(0, 1, 0);
+	glVertex3f(0.5, -0.5, 0.5);
+	glTexCoord2f(0, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-0.5, -0.5, -0.5);
+	glTexCoord2f(1, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(0.5, -0.5, -0.5);
 	glEnd();
 }
 
@@ -145,17 +125,46 @@ void MazeMinigame::MazeInstance::start() {
 
 	tx = 0;
 	ty = 0;
-	
+
 	textureId1 = _context->loadTexture("maze_walls.jpg");
 	textureId2 = _context->loadTexture("maze_floor.jpg");
-	
-	cubeList = glGenLists(1);
-	floorList = glGenLists(2);
-	glNewList(cubeList, GL_COMPILE);
-		drawCube(1);
-	glEndList();
-	glNewList(floorList, GL_COMPILE);
-		drawFloor();
+
+	createList();
+}
+
+void MazeMinigame::MazeInstance::deleteList() {
+	glDeleteLists(mazeList,1);
+}
+
+void MazeMinigame::MazeInstance::createList() {
+	mazeList = glGenLists(1);
+	glNewList(mazeList, GL_COMPILE);
+		int width = maze->getWidth(), height = maze->getHeight();
+		glBindTexture(GL_TEXTURE_2D, textureId1);
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				if(maze->getValue(i, j)) {
+					glPushMatrix();
+					glTranslatef(i, 0, j);
+					glColor3f(colors[0], colors[1], colors[2]);
+					drawCube(1);
+					glPopMatrix();
+				}
+			}
+		}
+
+		glBindTexture(GL_TEXTURE_2D, textureId2);
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				if(!maze->getValue(i, j)) {
+					glPushMatrix();
+					glTranslatef(i, 0, j);
+					glColor3f(colors[0], colors[1], colors[2]);
+					drawFloor();
+					glPopMatrix();
+				}
+			}
+		}
 	glEndList();
 }
 
@@ -184,91 +193,92 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 
 	bool changedX = false, changedZ = false;
 
-	if (keys[0]) {
+	if(keys[0]) {
 		rotateZ += d;
 		changedZ = true;
 	}
 
-	if (keys[1]) {
+	if(keys[1]) {
 		rotateX -= d;
 		changedX = true;
 	}
 
-	if (keys[2]) {
+	if(keys[2]) {
 		rotateZ -= d;
 		changedZ = true;
 	}
 
-	if (keys[3]) {
+	if(keys[3]) {
 		rotateX += d;
 		changedX = true;
 	}
 
 	d *= 1.5f;
 
-	if (!changedX) {
-		if (rotateX < -d && rotateX > -45 || rotateX > d && rotateX > 45) rotateX += d;
-		else if (rotateX > d && rotateX < 45 || rotateX < -d && rotateX < -45) rotateX -= d;
+	if(!changedX) {
+		if(rotateX < -d && rotateX > -45 || rotateX > d && rotateX > 45) rotateX += d;
+		else if(rotateX > d && rotateX < 45 || rotateX < -d && rotateX < -45) rotateX -= d;
 		else rotateX = 0;
 	}
 
-	if (!changedZ) {
-		if (rotateZ < -d && rotateZ > -45 || rotateZ > d && rotateZ > 45) rotateZ += d;
-		else if (rotateZ > d && rotateZ < 45 || rotateZ < -d && rotateZ < -45) rotateZ -= d;
+	if(!changedZ) {
+		if(rotateZ < -d && rotateZ > -45 || rotateZ > d && rotateZ > 45) rotateZ += d;
+		else if(rotateZ > d && rotateZ < 45 || rotateZ < -d && rotateZ < -45) rotateZ -= d;
 		else rotateZ = 0;
 	}
 
 	int oldX = pos[0];
 	int oldY = pos[1];
-	
-	while (rotateZ >= 90) {
+
+	while(rotateZ >= 90) {
 		rotateZ -= 90;
 		pos[1]++;
 	}
 
-	while (rotateZ <= -90) {
+	while(rotateZ <= -90) {
 		rotateZ += 90;
 		pos[1]--;
 	}
 
-	while (rotateX <= -90) {
+	while(rotateX <= -90) {
 		rotateX += 90;
 		pos[0]++;
 	}
 
-	while (rotateX >= 90) {
+	while(rotateX >= 90) {
 		rotateX -= 90;
 		pos[0]--;
 	}
-	
+
 	tx = - rotateX / 90;
 	ty = rotateZ / 90;
-	
-	if (maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
+
+	if(maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
 		pos[0] = oldX;
 
-		if (tx < -0.05f) tx = -0.05f;
-		else if (tx > 0.05f) tx = 0.05f;
+		if(tx < -0.05f) tx = -0.05f;
+		else if(tx > 0.05f) tx = 0.05f;
 
 		rotateX = -90 * tx;
 	}
 
-	if (maze->getValue(pos[0], ceil(pos[1] + ty - 0.08f)) || maze->getValue(pos[0], floor(pos[1] + ty + 0.08f))) {
+	if(maze->getValue(pos[0], ceil(pos[1] + ty - 0.08f)) || maze->getValue(pos[0], floor(pos[1] + ty + 0.08f))) {
 		pos[1] = oldY;
 
-		if (ty < -0.05f) ty = -0.05f;
-		else if (ty > 0.05f) ty = 0.05f;
+		if(ty < -0.05f) ty = -0.05f;
+		else if(ty > 0.05f) ty = 0.05f;
 
 		rotateZ = 90 * ty;
 	}
-	
-	if (maze->isEnd(pos[0], pos[1])) finish();
+
+	if(maze->isEnd(pos[0], pos[1])) finish();
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
-	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
+	for(int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
 		keys[i] = false;
 	}
+
 	textures = false;
 	maze = new Maze(31, 21);
 	maze->generate();
@@ -282,7 +292,7 @@ void MazeMinigame::MazeInstance::finish() {
 
 
 void MazeMinigame::MazeInstance::applyRotating(int pos) {
-	for (int i = 0; i < 4; i++) {
+	for(int i = 0; i < 4; i++) {
 		rotating[i] = i == pos;
 	}
 }
@@ -290,7 +300,7 @@ void MazeMinigame::MazeInstance::applyRotating(int pos) {
 void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 	int * end = maze->getEnd();
 
-	switch (key) {
+	switch(key) {
 		case 'w':
 			keys[0] = true;
 			break;
@@ -316,13 +326,13 @@ void MazeMinigame::MazeInstance::cleanRotate() {
 }
 
 void MazeMinigame::MazeInstance::cleanKeys() {
-	for (int i = 0; i < 4; i++) {
+	for(int i = 0; i < 4; i++) {
 		rotating[i] = false;
 	}
 }
 
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
-	switch (key) {
+	switch(key) {
 		case 'w':
 			keys[0] = false;
 			break;
