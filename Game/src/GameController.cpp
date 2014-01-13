@@ -389,6 +389,8 @@ void GameController::onKeyDown(int key, int special) {
 }
 
 GLuint GameController::loadTexture(std::string texture) {
+	printf("Loading texture \"%s\"...\n", texture.c_str());
+	
 	char * image;
 	int w, h, bpp;
 

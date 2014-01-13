@@ -17,18 +17,21 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 	camera.setUp();
 
 	//PLANO DE BAIXO
-	GLint textureId1 = _context->loadTexture("tictactoe_texture.jpg");
-	glDisable(GL_COLOR_MATERIAL);
-	glEnable(GL_TEXTURE0);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId1);
 	glBegin(GL_QUADS);
+		glTexCoord2f(1, 0);
 		glVertex3i(-20, 0, 20);
+		glTexCoord2f(0, 0);
 		glVertex3i(20, 0, 20);
+		glTexCoord2f(0, 1);
 		glVertex3i(20, 0, -20);
+		glTexCoord2f(1, 1);
 		glVertex3i(-20, 0, -20);
 	glEnd();
-	glDisable(GL_TEXTURE0);
-	glEnable(GL_COLOR_MATERIAL);
+	glDisable(GL_TEXTURE_2D);
 
 	glPushMatrix();
 		glPushMatrix();
@@ -162,6 +165,7 @@ void TicTacToeMinigame::TicTacToeInstance::start() {
 	thing.x = thing.y = thing.vx = thing.vy = 0;
 	camera.moveTo(0, 8, -28);
 	camera.lookAt(0, 0, 0);
+	textureId1 = _context->loadTexture("tictactoe_texture.jpg");
 }
 
 void TicTacToeMinigame::TicTacToeInstance::tick(int delta, int current) {

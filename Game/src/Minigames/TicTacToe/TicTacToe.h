@@ -78,6 +78,7 @@ class TicTacToeMinigame : public IMinigame {
 				
 				Gui * _gui;
 				bool ableToPlay = true;
+				GLuint textureId1;
 				
 				
 				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL"; //Delete
