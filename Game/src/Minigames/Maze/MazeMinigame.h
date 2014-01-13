@@ -63,6 +63,7 @@ class MazeMinigame : public IMinigame {
 				GLuint cubeList, floorList;
 				int pos[2];
 				bool rotating[4];
+				bool textures;
 				
 				bool detectCollision();
 				void applyRotating(int);
