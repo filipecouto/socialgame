@@ -5,6 +5,10 @@ MazeMinigame::MazeMinigame(GameContext * context) : _context(context) {
 
 }
 
+std::string MazeMinigame::getInternalName() {
+	return "crosswebenterprise.maze";
+}
+
 std::string MazeMinigame::getName() {
 	return "Maze Game";
 }
@@ -61,6 +65,8 @@ void MazeMinigame::MazeInstance::draw() {
 	glColor3f(1, 0, 0);
 	drawCube(0.9);
 	glPopMatrix();
+	
+	glDisable(GL_TEXTURE_2D);
 }
 
 static GLfloat n[6][3] =

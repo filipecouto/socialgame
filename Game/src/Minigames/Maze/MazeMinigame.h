@@ -13,6 +13,7 @@ class MazeMinigame : public IMinigame {
 	public:
 		MazeMinigame(GameContext * context);
 
+		virtual std::string getInternalName();
 		virtual std::string getName();
 		virtual std::string getDescription();
 
