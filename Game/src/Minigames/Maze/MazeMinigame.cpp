@@ -36,14 +36,14 @@ void MazeMinigame::MazeInstance::draw() {
 					glTranslatef(i, 0, j);
 					glColor3f(1, 1, 1);
 					glBindTexture(GL_TEXTURE_2D, textureId1);
-					drawCube(1);
+					glCallList(cubeList);
 				glPopMatrix();
 			} else {
 				glPushMatrix();
 					glTranslatef(i, 0, j);
 					glColor3f(1, 1, 1);
 					glBindTexture(GL_TEXTURE_2D, textureId2);
-					drawFloor();
+					glCallList(floorList);
 				glPopMatrix();
 			}
 		}
@@ -106,76 +106,6 @@ void MazeMinigame::MazeInstance::drawCube(double size) {
 		glVertex3fv(&v[faces[i][3]][0]);
 		glEnd();
 	}
-	
-// 	double halfSize = size / 2;
-// 	
-// 	// top face
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(0,1);
-// 		glNormal3f(0, 1, 0);
-// 		glVertex3f(-halfSize,size,halfSize);
-// 		glTexCoord2f(1,1);
-// 		glNormal3f(0, 1, 0);
-// 		glVertex3f(halfSize,size,halfSize);
-// 		glTexCoord2f(0,0);
-// 		glNormal3f(0, 1, 0);
-// 		glVertex3f(-halfSize,size,-halfSize);
-// 		glTexCoord2f(1,0);
-// 		glNormal3f(0, 1, 0);
-// 		glVertex3f(halfSize,size,-halfSize);
-// 	glEnd();
-// 	
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(1,0);
-// 		glVertex3f(halfSize,0,-halfSize);
-// 		glTexCoord2f(0,0);
-// 		glVertex3f(-halfSize,0,-halfSize);
-// 		glTexCoord2f(1,1);
-// 		glVertex3f(halfSize,0,halfSize);
-// 		glTexCoord2f(0,1);
-// 		glVertex3f(-halfSize,0,halfSize);
-// 	glEnd();
-// 	
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(0,1);
-// 		glVertex3f(-halfSize,0,-halfSize);
-// 		glTexCoord2f(1,1);
-// 		glVertex3f(-halfSize,size,-halfSize);
-// 		glTexCoord2f(0,0);
-// 		glVertex3f(-halfSize,0,halfSize);
-// 		glTexCoord2f(1,0);
-// 		glVertex3f(-halfSize,size,halfSize);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(0,1);
-// 		glVertex3f(halfSize,size,-halfSize);
-// 		glTexCoord2f(1,1);
-// 		glVertex3f(halfSize,size,halfSize);
-// 		glTexCoord2f(0,0);
-// 		glVertex3f(halfSize,0,halfSize);
-// 		glTexCoord2f(1,0);
-// 		glVertex3f(halfSize,0,-halfSize);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(0,1);
-// 		glVertex3f(-halfSize,size,-halfSize);
-// 		glTexCoord2f(1,1);
-// 		glVertex3f(halfSize,size,-halfSize);
-// 		glTexCoord2f(0,0);
-// 		glVertex3f(-halfSize,0,-halfSize);
-// 		glTexCoord2f(1,0);
-// 		glVertex3f(halfSize,0,-halfSize);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glTexCoord2f(0,1);
-// 		glVertex3f(halfSize,size,halfSize);
-// 		glTexCoord2f(1,1);
-// 		glVertex3f(-halfSize,size,halfSize);
-// 		glTexCoord2f(0,0);
-// 		glVertex3f(halfSize,0,halfSize);
-// 		glTexCoord2f(1,0);
-// 		glVertex3f(-halfSize,0,halfSize);
-// 	glEnd();
 }
 
 void MazeMinigame::MazeInstance::drawFloor() {
@@ -208,6 +138,15 @@ void MazeMinigame::MazeInstance::start() {
 	
 	textureId1 = _context->loadTexture("maze_walls.jpg");
 	textureId2 = _context->loadTexture("maze_floor.jpg");
+	
+	cubeList = glGenLists(1);
+	floorList = glGenLists(2);
+	glNewList(cubeList, GL_COMPILE);
+		drawCube(1);
+	glEndList();
+	glNewList(floorList, GL_COMPILE);
+		drawFloor();
+	glEndList();
 }
 
 bool MazeMinigame::MazeInstance::detectCollision() {
@@ -295,14 +234,6 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	tx = - rotateX / 90;
 	ty = rotateZ / 90;
 	
-// 	if(maze->getValue(ceil(pos[0]+tx - 0.1f), ceil(pos[1]+ty - 0.1f)) || maze->getValue(floor(pos[0]+tx + 0.1f), floor(pos[1]+ty + 0.1f))) {
-// 		pos[0] = oldX;
-// 		pos[1] = oldY;
-// 		tx = 0;
-// 		ty = 0;
-// 		rotateX = 0;
-// 		rotateZ = 0;
-// 	}
 	if (maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
 		pos[0] = oldX;
 
@@ -339,21 +270,6 @@ void MazeMinigame::MazeInstance::finish() {
 	_context->notifyMinigameFinished(this);
 }
 
-// bool MazeMinigame::MazeInstance::isRotating(int pos) {
-// 	if (pos == 0 && keys[2]) return false;
-// 
-// 	if (pos == 1 && keys[3]) return false;
-// 
-// 	if (pos == 2 && keys[0]) return false;
-// 
-// 	if (pos == 3 && keys[1]) return false;
-// 
-// 	for (int i = 0; i < 4; i++) {
-// 		if (i != pos && keys[i]) return true;
-// 	}
-// 
-// 	return false;
-// }
 
 void MazeMinigame::MazeInstance::applyRotating(int pos) {
 	for (int i = 0; i < 4; i++) {
