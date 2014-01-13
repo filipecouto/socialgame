@@ -20,9 +20,9 @@ class Maze {
 		
 		int getHeight();
 		int getWidth();
-		int* getStart();
+		double* getStart();
 		int* getEnd();
-		void addStart(int x, int y);
+		void addStart(double x, double y);
 
 		~Maze();
 		
@@ -38,6 +38,7 @@ class Maze {
 			int y;
 		} Cell;
 		
+		double startD[2];
 		Cell start, end;
 		void getNeighbours(Maze::Cell cell, Maze::Cell * neighbours, int & count);
 		bool hasWall(Maze::Cell cell);

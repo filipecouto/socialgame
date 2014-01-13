@@ -19,7 +19,7 @@ void MazeMinigame::MazeInstance::draw() {
 	camera.setUp();
 	
 	int width = maze->getWidth(), height = maze->getHeight();
-	int * start = maze->getStart();
+	double * start = maze->getStart();
 	int * end = maze->getEnd();
 	
 	for(int i = 0; i < width; i++) {
@@ -30,23 +30,20 @@ void MazeMinigame::MazeInstance::draw() {
 					glColor3f(0,0,1);
 					drawCube();
 				glPopMatrix();
-			} else {
-				if(start[0] == i && start[1] == j) {
-					glPushMatrix();
-						glTranslatef(i,0,j);
-						glColor3f(0,1,0);
-						drawCube();
-					glPopMatrix();
-				} else if(end[0] == i && end[1] == j) {
-					glPushMatrix();
-						glTranslatef(i,0,j);
-						glColor3f(1,0,0);
-						drawCube();
-					glPopMatrix();
-				}
 			}
 		}
 	}
+	glPushMatrix();
+		glTranslatef(start[0],0,start[1]);
+		glRotatef(-rotateAngle , rotateX, 0 , rotateZ);
+		glColor3f(0,1,0);
+		drawCube();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(end[0],0,end[1]);
+		glColor3f(1,0,0);
+		drawCube();
+	glPopMatrix();
 }
 
 void MazeMinigame::MazeInstance::drawCube() {
@@ -64,7 +61,7 @@ bool MazeMinigame::MazeInstance::detectCollision() {
 
 void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	camera.tick(delta, current);
-	int * actual = maze->getStart();
+	double * actual = maze->getStart();
 	camera.moveTo(actual[0],10,actual[1]-2);
 	camera.lookAt(actual[0],0.5,actual[1]);
 	GLfloat light_pos[4] =	{actual[0],10,actual[1]-2, 0.0};
@@ -92,54 +89,93 @@ void MazeMinigame::MazeInstance::finish() {
 	_context->notifyMinigameFinished(this);
 }
 
+bool MazeMinigame::MazeInstance::isRotating(int pos) {
+	for(int i = 0; i < 4; i++) {
+		if(i!=pos && rotating[i]) return true;
+	}
+	return false;
+}
+
+void MazeMinigame::MazeInstance::applyRotating(int pos) {
+	for(int i = 0; i < 4; i++) {
+		rotating[i] = i == pos ? true : false;
+	}
+}
+
 void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
-	int * pos = maze->getStart();
+	double * pos = maze->getStart();
 	int * end = maze->getEnd();
 	switch (key) {
 		case 'w':
 			keys[0] = true;
-			if(pos[1]+1 >= maze->getHeight()) {
+			if(floor(pos[1]+1) >= maze->getHeight() || isRotating(0)) {
 				break;
 			}
-			if(!maze->getValue(pos[0],pos[1]+1)) {
-				maze->addStart(0,1);
+			if(!maze->getValue(pos[0],floor(pos[1]+1))) {
+				maze->addStart(0,0.1);
+				rotateX = 1;
+				rotateZ = 0;
+				rotateAngle-=9;
+				applyRotating(0);
 			}
 			break;
 		case 'a':
 			keys[1] = true;
-			if(pos[0]+1 >= maze->getWidth()) {
+			if(floor(pos[0]+1) >= maze->getWidth() || isRotating(1)) {
 				break;
 			}
-			if(!maze->getValue(pos[0]+1,pos[1])) {
-				maze->addStart(1,0);
+			if(!maze->getValue(floor(pos[0]+1),pos[1])) {
+				maze->addStart(0.1,0);
+				rotateZ = 1;
+				rotateX = 0;
+				rotateAngle+=9;
+				applyRotating(1);
 			}
 			break;
 		case 's':
 			keys[2] = true;
-			if(pos[1]-1 < 0) {
+			if(ceil(pos[1]-1) < 0 || isRotating(2)) {
 				break;
 			}
-			if(!maze->getValue(pos[0],pos[1]-1)) {
-				maze->addStart(0,-1);
+			if(!maze->getValue(pos[0],ceil(pos[1]-1))) {
+				maze->addStart(0,-0.1);
+				rotateX = 1;
+				rotateZ = 0;
+				rotateAngle+=9;
+				applyRotating(2);
 			}
 			break;
 
 		case 'd':
 			keys[3] = true;
-			if(pos[0]-1 < 0) {
+			if(ceil(pos[0]-1) < 0 || isRotating(3)) {
 				break;
 			}
-			if(!maze->getValue(pos[0]-1,pos[1])) {
-				maze->addStart(-1,0);
+			if(!maze->getValue(ceil(pos[0]-1),pos[1])) {
+				maze->addStart(-0.1,0);
+				rotateZ = 1;
+				rotateX = 0;
+				rotateAngle-=9;
+				applyRotating(3);
 			}
 			break;
 	}
+	
+	if(rotateAngle>=90 || rotateAngle<=-90) cleanRotate();
+	
 	if(pos[0] == end[0] && pos[1] == end[1]) finish();
 	
 }
 
+void MazeMinigame::MazeInstance::cleanRotate() {
+	rotateAngle = 0;	
+	for(int i = 0; i < 4; i++) {
+		rotating[i] = false;
+	}
+}
+
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
-	int * pos = maze->getStart();
+	double * pos = maze->getStart();
 	int * end = maze->getEnd();
 	switch(key) {
 		case 'w':

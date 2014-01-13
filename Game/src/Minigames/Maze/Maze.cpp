@@ -107,6 +107,9 @@ void Maze::generate() {
 	while (end.x == -1 && depth < width / 2) end = findFreePosition(2, depth++);
 
 	printf("Start (%d,%d) = %d\nEnd (%d,%d) = %d\n", start.x, start.y, matrix[start.x][start.y], end.x, end.y, matrix[end.x][end.y]);
+	startD[0] = start.x;
+	startD[1] = start.y;
+	
 }
 
 
@@ -163,18 +166,14 @@ int * Maze::getEnd() {
 	return ret;
 }
 
-int * Maze::getStart() {
-	int * ret = new int[2];
-	ret[0] = start.x;
-	ret[1] = start.y;
-	return ret;
-
+double * Maze::getStart() {
+	return startD;
 }
 
 
-void Maze::addStart(int x, int y) {
-	start.x += x;
-	start.y += y;
+void Maze::addStart(double x, double y) {
+	startD[0] += x;
+	startD[1] += y;
 }
 
 
