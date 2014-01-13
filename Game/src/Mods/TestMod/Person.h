@@ -35,11 +35,11 @@ class Person : public IPerson {
 		
 		virtual ~Person();
 	private:
-		FriendsList* _connections;
+		FriendsList* _connections = NULL;
 		
 		int _test = 0;
 		std::string _name;
-		IMood * _mood;
+		IMood * _mood = NULL;
 };
 
 #endif // PERSON_H

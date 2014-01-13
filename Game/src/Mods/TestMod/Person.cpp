@@ -13,7 +13,7 @@
 Person::Person(std::string name, IMood * mood) {
 	_name = name;
 	_mood = mood;
-
+	
 	_connections = new FriendsList();
 }
 
@@ -22,7 +22,7 @@ std::string Person::getName() {
 }
 
 IMood * Person::getMood() {
-	return _mood;
+	return NULL;
 }
 
 int Person::getScore() {

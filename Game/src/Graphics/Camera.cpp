@@ -59,12 +59,20 @@ void Camera::setType(CameraTypes type) {
 }
 
 void Camera::tick(int delta, int absolute) {
+// 	animate(tex, cex, tey, cey, tez, cez);
+// 	animate(tcx, ccx, tcy, ccy, tcz, ccz);
+// 	//animate(tux, cux, tuy, cuy, tuz, cuz);
+// 	cux = 0;
+// 	cuy = 1;
+// 	cuz = 0;
 	animate(tex, cex);
 	animate(tey, cey);
 	animate(tez, cez);
+	
 	animate(tcx, ccx);
 	animate(tcy, ccy);
 	animate(tcz, ccz);
+	
 	animate(tux, cux);
 	animate(tuy, cuy);
 	animate(tuz, cuz);
@@ -134,10 +142,12 @@ void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 
 	if (x != 0) { // rotation on X axis
 	} else if (y != 0) { // rotation on Y axis
+		printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
 		angle += y;
-		double n = sqrt(ccx*ccx + ccz*ccz);
+		double n = sqrt(ccx * ccx + ccz * ccz);
 		tcx = sin(angle) * n + cex;
 		tcz = cos(angle) * n + cez;
+		printf("tcx = %.4f\ttcy = %.4f\ttcz = %.4f\tn = %.4f\n", tcx, tcy, tcz, n);
 	} else if (z != 0) { // rotation on Z axis
 	}
 }
@@ -147,8 +157,27 @@ void Camera::translateToCamera() {
 }
 
 void Camera::animate(GLfloat target, GLfloat & value) {
-	value += (target - value) * 0.04f;
+	//value += (target - value) * 0.04f;
+	value = target;
 }
+
+// void Camera::animate(GLfloat tx, GLfloat & cx, GLfloat ty, GLfloat & cy, GLfloat tz, GLfloat & cz) {
+// 	GLfloat n = sqrt(cx * cx + cy * cy + cz * cz);
+// 	GLfloat tmx = cx + (tx - cx) * .04f;
+// 	GLfloat tmy = cy + (ty - cy) * .04f;
+// 	GLfloat tmz = cz + (tz - cz) * .04f;
+// 	GLfloat tn = sqrt(tmx * tmx + tmy * tmy + tmz * tmz);
+// 
+// 	if (tn == 0 || n == 0) {
+// 		cx = tmx;
+// 		cy = tmy;
+// 		cz = tmz;
+// 	} else {
+// 		cx = tmx * n / tn;
+// 		cy = tmy * n / tn;
+// 		cz = tmz * n / tn;
+// 	}
+// }
 
 GLfloat Camera::getY() {
 	return cey;
