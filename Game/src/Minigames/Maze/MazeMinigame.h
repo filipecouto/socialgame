@@ -64,7 +64,7 @@ class MazeMinigame : public IMinigame {
 				bool rotating[4];
 				
 				bool detectCollision();
-				bool isRotating(int);
+				//bool isRotating(int);
 				void applyRotating(int);
 				void cleanRotate();
 				void cleanKeys();
