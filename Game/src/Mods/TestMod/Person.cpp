@@ -22,7 +22,7 @@ std::string Person::getName() {
 }
 
 IMood * Person::getMood() {
-	return NULL;
+	return _mood;
 }
 
 int Person::getScore() {
