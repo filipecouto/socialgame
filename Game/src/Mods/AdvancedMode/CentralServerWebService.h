@@ -30,6 +30,7 @@ class CentralServerWebService {
 		rapidjson::Value & getMoods();
 		bool setMood(const int idMood);
 		
+		rapidjson::Value & getTag(const int id);
 		rapidjson::Value & getUserTags(const int userId);
 		bool setTags(const vector< string > tags);
 
@@ -48,7 +49,7 @@ class CentralServerWebService {
 		std::string baseUrl;
 		std::string token;
 
-		string execute(const string type, const string function, const string params);
+		std::string execute(const string type, const string function, const string params);
 };
 
 #endif // CENTRALSERVERWEBSERVICE_H

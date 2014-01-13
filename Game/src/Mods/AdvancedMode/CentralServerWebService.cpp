@@ -7,6 +7,7 @@
  */
 
 #include "CentralServerWebService.h"
+#include <algorithm>
 
 CentralServerWebService::CentralServerWebService() : baseUrl("http://uvm001.dei.isep.ipp.pt/SocialGame/") {
 
@@ -47,16 +48,23 @@ bool CentralServerWebService::setMood(const int idMood) {
 	return true;
 }
 
+rapidjson::Value & CentralServerWebService::getTag(const int id) {
+	return getData("Tags", "getTag", std::to_string(id))->operator[]("data");
+}
+
 rapidjson::Value & CentralServerWebService::getUserTags(const int userId) {
 	return getData("Tags", "getUserTags", std::to_string(userId))->operator[]("data");
 }
 
 bool CentralServerWebService::setTags(const std::vector< std::string > tags) {
 	std::string param = "";
-	for(int i = 0; i < tags.size(); i++) {
-		if(i != 0) param += ';';
-		param += tags.at(i);
+
+	for (int i = 0; i < tags.size(); i++) {
+		if (i != 0) param += ';';
+
+		param += tags[i];
 	}
+
 	execute("Users", "setUserTags", token + "^" + param + "^;");
 	return true;
 }
@@ -112,7 +120,9 @@ rapidjson::Document * CentralServerWebService::getData(const string type, const 
 }
 
 std::string CentralServerWebService::execute(const string type, const string function, const string params) {
-	std::string result = curl_httpget(baseUrl + type + '/' + (params.length() == 0 ? function : function + "?Params=" + params));
-	printf("Queried %s...\nReceived: %s\n", (baseUrl + type + '/' + function + "?Params=" + params).c_str(), result.c_str());
+	std::string result = curl_httpget(baseUrl + type +
+	                                  '/' + (params.length() == 0 ? function : function +
+	                                         "?Params=" + curl_escape(params.c_str(), params.length())));
+	printf("Queried %s...\nReceived: %s\n", (baseUrl + type + '/' + function + "?Params=" + curl_escape(params.c_str(), params.length())).c_str(), result.c_str());
 	return result;
 }

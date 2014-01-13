@@ -24,10 +24,7 @@ SettingsWindow::SettingsWindow(GameController * controller) : controller(control
 	lTags->setHorizontal();
 
 	tTags = new TextBoxWidget();
-	std::string tagsText = "";
-	for(int i = 0; i < controller->getIdentityPerson()->getTags()->size(); i++) {
-		tagsText += controller->getIdentityPerson()->getTags()->operator[](i)->getName() + ";";
-	}
+	loadTags();
 	lTags->addWidget(tTags);
 	bSaveTags = new ButtonWidget(new TextWidget("Save", 0, 0));
 	lTags->addWidget(bSaveTags);
@@ -38,6 +35,17 @@ SettingsWindow::SettingsWindow(GameController * controller) : controller(control
 	layout->addWidget(bClose);
 
 	setContent(layout);
+}
+
+void SettingsWindow::loadTags() {
+	ITagsList * list = controller->getIdentityPerson()->getTags();
+	const int len = list->size();
+	std::string tagsText = "";
+	for(int i = 0; i < len; i++) {
+		if(i != 0) tagsText += ", ";
+		tagsText += list->operator[](i)->getName();
+	}
+	tTags->setText(tagsText);
 }
 
 WidgetContainer * SettingsWindow::getMoods() {
@@ -85,8 +93,12 @@ void SettingsWindow::onWidgetClicked(Widget * clicked) {
 			tags.push_back(sTags.substr(0, index));
 			sTags.erase(0, index + 1);
 		}
+		
+		tags.push_back(sTags.substr(0, sTags.length()));
 
 		controller->getIdentity()->setTags(tags);
+		
+		loadTags();
 	} else {
 		if (moodButtons.find(clicked) != moodButtons.end()) {
 			IMood * mood = moodButtons[clicked];

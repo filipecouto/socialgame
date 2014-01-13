@@ -11,6 +11,8 @@ namespace AdvancedMode {
 		public:
 			TagsList(Person * person, Cache * cache);
 
+			void load(Person * person);
+
 			virtual bool contains(ITag * item);
 			virtual ITag * operator[](int index);
 			virtual int size();
@@ -19,8 +21,8 @@ namespace AdvancedMode {
 
 		private:
 			Cache * cache;
-			
-			std::vector<ITag*> tags;
+
+			std::vector<ITag *> tags;
 	};
 }
 

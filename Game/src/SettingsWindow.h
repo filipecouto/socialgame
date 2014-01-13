@@ -28,6 +28,8 @@ class SettingsWindow : public Window {
 		
 		Widget * makeTitle(std::string title);
 		WidgetContainer * getMoods();
+		
+		void loadTags();
 };
 
 #endif // SETTINGSWINDOW_H

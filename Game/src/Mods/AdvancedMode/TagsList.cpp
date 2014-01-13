@@ -3,6 +3,12 @@
 #include "Person.h"
 
 AdvancedMode::TagsList::TagsList(Person * person, Cache * cache) : cache(cache) {
+	load(person);
+}
+
+void AdvancedMode::TagsList::load(AdvancedMode::Person * person) {
+	tags.clear();
+	
 	rapidjson::Value & list = cache->getService()->getUserTags(person->getId());
 
 	rapidjson::SizeType len = list.Size();

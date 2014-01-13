@@ -3,6 +3,7 @@
 #include "Cache.h"
 #include "ConnectionsList.h"
 #include "Mood.h"
+#include "TagsList.h"
 
 AdvancedMode::User::User(Cache * cache) : cache(cache) {
 	id = cache->getService()->getUserId();
@@ -38,7 +39,9 @@ void AdvancedMode::User::setMood(IMood * mood) {
 }
 
 void AdvancedMode::User::setTags(vector< string > tags) {
-	
+	if(cache->getService()->setTags(tags)) {
+		((TagsList*)((Person *)getPerson())->getTags())->load((Person *)getPerson());
+	}
 }
 
 AdvancedMode::User::~User() {
