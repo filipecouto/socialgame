@@ -7,7 +7,6 @@
 	
 	function generateRandomWord(){
 	 $array = getWord();
-	 print_r($array);
 		return $array;
 	}
 	
