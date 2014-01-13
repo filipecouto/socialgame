@@ -1,6 +1,7 @@
 #include "Hangman.h"
 #include "../../GameContext.h"
 #include <string.h>
+
 HangmanMinigame::HangmanMinigame(GameContext* context): _context(context)
 {
 
@@ -81,18 +82,13 @@ void HangmanMinigame::HangmanInstance::drawCircle(double distance, double pX, do
 
 void HangmanMinigame::HangmanInstance::drawLetterSpaces(int length)
 {
-    GLfloat x = -100.0, y = -80.0, z =-40.0;
-    for(int i =0; i<length; i++) {
-        glLineWidth(3.0);
-        glBegin(GL_LINES);
-        glVertex3f(x,y,z);
-        x+=5.0;
-        glVertex3f(x,y,z);
-        glEnd();
-
-        x+=1.0;
-
+    int x = 43;
+    for(int i=0; i<wordLength; i++) {
+        letters->push_back(new LetterWidget("",x,380));
+        x+=22;
     }
+
+
 }
 
 void HangmanMinigame::HangmanInstance::drawHangman()
@@ -393,7 +389,7 @@ void HangmanMinigame::HangmanInstance::drawLetters()
                 cout<<"i = "<<i<<"\n";
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
-		numberOfLettersRightPlayed++;
+                numberOfLettersRightPlayed++;
                 gui->addWidget(new LetterWidget(letter, x, 380));
             }
             x+=22;
@@ -427,23 +423,21 @@ void HangmanMinigame::HangmanInstance::determinateLetter(string chosenLetter, st
         letterRigthPlayed  =  chosenLetter[0];
         right = true;
         drawLetters();
-        
-	
-    cout << "numberOfLettersRightPlayed = "<<numberOfLettersRightPlayed<<", wordLength = "<< wordLength<<"\n";
         right = false;
     }
 }
 
 void HangmanMinigame::HangmanInstance::LetterWidget::drawBackground() {
-	GLfloat w = getMinimumWidth();
-	glBegin(GL_QUADS);
-		glVertex2f(0, -6);
-		glVertex2f(w, -6);
-		glVertex2f(w, -2);
-		glVertex2f(0, -2);
-	glEnd();
+    GLfloat w = getMinimumWidth();
+    glBegin(GL_QUADS);
+    glVertex2f(0, -6);
+    glVertex2f(w, -6);
+    glVertex2f(w, -2);
+    glVertex2f(0, -2);
+    glEnd();
 }
 
 HangmanMinigame::HangmanInstance::LetterWidget::LetterWidget(string text, GLfloat xPos, GLfloat yPos): TextWidget(" " + text + " ", xPos, yPos) {
-	setFont(GLUT_BITMAP_HELVETICA_18);
+    setFont(GLUT_BITMAP_HELVETICA_18);
 }
+
