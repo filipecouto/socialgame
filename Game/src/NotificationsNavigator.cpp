@@ -129,6 +129,10 @@ void NotificationsNavigator::onWidgetClicked(Widget * clicked) {
 	}
 }
 
+void NotificationsNavigator::onMinigameSelected(IMinigame * minigame) {
+	printf("Selected %s\n", minigame->getInternalName().c_str());
+}
+
 NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigator * parent) : parent(parent) {
 	setPadding(8);
 
@@ -143,15 +147,32 @@ NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigato
 	const int len = minigames.size();
 
 	for (int i = 0; i < len; i++) {
+		IMinigame * minigame = minigames[i];
 		LinearContainer * button = new LinearContainer();
 		button->setSpacing(6);
 		button->setVertical();
-		button->addWidget(new TextWidget(minigames[i]->getName(), GLUT_BITMAP_HELVETICA_18, 0, 0));
-		button->addWidget(new TextWidget(minigames[i]->getDescription(), 0, 0));
-		layout->addWidget(new ButtonWidget(button));
+		button->addWidget(new TextWidget(minigame->getName(), GLUT_BITMAP_HELVETICA_18, 0, 0));
+		button->addWidget(new TextWidget(minigame->getDescription(), 0, 0));
+		ButtonWidget * b = new ButtonWidget(button);
+		layout->addWidget(b);
+		this->minigames.insert(std::pair<Widget *, IMinigame *>(b, minigame));
 	}
+	
+	bClose = new ButtonWidget(new TextWidget("Cancel", 0, 0));
+	layout->addWidget(bClose);
 
 	setContent(layout);
+}
+
+void NotificationsNavigator::MinigameSelector::onWidgetClicked(Widget * clicked) {
+	if(clicked == bClose) {
+		hide();
+	} else {
+		if (minigames.find(clicked) != minigames.end()) {
+			IMinigame * minigame = minigames[clicked];
+			hide();
+		}
+	}
 }
 
 void NotificationsNavigator::MinigameSelector::show() {

@@ -4,6 +4,7 @@
 #include "GUI/Window.h"
 #include "GUI/TextWidget.h"
 #include "GameController.h"
+#include <map>
 
 class NotificationsNavigator : public Window {
 	public:
@@ -24,6 +25,8 @@ class NotificationsNavigator : public Window {
 		int index;
 
 		void loadNotification(INotification * notification);
+		
+		void onMinigameSelected(IMinigame * minigame);
 
 		class Space : public Widget {
 			public:
@@ -37,9 +40,14 @@ class NotificationsNavigator : public Window {
 				MinigameSelector(NotificationsNavigator * parent);
 
 				virtual void show();
+				
+				virtual void onWidgetClicked(Widget * clicked);
 
 			private:
 				NotificationsNavigator * parent;
+				
+				Widget * bClose;
+				std::map<Widget*, IMinigame*> minigames;
 		};
 		
 		MinigameSelector * minigameSelector = NULL;
