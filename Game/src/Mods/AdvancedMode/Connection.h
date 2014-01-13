@@ -22,6 +22,8 @@ namespace AdvancedMode {
 			virtual int getState();
 			virtual void setState(int state);
 			
+			virtual ITagsList * getTags();
+			
 			virtual IPerson * getPerson();
 
 		private:
