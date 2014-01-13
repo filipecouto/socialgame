@@ -17,7 +17,6 @@ void MazeMinigame::MazeInstance::draw() {
 	glEnable(GL_LIGHTING);
 	
 	camera.setUp();
-	//TODO design
 	
 	int width = maze->getWidth(), height = maze->getHeight();
 	int * start = maze->getStart();
@@ -48,9 +47,6 @@ void MazeMinigame::MazeInstance::draw() {
 			}
 		}
 	}
-// 	camera.moveTo(start[0],start[1],1);
-// 	camera.lookAt(0,0,0);
-	
 }
 
 void MazeMinigame::MazeInstance::drawCube() {
@@ -71,7 +67,17 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	int * actual = maze->getStart();
 	camera.moveTo(actual[0],10,actual[1]-2);
 	camera.lookAt(actual[0],0.5,actual[1]);
-	// TODO Player movements
+	GLfloat light_pos[4] =	{actual[0],10,actual[1]-2, 0.0};
+	GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat light_specular[] =	{ 0.5f, 0.5f, 0.5f, 1.0f };
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHT0);	
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
