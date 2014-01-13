@@ -54,45 +54,7 @@ void MazeMinigame::MazeInstance::draw() {
 }
 
 void MazeMinigame::MazeInstance::drawCube() {
-	glutSolidCube(1);
-// 	glBegin(GL_TRIANGLE_STRIP); // bottom
-// 		glVertex3f(1.0,1.0,0.0);
-// 		glVertex3f(1.0,0.0,0.0);
-// 		glVertex3f(0.0,1.0,0.0);
-// 		glVertex3f(0.0,0.0,0.0);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glVertex3f(1.0,1.0,1.0);
-// 		glVertex3f(1.0,0.0,1.0);
-// 		glVertex3f(0.0,1.0,1.0);
-// 		glVertex3f(0.0,0.0,1.0);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glVertex3f(0.0,0.0,0.0);
-// 		glVertex3f(1.0,0.0,0.0);
-// 		glVertex3f(0.0,0.0,1.0);
-// 		glVertex3f(1.0,0.0,1.0);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glVertex3f(0.0,1.0,0.0);
-// 		glVertex3f(1.0,1.0,0.0);
-// 		glVertex3f(0.0,1.0,1.0);
-// 		glVertex3f(1.0,1.0,1.0);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glVertex3f(1.0,1.0,1.0);
-// 		glVertex3f(1.0,1.0,0.0);
-// 		glVertex3f(1.0,0.0,1.0);
-// 		glVertex3f(1.0,0.0,0.0);
-// 	glEnd();
-// 	glBegin(GL_TRIANGLE_STRIP);
-// 		glVertex3f(0.0,1.0,1.0);
-// 		glVertex3f(0.0,1.0,0.0);
-// 		glVertex3f(0.0,0.0,1.0);
-// 		glVertex3f(0.0,0.0,0.0);
-// 	glEnd();
-// 	
-// 	
+		glutSolidCube(1);
 }
 
 void MazeMinigame::MazeInstance::start() {
@@ -106,6 +68,9 @@ bool MazeMinigame::MazeInstance::detectCollision() {
 
 void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	camera.tick(delta, current);
+	int * actual = maze->getStart();
+	camera.moveTo(actual[0],10,actual[1]-2);
+	camera.lookAt(actual[0],0.5,actual[1]);
 	// TODO Player movements
 }
 
