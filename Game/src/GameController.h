@@ -12,6 +12,9 @@
 #include <vector>
 #include <GL/freeglut.h>
 
+extern "C"{
+#include "jpeglib.h"
+}
 #include "Mods/GameMod.h"
 #include "Models/IUser.h"
 #include "Graphics/IGraphic.h"

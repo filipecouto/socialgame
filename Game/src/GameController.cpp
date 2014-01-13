@@ -6,6 +6,12 @@
  * CrossWeb Enterprise - 2013
  */
 
+#if _WIN32
+#define GL_GLEXT_PROTOTYPES
+#include <GL\glew.h>
+#include <GL\glext.h>
+#endif
+
 #include "GameController.h"
 
 #include "Dependencies/readjpeg.c"
@@ -22,12 +28,6 @@
 
 #ifndef M_PI
 #define M_PI 3.14159265359
-#endif
-
-#if _WIN32
-#define GL_GLEXT_PROTOTYPES
-#include <GL\GL.h>
-#include <GL\glext.h>
 #endif
 
 #pragma comment (lib, "libjpeg.lib")
