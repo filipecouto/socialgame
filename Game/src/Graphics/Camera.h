@@ -55,7 +55,8 @@ class Camera {
 				ccx = 0, ccy = 0, ccz = 0,
 				cux = 0, cuy = 1, cuz = 0;
 		
-		void animate(GLfloat target, GLfloat &value);
+		//void animate(GLfloat tx, GLfloat & vx, GLfloat ty, GLfloat & vy, GLfloat tz, GLfloat & vz);
+		void animate(GLfloat target, GLfloat & current);
 		
 		GLfloat getAngle();
 };
