@@ -10,10 +10,9 @@
 #include <GL/glut.h>
 #include <algorithm>
 #include <string.h>
-
-
-
+#include <vector>
 using namespace std;
+
 #ifndef M_PI
 #define M_PI 3.1415926535897932384626433832795
 #endif
@@ -68,6 +67,7 @@ class HangmanMinigame : public IMinigame {
 				bool right;
 				bool wrong;
 				int numberOfLettersRightPlayed;
+				
 				CentralServerHangman centralServer;
 				GameContext * _context;
 				Gui * gui;
@@ -90,6 +90,7 @@ class HangmanMinigame : public IMinigame {
 						
 						virtual void drawBackground();
 				};
+				vector<LetterWidget*> letters;
 		};
 };
 

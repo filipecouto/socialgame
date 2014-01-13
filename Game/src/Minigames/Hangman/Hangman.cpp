@@ -1,6 +1,7 @@
 #include "Hangman.h"
 #include "../../GameContext.h"
 #include <string.h>
+
 HangmanMinigame::HangmanMinigame(GameContext* context): _context(context)
 {
 
@@ -34,7 +35,6 @@ void HangmanMinigame::HangmanInstance::draw() {
     glColor3f(0,0,1);
     drawLetterSpaces(word.length());
     glColor3f(0,0,0);
-    drawSquare(-98.0,-80.0,20.0,0,-80.0,20.0,0,-80.0,0,-100.0,-80.0,0);
     glPopMatrix();
     gui->drawGui();
 
@@ -81,18 +81,13 @@ void HangmanMinigame::HangmanInstance::drawCircle(double distance, double pX, do
 
 void HangmanMinigame::HangmanInstance::drawLetterSpaces(int length)
 {
-    GLfloat x = -100.0, y = -80.0, z =-40.0;
-    for(int i =0; i<length; i++) {
-        glLineWidth(3.0);
-        glBegin(GL_LINES);
-        glVertex3f(x,y,z);
-        x+=5.0;
-        glVertex3f(x,y,z);
-        glEnd();
-
-        x+=1.0;
-
+    int x = 43;
+    for(int i=0; i<wordLength; i++) {
+        letters.push_back(new LetterWidget(" ",x,380));
+        x+=22;
     }
+
+
 }
 
 void HangmanMinigame::HangmanInstance::drawHangman()
@@ -151,26 +146,9 @@ void HangmanMinigame::HangmanInstance::tick(int delta, int current) {
     camera.tick(delta, current);
     gui->tick(delta,current);
     gui->setDimensions(getViewportWidth(),getViewportHeight());
-    if (keys[1]) thing.vx += 0.005;
-
-    if (keys[3]) thing.vx -= 0.005;
-
-    if (keys[0]) thing.vy += 0.005;
-
-    if (keys[2]) thing.vy -= 0.005;
-
-    thing.x += thing.vx * delta;
-    thing.y += thing.vy * delta;
-
-    thing.vx *= 0.75;
-    thing.vy *= 0.75;
-
-    if (thing.x < -20) thing.x = -20;
-    else if (thing.x > 20) thing.x = 20;
-
-    if (thing.y < -20) thing.y = -20;
-    else if (thing.y > 20) thing.y = 20;
-
+   for(int i=0;i<wordLength;i++){
+     gui->addWidget(letters.at(i));
+   }
     if(attempts ==0 ||numberOfLettersRightPlayed == wordLength) finish();
 }
 
@@ -188,7 +166,7 @@ HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _cont
     right = false;
     wrong = false;
     gui = new Gui();
-    gui->addWidget(new TextWidget(category, 80, 450));
+    gui->addWidget(new LetterWidget("CATEGORY: " + category, 0, 0));
 
 }
 
@@ -393,8 +371,8 @@ void HangmanMinigame::HangmanInstance::drawLetters()
                 cout<<"i = "<<i<<"\n";
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
-		numberOfLettersRightPlayed++;
-                gui->addWidget(new LetterWidget(letter, x, 380));
+                numberOfLettersRightPlayed++;
+		letters.at(i)->setText(letter);
             }
             x+=22;
         }
@@ -427,23 +405,21 @@ void HangmanMinigame::HangmanInstance::determinateLetter(string chosenLetter, st
         letterRigthPlayed  =  chosenLetter[0];
         right = true;
         drawLetters();
-        
-	
-    cout << "numberOfLettersRightPlayed = "<<numberOfLettersRightPlayed<<", wordLength = "<< wordLength<<"\n";
         right = false;
     }
 }
 
 void HangmanMinigame::HangmanInstance::LetterWidget::drawBackground() {
-	GLfloat w = getMinimumWidth();
-	glBegin(GL_QUADS);
-		glVertex2f(0, -6);
-		glVertex2f(w, -6);
-		glVertex2f(w, -2);
-		glVertex2f(0, -2);
-	glEnd();
+    GLfloat w = getMinimumWidth();
+    glBegin(GL_QUADS);
+    glVertex2f(0, -6);
+    glVertex2f(w, -6);
+    glVertex2f(w, -2);
+    glVertex2f(0, -2);
+    glEnd();
 }
 
 HangmanMinigame::HangmanInstance::LetterWidget::LetterWidget(string text, GLfloat xPos, GLfloat yPos): TextWidget(" " + text + " ", xPos, yPos) {
-	setFont(GLUT_BITMAP_HELVETICA_18);
+    setFont(GLUT_BITMAP_HELVETICA_18);
 }
+
