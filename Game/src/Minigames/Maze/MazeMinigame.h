@@ -57,7 +57,7 @@ class MazeMinigame : public IMinigame {
 				GLfloat mx, my;
 				GLfloat rotateX = 0, rotateZ = 0;
 				GLfloat rotateAngle = 0;
-				bool rotating[4] = {false,false,false,false};
+				bool rotating[4];
 				
 				bool detectCollision();
 				bool isRotating(int);
