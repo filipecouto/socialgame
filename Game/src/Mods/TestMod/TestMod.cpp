@@ -42,6 +42,10 @@ void * TestMod::getPendingGames() {
 	return NULL;
 }
 
+IMoodsList * TestMod::getMoods() {
+	return NULL;
+}
+
 void TestMod::setEventListener(GameModEventListener * listener) {
 	_listener = listener;
 	user.setEventListener(listener);
