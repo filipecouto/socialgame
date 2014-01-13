@@ -68,11 +68,11 @@ void Camera::tick(int delta, int absolute) {
 	animate(tex, cex);
 	animate(tey, cey);
 	animate(tez, cez);
-	
+
 	animate(tcx, ccx);
 	animate(tcy, ccy);
 	animate(tcz, ccz);
-	
+
 	animate(tux, cux);
 	animate(tuy, cuy);
 	animate(tuz, cuz);
@@ -103,11 +103,10 @@ void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
 
 	if (x != 0) {
-		tcx = ccx + (x * cos(angle));
+		tcx = ccx - (x * cos(angle));
 		tcz = ccz + (x * sin(angle));
-		tex = cex + (x * cos(angle));
+		tex = cex - (x * cos(angle));
 		tez = cez + (x * sin(angle));
-		return;
 	}
 
 	if (z != 0) {
@@ -115,13 +114,11 @@ void Camera::walk(GLfloat x, GLfloat y, GLfloat z) {
 		tcz = ccz + (z * cos(angle));
 		tex = cex + (z * sin(angle));
 		tez = cez + (z * cos(angle));
-		return;
 	}
 
 	if (y != 0) {
 		tcy += y;
 		tey += y;
-		return;
 	}
 }
 
@@ -142,12 +139,13 @@ void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 
 	if (x != 0) { // rotation on X axis
 	} else if (y != 0) { // rotation on Y axis
-		printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
+		printf("angle = %.2f rad\n", angle);
+		//printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
 		angle += y;
-		double n = sqrt(ccx * ccx + ccz * ccz);
+		double n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));
 		tcx = sin(angle) * n + cex;
 		tcz = cos(angle) * n + cez;
-		printf("tcx = %.4f\ttcy = %.4f\ttcz = %.4f\tn = %.4f\n", tcx, tcy, tcz, n);
+		//printf("tcx = %.4f\ttcy = %.4f\ttcz = %.4f\tn = %.4f\n", tcx, tcy, tcz, n);
 	} else if (z != 0) { // rotation on Z axis
 	}
 }
@@ -157,8 +155,8 @@ void Camera::translateToCamera() {
 }
 
 void Camera::animate(GLfloat target, GLfloat & value) {
-	//value += (target - value) * 0.04f;
-	value = target;
+	value += (target - value) * 0.04f;
+	//value = target;
 }
 
 // void Camera::animate(GLfloat tx, GLfloat & cx, GLfloat ty, GLfloat & cy, GLfloat tz, GLfloat & cz) {
@@ -167,7 +165,7 @@ void Camera::animate(GLfloat target, GLfloat & value) {
 // 	GLfloat tmy = cy + (ty - cy) * .04f;
 // 	GLfloat tmz = cz + (tz - cz) * .04f;
 // 	GLfloat tn = sqrt(tmx * tmx + tmy * tmy + tmz * tmz);
-// 
+//
 // 	if (tn == 0 || n == 0) {
 // 		cx = tmx;
 // 		cy = tmy;
