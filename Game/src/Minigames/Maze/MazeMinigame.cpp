@@ -17,12 +17,12 @@ void MazeMinigame::MazeInstance::draw() {
 	camera.setUp();
 	//TODO design
 	
-	int width = maze->getWidth(), heigth = maze->getHeight();
+	int width = maze->getWidth(), height = maze->getHeight();
 	int * start = maze->getStart();
 	int * end = maze->getEnd();
 	
 	for(int i = 0; i < width; i++) {
-		for(int j = 0; j < heigth; j++) {	
+		for(int j = 0; j < height; j++) {	
 			if(maze->getValue(i,j)) {
 				glPushMatrix();
 					glTranslatef(i,j,0);
@@ -46,22 +46,55 @@ void MazeMinigame::MazeInstance::draw() {
 			}
 		}
 	}
-	camera.moveTo(width/2,heigth/2,-28);
-	camera.lookAt(width/2,heigth/2,0);
+	camera.moveTo(start[0],start[1],1);
+	camera.lookAt(0,0,0);
 	
 }
 
 void MazeMinigame::MazeInstance::drawCube() {
-	glBegin(GL_TRIANGLE_STRIP);
+	glBegin(GL_TRIANGLE_STRIP); // bottom
 		glVertex3f(1.0,1.0,0.0);
 		glVertex3f(1.0,0.0,0.0);
 		glVertex3f(0.0,1.0,0.0);
 		glVertex3f(0.0,0.0,0.0);
 	glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(1.0,1.0,1.0);
+		glVertex3f(1.0,0.0,1.0);
+		glVertex3f(0.0,1.0,1.0);
+		glVertex3f(0.0,0.0,1.0);
+	glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(0.0,0.0,0.0);
+		glVertex3f(1.0,0.0,0.0);
+		glVertex3f(0.0,0.0,1.0);
+		glVertex3f(1.0,0.0,1.0);
+	glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(0.0,1.0,0.0);
+		glVertex3f(1.0,1.0,0.0);
+		glVertex3f(0.0,1.0,1.0);
+		glVertex3f(1.0,1.0,1.0);
+	glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(1.0,1.0,1.0);
+		glVertex3f(1.0,1.0,0.0);
+		glVertex3f(1.0,0.0,1.0);
+		glVertex3f(1.0,0.0,0.0);
+	glEnd();
+	glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(0.0,1.0,1.0);
+		glVertex3f(0.0,1.0,0.0);
+		glVertex3f(0.0,0.0,1.0);
+		glVertex3f(0.0,0.0,0.0);
+	glEnd();
+	
+	
 }
 
 void MazeMinigame::MazeInstance::start() {
-	camera.moveTo(0,0,-28);
+	camera.moveTo(0,-5,1);
+	camera.lookAt(0,0,0);
 
 }
 
@@ -92,7 +125,7 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 	switch (key) {
 		case 'w':
 			keys[0] = true;
-			if(pos[1]+1 > maze->getHeight()) {
+			if(pos[1]+1 >= maze->getHeight()) {
 				break;
 			}
 			if(!maze->getValue(pos[0],pos[1]+1)) {
@@ -101,7 +134,7 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 			break;
 		case 'a':
 			keys[1] = true;
-			if(pos[0]+1 > maze->getWidth()) {
+			if(pos[0]+1 >= maze->getWidth()) {
 				break;
 			}
 			if(!maze->getValue(pos[0]+1,pos[1])) {
