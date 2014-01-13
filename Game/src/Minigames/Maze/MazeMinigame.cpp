@@ -86,13 +86,17 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	
 	if(!pressed && rotateAngle != 0) {
 		double angle = (delta * 9.0) / 100.0;
+		printf("Angulo : %0.2f\n", angle);
+		printf("Rotate Angle : %0.2f\n", rotateAngle);
 		double ang;
+		
 		if((rotateAngle + angle) >= 90.0) {
 			angle = 90.0 - rotateAngle;
 		} else if ((rotateAngle - angle) <= -	90.0) {
 			angle = -90.0 + rotateAngle;
 		}
 		double movement = (0.1*angle)/9.0;
+		printf("Movement = %0.2f Angle = %0.2f\n", movement, angle);
 		if(rotateAngle >= 90 || rotateAngle <= -90) {
 			cleanRotate();
 		} else {
@@ -127,7 +131,7 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 			}
 		}
 	}
-	maze->addStart(rotateValueZ, rotateValueX);
+	maze->addStart(rotateValueX, rotateValueZ);
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
@@ -173,8 +177,8 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 			}
 			if(!maze->getValue(pos[0],floor(pos[1]+1))) {
 				maze->addStart(0,0.1);
-				rotateX = 1;
-				rotateZ = 0;
+				rotateX = 0;
+				rotateZ = 1;
 				rotateAngle-=9;
 				applyRotating(0);
 			}
@@ -186,8 +190,8 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 			}
 			if(!maze->getValue(floor(pos[0]+1),pos[1])) {
 				maze->addStart(0.1,0);
-				rotateZ = 1;
-				rotateX = 0;
+				rotateZ = 0;
+				rotateX = 1;
 				rotateAngle+=9;
 				applyRotating(1);
 			}
@@ -199,8 +203,8 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 			}
 			if(!maze->getValue(pos[0],ceil(pos[1]-1))) {
 				maze->addStart(0,-0.1);
-				rotateX = 1;
-				rotateZ = 0;
+				rotateX = 0;
+				rotateZ = 1;
 				rotateAngle+=9;
 				applyRotating(2);
 			}
@@ -213,8 +217,8 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 			}
 			if(!maze->getValue(ceil(pos[0]-1),pos[1])) {
 				maze->addStart(-0.1,0);
-				rotateZ = 1;
-				rotateX = 0;
+				rotateZ = 0;
+				rotateX = 1;
 				rotateAngle-=9;
 				applyRotating(3);
 			}
