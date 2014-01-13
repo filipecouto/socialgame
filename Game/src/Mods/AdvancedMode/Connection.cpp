@@ -45,3 +45,7 @@ int AdvancedMode::Connection::getState() {
 void AdvancedMode::Connection::setState(int state) {
 	this->state = state;
 }
+
+ITagsList * AdvancedMode::Connection::getTags() {
+	return NULL;
+}

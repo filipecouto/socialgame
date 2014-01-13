@@ -24,6 +24,14 @@
 #define M_PI 3.14159265359
 #endif
 
+#if _WIN32
+#define GL_GLEXT_PROTOTYPES
+#include <GL\GL.h>
+#include <GL\glext.h>
+#endif
+
+#pragma comment (lib, "libjpeg.lib")
+
 #define GameController_isInMinigame _minigame && _minigameState == 1
 
 GameController::GameController() : _graphFactory() {
@@ -389,6 +397,8 @@ void GameController::onKeyDown(int key, int special) {
 }
 
 GLuint GameController::loadTexture(std::string texture) {
+	printf("Loading texture \"%s\"...\n", texture.c_str());
+	
 	char * image;
 	int w, h, bpp;
 

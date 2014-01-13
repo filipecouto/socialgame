@@ -11,6 +11,9 @@
 #include <cmath>
 #include <stdio.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 Camera::Camera() {
 	tex = -2;
 	tey = 0;
@@ -128,11 +131,13 @@ GLfloat Camera::getAngle() {
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat angle = getAngle();
+
 	if (x != 0) { // rotation on X axis
 	} else if (y != 0) { // rotation on Y axis
 		angle += y;
-		tcx = sin(angle) + tex;
-		tcz = cos(angle) + tez;
+		double n = sqrt(ccx*ccx + ccz*ccz);
+		tcx = sin(angle) * n + cex;
+		tcz = cos(angle) * n + cez;
 	} else if (z != 0) { // rotation on Z axis
 	}
 }

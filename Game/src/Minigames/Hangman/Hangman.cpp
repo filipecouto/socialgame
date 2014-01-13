@@ -201,6 +201,7 @@ HangmanMinigame::HangmanInstance::~HangmanInstance() {
 
 bool HangmanMinigame::HangmanInstance::determinateLetter(char chosenLetter, string word)
 {
+	return true;
 }
 
 

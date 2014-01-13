@@ -23,6 +23,8 @@ class TestMod : public GameMod {
 		virtual INotificationsList * getNotifications();
 		virtual void * getPendingGames();
 		
+		virtual IMoodsList * getMoods();
+		
 		virtual void setEventListener(GameModEventListener * listener);
 		
 		// just a test
