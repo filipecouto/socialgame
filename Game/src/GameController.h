@@ -12,9 +12,13 @@
 #include <vector>
 #include <GL/freeglut.h>
 
+
+#ifdef _WIN32
 extern "C"{
 #include "jpeglib.h"
 }
+#endif
+
 #include "Mods/GameMod.h"
 #include "Models/IUser.h"
 #include "Graphics/IGraphic.h"
