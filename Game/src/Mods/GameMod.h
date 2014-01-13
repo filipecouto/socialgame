@@ -23,7 +23,7 @@ class GameMod {
 
 		virtual INotificationsList * getNotifications() = 0;
 		
-		virtual IMoodsList * getMoods() { }; // TODO make it abstract once all mods support it
+		virtual IMoodsList * getMoods()  = 0; // TODO make it abstract once all mods support it
 
 		// TODO interface missing
 		virtual void * getPendingGames() = 0;

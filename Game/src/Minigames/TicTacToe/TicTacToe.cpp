@@ -1,6 +1,10 @@
 #include "TicTacToe.h"
 #include "../../GameContext.h"
-
+#if _WIN32
+#define GL_GLEXT_PROTOTYPES
+#include <GL\GL.h>
+#include <GL\glext.h>
+#endif
 TicTacToeMinigame::TicTacToeMinigame(GameContext * context) : _context(context) {
 
 }
