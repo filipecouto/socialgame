@@ -15,16 +15,15 @@ IMinigameInstance * TicTacToeMinigame::newGame() {
 
 void TicTacToeMinigame::TicTacToeInstance::draw() {
 	camera.setUp();
-	_gui->draw();
 
 	//PLANO DE BAIXO
-	/*glColor3f(0.8, 0.8, 0.8);
+	glColor3f(0.8, 0.8, 0.8);
 	glBegin(GL_QUADS);
 	glVertex3i(-20, 0, 20);
 	glVertex3i(20, 0, 20);
 	glVertex3i(20, 0, -20);
 	glVertex3i(-20, 0, -20);
-	glEnd();*/
+	glEnd();
 
 	glPushMatrix();
 		
@@ -74,7 +73,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 			drawLine(0.1);
 		glPopMatrix();
 
-		/*glPushMatrix();
+		glPushMatrix();
 			//Base
 			glColor3f(0.3, 0.3, 0.3);
 			glBegin(GL_QUADS);
@@ -83,7 +82,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 			glVertex3i(5, 10, -15);
 			glVertex3i(5, 0, -15);
 			glEnd();
-		glPopMatrix();*/
+		glPopMatrix();
 	glPopMatrix();
 	
 	for(int i = 0; i < 3; i++) {
@@ -98,6 +97,8 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 			}
 		}
 	}
+	
+	_gui->drawGui();
 }
 
 void TicTacToeMinigame::TicTacToeInstance::drawLine(GLfloat addZ){
@@ -158,41 +159,13 @@ void TicTacToeMinigame::TicTacToeInstance::start() {
 	thing.x = thing.y = thing.vx = thing.vy = 0;
 	camera.moveTo(0, 8, -28);
 	camera.lookAt(0, 0, 0);
-	
-	_gui = new Gui();
-	Dialog * d = _gui->showMessage("OLA MUNDO");
-	//endGame("HELLO","X");
 }
 
 void TicTacToeMinigame::TicTacToeInstance::tick(int delta, int current) {
 	camera.tick(delta, current);
 
-	if (keys[1]) camera.rotate(0.0, 1.0, 0.0);
-	if (keys[3]) camera.rotate(0.0, -1.0, 0.0);
-	
-
-	/*if (keys[1]) thing.vx += 0.005;
-
-	if (keys[3]) thing.vx -= 0.005;
-
-	if (keys[0]) thing.vy += 0.005;
-
-	if (keys[2]) thing.vy -= 0.005;
-
-	thing.x += thing.vx * delta;
-	thing.y += thing.vy * delta;
-
-	thing.vx *= 0.75;
-	thing.vy *= 0.75;
-
-	if (thing.x < -20) thing.x = -20;
-	else if (thing.x > 20) thing.x = 20;
-
-	if (thing.y < -20) thing.y = -20;
-	else if (thing.y > 20) thing.y = 20;
-	
-	if(mx - 1.0f <= thing.x && mx + 1.0f >= thing.x &&
-		my - 1.0f <= thing.y && my + 1.0f >= thing.y) finish();*/
+	_gui->tick(delta,current);
+	_gui->setDimensions(getViewportWidth(),getViewportHeight());
 }
 
 TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) : _context(context) {
@@ -208,9 +181,12 @@ TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) :
 	d.Parse<0>(resultJson.c_str());
 	string result = d["data"].GetString();
 	//End of Communication
+	
 	if(result == "2"){
 		Game("[z,z,z,z,z,z,z,z,z]");
 	}
+	
+	_gui = new Gui();
 }
 
 void TicTacToeMinigame::TicTacToeInstance::finish() {
@@ -278,16 +254,15 @@ void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 	//End of Communication
 	
 	if(result == "x"){ //Player won
-		cout << "Player Won" <<endl;
-		endGame("Player Won", "X");
+		endGame("Congratulations, you won!", true);
 	}
 	else if(result == "o"){ //Computer won
-		cout << "Computer Won2" <<endl;
+		endGame("Ohh, better luck next time :)", false);
 	}
 	else{
 		int value = atoi(result.c_str());
 		if(value == 0){ //Draw
-			cout << "DRAW2" <<endl;
+			endGame("Give it another try, you're almost there =)", false);
 		}
 		else{ //Computer will play
 			int positions[9][2] = { {0,0}, {1,0}, {2,0}, {0,1}, {1,1}, {2,1}, {0,2}, {1,2}, {2,2} };
@@ -296,68 +271,57 @@ void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 			printf("Value=%d\n",value);
 			if(checkMatriz(x,y)){
 				matriz[x][y] = 'o';
+				
 				//Communication
 				resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=Game&Params="+convertMatrizToPrologList());
 				d.Parse<0>(resultJson.c_str());
 				result = d["data"].GetString();
 				//End of Communication
-				cout<< convertMatrizToPrologList()<<result<<endl;
+				
 				if(result == "o"){ //Computer Won
-					cout << "Computer Won" <<endl;
-					endGame("Computer Won", "X");
+					endGame("Ohh, better luck next time :)", false);
 				}
 				else if(result == "0"){ //Draw
-					cout << "DRAW" << endl;
-					endGame("DRAW", "X");
+					endGame("Give it another try, you're almost there =)", false);
 				}
 			}
 		}
 	}
 }
 
-void TicTacToeMinigame::TicTacToeInstance::endGame(string label, string action){
-	/*WidgetContainer * container = new WidgetContainer();
-	labelText = new TextWidget(label, 0, 0);
-	finishButton = new ButtonWidget(new TextWidget("Finish", 0, 0));
-	
-	container->addWidget(labelText);
-	container->addWidget(finishButton);
-	
-	container->draw();*/
-	cout<< "drawing"<<endl;
-	
-	//Dialog * d = _gui->showYesNoCancelMessage("EndGame",label,"Restart","Finish","Cancel");
+void TicTacToeMinigame::TicTacToeInstance::endGame(string message, bool win){
+	ableToPlay = false;
+	Dialog * d = NULL;
+	if(win){
+		d = _gui->showMessage("endGameWithWin",message);
+	}
+	else {
+		d = _gui->showYesNoCancelMessage("endGameWithLossOrDraw",message,"Restart","Finish","Cancel");
+	}
 }
 
 bool TicTacToeMinigame::TicTacToeInstance::onDialogResult(Dialog * dialog, int buttonId) {
-	/*if (dialog->getId() == "message" && !showFirstMessage) {
-		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
-			((TestMod *)_controller->getGameMod())->doSomething();
-		}
-
-		showFirstMessage = true;
-	} else if (dialog->getId() == "friendship request") {
-		dialog->hide();
-
-		IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)dialog->getTag();
-
+	cout<<"Entrou1"<<endl;
+	if (dialog->getId() == "endGameWithLossOrDraw") {cout << "Entrou2"<<endl;
 		switch (buttonId) {
 			case Dialog::DIALOG_BUTTON_ID_POSITIVE:
-				n->accept();
-				_controller->invalidatePerson(_controller->getIdentityPerson());
-				_controller->invalidatePerson(n->getConnection()->getPerson());
+				cout << "YES" <<endl;
 				break;
 
 			case Dialog::DIALOG_BUTTON_ID_NEGATIVE:
-				n->refuse();
-				_controller->invalidatePerson(_controller->getIdentityPerson());
-				_controller->invalidatePerson(n->getConnection()->getPerson());
+				cout << "NO" <<endl;
 				break;
 
 			case Dialog::DIALOG_BUTTON_ID_NEUTRAL:
+				cout << "Cancel" <<endl;
 				break;
 		}
-	}*/
+	}
+	else if(dialog->getId() == "endGameWithWin") {
+		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
+			cout << "OK" << endl;
+		}
+	}
 
 	return true;
 }
@@ -369,8 +333,13 @@ bool TicTacToeMinigame::TicTacToeInstance::onWidgetClicked(Widget* widget)
 
 
 void TicTacToeMinigame::TicTacToeInstance::onMouseButton(int state, int button, int x, int y) {
+	if (state == 0) {
+		if (_gui->onMouseButtonDown(button, x, getViewportHeight()-y)) return;
+	} else if (state == 1) {
+		if (_gui->onMouseButtonUp(button, x, getViewportHeight()-y)) return;
+	}
 	int x1 = -1, y1 = -1;
-	if (state == 1 && button==GLUT_LEFT_BUTTON ){
+	if (state == 1 && button==GLUT_LEFT_BUTTON && ableToPlay){
 		if (mx >= 2.6 && mx <= 6.75 &&
 			my >= 6 && my <= 13.3){
 			printf("<-----------1---------->");
@@ -437,6 +406,7 @@ void TicTacToeMinigame::TicTacToeInstance::onMouseButton(int state, int button, 
 }
 
 void TicTacToeMinigame::TicTacToeInstance::onMouseMove(int x, int y) {
+	_gui->onMouseMove(x,y);
 	mx = (GLfloat)x / getViewportWidth() * -40 + 20;
 	my = (GLfloat)y / getViewportHeight() * -40 + 20;
 }

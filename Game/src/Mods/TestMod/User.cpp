@@ -48,6 +48,10 @@ void User::addFriend(IPerson * friendToAdd) {
 		_listener->onNewNotification(new FriendshipRequestNotification(ritinha.getConnections()->operator[](ritinha.getConnections()->size() - 1)));
 }
 
+void User::removeFriend(IPerson * friendToRemove) {
+
+}
+
 void User::setEventListener(GameModEventListener * listener) {
 	_listener = listener;
 }

@@ -2,23 +2,25 @@
 #define ADVANCEDMODE_TAGSLIST_H
 
 #include "../../Models/ITagsList.h"
-#include "CentralServerWebService.h"
 
 namespace AdvancedMode {
+	class Cache;
 	class Person;
-	
+
 	class TagsList : public ITagsList {
 		public:
-			TagsList(Person * person, CentralServerWebService * service);
+			TagsList(Person * person, Cache * cache);
 
-			virtual bool contains(Tag & item);
-			virtual Tag & operator[](int index);
+			virtual bool contains(ITag * item);
+			virtual ITag * operator[](int index);
 			virtual int size();
 
 			~TagsList();
 
 		private:
-			CentralServerWebService * service;
+			Cache * cache;
+			
+			std::vector<ITag*> tags;
 	};
 }
 

@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "Tag.h"
+#include "ITag.h"
 #include "IPerson.h"
 
 class ITagsList;

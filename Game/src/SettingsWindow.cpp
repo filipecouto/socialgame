@@ -1,6 +1,7 @@
 #include "SettingsWindow.h"
 #include "GUI/LinearContainer.h"
 #include "Models/IMoodsList.h"
+#include "Models/ITagsList.h"
 
 SettingsWindow::SettingsWindow(GameController * controller) : controller(controller) {
 	setPadding(8);
@@ -23,9 +24,13 @@ SettingsWindow::SettingsWindow(GameController * controller) : controller(control
 	lTags->setHorizontal();
 
 	tTags = new TextBoxWidget();
+	std::string tagsText = "";
+	for(int i = 0; i < controller->getIdentityPerson()->getTags()->size(); i++) {
+		tagsText += controller->getIdentityPerson()->getTags()->operator[](i)->getName() + ";";
+	}
 	lTags->addWidget(tTags);
-	bSaveTag = new ButtonWidget(new TextWidget("Save", 0, 0));
-	lTags->addWidget(bSaveTag);
+	bSaveTags = new ButtonWidget(new TextWidget("Save", 0, 0));
+	lTags->addWidget(bSaveTags);
 
 	layout->addWidget(lTags);
 
@@ -71,6 +76,17 @@ Widget * SettingsWindow::makeTitle(std::string title) {
 void SettingsWindow::onWidgetClicked(Widget * clicked) {
 	if (clicked == bClose) {
 		hide();
+	} else if (clicked == bSaveTags) {
+		std::string sTags = tTags->getText();
+		std::vector<std::string> tags;
+		size_t index = 0;
+
+		while ((index = sTags.find(',')) != std::string::npos) {
+			tags.push_back(sTags.substr(0, index));
+			sTags.erase(0, index + 1);
+		}
+
+		controller->getIdentity()->setTags(tags);
 	} else {
 		if (moodButtons.find(clicked) != moodButtons.end()) {
 			IMood * mood = moodButtons[clicked];

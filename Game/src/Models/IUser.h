@@ -25,18 +25,23 @@ class IUser {
 		 * Creates a connection between friendToAdd and "this" person.
 		 * The connection may be accepted or not by friendToAdd.
 		 */
-		virtual void addFriend(IPerson * friendToAdd) { }
+		virtual void addFriend(IPerson * friendToAdd) = 0;
 		
 		/**
 		 * Removes a connection between friendToRemove and "this" person.
 		 * This will remove the connection from both sides.
 		 */
-		virtual void removeFriend(IPerson * friendToRemove) { }
+		virtual void removeFriend(IPerson * friendToRemove) = 0;
 		
 		/**
 		 * Sets the mood of "this" person
 		 */
 		virtual void setMood(IMood * mood) { }
+		
+		/**
+		 * Replaces the current tags with the ones in this list of string representing tags
+		 */
+		virtual void setTags(std::vector<std::string> tags) { }
 };
 
 #endif

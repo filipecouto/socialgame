@@ -9,8 +9,6 @@
 #include <math.h>
 #include "../../GUI/IWidgetEventsListener.h"
 #include "../../GUI/Gui.h"
-#include "../../GUI/WidgetContainer.h"
-#include "../../GUI/ButtonWidget.h"
 
 #include <GL/glut.h>
 
@@ -52,7 +50,7 @@ class TicTacToeMinigame : public IMinigame {
 				bool checkMatriz(int x, int y);
 				string convertMatrizToPrologList();
 				void Game(string list);
-				void endGame(string label, string action);
+				void endGame(string message, bool win);
 				char matriz[3][3] = {{'z', 'z', 'z'},
 						    {'z', 'z', 'z'},
 						    {'z', 'z', 'z'}};
@@ -76,12 +74,12 @@ class TicTacToeMinigame : public IMinigame {
 
 				Thing thing;
 				GLfloat mx, my;
-				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL";
-				
-				TextWidget * labelText;
-				ButtonWidget * finishButton;
 				
 				Gui * _gui;
+				bool ableToPlay = true;
+				
+				
+				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL"; //Delete
 		};
 };
 

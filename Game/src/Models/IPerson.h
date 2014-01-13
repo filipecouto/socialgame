@@ -13,7 +13,6 @@
 #include <vector>
 #include "IConnection.h"
 #include "IMood.h"
-#include "Tag.h"
 
 class ITagsList;
 class IConnection;

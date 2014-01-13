@@ -64,6 +64,8 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_gui->addWidget(settingsWindow);
 		}
 
+		if (windowPersonInfo && windowPersonInfo->visible) windowPersonInfo->hide();
+		
 		settingsWindow->centerOnParent();
 		settingsWindow->show();
 	} else if (widget == barTest1) {

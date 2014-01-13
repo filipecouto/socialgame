@@ -14,7 +14,7 @@
 PersonGraphic::PersonGraphic(IPerson * person) : PersonGraphic(person, 0) {
 }
 PersonGraphic::PersonGraphic(IPerson * person, GLfloat startAngle) : _person(person), _startAngle(startAngle) {
-	radius = 1.0 + (_person->getTags() ? _person->getTags()->size() * 0.4 : 0);
+	radius = 0.8 + (_person->getTags() ? _person->getTags()->size() * 0.15 : 0);
 }
 
 void PersonGraphic::load(GameContext * context) {

@@ -18,6 +18,8 @@ namespace AdvancedMode {
 			virtual void removeFriend(IPerson * friendToRemove);
 			
 			virtual void setMood(IMood * mood);
+			
+			virtual void setTags(vector< string > tags);
 
 			~User();
 

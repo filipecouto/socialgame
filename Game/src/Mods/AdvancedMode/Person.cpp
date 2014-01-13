@@ -1,6 +1,7 @@
 #include "Person.h"
 #include "ConnectionsList.h"
 #include "Cache.h"
+#include "TagsList.h"
 
 AdvancedMode::Person::Person(int id, Cache * cache) : Person(cache->getService()->getPerson(id), cache) {
 }
@@ -31,7 +32,11 @@ IConnectionsList * AdvancedMode::Person::getConnections() {
 }
 
 ITagsList * AdvancedMode::Person::getTags() {
-	return NULL;
+	if(!tags) {
+		tags = new TagsList(this, cache);
+	}
+	
+	return tags;
 }
 
 int AdvancedMode::Person::getStrength() {

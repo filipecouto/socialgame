@@ -12,7 +12,7 @@
 #include "IList.h"
 #include "IPerson.h"
 
-class ITagsList : public IList<Tag&> {
+class ITagsList : public IList<ITag*> {
 	public:
 		virtual ~ITagsList() { }
 };
