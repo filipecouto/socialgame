@@ -1,5 +1,10 @@
 #include "SkyBox.h"
 
+#if _WIN32
+#define GL_GLEXT_PROTOTYPES
+#include <GL\GL.h>
+#include <GL\glext.h>
+#endif
 SkyBox::SkyBox() : skyboxTextId1(0), skyboxTextId2(0), skyboxTextId3(0), skyboxTextId4(0), skyboxTextId5(0), skyboxTextId6(0) {
 
 }

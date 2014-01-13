@@ -12,6 +12,10 @@
 
 #include <GL/glut.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 class TicTacToeMinigame : public IMinigame {
 	public:
 		TicTacToeMinigame(GameContext * context);
@@ -52,9 +56,7 @@ class TicTacToeMinigame : public IMinigame {
 				void Game(string list);
 				void endGame(string message, bool win);
 				void startNewGame();
-				char matriz[3][3] = {{'z', 'z', 'z'},
-						    {'z', 'z', 'z'},
-						    {'z', 'z', 'z'}};
+				char matriz[3][3];
 				
 				// events from GUI
 				virtual bool onDialogResult(Dialog * dialog, int buttonId);

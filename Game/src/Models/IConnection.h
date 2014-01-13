@@ -28,7 +28,7 @@ class IConnection {
 
 		virtual int getScore() = 0;
 
-		virtual ITagsList * getTags() { }; // TODO make it abstract once all mods support it
+		virtual ITagsList * getTags() = 0; // TODO make it abstract once all mods support it
 
 		virtual ~IConnection() { }
 };

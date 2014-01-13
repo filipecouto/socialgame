@@ -28,7 +28,7 @@ class IPerson {
 
 		virtual int getStrength() = 0;
 
-		virtual ITagsList * getTags() { }; // TODO make it abstract once all mods support it
+		virtual ITagsList * getTags() = 0; // TODO make it abstract once all mods support it
 
 		virtual IConnectionsList * getConnections() = 0;
 

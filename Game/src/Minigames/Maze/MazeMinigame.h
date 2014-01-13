@@ -7,6 +7,7 @@
 #include "../../Graphics/Camera.h"
 
 #include <GL/glut.h>
+#include <tgmath.h> 
 
 class MazeMinigame : public IMinigame {
 	public:
@@ -54,8 +55,14 @@ class MazeMinigame : public IMinigame {
 
 				Player player;
 				GLfloat mx, my;
+				GLfloat rotateX = 0, rotateZ = 0;
+				GLfloat rotateAngle = 0;
+				bool rotating[4] = {false,false,false,false};
 				
 				bool detectCollision();
+				bool isRotating(int);
+				void applyRotating(int);
+				void cleanRotate();
 				
 		};
 };

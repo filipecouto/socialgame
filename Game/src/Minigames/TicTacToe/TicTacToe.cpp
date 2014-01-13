@@ -1,8 +1,12 @@
 #include "TicTacToe.h"
 #include "../../GameContext.h"
-
+#if _WIN32
+#define GL_GLEXT_PROTOTYPES
+#include <GL\GL.h>
+#include <GL\glext.h>
+#endif
 TicTacToeMinigame::TicTacToeMinigame(GameContext * context) : _context(context) {
-
+	
 }
 
 std::string TicTacToeMinigame::getName() {
@@ -160,6 +164,11 @@ void TicTacToeMinigame::TicTacToeInstance::drawCircle(GLfloat radius){
 }
 
 void TicTacToeMinigame::TicTacToeInstance::start() {
+	for (int i = 0; i < 3; i++){
+		for (int j = 0; j < 3; j++){
+			matriz[i][j] = 'z';
+		}
+	}
 	mx = -17;
 	my = 19;
 	thing.x = thing.y = thing.vx = thing.vy = 0;
@@ -347,7 +356,7 @@ bool TicTacToeMinigame::TicTacToeInstance::onDialogResult(Dialog * dialog, int b
 
 bool TicTacToeMinigame::TicTacToeInstance::onWidgetClicked(Widget* widget)
 {
-
+	return true;
 }
 
 
