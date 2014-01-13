@@ -394,7 +394,7 @@ void HangmanMinigame::HangmanInstance::drawLetters()
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
 		numberOfLettersRightPlayed++;
-                gui->addWidget(new TextWidget(letter, x, 380));
+                gui->addWidget(new LetterWidget(letter, x, 380));
             }
             x+=22;
         }
@@ -403,7 +403,7 @@ void HangmanMinigame::HangmanInstance::drawLetters()
     if(wrong) {
 
         string letter = letterWrongPlayed;
-        gui->addWidget(new TextWidget(letter, xWrong, 200));
+        gui->addWidget(new LetterWidget(letter, xWrong, 200));
 
         xWrong+=22;
         wrong =false;
@@ -434,3 +434,16 @@ void HangmanMinigame::HangmanInstance::determinateLetter(string chosenLetter, st
     }
 }
 
+void HangmanMinigame::HangmanInstance::LetterWidget::drawBackground() {
+	GLfloat w = getMinimumWidth();
+	glBegin(GL_QUADS);
+		glVertex2f(0, -6);
+		glVertex2f(w, -6);
+		glVertex2f(w, -2);
+		glVertex2f(0, -2);
+	glEnd();
+}
+
+HangmanMinigame::HangmanInstance::LetterWidget::LetterWidget(string text, GLfloat xPos, GLfloat yPos): TextWidget(" " + text + " ", xPos, yPos) {
+	setFont(GLUT_BITMAP_HELVETICA_18);
+}

@@ -1,7 +1,8 @@
 #ifndef CENTRALSERVERHANGMAM_H
 #define CENTRALSERVERHANGMAM_H
 
-#include <string>#include "../IMinigame.h"
+#include <string>
+#include "../IMinigame.h"
 #include "../../Mods/AdvancedMode/dependencies/CurlHelper/CurlHelper.h"
 #include "../../Mods/AdvancedMode/dependencies/rapidjson/document.h"
 #include <math.h>

@@ -12,9 +12,6 @@ Mood::Mood() {
 
 }
 
-Mood::Mood(std::string description) : _description(description) {
-
-}
 
 std::string Mood::getDescription() {
 	return _description;

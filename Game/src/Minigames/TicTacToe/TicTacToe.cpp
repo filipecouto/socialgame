@@ -1,10 +1,13 @@
-#include "TicTacToe.h"
-#include "../../GameContext.h"
 #if _WIN32
 #define GL_GLEXT_PROTOTYPES
-#include <GL\GL.h>
+#include <GL\glew.h>
 #include <GL\glext.h>
+#pragma comment (lib, "glew32.lib")
+#pragma comment (lib, "glew32s.lib")
 #endif
+#include "TicTacToe.h"
+#include "../../GameContext.h"
+
 TicTacToeMinigame::TicTacToeMinigame(GameContext * context) : _context(context) {
 	
 }
@@ -23,7 +26,7 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 	//PLANO DE BAIXO
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId1);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1, 0);
