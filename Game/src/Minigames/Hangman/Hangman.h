@@ -59,11 +59,15 @@ private:
 
     private:
         int attempts;
+	int xWrong;
 	string word;
 	string category;
-	char  letterPlayed;
+	char  letterRigthPlayed;
+	string  letterWrongPlayed;
 	int wordLength;
 	bool right;
+	bool wrong;
+	int numberOfLettersRightPlayed;
         CentralServerHangman centralServer;
         GameContext * _context;
         Gui * gui;

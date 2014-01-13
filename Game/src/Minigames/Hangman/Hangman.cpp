@@ -99,32 +99,32 @@ void HangmanMinigame::HangmanInstance::drawHangman()
 {
     glColor3f(1, 1, 1);
     switch(attempts) {
+    case 6:
+        drawCircle(8.0, 69.0,-25.0);
+        break;
     case 5:
         drawCircle(8.0, 69.0,-25.0);
+        drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
         break;
     case 4:
         drawCircle(8.0, 69.0,-25.0);
         drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
+        drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
         break;
     case 3:
         drawCircle(8.0, 69.0,-25.0);
         drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
         drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
+        drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
         break;
     case 2:
         drawCircle(8.0, 69.0,-25.0);
         drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
         drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
         drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
-        break;
-    case 1:
-        drawCircle(8.0, 69.0,-25.0);
-        drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
-        drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
-        drawLines(5.0, 69.0, -80.0,-10.0, 79.0, -80.0,-15.0 );
         drawLines(5.0,  69.0, -80.0,5.0, 59.0, -80.0, 15.0 );
         break;
-    case 0:
+    case 1:
         drawCircle(8.0, 69.0,-25.0);
         drawLines(5.0, 69.0, -80.0,-30.0, 69.0, -80.0,5.0 );
         drawLines(5.0, 69.0, -80.0,-10.0, 59.0, -80.0,-15.0 );
@@ -171,8 +171,7 @@ void HangmanMinigame::HangmanInstance::tick(int delta, int current) {
     if (thing.y < -20) thing.y = -20;
     else if (thing.y > 20) thing.y = 20;
 
-    if(mx - 1.0f <= thing.x && mx + 1.0f >= thing.x &&
-            my - 1.0f <= thing.y && my + 1.0f >= thing.y) finish();
+    if(attempts ==0 ||numberOfLettersRightPlayed == wordLength) finish();
 }
 
 HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _context(context) {
@@ -182,9 +181,12 @@ HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _cont
         keys[i] = false;
     }
     getWord();
-    attempts = 6;
+    attempts = 7;
     wordLength= word.length();
-
+    numberOfLettersRightPlayed =0;
+    xWrong = 43;
+    right = false;
+    wrong = false;
     gui = new Gui();
     gui->addWidget(new TextWidget(category, 80, 450));
 
@@ -199,7 +201,7 @@ void HangmanMinigame::HangmanInstance::getWord()
 }
 
 void HangmanMinigame::HangmanInstance::finish() {
-    //  _context->notifyMinigameFinished(this);
+    _context->notifyMinigameFinished(this);
 }
 
 void HangmanMinigame::HangmanInstance::onKeyDown(int key, int special) {
@@ -385,17 +387,26 @@ void HangmanMinigame::HangmanInstance::drawLetters()
     if(right) {
         x = 43;
         for(int i=0; i<wordLength; i++) {
-            cout << "word["<<i<<"] = "<< word[i]<<"; letterPlayed= "<<letterPlayed<<"\n";
-            if(word[i] == letterPlayed) {
+            cout << "word["<<i<<"] = "<< word[i]<<"; letterRigthPlayed= "<<letterRigthPlayed<<"\n";
+            if(word[i] == letterRigthPlayed) {
                 string letter;
                 cout<<"i = "<<i<<"\n";
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
+		numberOfLettersRightPlayed++;
                 gui->addWidget(new TextWidget(letter, x, 380));
             }
             x+=22;
         }
+        right =false;
+    }
+    if(wrong) {
 
+        string letter = letterWrongPlayed;
+        gui->addWidget(new TextWidget(letter, xWrong, 200));
+
+        xWrong+=22;
+        wrong =false;
     }
 }
 
@@ -406,11 +417,20 @@ void HangmanMinigame::HangmanInstance::determinateLetter(string chosenLetter, st
     {
         attempts--;
         transform(chosenLetter.begin(), chosenLetter.end(), chosenLetter.begin(),(int (*)(int))toupper);
+        letterWrongPlayed  =  chosenLetter;
+        wrong = true;
+        drawLetters();
+        wrong = false;
 
     } else {
         transform(chosenLetter.begin(), chosenLetter.end(), chosenLetter.begin(),(int (*)(int))toupper);
-        letterPlayed  =  chosenLetter[0];
+        letterRigthPlayed  =  chosenLetter[0];
+        right = true;
         drawLetters();
+        
+	
+    cout << "numberOfLettersRightPlayed = "<<numberOfLettersRightPlayed<<", wordLength = "<< wordLength<<"\n";
+        right = false;
     }
 }
 
