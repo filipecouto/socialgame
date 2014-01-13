@@ -425,7 +425,7 @@ HangmanMinigame::HangmanInstance::LetterWidget::LetterWidget(string text, GLfloa
 
 string HangmanMinigame::getDescription()
 {
-    return "Challenge your friend with a classic game where you must guess the letters in a word";
+    return "Challenge your friend with hangman, where you must guess the letters in a word";
 }
 string HangmanMinigame::getInternalName()
 {
