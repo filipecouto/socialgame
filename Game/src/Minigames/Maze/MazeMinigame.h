@@ -14,6 +14,7 @@ class MazeMinigame : public IMinigame {
 		MazeMinigame(GameContext * context);
 
 		virtual std::string getName();
+		virtual std::string getDescription();
 
 		virtual IMinigameInstance * newGame();
 

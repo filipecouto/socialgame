@@ -9,6 +9,10 @@ std::string MazeMinigame::getName() {
 	return "Maze Game";
 }
 
+std::string MazeMinigame::getDescription() {
+	return "Challenge your friends with 3 different levels of mazes!";
+}
+
 IMinigameInstance * MazeMinigame::newGame() {
 	return new MazeInstance(_context);
 }
