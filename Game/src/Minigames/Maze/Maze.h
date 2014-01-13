@@ -23,10 +23,10 @@ class Maze {
 		double* getStart();
 		int* getEnd();
 		void addStart(double x, double y);
-
+		void setStart(double x, double y);
+		
 		~Maze();
 		
-
 	private:
 		int width, height;
 		bool ** matrix;
@@ -43,6 +43,7 @@ class Maze {
 		void getNeighbours(Maze::Cell cell, Maze::Cell * neighbours, int & count);
 		bool hasWall(Maze::Cell cell);
 		Cell findFreePosition(int corner, int depth);
+		
 };
 
 #endif // MAZE_H

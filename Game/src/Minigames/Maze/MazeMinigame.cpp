@@ -81,9 +81,10 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++){
 		keys[i] = false;
 	}
-	cleanRotate();
+	
 	maze = new Maze(30,20);
 	maze->generate();
+	cleanRotate();
 }
 
 void MazeMinigame::MazeInstance::finish() {
@@ -91,6 +92,10 @@ void MazeMinigame::MazeInstance::finish() {
 }
 
 bool MazeMinigame::MazeInstance::isRotating(int pos) {
+	if(pos == 0 && rotating[2]) return false;
+	if(pos == 1 && rotating[3]) return false;
+	if(pos == 2 && rotating[0]) return false;
+	if(pos == 3 && rotating[1]) return false;
 	for(int i = 0; i < 4; i++) {
 		if(i!=pos && rotating[i]) return true;
 	}
@@ -99,7 +104,7 @@ bool MazeMinigame::MazeInstance::isRotating(int pos) {
 
 void MazeMinigame::MazeInstance::applyRotating(int pos) {
 	for(int i = 0; i < 4; i++) {
-		rotating[i] = i == pos ? true : false;
+		rotating[i] = i == pos;
 	}
 }
 
@@ -173,6 +178,10 @@ void MazeMinigame::MazeInstance::cleanRotate() {
 	for(int i = 0; i < 4; i++) {
 		rotating[i] = false;
 	}
+	double * start = maze->getStart();
+	start[0] = round(start[0]);
+	start[1] = round(start[1]);
+	maze->setStart(start[0], start[1]);
 }
 
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {

@@ -176,6 +176,12 @@ void Maze::addStart(double x, double y) {
 	startD[1] += y;
 }
 
+void Maze::setStart(double x, double y) {
+	startD[0] = x;
+	startD[1] = y;
+}
+
+
 
 
 
