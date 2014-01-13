@@ -4,6 +4,7 @@
 #include "Models/IFriendshipRequestNotification.h"
 #include "Models/INotificationsList.h"
 #include "Models/IConnectionsList.h"
+#include "Minigames/MinigameFactory.h"
 
 NotificationsNavigator::NotificationsNavigator(GameController * controller) : controller(controller) {
 	index = 0;
@@ -27,6 +28,8 @@ NotificationsNavigator::NotificationsNavigator(GameController * controller) : co
 
 	bAccept = new ButtonWidget(new TextWidget("Accept", 0, 0));
 	buttons->addWidget(bAccept);
+	bChallenge = new ButtonWidget(new TextWidget("Challenge", 0, 0));
+	buttons->addWidget(bChallenge);
 	bRefuse = new ButtonWidget(new TextWidget("Refuse", 0, 0));
 	buttons->addWidget(bRefuse);
 	layout->addWidget(buttons);
@@ -115,6 +118,65 @@ void NotificationsNavigator::onWidgetClicked(Widget * clicked) {
 				controller->invalidatePerson(controller->getIdentityPerson());
 				controller->invalidatePerson(n->getFrom());
 			}
+		} else if (clicked == bChallenge) {
+			if (!minigameSelector) {
+				minigameSelector = new MinigameSelector(this);
+				((WidgetContainer *) _parent)->addWidget(minigameSelector);
+			}
+
+			minigameSelector->show();
 		}
 	}
+}
+
+void NotificationsNavigator::onMinigameSelected(IMinigame * minigame) {
+	printf("Selected %s\n", minigame->getInternalName().c_str());
+}
+
+NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigator * parent) : parent(parent) {
+	setPadding(8);
+
+	LinearContainer * layout = new LinearContainer();
+	layout->setSpacing(8);
+	layout->setVertical();
+
+	layout->addWidget(new TextWidget("Minigames", GLUT_BITMAP_HELVETICA_18, 0, 0));
+	layout->addWidget(new TextWidget("Pick a minigame to chalenge your friend", 0, 0));
+
+	std::vector<IMinigame *> minigames = MinigameFactory().getMinigames(parent->controller);
+	const int len = minigames.size();
+
+	for (int i = 0; i < len; i++) {
+		IMinigame * minigame = minigames[i];
+		LinearContainer * button = new LinearContainer();
+		button->setSpacing(6);
+		button->setVertical();
+		button->addWidget(new TextWidget(minigame->getName(), GLUT_BITMAP_HELVETICA_18, 0, 0));
+		button->addWidget(new TextWidget(minigame->getDescription(), 0, 0));
+		ButtonWidget * b = new ButtonWidget(button);
+		layout->addWidget(b);
+		this->minigames.insert(std::pair<Widget *, IMinigame *>(b, minigame));
+	}
+	
+	bClose = new ButtonWidget(new TextWidget("Cancel", 0, 0));
+	layout->addWidget(bClose);
+
+	setContent(layout);
+}
+
+void NotificationsNavigator::MinigameSelector::onWidgetClicked(Widget * clicked) {
+	if(clicked == bClose) {
+		hide();
+	} else {
+		if (minigames.find(clicked) != minigames.end()) {
+			IMinigame * minigame = minigames[clicked];
+			hide();
+		}
+	}
+}
+
+void NotificationsNavigator::MinigameSelector::show() {
+	Window::show();
+
+	if (_parent) centerOnParent();
 }

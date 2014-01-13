@@ -31,6 +31,11 @@ class IMinigameInstance : public GameFragment {
 		 * finish, the instance should notify what runs it that it is done.
 		 */
 		virtual void finish() = 0;
+		
+		/**
+		 * The score earned with this game, this is going to be stored in user's account
+		 */
+		virtual int getScore() { return 0; }
 };
 
 #endif
