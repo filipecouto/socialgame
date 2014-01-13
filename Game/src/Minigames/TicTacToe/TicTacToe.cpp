@@ -17,17 +17,20 @@ void TicTacToeMinigame::TicTacToeInstance::draw() {
 	camera.setUp();
 
 	//PLANO DE BAIXO
-	glColor3f(0.8, 0.8, 0.8);
+	GLint textureId1 = _context->loadTexture("tictactoe_texture.jpg");
+	glDisable(GL_COLOR_MATERIAL);
+	glEnable(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureId1);
 	glBegin(GL_QUADS);
-	glVertex3i(-20, 0, 20);
-	glVertex3i(20, 0, 20);
-	glVertex3i(20, 0, -20);
-	glVertex3i(-20, 0, -20);
+		glVertex3i(-20, 0, 20);
+		glVertex3i(20, 0, 20);
+		glVertex3i(20, 0, -20);
+		glVertex3i(-20, 0, -20);
 	glEnd();
+	glDisable(GL_TEXTURE0);
+	glEnable(GL_COLOR_MATERIAL);
 
 	glPushMatrix();
-		
-
 		glPushMatrix();
 			//Right External Line
 			drawLine();
@@ -173,20 +176,10 @@ TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) :
 		keys[i] = false;
 	}
 	
-	//Communication
-	string list = convertMatrizToPrologList();
-	string resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=First");
-	cout << resultJson <<endl;
-	rapidjson::Document d;
-	d.Parse<0>(resultJson.c_str());
-	string result = d["data"].GetString();
-	//End of Communication
-	
-	if(result == "2"){
-		Game("[z,z,z,z,z,z,z,z,z]");
-	}
+	startNewGame();
 	
 	_gui = new Gui();
+	_gui->setEventsListener(this);
 }
 
 void TicTacToeMinigame::TicTacToeInstance::finish() {
@@ -233,6 +226,29 @@ void TicTacToeMinigame::TicTacToeInstance::onKeyUp(int key, int special) {
 	}
 }
 
+void TicTacToeMinigame::TicTacToeInstance::startNewGame(){
+	//Communication
+	string list = convertMatrizToPrologList();
+	string resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=First");
+	cout << resultJson <<endl;
+	rapidjson::Document d;
+	d.Parse<0>(resultJson.c_str());
+	string result = d["data"].GetString();
+	//End of Communication
+	
+	for(int i=0; i<3; i++){
+		for(int j=0; j<3; j++){
+			matriz[i][j]='z';
+		}
+	}
+	
+	ableToPlay = true;
+	
+	if(result == "2"){
+		Game(convertMatrizToPrologList());
+	}
+}
+
 bool TicTacToeMinigame::TicTacToeInstance::checkMatriz(int x, int y) {
 	if(matriz[x][y] == 'z') return true;
 	return false;
@@ -268,7 +284,6 @@ void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 			int positions[9][2] = { {0,0}, {1,0}, {2,0}, {0,1}, {1,1}, {2,1}, {0,2}, {1,2}, {2,2} };
 			int x = positions[value-1][0];
 			int y = positions[value-1][1];
-			printf("Value=%d\n",value);
 			if(checkMatriz(x,y)){
 				matriz[x][y] = 'o';
 				
@@ -301,25 +316,25 @@ void TicTacToeMinigame::TicTacToeInstance::endGame(string message, bool win){
 }
 
 bool TicTacToeMinigame::TicTacToeInstance::onDialogResult(Dialog * dialog, int buttonId) {
-	cout<<"Entrou1"<<endl;
-	if (dialog->getId() == "endGameWithLossOrDraw") {cout << "Entrou2"<<endl;
+	dialog->hide();
+	if (dialog->getId() == "endGameWithLossOrDraw") {
 		switch (buttonId) {
 			case Dialog::DIALOG_BUTTON_ID_POSITIVE:
-				cout << "YES" <<endl;
+				startNewGame();
 				break;
 
 			case Dialog::DIALOG_BUTTON_ID_NEGATIVE:
-				cout << "NO" <<endl;
+				finish();
 				break;
 
 			case Dialog::DIALOG_BUTTON_ID_NEUTRAL:
-				cout << "Cancel" <<endl;
+				finish();
 				break;
 		}
 	}
 	else if(dialog->getId() == "endGameWithWin") {
 		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
-			cout << "OK" << endl;
+			finish();
 		}
 	}
 
