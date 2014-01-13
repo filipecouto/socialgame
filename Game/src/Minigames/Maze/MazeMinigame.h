@@ -28,6 +28,7 @@ class MazeMinigame : public IMinigame {
 
 				virtual void draw();
 				virtual void drawCube(double size);
+				virtual void drawFloor();
 				virtual void tick(int delta, int current);
 
 				virtual void onKeyDown(int key, int special);
@@ -58,6 +59,7 @@ class MazeMinigame : public IMinigame {
 				GLfloat rotateX = 0, rotateZ = 0;
 				GLfloat rotateAngle = 0;
 				GLfloat tx, ty;
+				GLuint textureId1, textureId2;
 				int pos[2];
 				bool rotating[4];
 				
