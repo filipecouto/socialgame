@@ -14,6 +14,8 @@ IMinigameInstance * MazeMinigame::newGame() {
 }
 
 void MazeMinigame::MazeInstance::draw() {
+	glEnable(GL_LIGHTING);
+	
 	camera.setUp();
 	//TODO design
 	
@@ -25,20 +27,20 @@ void MazeMinigame::MazeInstance::draw() {
 		for(int j = 0; j < height; j++) {	
 			if(maze->getValue(i,j)) {
 				glPushMatrix();
-					glTranslatef(i,j,0);
+					glTranslatef(i,0,j);
 					glColor3f(0,0,1);
 					drawCube();
 				glPopMatrix();
 			} else {
 				if(start[0] == i && start[1] == j) {
 					glPushMatrix();
-						glTranslatef(i,j,0);
+						glTranslatef(i,0,j);
 						glColor3f(0,1,0);
 						drawCube();
 					glPopMatrix();
 				} else if(end[0] == i && end[1] == j) {
 					glPushMatrix();
-						glTranslatef(i,j,0);
+						glTranslatef(i,0,j);
 						glColor3f(1,0,0);
 						drawCube();
 					glPopMatrix();
@@ -46,56 +48,56 @@ void MazeMinigame::MazeInstance::draw() {
 			}
 		}
 	}
-	camera.moveTo(start[0],start[1],1);
-	camera.lookAt(0,0,0);
+// 	camera.moveTo(start[0],start[1],1);
+// 	camera.lookAt(0,0,0);
 	
 }
 
 void MazeMinigame::MazeInstance::drawCube() {
-	glBegin(GL_TRIANGLE_STRIP); // bottom
-		glVertex3f(1.0,1.0,0.0);
-		glVertex3f(1.0,0.0,0.0);
-		glVertex3f(0.0,1.0,0.0);
-		glVertex3f(0.0,0.0,0.0);
-	glEnd();
-	glBegin(GL_TRIANGLE_STRIP);
-		glVertex3f(1.0,1.0,1.0);
-		glVertex3f(1.0,0.0,1.0);
-		glVertex3f(0.0,1.0,1.0);
-		glVertex3f(0.0,0.0,1.0);
-	glEnd();
-	glBegin(GL_TRIANGLE_STRIP);
-		glVertex3f(0.0,0.0,0.0);
-		glVertex3f(1.0,0.0,0.0);
-		glVertex3f(0.0,0.0,1.0);
-		glVertex3f(1.0,0.0,1.0);
-	glEnd();
-	glBegin(GL_TRIANGLE_STRIP);
-		glVertex3f(0.0,1.0,0.0);
-		glVertex3f(1.0,1.0,0.0);
-		glVertex3f(0.0,1.0,1.0);
-		glVertex3f(1.0,1.0,1.0);
-	glEnd();
-	glBegin(GL_TRIANGLE_STRIP);
-		glVertex3f(1.0,1.0,1.0);
-		glVertex3f(1.0,1.0,0.0);
-		glVertex3f(1.0,0.0,1.0);
-		glVertex3f(1.0,0.0,0.0);
-	glEnd();
-	glBegin(GL_TRIANGLE_STRIP);
-		glVertex3f(0.0,1.0,1.0);
-		glVertex3f(0.0,1.0,0.0);
-		glVertex3f(0.0,0.0,1.0);
-		glVertex3f(0.0,0.0,0.0);
-	glEnd();
-	
-	
+	glutSolidCube(1);
+// 	glBegin(GL_TRIANGLE_STRIP); // bottom
+// 		glVertex3f(1.0,1.0,0.0);
+// 		glVertex3f(1.0,0.0,0.0);
+// 		glVertex3f(0.0,1.0,0.0);
+// 		glVertex3f(0.0,0.0,0.0);
+// 	glEnd();
+// 	glBegin(GL_TRIANGLE_STRIP);
+// 		glVertex3f(1.0,1.0,1.0);
+// 		glVertex3f(1.0,0.0,1.0);
+// 		glVertex3f(0.0,1.0,1.0);
+// 		glVertex3f(0.0,0.0,1.0);
+// 	glEnd();
+// 	glBegin(GL_TRIANGLE_STRIP);
+// 		glVertex3f(0.0,0.0,0.0);
+// 		glVertex3f(1.0,0.0,0.0);
+// 		glVertex3f(0.0,0.0,1.0);
+// 		glVertex3f(1.0,0.0,1.0);
+// 	glEnd();
+// 	glBegin(GL_TRIANGLE_STRIP);
+// 		glVertex3f(0.0,1.0,0.0);
+// 		glVertex3f(1.0,1.0,0.0);
+// 		glVertex3f(0.0,1.0,1.0);
+// 		glVertex3f(1.0,1.0,1.0);
+// 	glEnd();
+// 	glBegin(GL_TRIANGLE_STRIP);
+// 		glVertex3f(1.0,1.0,1.0);
+// 		glVertex3f(1.0,1.0,0.0);
+// 		glVertex3f(1.0,0.0,1.0);
+// 		glVertex3f(1.0,0.0,0.0);
+// 	glEnd();
+// 	glBegin(GL_TRIANGLE_STRIP);
+// 		glVertex3f(0.0,1.0,1.0);
+// 		glVertex3f(0.0,1.0,0.0);
+// 		glVertex3f(0.0,0.0,1.0);
+// 		glVertex3f(0.0,0.0,0.0);
+// 	glEnd();
+// 	
+// 	
 }
 
 void MazeMinigame::MazeInstance::start() {
-	camera.moveTo(0,-5,1);
-	camera.lookAt(0,0,0);
-
+	camera.lookAt(5,0.5f,5);
+	camera.moveTo(1,10,1);
 }
 
 bool MazeMinigame::MazeInstance::detectCollision() {
