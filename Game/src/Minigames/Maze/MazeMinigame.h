@@ -63,6 +63,7 @@ class MazeMinigame : public IMinigame {
 				bool isRotating(int);
 				void applyRotating(int);
 				void cleanRotate();
+				void cleanKeys();
 				
 		};
 };

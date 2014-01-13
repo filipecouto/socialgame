@@ -75,6 +75,51 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+	
+	bool pressed = false;
+	for(int i = 0; i < 4; i++) {
+		pressed = rotating[i];
+		if(pressed) break;
+	}
+	double rotateValueX = 0;
+	double rotateValueZ = 0;
+	
+	if(!pressed && rotateAngle != 0) {
+		if(rotateAngle >= 90 || rotateAngle <= -90) {
+			cleanRotate();
+		} else {
+			if(rotateAngle > 45) {
+				rotateAngle+=9;
+				if(rotateX == 1) {
+					rotateValueX = -0.1;
+				} else if(rotateZ == 1) {
+					rotateValueZ = 0.1;
+				}
+			} else if(rotateAngle < -45) {
+				rotateAngle-=9;
+				if(rotateX == 1) {
+					rotateValueX = 0.1;
+				} else if(rotateZ == 1) {
+					rotateValueZ = -0.1;
+				}
+			} else if(rotateAngle > 0) {
+				rotateAngle-=9;
+				if(rotateX == 1) {
+					rotateValueX = 0.1;
+				} else if(rotateZ == 1) {
+					rotateValueZ = -0.1;
+				}
+			} else if(rotateAngle < 0) {
+				rotateAngle+=9;
+				if(rotateX == 1) {
+					rotateValueX = -0.1;
+				} else if(rotateZ == 1) {
+					rotateValueZ = 0.1;
+				}
+			}
+		}
+	}
+	maze->addStart(rotateValueZ, rotateValueX);
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
@@ -85,6 +130,7 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	maze = new Maze(30,20);
 	maze->generate();
 	cleanRotate();
+	cleanKeys();
 }
 
 void MazeMinigame::MazeInstance::finish() {
@@ -174,14 +220,17 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 }
 
 void MazeMinigame::MazeInstance::cleanRotate() {
-	rotateAngle = 0;	
-	for(int i = 0; i < 4; i++) {
-		rotating[i] = false;
-	}
+	rotateAngle = 0;
 	double * start = maze->getStart();
 	start[0] = round(start[0]);
 	start[1] = round(start[1]);
 	maze->setStart(start[0], start[1]);
+}
+
+void MazeMinigame::MazeInstance::cleanKeys() {
+	for(int i = 0; i < 4; i++) {
+		rotating[i] = false;
+	}
 }
 
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
@@ -190,18 +239,20 @@ void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
 	switch(key) {
 		case 'w':
 			keys[0] = false;
+			cleanKeys();
 			break;
-
 		case 'a':
 			keys[1] = false;
+			cleanKeys();
 			break;
-
 		case 's':
 			keys[2] = false;
+			cleanKeys();
 			break;
 
 		case 'd':
 			keys[3] = false;
+			cleanKeys();
 			break;
 	}
 	if(pos[0] == end[0] && pos[1] == end[1]) finish();
