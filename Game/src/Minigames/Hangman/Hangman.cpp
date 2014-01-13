@@ -146,9 +146,9 @@ void HangmanMinigame::HangmanInstance::tick(int delta, int current) {
     camera.tick(delta, current);
     gui->tick(delta,current);
     gui->setDimensions(getViewportWidth(),getViewportHeight());
-   for(int i=0;i<wordLength;i++){
-     gui->addWidget(letters.at(i));
-   }
+    for(int i=0; i<wordLength; i++) {
+        gui->addWidget(letters.at(i));
+    }
     if(attempts ==0 ||numberOfLettersRightPlayed == wordLength) finish();
 }
 
@@ -372,7 +372,7 @@ void HangmanMinigame::HangmanInstance::drawLetters()
                 letter = word.substr(i,1);
                 cout<<letter<<"\n";
                 numberOfLettersRightPlayed++;
-		letters.at(i)->setText(letter);
+                letters.at(i)->setText(letter);
             }
             x+=22;
         }
@@ -423,3 +423,32 @@ HangmanMinigame::HangmanInstance::LetterWidget::LetterWidget(string text, GLfloa
     setFont(GLUT_BITMAP_HELVETICA_18);
 }
 
+string HangmanMinigame::getDescription()
+{
+    return "Challenge your friend with a classic game where you must guess the letters in a word";
+}
+string HangmanMinigame::getInternalName()
+{
+    return "crosswebenterprise.hangman";
+}
+int HangmanMinigame::HangmanInstance::getScore()
+{
+    switch(attempts) {
+    case 7:
+        return 1000;
+    case 6:
+        return 500;
+    case 5:
+        return 250;
+    case 4:
+        return 125;
+    case 3:
+        return 63;
+    case 2:
+        return 32;
+    case 1:
+        return 16;
+    case 0:
+        return 0;
+    }
+}
