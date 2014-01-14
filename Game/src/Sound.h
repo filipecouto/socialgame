@@ -10,11 +10,10 @@
 #include <string>
 
 class Sound {
-
-		typedef struct {
-			ALuint buffer, source;
-			ALboolean key_s;
-		} State;
+	typedef struct {
+		ALuint buffer, source;
+		ALboolean key_s;
+	} State;
 
 	public:
 
@@ -22,7 +21,6 @@ class Sound {
 
 		void initAudio();
 		void setVolume(float volume);
-		void changeVolume();
 		void play();
 
 		~Sound();
@@ -31,6 +29,8 @@ class Sound {
 		float _volume;
 		State _state;
 		std::string _filename;
+		
+		void changeVolume();
 };
 
 #endif

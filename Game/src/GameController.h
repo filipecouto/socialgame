@@ -30,6 +30,7 @@ extern "C"{
 #include "GameFragment.h"
 #include "Minigames/IMinigame.h"
 #include "Minigames/IMinigameInstance.h"
+#include "Sound.h"
 
 class IPendingGame;
 
@@ -103,6 +104,7 @@ class GameController : public GameContext, GameFragment {
 		IGraphic * _currentNode = NULL;
 		
 		Camera _camera;
+		Sound * sound = NULL;
 		
 		IPerson * selectedPerson = NULL;
 		
