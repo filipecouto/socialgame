@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "MinigameFactory.h"
 
 #include "Hangman/Hangman.h"

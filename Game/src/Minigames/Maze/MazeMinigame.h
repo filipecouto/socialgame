@@ -6,7 +6,6 @@
 #include "Maze.h"
 #include "../../Graphics/Camera.h"
 
-
 #include <GL/glut.h>
 #include <tgmath.h> 
 
