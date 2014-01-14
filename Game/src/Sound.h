@@ -17,21 +17,20 @@ class Sound {
 		} State;
 
 	public:
-		std::string filename;
 
 		Sound();
-		Sound(std::string filename);
 
 		void initAudio();
-		bool loadSoundFile(std::string filename);
 		void setVolume(float volume);
 		void changeVolume();
+		void play();
 
 		~Sound();
 
 	private:
 		float _volume;
 		State _state;
+		std::string _filename;
 };
 
 #endif

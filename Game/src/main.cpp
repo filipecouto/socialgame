@@ -47,7 +47,7 @@
 Gui gui;
 GameController controller;
 Bridge * bridge;
-Sound sound;
+Sound * sound;
 
 //
 GLint windowWidth, windowHeight;
@@ -228,10 +228,9 @@ int main(int argc, char * argv[]) {
 	gui.addWidget(bridge->getTopBar());
 
 	alutInit(&argc, argv);
-	sound = Sound();
-	sound.initAudio();
-	alSourcePlay(sound.state.source);
-
+	sound = new Sound();
+	sound->initAudio();
+	
 	glutMainLoop();
 
 	delete bridge;
