@@ -33,38 +33,42 @@ void MazeMinigame::MazeInstance::draw() {
 
 	int * end = maze->getEnd();
 
-		if(textures) {
-			glEnable(GL_TEXTURE_2D);
-			colors[0] = 1;
-			colors[1] = 1;
-			colors[2] = 1;
-			
-		} else {
-			glDisable(GL_TEXTURE_2D);
-			colors[0] = 0;
-			colors[1] = 0;
-			colors[2] = 1;
-		}
-		if(textures!=oldTextures) {
-				deleteList();
-				createList();
-		}
-		oldTextures = textures;
+	if (textures) {
+		glEnable(GL_TEXTURE_2D);
+		colors[0] = 1;
+		colors[1] = 1;
+		colors[2] = 1;
+
+	} else {
+		glDisable(GL_TEXTURE_2D);
+		colors[0] = 0;
+		colors[1] = 0;
+		colors[2] = 1;
+	}
+
+	if (textures != oldTextures) {
+		deleteList();
+		createList();
+	}
+
+	oldTextures = textures;
 #if _WIN32
 #else
-		glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
 #endif
 	glCallList(mazeList);
 	int * values;
 	int count;
-	if(solution.size()>0) {
+
+	if (solution.size() > 0) {
 		count = solution.size() < 10 ? solution.size() : 10;
-		for(int i = 0; i < count; i++) {
+
+		for (int i = 0; i < count; i++) {
 			values = solution.at(i);
 			glPushMatrix();
-				glTranslatef(values[0], 0, values[1]);
-				glColor3f(1, 0, 0);
-				drawCube(0.3);
+			glTranslatef(values[0], 0, values[1]);
+			glColor3f(1, 0, 0);
+			drawCube(0.3);
 			glPopMatrix();
 		}
 	}
@@ -81,7 +85,7 @@ void MazeMinigame::MazeInstance::draw() {
 	glColor3f(1, 0, 0);
 	drawCube(0.9);
 	glPopMatrix();
-	
+
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -113,7 +117,7 @@ void MazeMinigame::MazeInstance::drawCube(double size) {
 	v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
 	v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
 
-	for(i = 5; i >= 0; i--) {
+	for (i = 5; i >= 0; i--) {
 		glBegin(GL_QUADS);
 		glNormal3fv(&n[i][0]);
 		glTexCoord2f(0, 1);
@@ -145,7 +149,15 @@ void MazeMinigame::MazeInstance::drawFloor() {
 	glEnd();
 }
 
-void MazeMinigame::MazeInstance::start() {
+void MazeMinigame::MazeInstance::start(int level) {
+	if (level < 20) level = 20;
+	else if (level > 100) level = 100;
+
+	if (level & 1 == 0) level++;
+
+	maze = new Maze(level, level);
+	maze->generate();
+
 	camera.lookAt(0, 0.5f, 0);
 	camera.moveTo(0, 8, 4);
 
@@ -163,38 +175,41 @@ void MazeMinigame::MazeInstance::start() {
 }
 
 void MazeMinigame::MazeInstance::deleteList() {
-	glDeleteLists(mazeList,1);
+	glDeleteLists(mazeList, 1);
 }
 
 void MazeMinigame::MazeInstance::createList() {
 	mazeList = glGenLists(1);
 	glNewList(mazeList, GL_COMPILE);
-		int width = maze->getWidth(), height = maze->getHeight();
-		glBindTexture(GL_TEXTURE_2D, textureId1);
-		for(int i = 0; i < width; i++) {
-			for(int j = 0; j < height; j++) {
-				if(maze->getValue(i, j)) {
-					glPushMatrix();
-					glTranslatef(i, 0, j);
-					glColor3f(colors[0], colors[1], colors[2]);
-					drawCube(1);
-					glPopMatrix();
-				}
-			}
-		}
+	int width = maze->getWidth(), height = maze->getHeight();
+	glBindTexture(GL_TEXTURE_2D, textureId1);
 
-		glBindTexture(GL_TEXTURE_2D, textureId2);
-		for(int i = 0; i < width; i++) {
-			for(int j = 0; j < height; j++) {
-				if(!maze->getValue(i, j)) {
-					glPushMatrix();
-					glTranslatef(i, 0, j);
-					glColor3f(colors[0], colors[1], colors[2]);
-					drawFloor();
-					glPopMatrix();
-				}
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			if (maze->getValue(i, j)) {
+				glPushMatrix();
+				glTranslatef(i, 0, j);
+				glColor3f(colors[0], colors[1], colors[2]);
+				drawCube(1);
+				glPopMatrix();
 			}
 		}
+	}
+
+	glBindTexture(GL_TEXTURE_2D, textureId2);
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			if (!maze->getValue(i, j)) {
+				glPushMatrix();
+				glTranslatef(i, 0, j);
+				glColor3f(colors[0], colors[1], colors[2]);
+				drawFloor();
+				glPopMatrix();
+			}
+		}
+	}
+
 	glEndList();
 }
 
@@ -223,96 +238,96 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 
 	bool changedX = false, changedZ = false;
 
-	if(keys[0]) {
+	if (keys[0]) {
 		rotateZ += d;
 		changedZ = true;
 	}
 
-	if(keys[1]) {
+	if (keys[1]) {
 		rotateX -= d;
 		changedX = true;
 	}
 
-	if(keys[2]) {
+	if (keys[2]) {
 		rotateZ -= d;
 		changedZ = true;
 	}
 
-	if(keys[3]) {
+	if (keys[3]) {
 		rotateX += d;
 		changedX = true;
 	}
 
 	d *= 1.5f;
 
-	if(!changedX) {
-		if(rotateX < -d && rotateX > -45 || rotateX > d && rotateX > 45) rotateX += d;
-		else if(rotateX > d && rotateX < 45 || rotateX < -d && rotateX < -45) rotateX -= d;
+	if (!changedX) {
+		if (rotateX < -d && rotateX > -45 || rotateX > d && rotateX > 45) rotateX += d;
+		else if (rotateX > d && rotateX < 45 || rotateX < -d && rotateX < -45) rotateX -= d;
 		else rotateX = 0;
 	}
 
-	if(!changedZ) {
-		if(rotateZ < -d && rotateZ > -45 || rotateZ > d && rotateZ > 45) rotateZ += d;
-		else if(rotateZ > d && rotateZ < 45 || rotateZ < -d && rotateZ < -45) rotateZ -= d;
+	if (!changedZ) {
+		if (rotateZ < -d && rotateZ > -45 || rotateZ > d && rotateZ > 45) rotateZ += d;
+		else if (rotateZ > d && rotateZ < 45 || rotateZ < -d && rotateZ < -45) rotateZ -= d;
 		else rotateZ = 0;
 	}
 
 	int oldX = pos[0];
 	int oldY = pos[1];
 
-	while(rotateZ >= 90) {
+	while (rotateZ >= 90) {
 		rotateZ -= 90;
 		pos[1]++;
 	}
 
-	while(rotateZ <= -90) {
+	while (rotateZ <= -90) {
 		rotateZ += 90;
 		pos[1]--;
 	}
 
-	while(rotateX <= -90) {
+	while (rotateX <= -90) {
 		rotateX += 90;
 		pos[0]++;
 	}
 
-	while(rotateX >= 90) {
+	while (rotateX >= 90) {
 		rotateX -= 90;
 		pos[0]--;
 	}
 
 	tx = - rotateX / 90;
 	ty = rotateZ / 90;
-	
-	if(tx == 0 && ty == 0) {
+
+	if (tx == 0 && ty == 0) {
 		cubeStopped += delta;
 	} else {
 		cubeStopped = 0;
 	}
-	
-	if(cubeStopped >= 2000) {
+
+	if (cubeStopped >= 2000) {
 		activateSuggestion();
-		cubeStopped=0;
+		cubeStopped = 0;
 	}
 
-	if(maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
+	if (maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
 		pos[0] = oldX;
 
-		if(tx < -0.05f) tx = -0.05f;
-		else if(tx > 0.05f) tx = 0.05f;
+		if (tx < -0.05f) tx = -0.05f;
+		else if (tx > 0.05f) tx = 0.05f;
 
 		rotateX = -90 * tx;
 	}
 
-	if(maze->getValue(pos[0], ceil(pos[1] + ty - 0.08f)) || maze->getValue(pos[0], floor(pos[1] + ty + 0.08f))) {
+	if (maze->getValue(pos[0], ceil(pos[1] + ty - 0.08f)) || maze->getValue(pos[0], floor(pos[1] + ty + 0.08f))) {
 		pos[1] = oldY;
 
-		if(ty < -0.05f) ty = -0.05f;
-		else if(ty > 0.05f) ty = 0.05f;
+		if (ty < -0.05f) ty = -0.05f;
+		else if (ty > 0.05f) ty = 0.05f;
 
 		rotateZ = 90 * ty;
 	}
 
-	if(maze->isEnd(pos[0], pos[1])) finish();
+	if (maze->isEnd(pos[0], pos[1])) finish();
 }
 
 void MazeMinigame::MazeInstance::activateSuggestion() {
@@ -320,14 +335,13 @@ void MazeMinigame::MazeInstance::activateSuggestion() {
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
-	for(int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
+	for (int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
 		keys[i] = false;
 	}
+
 	cubeStopped = 0;
 	textures = true;
 	oldTextures = false;
-	maze = new Maze(31, 21);
-	maze->generate();
 	cleanRotate();
 	cleanKeys();
 }
@@ -338,7 +352,7 @@ void MazeMinigame::MazeInstance::finish() {
 
 
 void MazeMinigame::MazeInstance::applyRotating(int pos) {
-	for(int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		rotating[i] = i == pos;
 	}
 }
@@ -346,7 +360,7 @@ void MazeMinigame::MazeInstance::applyRotating(int pos) {
 void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 	int * end = maze->getEnd();
 
-	switch(key) {
+	switch (key) {
 		case 'w':
 			keys[0] = true;
 			break;
@@ -362,6 +376,7 @@ void MazeMinigame::MazeInstance::onKeyDown(int key, int special) {
 		case 'd':
 			keys[3] = true;
 			break;
+
 		case 't':
 			textures = !textures;
 			break;
@@ -372,13 +387,13 @@ void MazeMinigame::MazeInstance::cleanRotate() {
 }
 
 void MazeMinigame::MazeInstance::cleanKeys() {
-	for(int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		rotating[i] = false;
 	}
 }
 
 void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
-	switch(key) {
+	switch (key) {
 		case 'w':
 			keys[0] = false;
 			break;

@@ -16,7 +16,7 @@ class IMinigameInstance : public GameFragment {
 		/**
 		 * Called when the game has everything ready to display this mini-game
 		 */
-		virtual void start() = 0;
+		virtual void start(int level) = 0;
 		
 		/**
 		 * Called when the user pauses the game

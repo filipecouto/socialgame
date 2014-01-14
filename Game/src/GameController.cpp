@@ -18,6 +18,7 @@
 #include "Graphics/GraphicFactory.h"
 #include "Models/IConnectionsList.h"
 #include "Models/INotificationsList.h"
+#include "Models/IPendingGame.h"
 #include "Minigames/MinigameFactory.h"
 
 #include <math.h>
@@ -212,13 +213,13 @@ void GameController::tick(int delta, int current) {
 
 	if (_minigame) {
 		if (_minigameState == 0) {
-			if (_camera.getY() >= 18) {
+			if (_camera.getY() >= 17) {
 				_minigameState = 1;
 			}
 		} else if (_minigameState == 1) {
 			_minigame->tick(delta, current);
 		} else if (_minigameState == -1) {
-			if (_camera.getY() < 18) {
+			if (_camera.getY() < 17) {
 				delete _minigame;
 				_minigame = NULL;
 			}
@@ -356,7 +357,18 @@ void GameController::invalidatePerson(IPerson * person) {
 void GameController::startMinigame(IMinigame * minigame) {
 	_minigame = minigame->newGame();
 	_minigameState = 0;
-	_minigame->start();
+	_minigame->start(-1);
+	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
+	_camera.translate(0, 20 - _camera.getY(), 0);
+}
+
+void GameController::startMinigame(IPendingGame * pendingGame, int index) {
+	IMinigame * minigame = pendingGame->getMinigame(index, getMinigameFactory());
+	_pendingGame = pendingGame;
+	_pendingGameIndex = index;
+	_minigame = minigame->newGame();
+	_minigameState = 0;
+	_minigame->start(pendingGame->getMinigameLevel(index));
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
 }
@@ -370,6 +382,14 @@ void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
 		printf("The minigame just ended\n");
 		flyTo(getIdentityPerson());
 		_minigameState = -1;
+
+		if (_pendingGame) {
+			_pendingGame->setMinigameScore(_pendingGameIndex, instance->getScore());
+			invalidatePerson(_pendingGame->getConnection()->getPerson());
+			_pendingGame = NULL;
+		}
+
+		invalidatePerson(getIdentityPerson());
 	}
 }
 
@@ -559,72 +579,71 @@ GameController::~GameController() {
 	for (int i = 0; i < len; i++)
 		glDeleteTextures(1, &_textures[i]);
 }
-bool GameController::detectCollisions(int x, int y)
-{
-    GLuint selectBuf[256];
-    GLint hits;
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
+bool GameController::detectCollisions(int x, int y) {
+	GLuint selectBuf[256];
+	GLint hits;
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
 
-    glSelectBuffer(256, selectBuf);
-    glRenderMode(GL_SELECT);
+	glSelectBuffer(256, selectBuf);
+	glRenderMode(GL_SELECT);
 
-    glInitNames();
-    glPushName(0);
+	glInitNames();
+	glPushName(0);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPickMatrix((GLdouble) x, (GLdouble) y, 1.0, 1.0, viewport);
-    gluPerspective(67, (GLfloat) 16.f / 9.f , 0.1, 100);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPickMatrix((GLdouble) x, (GLdouble) y, 1.0, 1.0, viewport);
+	gluPerspective(67, (GLfloat) 16.f / 9.f , 0.1, 100);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    _camera.setUp();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	_camera.setUp();
 
-    int len = personObjects.size();
+	int len = personObjects.size();
 
-    for (int i = 0; i < len; i++) {
-        glPushName(i);
-        personObjects[i]->drawPickMode();
-        glPopName();
-    }
+	for (int i = 0; i < len; i++) {
+		glPushName(i);
+		personObjects[i]->drawPickMode();
+		glPopName();
+	}
 
-    glPopName();
+	glPopName();
 
-    glPopMatrix();
-    glFlush();
+	glPopMatrix();
+	glFlush();
 
-    hits = glRenderMode(GL_RENDER);
-    return onCollisionPick(hits, selectBuf);
+	hits = glRenderMode(GL_RENDER);
+	return onCollisionPick(hits, selectBuf);
 }
 
-bool GameController::onCollisionPick(GLint hits, GLuint buffer[])
-{
-    GLuint names, *ptr;
+bool GameController::onCollisionPick(GLint hits, GLuint buffer[]) {
+	GLuint names, *ptr;
 
-    GLuint name = -1;
-    GLuint minZ = 0xffffffff;
+	GLuint name = -1;
+	GLuint minZ = 0xffffffff;
 
-    //printf ("hits = %d\n", hits);
-    ptr = (GLuint *) buffer;
+	//printf ("hits = %d\n", hits);
+	ptr = (GLuint *) buffer;
 
-    for (int i = 0; i < hits; i++) {
-        names = *ptr;
-        //printf("%d) name count = %d;\n", i, names);
+	for (int i = 0; i < hits; i++) {
+		names = *ptr;
+		//printf("%d) name count = %d;\n", i, names);
 
-        if (names >= 2) {
-            ptr++;
-            //printf(" minZ = %f;", (float) *ptr / 0x7fffffff);
+		if (names >= 2) {
+			ptr++;
+			//printf(" minZ = %f;", (float) *ptr / 0x7fffffff);
 
-            if (*ptr < minZ) {
-                minZ = *ptr;
-                ptr += 3;
+			if (*ptr < minZ) {
+				minZ = *ptr;
+				ptr += 3;
 
-                int n = *ptr;
+				int n = *ptr;
 
-                if (n >= 0 && n < personObjects.size()) return true;
-            }
-        }
-    }
-    return false;
+				if (n >= 0 && n < personObjects.size()) return true;
+			}
+		}
+	}
+
+	return false;
 }

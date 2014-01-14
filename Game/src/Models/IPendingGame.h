@@ -27,7 +27,7 @@ class IPendingGame {
 		virtual int getMinigameLevel(int index) = 0;
 		virtual int getMinigameCount() = 0;
 		
-		virtual bool setMinigameScore(int score) = 0;
+		virtual bool setMinigameScore(int index, int score) = 0;
 		
 		virtual IConnection * getConnection() = 0;
 };

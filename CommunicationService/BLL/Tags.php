@@ -1,8 +1,8 @@
 <?php
+	require_once('DAL/Sessions.php');
+	require_once('DAL/Tags.php');
 
-require_once('DAL/Tags.php');
-
-function createTag($name,$typeId){
+	function createTag($name,$typeId){
 		insertTag($name,$typeId);
 	}
 	
@@ -24,5 +24,25 @@ function createTag($name,$typeId){
 	
 	function removeTag($tagId){
 		deleteTag($tagId);
+	}
+	
+	/**
+	 * Gets a {tag name, %} set reflecting the occurrence of tags of a certain type
+	 */
+	function getTagStats($token, $type) {
+		$userId = getUserBySession($token);
+		if($userId == -1) {
+			$result = array();
+			
+			$resultSet = makePublicTagStats($type);
+			while($row = mysql_fetch_array($resultSet)) {
+				$result[] = array("id" => $row[0], "name" => $row[1], "occurrences" => $row[2]);
+			}
+			mysql_free_result($resultSet);
+			
+			return $result;
+		} else {
+			return null;
+		}
 	}
 ?>

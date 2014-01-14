@@ -14,11 +14,11 @@ class LanguageLoader {
 		virtual ~LanguageLoader();
 		std::vector<Language> getLanguages();
 		void setLanguage(Language language);
-		string getValue(string title);
+		std::string getValue(std::string title);
 	private:
 		std::vector<Language> _languages;
-		std::map<string,string> _loaded;
-		
+		std::map<std::string, std::string> _loaded;
+
 		std::vector<Language> loadLanguages();
 };
 
