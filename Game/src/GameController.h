@@ -102,6 +102,8 @@ class GameController : public GameContext, GameFragment {
 
 		IGameControllerListener * _listener = NULL;
 		
+		bool keys[10];
+		
 		void load();
 		void createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z);
 		//void setPersonPosition(IPerson * p, GLfloat x, GLfloat y, GLfloat z);
