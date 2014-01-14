@@ -26,6 +26,14 @@
 		deleteTag($tagId);
 	}
 	
+	function getTag($tagId) {
+		return getTagById($tagId);
+	}
+	
+	function getUserTags($userId) {
+		return getUserTagIdsByUserId($userId);
+	}
+	
 	/**
 	 * Gets a {tag name, %} set reflecting the occurrence of tags of a certain type
 	 */

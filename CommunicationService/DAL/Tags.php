@@ -55,6 +55,40 @@ require_once('DAL/DAL.php');
 		$dal->executeQuery($sql);
 	}
 	
+	function getTagById($tagId) {
+		$dal = new DAL();
+		
+		$sql = sprintf("SELECT id, name, type FROM Tags WHERE id=%d", mysql_real_escape_string($tagId));
+		
+		$result = null;
+		$resultSet = $dal->executeNonQuery($sql);
+		
+		if($row = mysql_fetch_array($resultSet)) {
+			$result = array("id" => $row[0], "name" => $row[1], "type" => $row[2]);
+		}
+		
+		mysql_free_result($resultSet);
+		
+		return $result;
+	}
+	
+	function getUserTagIdsByUserId($userId) {
+		$dal = new DAL();
+		$sql = sprintf("SELECT t.id FROM Tags t, UserTag ut WHERE t.id=ut.tagID AND ut.userID=%d",
+					   mysql_real_escape_string($userId));
+		
+		$result = array();
+		$resultSet = $dal->executeNonQuery($sql);
+		
+		while($row = mysql_fetch_array($resultSet)) {
+			$result[] = $row[0];
+		}
+		
+		mysql_free_result($resultSet);
+		
+		return $result;
+	}
+	
 	//Delete Tag
 	function deleteTag($tagId)
 	{
@@ -65,9 +99,15 @@ require_once('DAL/DAL.php');
 	
 	function makePublicTagStats($type) {
 		$dal = new DAL();
+		$type = mysql_real_escape_string($type);
 		
-		$sql = sprintf("SELECT t.id id, t.name name, count(tc.tagID) count FROM Tags t, TagConnection tc WHERE t.id=tc.tagID AND t.type=%d GROUP BY t.id", mysql_real_escape_string($type));
+		if($type == "3") {
 		
-		return $dal->executeNonQuery($sql);
+		} else if($type == "4") {
+			$sql = sprintf("SELECT t.id id, t.name name, count(tc.tagID) count FROM Tags t, TagConnection tc WHERE t.id=tc.tagID AND t.type=%d GROUP BY t.id", $type);
+			return $dal->executeNonQuery($sql);
+		}
+		
+		return null;
 	}
 ?>

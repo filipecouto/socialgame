@@ -60,7 +60,7 @@ require_once('DAL/DAL.php');
 		$sql = sprintf("UPDATE ConnectionMinigames SET score=%d WHERE connectionID=%d AND minigameID=%d",
 					   mysql_real_escape_string($score),
 					   mysql_real_escape_string($connectionId),
-					   mysql_real_escape_string($minigameId)):
+					   mysql_real_escape_string($minigameId));
 		
 		return $dal->executeQuery($sql);
 	}
