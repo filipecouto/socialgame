@@ -30,6 +30,7 @@ extern "C"{
 #include "GameFragment.h"
 #include "Minigames/IMinigame.h"
 #include "Minigames/IMinigameInstance.h"
+#include "LanguageLoader.h"
 
 class IPendingGame;
 
@@ -113,6 +114,8 @@ class GameController : public GameContext, GameFragment {
 
 		IGameControllerListener * _listener = NULL;
 		
+		LanguageLoader languageLoader;
+		
 		bool keys[10];
 		
 		void load();
@@ -123,6 +126,9 @@ class GameController : public GameContext, GameFragment {
 		void loadConnections();
 		
 		void start();
+		virtual std::string getString(std::string value);
+		std::vector<Language> getLanguages();
+		void setLanguage(Language language);
 		
 		void onOpenGlPick(GLint hits, GLuint buffer[]);
 };
