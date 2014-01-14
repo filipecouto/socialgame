@@ -29,7 +29,7 @@ class MazeMinigame : public IMinigame {
 			public:
 				MazeInstance(GameContext * context);
 
-				virtual void start();
+				virtual void start(int level);
 
 				virtual void draw();
 				virtual void drawCube(double size);

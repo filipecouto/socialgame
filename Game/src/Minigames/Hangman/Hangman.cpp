@@ -131,8 +131,7 @@ void HangmanMinigame::HangmanInstance::drawHangman()
 
 }
 
-void HangmanMinigame::HangmanInstance::start() {
-
+void HangmanMinigame::HangmanInstance::start(int level) {
     mx = -17;
     my = 19;
     thing.x = thing.y = thing.vx = thing.vy = 0;

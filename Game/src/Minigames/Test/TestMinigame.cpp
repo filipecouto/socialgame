@@ -35,7 +35,7 @@ void TestMinigame::TestInstance::draw() {
 	glutSolidSphere(2, 32, 32);
 }
 
-void TestMinigame::TestInstance::start() {
+void TestMinigame::TestInstance::start(int level) {
 	mx = -17;
 	my = 19;
 	thing.x = thing.y = thing.vx = thing.vy = 0;

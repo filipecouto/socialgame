@@ -31,6 +31,8 @@ extern "C"{
 #include "Minigames/IMinigame.h"
 #include "Minigames/IMinigameInstance.h"
 
+class IPendingGame;
+
 class GameController : public GameContext, GameFragment {
 	public:
 		GameController();
@@ -61,6 +63,7 @@ class GameController : public GameContext, GameFragment {
 		void setListener(IGameControllerListener * listener);
 		
 		void startMinigame(IMinigame * minigame);
+		void startMinigame(IPendingGame * pendingGame, int index);
 		bool isInMinigame();
 		void notifyMinigameFinished(IMinigameInstance *);
 		
@@ -90,6 +93,8 @@ class GameController : public GameContext, GameFragment {
 		GameMod * _mod = NULL;
 		
 		IMinigameInstance * _minigame = NULL;
+		IPendingGame * _pendingGame = NULL;
+		int _pendingGameIndex = -1;
 		int _minigameState = 0;
 		
 		IUser * _identity = NULL;

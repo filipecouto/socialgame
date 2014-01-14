@@ -19,10 +19,12 @@ namespace AdvancedMode {
 			virtual int getMinigameLevel(int index);
 			virtual IMinigame * getMinigame(int index, IMinigameFactory * factory);
 			
-			virtual bool setMinigameScore(int score);
+			virtual bool setMinigameScore(int index, int score);
 			
 		private:
 			Cache * cache;
+			
+			IConnection * connection = NULL;
 			
 			int connectionId, gameId;
 			int level;

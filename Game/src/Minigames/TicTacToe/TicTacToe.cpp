@@ -166,7 +166,7 @@ void TicTacToeMinigame::TicTacToeInstance::drawCircle(GLfloat radius){
 	glEnd();
 }
 
-void TicTacToeMinigame::TicTacToeInstance::start() {
+void TicTacToeMinigame::TicTacToeInstance::start(int level) {
 	for (int i = 0; i < 3; i++){
 		for (int j = 0; j < 3; j++){
 			matriz[i][j] = 'z';
