@@ -3,7 +3,7 @@
 	require_once('DAL/Sessions.php');
 	require_once('DAL/Tags.php');
 	require_once('DAL/Notifications.php');
-
+	require_once('DAL/Minigames.php');
 	
 	function addFriend($User1Token, $UserdId2, $Strength, $Tags){
 		$UserId1 = getUserBySession($User1Token);
@@ -106,6 +106,21 @@
 	function returnConnection($ConnectionId){
 		$connection = getConnection($ConnectionId);
 		return $connection;
+	}
+	
+	function acceptFriendshipWithChallenge($token, $connectionId, $minigame, $level) {
+		try {
+			$userId = getUserBySession($token);
+			
+			$minigame = getMinigameId($minigame);
+			if($minigame == -1) return false;
+			
+			addConnectionMinigame($connectionId, $minigame, $level, 0);
+			
+			return true;
+		} catch(Exception $e) {
+			return false;
+		}
 	}
 
 	function createConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score){

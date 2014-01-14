@@ -31,4 +31,22 @@ require_once('DAL/DAL.php');
 		$sql = "DELETE FROM Minigames WHERE id = '$minigameId'";
 		$dal->executeQuery($sql);
 	}
+	
+	// Returns the ID of the minigame, given its internal name (ex: "crosswebenterprise.maze")
+	function getMinigameId($internalName) {
+		$dal = new DAL();
+		$sql = sprintf("SELECT id FROM Minigames WHERE name=`%s`", mysql_real_escape_string($internalName));
+		
+		$resultSet = $dal->executeNonQuery($sql);
+		
+		if($row = mysql_fetch_array($resultSet)) {
+			$result = $row[0];
+		} else {
+			$result = -1;
+		}
+		
+		mysql_free_result($resultSet);
+		
+		return $result;
+	}
 ?>
