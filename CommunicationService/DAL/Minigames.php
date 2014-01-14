@@ -52,7 +52,7 @@ require_once('DAL/DAL.php');
 	
 	function getPendingMinigamesByUser($userId) {
 		$dal = new DAL();
-		$sql = sprintf("SELECT cm.connectionID, cm.minigameID, cm.difficulty FROM ConnectionMinigames cm, Connections c WHERE c.id=cm.connectionID AND cm.score=-1 AND c.user1=%d", mysql_real_escape_string($userId));
+		$sql = sprintf("SELECT cm.connectionID connectionId, cm.minigameID gameId, m.name gameName, cm.difficulty level FROM ConnectionMinigames cm, Connections c, Minigames m WHERE m.id=cm.minigameID AND c.id=cm.connectionID AND cm.score=-1 AND c.user1=%d", mysql_real_escape_string($userId));
 		
 		return $dal->executeNonQuery($sql);
 	}
