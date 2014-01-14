@@ -62,4 +62,12 @@ require_once('DAL/DAL.php');
 		$sql = "DELETE FROM Tags WHERE id = '$tagId'";
 		$dal->executeQuery($sql);
 	}
-	?>
+	
+	function makePublicTagStats($type) {
+		$dal = new DAL();
+		
+		$sql = sprintf("SELECT t.id id, t.name name, count(tc.tagID) count FROM Tags t, TagConnection tc WHERE t.id=tc.tagID AND t.type=%d GROUP BY t.id", mysql_real_escape_string($type));
+		
+		return $dal->executeNonQuery($sql);
+	}
+?>

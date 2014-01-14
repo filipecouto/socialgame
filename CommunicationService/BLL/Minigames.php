@@ -26,4 +26,13 @@
 			return false;
 		}
 	}
+	
+	function setMinigameScore($token, $connectionId, $minigameId, $score) {
+		$userId = getUserBySession($token);
+		if($userId != -1) {
+			return setMinigameScoreForChallenge($userId, $connectionId, $minigameId, $score);
+		} else {
+			return false;
+		}
+	}
 ?>
