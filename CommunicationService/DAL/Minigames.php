@@ -1,9 +1,7 @@
 <?php
 
 require_once('DAL/DAL.php');
-
-	
-		//Insert new Minigame
+	//Insert new Minigame
 	function insertMinigame($Name){
 		$dal = new DAL();
 		$sql = "INSERT INTO Minigames (Name) VALUES('$Name')";
@@ -55,5 +53,15 @@ require_once('DAL/DAL.php');
 		$sql = sprintf("SELECT cm.connectionID connectionId, cm.minigameID gameId, m.name gameName, cm.difficulty level FROM ConnectionMinigames cm, Connections c, Minigames m WHERE m.id=cm.minigameID AND c.id=cm.connectionID AND cm.score=-1 AND c.user1=%d", mysql_real_escape_string($userId));
 		
 		return $dal->executeNonQuery($sql);
+	}
+	
+	function setMinigameScoreForChallenge($userId, $connectionId, $minigameId, $score) {
+		$dal = new DAL();
+		$sql = sprintf("UPDATE ConnectionMinigames SET score=%d WHERE connectionID=%d AND minigameID=%d",
+					   mysql_real_escape_string($score),
+					   mysql_real_escape_string($connectionId),
+					   mysql_real_escape_string($minigameId)):
+		
+		return $dal->executeQuery($sql);
 	}
 ?>
