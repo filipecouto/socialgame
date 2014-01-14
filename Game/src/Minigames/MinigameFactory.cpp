@@ -9,7 +9,13 @@ MinigameFactory::MinigameFactory(GameContext * context) : context(context) {
 }
 
 IMinigame * MinigameFactory::getMinigame(const string internalName) {
-
+	std::vector<IMinigame*> minigames = getMinigames();
+	
+	for(int i = 0; i < minigames.size(); i++) {
+		if(internalName == minigames[i]->getInternalName()) return minigames[i];
+	}
+	
+	return NULL;
 }
 
 std::vector< IMinigame * > MinigameFactory::getMinigames() {

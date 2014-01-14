@@ -18,6 +18,7 @@
 #include "Graphics/GraphicFactory.h"
 #include "Models/IConnectionsList.h"
 #include "Models/INotificationsList.h"
+#include "Minigames/MinigameFactory.h"
 
 #include <math.h>
 #include <GL/freeglut.h>
@@ -542,6 +543,14 @@ void GameController::setListener(IGameControllerListener * listener) {
 
 GameMod * GameController::getGameMod() {
 	return _mod;
+}
+
+IMinigameFactory * GameController::getMinigameFactory() {
+	if (!_minigameFactory) {
+		_minigameFactory = new MinigameFactory(this);
+	}
+
+	return _minigameFactory;
 }
 
 GameController::~GameController() {

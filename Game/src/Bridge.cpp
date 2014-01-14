@@ -59,6 +59,22 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 		} else {
 			notifications->show();
 		}
+	} else if (widget == barPendingGames) {
+		if (!pendingGames) {
+			pendingGames = new PendingGamesNavigator(_controller);
+			pendingGames->visible = false;
+			_gui->addWidget(pendingGames);
+		}
+
+		pendingGames->x = _gui->getWidth() - pendingGames->w;
+		pendingGames->y = _gui->getHeigth() - bar->getHeigth() - pendingGames->h;
+
+		if (pendingGames->visible) {
+			pendingGames->hide();
+			updateNotificationsButton();
+		} else {
+			pendingGames->show();
+		}
 	} else if (widget == barSettings) {
 		if (!settingsWindow) {
 			settingsWindow = new SettingsWindow(_controller);

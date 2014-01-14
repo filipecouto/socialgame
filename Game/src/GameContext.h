@@ -14,6 +14,7 @@
 #include <GL/gl.h>
 #include "Models/IPerson.h"
 
+class IMinigameFactory;
 class IMinigameInstance;
 class IGraphic;
 class GraphicFactory;
@@ -25,6 +26,7 @@ class GameContext {
 		
 		virtual GLuint loadTexture(std::string texture) = 0;
 		
+		virtual IMinigameFactory * getMinigameFactory() = 0;
 		virtual void notifyMinigameFinished(IMinigameInstance *) = 0;
 
 		virtual ~GameContext() { }

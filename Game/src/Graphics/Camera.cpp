@@ -162,10 +162,15 @@ void Camera::rotate(GLfloat xz, GLfloat y) {
 		double nx = sqrt((tcx - cex) * (tcx - cex) + (tcy - cey) * (tcy - cey));
 		double nz = sqrt((tcz - cez) * (tcz - cez) + (tcy - cey) * (tcy - cey));
 		n = sqrt((tcx - cex) * (tcx - cex) + (tcy - cey) * (tcy - cey) + (tcz - cez) * (tcz - cez));
-		angle = std::max(-0.99 * M_PI, std::min(0.99 * M_PI, acos((tcy - cey) / n) + xz));
-		tcy = cos(angle) * n;
-		tcx = sin(acos(y / nx)) * nx;
-		tcz = sin(acos(y / nz)) * nz;
+		angle = std::max(-0.49 * M_PI, std::min(0.49 * M_PI, acos((tcy - cey) / n) + xz));
+		tcy = cos(angle) * n + cey;
+
+		if (tcx != 0 && nx != 0) tcx = abs(sin(acos((tcy - cey) / nx))) * nx * tcx / abs(tcx) + cex;
+
+		if (tcz != 0 && nz != 0) tcz = abs(sin(acos((tcy - cey) / nz))) * nz * tcz / abs(tcz) + cez;
+
+		printf("angle = %.4f\ttcx = %.4f\ttcy = %.4f\ttcz = %.4f\n", angle, tcx, tcy, tcz);
+		printf("n = %.4f\tnx = %.4f\tnz = %.4f\n\n", n, nx, nz);
 	} else if (y != 0) { // horizontal rotation - left/right
 		angle = getAngle() + y;
 		n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));

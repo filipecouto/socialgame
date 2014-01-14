@@ -76,10 +76,13 @@ class GameController : public GameContext, GameFragment {
 		
 		virtual GLuint loadTexture(std::string texture);
 		
+		virtual IMinigameFactory * getMinigameFactory();
+		
 		virtual ~GameController();
 
 	private:
 		GraphicFactory * _graphFactory = NULL;
+		IMinigameFactory * _minigameFactory = NULL;
 		
 		GameMod * _mod = NULL;
 		
