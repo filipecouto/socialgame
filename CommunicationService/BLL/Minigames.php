@@ -1,5 +1,5 @@
 <?php
-
+	require_once('DAL/Sessions.php');
 	require_once('DAL/Minigames.php');
 	
 	function createMinigame($Name){
@@ -16,5 +16,14 @@
 	
 	function removeMinigames($minigameId){
 		deleteMinigames($minigameId);
+	}
+	
+	function getPendingMinigames($token) {
+		$userId = getUserBySession($token);
+		if($userId != -1) {
+			return getPendingMinigamesByUser($userId);
+		} else {
+			return false;
+		}
 	}
 ?>
