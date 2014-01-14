@@ -50,8 +50,10 @@ void MazeMinigame::MazeInstance::draw() {
 				createList();
 		}
 		oldTextures = textures;
-
-	glActiveTexture(GL_TEXTURE0);
+#if _WIN32
+#else
+		glActiveTexture(GL_TEXTURE0);
+#endif
 	glCallList(mazeList);
 	int * values;
 	int count;

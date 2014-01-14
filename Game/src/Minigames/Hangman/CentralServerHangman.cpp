@@ -18,6 +18,7 @@ bool CentralServerHangman::findLetterInWord(string letter, string word)
     if(answer.compare("1")) {
         return false;
     }
+	return false;
 }
 
 string CentralServerHangman::getWordAndCategory()

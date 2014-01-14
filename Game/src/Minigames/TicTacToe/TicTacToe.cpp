@@ -192,6 +192,8 @@ TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) :
 		keys[i] = false;
 	}
 	
+	centralServer = new CentralServerTicTacToe();
+	
 	startNewGame();
 	
 	_gui = new Gui();
@@ -245,11 +247,7 @@ void TicTacToeMinigame::TicTacToeInstance::onKeyUp(int key, int special) {
 void TicTacToeMinigame::TicTacToeInstance::startNewGame(){
 	//Communication
 	string list = convertMatrizToPrologList();
-	string resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=First");
-	cout << resultJson <<endl;
-	rapidjson::Document d;
-	d.Parse<0>(resultJson.c_str());
-	string result = d["data"].GetString();
+	string result = centralServer->first();
 	//End of Communication
 	
 	for(int i=0; i<3; i++){
@@ -278,11 +276,7 @@ string TicTacToeMinigame::TicTacToeInstance::convertMatrizToPrologList(){
 
 void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 	//Communication
-	string resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=Game&Params="+list);
-	cout << resultJson <<endl;
-	rapidjson::Document d;
-	d.Parse<0>(resultJson.c_str());
-	string result = d["data"].GetString();
+	string result = centralServer->game(list);
 	//End of Communication
 	
 	if(result == "x"){ //Player won
@@ -304,9 +298,8 @@ void TicTacToeMinigame::TicTacToeInstance::Game(string list){
 				matriz[x][y] = 'o';
 				
 				//Communication
-				resultJson = curl_httpget(server + "?Theme=TicTacToe&Function=Game&Params="+convertMatrizToPrologList());
-				d.Parse<0>(resultJson.c_str());
-				result = d["data"].GetString();
+				string updatedList = convertMatrizToPrologList();
+				result = centralServer->game(updatedList);
 				//End of Communication
 				
 				if(result == "o"){ //Computer Won
@@ -425,7 +418,6 @@ void TicTacToeMinigame::TicTacToeInstance::onMouseButton(int state, int button, 
 			x1 = 2; y1 = 2;
 		}
 
-		//printf("%f %f\n", mx, my);
 		if(x1 != -1 && y1 != -1){
 		      if(checkMatriz(x1,y1)){
 			matriz[x1][y1] = 'x';			
