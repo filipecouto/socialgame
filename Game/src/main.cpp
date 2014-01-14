@@ -20,6 +20,7 @@
 #endif
 
 #ifdef _WIN32
+#include <windows.h>
 #include <GL/glaux.h>
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -40,10 +41,13 @@
 #pragma comment (lib, "glaux.lib")
 #pragma comment (lib, "True_GUI.lib")
 
+#include "Sound.h"
+
 //
 Gui gui;
 GameController controller;
 Bridge * bridge;
+Sound sound;
 
 //
 GLint windowWidth, windowHeight;
@@ -222,6 +226,11 @@ int main(int argc, char * argv[]) {
 // 		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
 
 	gui.addWidget(bridge->getTopBar());
+
+	alutInit(&argc, argv);
+	sound = Sound();
+	sound.initAudio();
+	alSourcePlay(sound.state.source);
 
 	glutMainLoop();
 
