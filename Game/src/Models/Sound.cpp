@@ -24,7 +24,11 @@ bool Sound::loadSoundFile(std::string filename){
 }
 
 Sound::~Sound(){
+	ALCcontext * alc = alcGetCurrentContext();
+	ALCdevice * device = alcGetContextsDevice(alc);
 	alDeleteBuffers(1, _state.buffer);
+	alDeleteSources(1, _state.source);
+	alcCloseDevice(device);
 }
 
 void Sound::setVolume(float volume) {
