@@ -119,6 +119,8 @@ void NotificationsNavigator::onWidgetClicked(Widget * clicked) {
 				controller->invalidatePerson(controller->getIdentityPerson());
 				controller->invalidatePerson(n->getFrom());
 			}
+			
+			loadNotification(notification);
 		} else if (clicked == bChallenge) {
 			if (!minigameSelector) {
 				minigameSelector = new MinigameSelector(this);
@@ -243,4 +245,17 @@ void NotificationsNavigator::NumberInputDialog::show(IMinigame * minigame) {
 	name->setText(levelSettings->getName());
 	description->setText("Enter a number from " + std::to_string(levelSettings->getMinValue()) + " to " + std::to_string(levelSettings->getMaxValue()) + ":");
 	response->setText(std::to_string((levelSettings->getMaxValue() + levelSettings->getMinValue()) / 2));
+}
+
+void NotificationsNavigator::NumberInputDialog::onWidgetClicked(Widget * clicked) {
+	if (clicked == ok) {
+		int level = std::stoi(response->getText());
+		IMinigame::Level * levelSettings = minigame->getLevelSettings();
+		if(level < levelSettings->getMinValue()) level = levelSettings->getMinValue();
+		else if(level > levelSettings->getMaxValue()) level = levelSettings->getMaxValue();
+		parent->onMinigameSelected(minigame, level);
+		hide();
+	} else if (clicked == cancel) {
+		hide();
+	}
 }

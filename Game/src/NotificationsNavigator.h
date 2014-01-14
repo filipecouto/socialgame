@@ -41,7 +41,6 @@ class NotificationsNavigator : public Window {
 				MinigameSelector(NotificationsNavigator * parent);
 
 				virtual void show();
-
 				virtual void onWidgetClicked(Widget * clicked);
 
 			private:
@@ -57,7 +56,8 @@ class NotificationsNavigator : public Window {
 			public:
 				NumberInputDialog(NotificationsNavigator * parent);
 				
-				virtual void show(IMinigame * minigame);
+				virtual void show(IMinigame * minigame);				
+				virtual void onWidgetClicked(Widget * clicked);
 
 			private:
 				NotificationsNavigator * parent;
