@@ -192,11 +192,12 @@ TicTacToeMinigame::TicTacToeInstance::TicTacToeInstance(GameContext * context) :
 		keys[i] = false;
 	}
 	
+	centralServer = new CentralServerTicTacToe();
+	
 	startNewGame();
 	
 	_gui = new Gui();
 	_gui->setEventsListener(this);
-	centralServer = new CentralServerTicTacToe();
 }
 
 void TicTacToeMinigame::TicTacToeInstance::finish() {

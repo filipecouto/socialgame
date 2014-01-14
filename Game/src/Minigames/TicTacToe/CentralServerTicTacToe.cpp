@@ -1,7 +1,7 @@
  
 #include "CentralServerTicTacToe.h"
 
-CentralServerTicTacToe::CentralServerTicTacToe(){
+CentralServerTicTacToe::CentralServerTicTacToe() : server("uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL") {
 
 }
 
@@ -18,11 +18,9 @@ string CentralServerTicTacToe::game(string list)
 string CentralServerTicTacToe::first()
 {
 	string params = "?Theme=TicTacToe&Function=First";
-	string url = server + params;
-	//printf("%s %s\n",server.c_str(),params.c_str());
-	string resultJson = curl_httpget(url);
-	/*rapidjson::Document d;
+	string resultJson = curl_httpget(server + params);
+	rapidjson::Document d;
 	d.Parse<0>(resultJson.c_str());
-	string result = d["data"].GetString();*/
-	return "1";
+	string result = d["data"].GetString();
+	return result;
 }

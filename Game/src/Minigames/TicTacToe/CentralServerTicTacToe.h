@@ -19,6 +19,6 @@ public:
     string first();
 
 private:
-    string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL";
+    string server;
 };
 #endif
