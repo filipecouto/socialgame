@@ -110,4 +110,34 @@ require_once('DAL/DAL.php');
 		
 		return null;
 	}
+	
+	function getTypeId($description) {
+		$dal = new DAL();
+		$description = mysql_real_escape_string($description);
+		$sql = "SELECT id FROM TagTypes WHERE description = '$description'";
+		$recordset = $dal->executeNonQuery($sql);
+		$array = mysql_fetch_array($recordset);
+		return $array["id"];
+	}
+	
+	function deleteUserTags($userid) {
+		$dal = new DAL();
+		$userid = mysql_real_escape_string($userid);
+		$sql = "DELETE FROM UserTag where userID = $userid";
+		$dal->executeQuery($sql);
+	}
+	
+	function checkTag($tag, $typeid) {
+		$dal = new DAL();
+		$tag = mysql_real_escape_string($tag);
+		$typeid = mysql_real_escape_string($typeid);
+		$sql = "SELECT id FROM Tags WHERE name = '$tag' AND type = $typeid";
+		$recordset = $dal->executeNonQuery($sql);
+		$tagid = -1;
+		if(mysql_num_rows($recordset)>0) {
+		  $array = mysql_fetch_array($recordset);
+		  $tagid = $array["id"];
+		}
+		return $tagid;
+	}
 ?>
