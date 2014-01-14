@@ -82,6 +82,14 @@ bool CentralServerWebService::acceptFriendship(const int idConnection) {
 	return true;
 }
 
+bool CentralServerWebService::acceptWithChallenge(const int idConnection, const string minigame, const int level) {
+	execute("Connections", "acceptFriendshipWithChallenge", token + "^" +
+															std::to_string(idConnection) + "^" +
+															minigame + "^" +
+															std::to_string(level));
+	return true;
+}
+
 bool CentralServerWebService::refuseFriendship(const int idConnection) {
 	execute("Connections", "refuseFriendship", token + "^" + std::to_string(idConnection));
 	return true;

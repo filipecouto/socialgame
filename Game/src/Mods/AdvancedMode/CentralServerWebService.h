@@ -37,6 +37,7 @@ class CentralServerWebService {
 		rapidjson::Value & getConnection(const int id);
 		rapidjson::Value & getConnectionsOfUser(const int userId);
 		bool acceptFriendship(const int idConnection);
+		bool acceptWithChallenge(const int idConnection, const std::string minigame, const int level);
 		bool refuseFriendship(const int idConnection);
 		bool addFriend(const int idFriend);
 		bool removeFriend(const int idFriend);

@@ -3,6 +3,7 @@
 #include "Connection.h"
 #include "ConnectionsList.h"
 #include "../../Models/IConnectionsList.h"
+#include "../../Minigames/IMinigame.h"
 
 using namespace AdvancedMode;
 
@@ -16,6 +17,16 @@ bool FriendshipRequestNotification::refuse() {
 	if (cache->getService()->refuseFriendship(connectionId)) {
 		((Connection *)connectionFromMe)->setState(-1);
 		((Connection *)connectionToMe)->setState(-1);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool FriendshipRequestNotification::challenge(IMinigame * minigame, int level) {
+	if (!getConnection()) return false;
+
+	if (cache->getService()->acceptWithChallenge(connectionId, minigame->getInternalName(), level)) {
 		return true;
 	} else {
 		return false;

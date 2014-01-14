@@ -20,6 +20,19 @@ require_once('DAL/DAL.php');
 		$dal->executeQuery($sql);
 	}
 	
+	// Removes all minigames associated with connectionId
+	function removeMinigamesFromConnection($connectionId) {
+		try {
+			$dal = new DAL();
+			$connectionId = mysql_real_escape_string($connectionId);
+			$sql = sprintf("DELETE FROM ConnectionMinigames WHERE connectionID=%d", $connectionId);
+			$dal->executeQuery($sql);
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+	
 	//Update a Connection Minigame relation
 	//Be sure to call this first with the previous score being negative
 	function updateConnectionMinigame($ConnectionId,$MinigameId,$Difficulty,$Score){

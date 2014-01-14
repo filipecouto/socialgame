@@ -13,6 +13,7 @@
 #include "IPerson.h"
 #include "IConnection.h"
 
+class IMinigame;
 class IFriendshipRequestNotification : public INotification {
 	public:
 		NotificationType getType() { return FriendshipRequest; };
@@ -22,6 +23,7 @@ class IFriendshipRequestNotification : public INotification {
 		virtual IConnection * getConnection() = 0;
 		
 		virtual bool accept() = 0;
+		virtual bool challenge(IMinigame* minigame, int level) = 0;
 		virtual bool refuse() = 0;
 
 		virtual ~IFriendshipRequestNotification() { }

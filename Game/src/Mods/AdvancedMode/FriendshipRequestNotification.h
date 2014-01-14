@@ -15,6 +15,7 @@ namespace AdvancedMode {
 			virtual IConnection * getConnection();
 
 			virtual bool accept();
+			virtual bool challenge(IMinigame * minigame, int level);
 			virtual bool refuse();
 			
 			virtual long int getDate();
