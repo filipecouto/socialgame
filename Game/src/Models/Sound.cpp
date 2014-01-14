@@ -1,20 +1,21 @@
 #include "Sound.h"
 
 Sound::Sound(){
-
 }
 
 Sound::Sound(std::string filename){
 	loadSoundFile(filename);
+	_volume = 0.5f;
 }
 
 void Sound::initAudio(){
 	printf("%s\n", filename.c_str());
-	state.buffer = alutCreateBufferFromFile(filename.c_str());
-	alGenSources(1, &state.source);
-	alSourcei(state.source, AL_BUFFER, state.buffer);
-	state.key_s = AL_FALSE;
-	alSourcePlay(state.source);
+	_state.buffer = alutCreateBufferFromFile(filename.c_str());
+	alGenSources(1, &_state.source);
+	changeVolume();
+	alSourcei(_state.source, AL_BUFFER, _state.buffer);
+	_state.key_s = AL_FALSE;
+	alSourcePlay(_state.source);	
 }
 
 bool Sound::loadSoundFile(std::string filename){
@@ -23,5 +24,14 @@ bool Sound::loadSoundFile(std::string filename){
 }
 
 Sound::~Sound(){
+	alDeleteBuffers(1, _state.buffer);
+}
 
+void Sound::setVolume(float volume) {
+	_volume = volume;
+	changeVolume();
+}
+
+void Sound::changeVolume() {
+	alSourcef(_state.source, AL_GAIN, _volume);
 }
