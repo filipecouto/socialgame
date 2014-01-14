@@ -8,6 +8,7 @@
 
 #ifndef MAZE_H
 #define MAZE_H
+#include "CentralServerMaze.h"
 #include <vector>
 
 class Maze {
@@ -24,6 +25,7 @@ class Maze {
 		int* getEnd();
 		void addStart(double x, double y);
 		void setStart(double x, double y);
+		int ** getSolution();
 		
 		bool isEnd(int x, int y);
 		

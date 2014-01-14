@@ -6,6 +6,7 @@
 #include "Maze.h"
 #include "../../Graphics/Camera.h"
 
+
 #include <GL/glut.h>
 #include <tgmath.h> 
 
@@ -65,8 +66,10 @@ class MazeMinigame : public IMinigame {
 				GLuint mazeList;
 				int pos[2];
 				bool rotating[4];
-				bool textures;
+				bool textures, oldTextures;
 				int colors[3];
+				bool pathFound;
+				int cubeStopped;
 				
 				bool detectCollision();
 				void applyRotating(int);
@@ -74,7 +77,7 @@ class MazeMinigame : public IMinigame {
 				void cleanKeys();
 				void createList();
 				void deleteList();
-				
+				void activateSuggestion();
 		};
 };
 

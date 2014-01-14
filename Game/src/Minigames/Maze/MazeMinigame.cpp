@@ -29,21 +29,23 @@ void MazeMinigame::MazeInstance::draw() {
 
 	int * end = maze->getEnd();
 
-	if(textures) {
-		glEnable(GL_TEXTURE_2D);
-		colors[0] = 1;
-		colors[1] = 1;
-		colors[2] = 1;
-		deleteList();
-		createList();
-	} else {
-		glDisable(GL_TEXTURE_2D);
-		colors[0] = 0;
-		colors[1] = 0;
-		colors[2] = 1;
-		deleteList();
-		createList();
-	}
+		if(textures) {
+			glEnable(GL_TEXTURE_2D);
+			colors[0] = 1;
+			colors[1] = 1;
+			colors[2] = 1;
+			
+		} else {
+			glDisable(GL_TEXTURE_2D);
+			colors[0] = 0;
+			colors[1] = 0;
+			colors[2] = 1;
+		}
+		if(textures!=oldTextures) {
+				deleteList();
+				createList();
+		}
+		oldTextures = textures;
 
 	glActiveTexture(GL_TEXTURE0);
 	glCallList(mazeList);
@@ -262,6 +264,18 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 
 	tx = - rotateX / 90;
 	ty = rotateZ / 90;
+	
+	if(tx == 0 && ty == 0) {
+		cubeStopped += delta;
+	} else {
+		cubeStopped = 0;
+	}
+	
+	if(cubeStopped >= 10000 && !pathFound) {
+		activateSuggestion();
+		cubeStopped=0;
+		pathFound = true;
+	}
 
 	if(maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
 		pos[0] = oldX;
@@ -284,12 +298,18 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	if(maze->isEnd(pos[0], pos[1])) finish();
 }
 
+void MazeMinigame::MazeInstance::activateSuggestion() {
+	maze->getSolution();
+}
+
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
 	for(int i = 0; i < sizeof(keys) / sizeof(*keys); i++) {
 		keys[i] = false;
 	}
-
-	textures = false;
+	cubeStopped = 0;
+	textures = true;
+	oldTextures = false;
+	pathFound = false;
 	maze = new Maze(31, 21);
 	maze->generate();
 	cleanRotate();
