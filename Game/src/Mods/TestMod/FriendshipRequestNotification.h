@@ -18,6 +18,7 @@ class FriendshipRequestNotification : public IFriendshipRequestNotification {
 		virtual void setRead();
 		
 		virtual bool accept();
+		virtual bool challenge(IMinigame * minigame, int level);
 		virtual bool refuse();
 
 		~FriendshipRequestNotification();

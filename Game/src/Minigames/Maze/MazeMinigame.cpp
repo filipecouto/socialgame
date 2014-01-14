@@ -17,6 +17,10 @@ std::string MazeMinigame::getDescription() {
 	return "Challenge your friends with 3 different levels of mazes!";
 }
 
+IMinigame::Level * MazeMinigame::getLevelSettings() {
+	return new Level("Maze size", 20, 100);
+}
+
 IMinigameInstance * MazeMinigame::newGame() {
 	return new MazeInstance(_context);
 }

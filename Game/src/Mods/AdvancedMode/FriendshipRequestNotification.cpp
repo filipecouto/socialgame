@@ -22,6 +22,14 @@ bool FriendshipRequestNotification::refuse() {
 	}
 }
 
+bool FriendshipRequestNotification::challenge(IMinigame * minigame, int level) {
+	if (!getConnection()) return false;
+
+	// TODO
+	
+	return true;
+}
+
 bool FriendshipRequestNotification::accept() {
 	if (!getConnection()) return false;
 

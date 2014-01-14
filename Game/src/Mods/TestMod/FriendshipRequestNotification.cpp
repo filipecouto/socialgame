@@ -16,6 +16,10 @@ bool FriendshipRequestNotification::accept() {
 	return true;
 }
 
+bool FriendshipRequestNotification::challenge(IMinigame * minigame, int level) {
+	return true;
+}
+
 bool FriendshipRequestNotification::refuse() {
 	((Person*)_user->getPerson())->connect((Person*)_connection->getPerson(), -1);
 	return true;

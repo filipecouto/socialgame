@@ -1,8 +1,8 @@
 #ifndef NOTIFICATIONSNAVIGATOR_H
 #define NOTIFICATIONSNAVIGATOR_H
 
-#include "GUI/Window.h"
 #include "GUI/TextWidget.h"
+#include "GUI/Dialog.h"
 #include "GameController.h"
 #include <map>
 
@@ -25,8 +25,9 @@ class NotificationsNavigator : public Window {
 		int index;
 
 		void loadNotification(INotification * notification);
-		
+
 		void onMinigameSelected(IMinigame * minigame);
+		void onMinigameSelected(IMinigame * minigame, int level);
 
 		class Space : public Widget {
 			public:
@@ -40,17 +41,34 @@ class NotificationsNavigator : public Window {
 				MinigameSelector(NotificationsNavigator * parent);
 
 				virtual void show();
-				
+
 				virtual void onWidgetClicked(Widget * clicked);
 
 			private:
 				NotificationsNavigator * parent;
-				
+
 				Widget * bClose;
-				std::map<Widget*, IMinigame*> minigames;
+				std::map<Widget *, IMinigame *> minigames;
+		};
+
+		MinigameSelector * minigameSelector = NULL;
+
+		class NumberInputDialog : public Window {
+			public:
+				NumberInputDialog(NotificationsNavigator * parent);
+				
+				virtual void show(IMinigame * minigame);
+
+			private:
+				NotificationsNavigator * parent;
+				
+				TextWidget * name, * description, * response;
+				Widget * ok, * cancel;
+				
+				IMinigame * minigame;
 		};
 		
-		MinigameSelector * minigameSelector = NULL;
+		NumberInputDialog * numberInputDialog = NULL;
 };
 
 #endif // NOTIFICATIONSNAVIGATOR_H

@@ -1,6 +1,7 @@
 #include "NotificationsNavigator.h"
 #include "GUI/LinearContainer.h"
 #include "GUI/ButtonWidget.h"
+#include "GUI/TextBoxWidget.h"
 #include "Models/IFriendshipRequestNotification.h"
 #include "Models/INotificationsList.h"
 #include "Models/IConnectionsList.h"
@@ -130,7 +131,26 @@ void NotificationsNavigator::onWidgetClicked(Widget * clicked) {
 }
 
 void NotificationsNavigator::onMinigameSelected(IMinigame * minigame) {
-	printf("Selected %s\n", minigame->getInternalName().c_str());
+	if (minigame->getLevelSettings()) {
+		if (!numberInputDialog) {
+			numberInputDialog = new NumberInputDialog(this);
+			((WidgetContainer *) _parent)->addWidget(numberInputDialog);
+		}
+
+		numberInputDialog->show(minigame);
+	} else {
+		onMinigameSelected(minigame, 0);
+	}
+}
+
+void NotificationsNavigator::onMinigameSelected(IMinigame * minigame, int level) {
+	//printf("Selected %s\n", minigame->getInternalName().c_str());
+	INotification * notification = controller->getGameMod()->getNotifications()->operator[](index);
+
+	if (notification && notification->getType() == INotification::FriendshipRequest) {
+		IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)notification;
+		n->challenge(minigame, level);
+	}
 }
 
 NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigator * parent) : parent(parent) {
@@ -157,7 +177,7 @@ NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigato
 		layout->addWidget(b);
 		this->minigames.insert(std::pair<Widget *, IMinigame *>(b, minigame));
 	}
-	
+
 	bClose = new ButtonWidget(new TextWidget("Cancel", 0, 0));
 	layout->addWidget(bClose);
 
@@ -165,11 +185,11 @@ NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigato
 }
 
 void NotificationsNavigator::MinigameSelector::onWidgetClicked(Widget * clicked) {
-	if(clicked == bClose) {
+	if (clicked == bClose) {
 		hide();
 	} else {
 		if (minigames.find(clicked) != minigames.end()) {
-			IMinigame * minigame = minigames[clicked];
+			parent->onMinigameSelected(minigames[clicked]);
 			hide();
 		}
 	}
@@ -179,4 +199,48 @@ void NotificationsNavigator::MinigameSelector::show() {
 	Window::show();
 
 	if (_parent) centerOnParent();
+}
+
+NotificationsNavigator::NumberInputDialog::NumberInputDialog(NotificationsNavigator * parent) : parent(parent) {
+	setPadding(8);
+
+	LinearContainer * layout = new LinearContainer();
+	layout->setSpacing(8);
+	layout->setVertical();
+
+	name = new TextWidget("", GLUT_BITMAP_HELVETICA_18, 0, 0);
+	layout->addWidget(name);
+
+	description = new TextWidget("", 0, 0);
+	layout->addWidget(description);
+
+	response = new TextBoxWidget();
+	layout->addWidget(response);
+
+	LinearContainer * buttons = new LinearContainer();
+	buttons->setSpacing(8);
+	buttons->setHorizontal();
+
+	ok = new ButtonWidget(new TextWidget("OK", 0, 0));
+	buttons->addWidget(ok);
+
+	cancel = new ButtonWidget(new TextWidget("Cancel", 0, 0));
+	buttons->addWidget(cancel);
+
+	layout->addWidget(buttons);
+
+	setContent(layout);
+}
+
+void NotificationsNavigator::NumberInputDialog::show(IMinigame * minigame) {
+	Window::show();
+
+	if (_parent) centerOnParent();
+
+	this->minigame = minigame;
+
+	IMinigame::Level * levelSettings = minigame->getLevelSettings();
+	name->setText(levelSettings->getName());
+	description->setText("Enter a number from " + std::to_string(levelSettings->getMinValue()) + " to " + std::to_string(levelSettings->getMaxValue()) + ":");
+	response->setText(std::to_string((levelSettings->getMaxValue() + levelSettings->getMinValue()) / 2));
 }
