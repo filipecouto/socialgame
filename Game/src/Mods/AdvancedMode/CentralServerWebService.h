@@ -42,6 +42,7 @@ class CentralServerWebService {
 		bool setNotificationRead(const int id, const bool read);
 		
 		rapidjson::Value & getPendingGames();
+		bool setGameScore(const int connectionId, const int minigameId, const int score);
 
 	private:
 		std::string baseUrl;

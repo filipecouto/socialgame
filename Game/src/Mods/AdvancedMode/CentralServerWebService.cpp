@@ -84,9 +84,9 @@ bool CentralServerWebService::acceptFriendship(const int idConnection) {
 
 bool CentralServerWebService::acceptFriendshipWithChallenge(const int idConnection, const string minigame, const int level) {
 	execute("Connections", "acceptFriendshipWithChallenge", token + "^" +
-															std::to_string(idConnection) + "^" +
-															minigame + "^" +
-															std::to_string(level));
+	        std::to_string(idConnection) + "^" +
+	        minigame + "^" +
+	        std::to_string(level));
 	return true;
 }
 
@@ -120,6 +120,14 @@ bool CentralServerWebService::setNotificationRead(const int id, const bool read)
 
 rapidjson::Value & CentralServerWebService::getPendingGames() {
 	return getData("Minigames", "getPendingMinigames", token)->operator[]("data");
+}
+
+bool CentralServerWebService::setGameScore(const int connectionId, const int minigameId, const int score) {
+	execute("Minigames", "setMinigameScore", token + "^" +
+	        std::to_string(connectionId) + "^" +
+	        std::to_string(minigameId) + "^" +
+	        std::to_string(score));
+	return true;
 }
 
 rapidjson::Document * CentralServerWebService::getData(const string type, const string function, const string params) {

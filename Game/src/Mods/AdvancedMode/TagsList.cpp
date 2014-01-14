@@ -8,15 +8,17 @@ AdvancedMode::TagsList::TagsList(Person * person, Cache * cache) : cache(cache) 
 
 void AdvancedMode::TagsList::load(AdvancedMode::Person * person) {
 	tags.clear();
-	
+
 	rapidjson::Value & list = cache->getService()->getUserTags(person->getId());
 
-	rapidjson::SizeType len = list.Size();
+	if (list.IsArray()) {
+		rapidjson::SizeType len = list.Size();
 
-	for (rapidjson::SizeType i = 0; i < len; i++) {
-		const rapidjson::Value & item = list[i];
-		
-		tags.push_back(cache->getUserTag(std::stoi(item.GetString())));
+		for (rapidjson::SizeType i = 0; i < len; i++) {
+			const rapidjson::Value & item = list[i];
+
+			tags.push_back(cache->getUserTag(std::stoi(item.GetString())));
+		}
 	}
 }
 

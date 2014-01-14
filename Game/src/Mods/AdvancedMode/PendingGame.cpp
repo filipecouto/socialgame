@@ -25,7 +25,11 @@ IConnection * PendingGame::getConnection() {
 }
 
 bool PendingGame::setMinigameScore(int score, int index) {
-	return true;
+	if (cache->getService()->setGameScore(connectionId, gameId, score)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 int PendingGame::getMinigameCount() {

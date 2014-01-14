@@ -251,6 +251,11 @@ void GameController::tick(int delta, int current) {
 }
 
 void GameController::start() {
+	if(!sound) {
+		sound = new Sound();
+		sound->initAudio();
+	}
+	
 #ifdef DEBUG
 	printf("Starting game...\n");
 #endif
@@ -362,6 +367,7 @@ void GameController::startMinigame(IMinigame * minigame) {
 	_minigame->start(-1);
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
+	if(sound) sound->setVolume(0.5f);
 }
 
 void GameController::startMinigame(IPendingGame * pendingGame, int index) {
@@ -373,6 +379,7 @@ void GameController::startMinigame(IPendingGame * pendingGame, int index) {
 	_minigame->start(pendingGame->getMinigameLevel(index));
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
+	if(sound) sound->setVolume(0.5f);
 }
 
 bool GameController::isInMinigame() {
@@ -392,6 +399,8 @@ void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
 		}
 
 		invalidatePerson(getIdentityPerson());
+		
+		if(sound) sound->setVolume(1);
 	}
 }
 
