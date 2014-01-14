@@ -309,7 +309,7 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 		cubeStopped = 0;
 	}
 
-	if (maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
+	if (maze->getValue(ceil(pos[0] + tx - 0.1f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.1f), pos[1])) {
 		pos[0] = oldX;
 
 		if (tx < -0.05f) tx = -0.05f;
