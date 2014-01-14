@@ -4,11 +4,10 @@
 #include "../IMinigame.h"
 #include "../IMinigameInstance.h"
 #include "../../Graphics/Camera.h"
-#include "../../Mods/AdvancedMode/dependencies/CurlHelper/CurlHelper.h"
-#include "../../Mods/AdvancedMode/dependencies/rapidjson/document.h"
 #include <math.h>
 #include "../../GUI/IWidgetEventsListener.h"
 #include "../../GUI/Gui.h"
+#include "CentralServerTicTacToe.h"
 
 #include <GL/glut.h>
 
@@ -81,9 +80,7 @@ class TicTacToeMinigame : public IMinigame {
 				Gui * _gui;
 				bool ableToPlay = true;
 				GLuint textureId1;
-				
-				
-				string server = "uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL"; //Delete
+				CentralServerTicTacToe * centralServer;
 		};
 };
 
