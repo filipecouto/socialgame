@@ -79,6 +79,9 @@ class GameController : public GameContext, GameFragment {
 		virtual IMinigameFactory * getMinigameFactory();
 		
 		virtual ~GameController();
+		
+		bool detectCollisions(int x, int y);
+		bool onCollisionPick(GLint hits, GLuint buffer[]);
 
 	private:
 		GraphicFactory * _graphFactory = NULL;

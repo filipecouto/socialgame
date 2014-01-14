@@ -559,3 +559,72 @@ GameController::~GameController() {
 	for (int i = 0; i < len; i++)
 		glDeleteTextures(1, &_textures[i]);
 }
+bool GameController::detectCollisions(int x, int y)
+{
+    GLuint selectBuf[256];
+    GLint hits;
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    glSelectBuffer(256, selectBuf);
+    glRenderMode(GL_SELECT);
+
+    glInitNames();
+    glPushName(0);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPickMatrix((GLdouble) x, (GLdouble) y, 1.0, 1.0, viewport);
+    gluPerspective(67, (GLfloat) 16.f / 9.f , 0.1, 100);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    _camera.setUp();
+
+    int len = personObjects.size();
+
+    for (int i = 0; i < len; i++) {
+        glPushName(i);
+        personObjects[i]->drawPickMode();
+        glPopName();
+    }
+
+    glPopName();
+
+    glPopMatrix();
+    glFlush();
+
+    hits = glRenderMode(GL_RENDER);
+    return onCollisionPick(hits, selectBuf);
+}
+
+bool GameController::onCollisionPick(GLint hits, GLuint buffer[])
+{
+    GLuint names, *ptr;
+
+    GLuint name = -1;
+    GLuint minZ = 0xffffffff;
+
+    //printf ("hits = %d\n", hits);
+    ptr = (GLuint *) buffer;
+
+    for (int i = 0; i < hits; i++) {
+        names = *ptr;
+        //printf("%d) name count = %d;\n", i, names);
+
+        if (names >= 2) {
+            ptr++;
+            //printf(" minZ = %f;", (float) *ptr / 0x7fffffff);
+
+            if (*ptr < minZ) {
+                minZ = *ptr;
+                ptr += 3;
+
+                int n = *ptr;
+
+                if (n >= 0 && n < personObjects.size()) return true;
+            }
+        }
+    }
+    return false;
+}
