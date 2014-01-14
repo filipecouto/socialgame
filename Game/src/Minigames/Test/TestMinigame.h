@@ -22,7 +22,7 @@ class TestMinigame : public IMinigame {
 			public:
 				TestInstance(GameContext * context);
 
-				virtual void start();
+				virtual void start(int level);
 
 				virtual void draw();
 				virtual void tick(int delta, int current);

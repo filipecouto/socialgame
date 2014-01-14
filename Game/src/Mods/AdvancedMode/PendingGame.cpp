@@ -1,10 +1,13 @@
 #include "PendingGame.h"
 #include "dependencies/rapidjson/document.h"
+#include "Connection.h"
+#include "Cache.h"
+#include "Person.h"
 #include "../../Minigames/IMinigameFactory.h"
 
 using namespace AdvancedMode;
 
-PendingGame::PendingGame(const rapidjson::Value & data, Cache * cache) {
+PendingGame::PendingGame(const rapidjson::Value & data, Cache * cache) : cache(cache) {
 	connectionId = std::stoi(data["connectionId"].GetString());
 	gameId = std::stoi(data["gameId"].GetString());
 	game = data["gameName"].GetString();
@@ -12,10 +15,16 @@ PendingGame::PendingGame(const rapidjson::Value & data, Cache * cache) {
 }
 
 IConnection * PendingGame::getConnection() {
-	return NULL;
+	if (!connection) {
+		const rapidjson::Value & data = cache->getService()->getConnection(connectionId);
+
+		if (data.IsArray()) connection = new Connection(((Person *)cache->getIdentityPerson())->getId(), data[rapidjson::SizeType(0)], cache);
+	}
+
+	return connection;
 }
 
-bool PendingGame::setMinigameScore(int score) {
+bool PendingGame::setMinigameScore(int score, int index) {
 	return true;
 }
 

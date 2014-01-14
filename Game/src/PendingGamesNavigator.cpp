@@ -64,32 +64,35 @@ void PendingGamesNavigator::loadPendingGame(IPendingGame * game) {
 	}
 
 	if (game) {
+		tNotification->setText("Pending minigame " + std::to_string(index + 1) +
+		                       " of " + std::to_string(controller->getGameMod()->getPendingGames()->size()));
 		IMinigame * minigame = game->getMinigame(0, controller->getMinigameFactory());
-		tNotification->setText(minigame->getName());
-		
+		tType->setText(minigame->getName());
+		tData->setText("From: " + game->getConnection()->getPerson()->getName());
+
 // 		if (notification->getType() == INotification::FriendshipRequest) {
 // 			IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)notification;
 // 			tNotification->setText("Notification " + std::to_string(index + 1) +
 // 			                       " of " + std::to_string(controller->getGameMod()->getNotifications()->size()));
 // 			tType->setText("Friendship request");
-// 
+//
 // 			bool canAccept = n->getConnection() != NULL && !controller->getGameMod()->getIdentity()->getPerson()->getConnections()->isFriendsWith(n->getFrom());
-// 
+//
 // 			if (canAccept) {
 // 				tData->setText("From: " + n->getFrom()->getName());
-// 
+//
 // 				bAccept->visible = true;
 // 				bChallenge->visible = true;
 // 				bRefuse->visible = true;
 // 			} else {
 // 				tData->setText("Already responded");
-// 
+//
 // 				bAccept->visible = false;
 // 				bChallenge->visible = false;
 // 				bRefuse->visible = false;
 // 			}
 // 		}
-// 
+//
 // 		if (!notification->isRead())
 // 			notification->setRead(true);
 	}
@@ -110,21 +113,8 @@ void PendingGamesNavigator::onWidgetClicked(Widget * clicked) {
 				loadPendingGame(controller->getGameMod()->getPendingGames()->operator[](index));
 			}
 		} else if (clicked == bPlay) {
-			controller->startMinigame(controller->getGameMod()->getPendingGames()->operator[](index)->getMinigame(0, controller->getMinigameFactory()));
+			controller->startMinigame(controller->getGameMod()->getPendingGames()->operator[](index), 0);
 			hide();
-// 			INotification * notification = controller->getGameMod()->getNotifications()->operator[](index);
-// 
-// 			if (notification && notification->getType() == INotification::FriendshipRequest) {
-// 				IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)notification;
-// 
-// 				if (clicked == bAccept) n->accept();
-// 				else if (clicked == bRefuse) n->refuse();
-// 
-// 				controller->invalidatePerson(controller->getIdentityPerson());
-// 				controller->invalidatePerson(n->getFrom());
-// 			}
-// 			
-// 			loadNotification(notification);
 		}
 	}
 }
