@@ -25,7 +25,7 @@ class Maze {
 		int* getEnd();
 		void addStart(double x, double y);
 		void setStart(double x, double y);
-		int ** getSolution();
+		vector<int*> getSolution(int, int);
 		
 		bool isEnd(int x, int y);
 		

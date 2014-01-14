@@ -209,18 +209,21 @@ void Maze::setStart(double x, double y) {
 	startD[1] = y;
 }
 
-int ** Maze::getSolution() {
+vector<int*> Maze::getSolution(int x, int y) {
 	CentralServerMaze * server = new CentralServerMaze();
 	vector<int> dimensions;
 	dimensions.push_back(width);
 	dimensions.push_back(height);
 	vector<int> vectorStart;
-	vectorStart.push_back(start.x);
-	vectorStart.push_back(start.y);
+	vectorStart.push_back(x);
+	vectorStart.push_back(y);
 	vector<int> vectorEnd;
 	vectorEnd.push_back(end.x);
 	vectorEnd.push_back(end.y);
 	
-	server->calculatePath(vectorStart, vectorEnd, matrix, dimensions);
-	return 0;
+	vector<int*> result = server->calculatePath(vectorStart, vectorEnd, matrix, dimensions);
+	for(int i = 0; i < result.size(); i++) {
+		int * vec = result.at(i);
+	}
+	return result;
 }

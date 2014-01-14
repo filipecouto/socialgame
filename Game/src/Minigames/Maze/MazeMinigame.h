@@ -70,8 +70,8 @@ class MazeMinigame : public IMinigame {
 				bool rotating[4];
 				bool textures, oldTextures;
 				int colors[3];
-				bool pathFound;
 				int cubeStopped;
+				vector<int*> solution;
 				
 				bool detectCollision();
 				void applyRotating(int);

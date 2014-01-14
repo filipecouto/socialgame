@@ -53,7 +53,19 @@ void MazeMinigame::MazeInstance::draw() {
 
 	glActiveTexture(GL_TEXTURE0);
 	glCallList(mazeList);
-
+	int * values;
+	int count;
+	if(solution.size()>0) {
+		count = solution.size() < 10 ? solution.size() : 10;
+		for(int i = 0; i < count; i++) {
+			values = solution.at(i);
+			glPushMatrix();
+				glTranslatef(values[0], 0, values[1]);
+				glColor3f(1, 0, 0);
+				drawCube(0.3);
+			glPopMatrix();
+		}
+	}
 
 	glPushMatrix();
 	glTranslatef(pos[0] + tx, 0, pos[1] + ty);
@@ -275,10 +287,9 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 		cubeStopped = 0;
 	}
 	
-	if(cubeStopped >= 10000 && !pathFound) {
+	if(cubeStopped >= 2000) {
 		activateSuggestion();
 		cubeStopped=0;
-		pathFound = true;
 	}
 
 	if(maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
@@ -303,7 +314,7 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 }
 
 void MazeMinigame::MazeInstance::activateSuggestion() {
-	maze->getSolution();
+	solution = maze->getSolution(pos[0], pos[1]);
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
@@ -313,7 +324,6 @@ MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(conte
 	cubeStopped = 0;
 	textures = true;
 	oldTextures = false;
-	pathFound = false;
 	maze = new Maze(31, 21);
 	maze->generate();
 	cleanRotate();
