@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SocialGame.ComLayer;
+using SocialGame.Views.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,17 @@ namespace SocialGame.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Grab your friends now!";
-            return View();
+            TagCloud test;
+            ComUsers com = new ComUsers();
+            if (com.IsTokenValid(HttpContext))
+            {
+                test = com.GetPublicTagStats(4);
+            }
+            else
+            {
+                test = new TagCloud();
+            }
+            return View(test);
         }
 
         public ActionResult About()

@@ -2,6 +2,7 @@
 	require_once('DAL/Users.php');
 	require_once('DAL/Sessions.php');
 	require_once('DAL/Moods.php');
+	require_once('DAL/Tags.php');
 	
 	function createUser($userName, $password, $email){
 		$encriptedPassword = sha1($password);
@@ -180,4 +181,20 @@
 		return $userInformation;
 	}
 	
+	function setUserTags($token, $tags, $delimiter) {
+		$userid = getUserBySession($token);
+		$tags = explode($delimiter, $tags);
+		$typeid = getTagTypeId("User");
+		deleteUserTags($userid);
+		foreach($tags as $untrimmed) {
+			$tag = trim($untrimmed);
+			$test = checkTag($tag,$typeid);
+			if($test != -1) {
+			addUserTag($userid, $test);
+			} else {
+			$tagid = insertTag($tag, $typeid);
+			addUserTag($userid, $tagid);
+			}
+		}
+	}
 ?>

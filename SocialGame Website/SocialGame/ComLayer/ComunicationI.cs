@@ -7,7 +7,7 @@ namespace SocialGame.ComLayer
 {
     public class ComunicationI
     {
-        public string comServer = "http://uvm001.dei.isep.ipp.pt/SocialGameCommunicationService/InterfaceToBLL";
+        public string comServer = "http://uvm001.dei.isep.ipp.pt/SocialGame/";
 
         public string MakeRequest(string url)
         {
