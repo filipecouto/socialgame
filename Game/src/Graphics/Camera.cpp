@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include <GL/gl.h>
 #include <cmath>
+#include <algorithm>
 #include <stdio.h>
 
 #ifndef M_PI
@@ -133,22 +134,43 @@ GLfloat Camera::getAngle() {
 
 	//while(value <= 0) value += 2 * M_PI;
 
-		printf("angle = %.2f rad\n", value);
+	printf("angle = %.2f rad\n", value);
 	return value;
 }
 
 void Camera::rotate(GLfloat x, GLfloat y, GLfloat z) {
-	GLfloat angle = getAngle();
+// 	GLfloat angle = getAngle();
+//
+// 	if (x != 0) { // rotation on X axis
+// 	} else if (y != 0) { // rotation on Y axis
+// 		//printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
+// 		angle += y;
+// 		double n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));
+// 		tcx = sin(angle) * n + cex;
+// 		tcz = cos(angle) * n + cez;
+// 		//printf("tcx = %.4f\ttcy = %.4f\ttcz = %.4f\tn = %.4f\n", tcx, tcy, tcz, n);
+// 	} else if (z != 0) { // rotation on Z axis
+// 	}
+	rotate(x, y);
+}
 
-	if (x != 0) { // rotation on X axis
-	} else if (y != 0) { // rotation on Y axis
-		//printf("ccx = %.4f\tccy = %.4f\tccz = %.4f\n\n", ccx, ccy, ccz);
-		angle += y;
-		double n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));
+void Camera::rotate(GLfloat xz, GLfloat y) {
+	GLfloat angle;
+	double n;
+
+	if (xz != 0) { // vertical rotation - up/down
+		double nx = sqrt((tcx - cex) * (tcx - cex) + (tcy - cey) * (tcy - cey));
+		double nz = sqrt((tcz - cez) * (tcz - cez) + (tcy - cey) * (tcy - cey));
+		n = sqrt((tcx - cex) * (tcx - cex) + (tcy - cey) * (tcy - cey) + (tcz - cez) * (tcz - cez));
+		angle = std::max(-0.99 * M_PI, std::min(0.99 * M_PI, acos((tcy - cey) / n) + xz));
+		tcy = cos(angle) * n;
+		tcx = sin(acos(y / nx)) * nx;
+		tcz = sin(acos(y / nz)) * nz;
+	} else if (y != 0) { // horizontal rotation - left/right
+		angle = getAngle() + y;
+		n = sqrt((tcx - cex) * (tcx - cex) + (tcz - cez) * (tcz - cez));
 		tcx = sin(angle) * n + cex;
 		tcz = cos(angle) * n + cez;
-		//printf("tcx = %.4f\ttcy = %.4f\ttcz = %.4f\tn = %.4f\n", tcx, tcy, tcz, n);
-	} else if (z != 0) { // rotation on Z axis
 	}
 }
 

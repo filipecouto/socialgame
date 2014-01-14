@@ -4,11 +4,15 @@
 #include "Maze/MazeMinigame.h"
 #include "TicTacToe/TicTacToe.h"
 
-MinigameFactory::MinigameFactory() {
+MinigameFactory::MinigameFactory(GameContext * context) : context(context) {
 
 }
 
-std::vector< IMinigame * > MinigameFactory::getMinigames(GameContext * context) {
+IMinigame * MinigameFactory::getMinigame(const string internalName) {
+
+}
+
+std::vector< IMinigame * > MinigameFactory::getMinigames() {
 	std::vector<IMinigame *> result;
 	result.push_back(new HangmanMinigame(context));
 	result.push_back(new MazeMinigame(context));

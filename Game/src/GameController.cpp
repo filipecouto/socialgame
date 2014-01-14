@@ -35,7 +35,7 @@
 #define GameController_isInMinigame _minigame && _minigameState == 1
 
 GameController::GameController() : _graphFactory() {
-	for(int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		keys[i] = false;
 	}
 }
@@ -71,7 +71,7 @@ void GameController::draw() {
 	if (GameController_isInMinigame) {
 		glEnable(GL_DEPTH_TEST);
 		_minigame->draw();
-	}else {
+	} else {
 		_camera.setUp();
 
 		glEnable(GL_TEXTURE_2D);
@@ -223,18 +223,27 @@ void GameController::tick(int delta, int current) {
 			}
 		}
 	}
-	
-	if(keys[0]) _camera.walk(0, 0, (+2.5f*delta) / 30.0);
-	if(keys[1]) _camera.walk((-2.5f*delta) / 30.0, 0, 0);
-	if(keys[2]) _camera.walk(0, 0, (-2.5f*delta) / 30.0);
-	if(keys[3]) _camera.walk((+2.5f*delta) / 30.0, 0, 0);
-	if(keys[4]) {}
-	if(keys[5]) _camera.rotate(0, (0.4*delta) / 30.0, 0);
-	if(keys[6]) {}
-	if(keys[7]) _camera.rotate(0, (-0.4*delta) / 30.0, 0);
-	if(keys[8]) _camera.translate(0, (1*delta) / 30.0, 0);
-	if(keys[9]) _camera.translate(0, (-1*delta) / 30.0, 0);
-	
+
+	if (keys[0]) _camera.walk(0, 0, +0.1f * delta);
+
+	if (keys[1]) _camera.walk(-0.1f * delta, 0, 0);
+
+	if (keys[2]) _camera.walk(0, 0, -0.1f * delta);
+
+	if (keys[3]) _camera.walk(+0.1f * delta, 0, 0);
+
+	if (keys[4]) _camera.rotate(-0.005f * delta, 0);
+
+	if (keys[5]) _camera.rotate(0, 0.02f * delta);
+
+	if (keys[6]) _camera.rotate(+0.005f * delta, 0);
+
+	if (keys[7]) _camera.rotate(0, -0.02f * delta);
+
+	if (keys[8]) _camera.translate(0, 0.1f * delta, 0);
+
+	if (keys[9]) _camera.translate(0, -0.1f * delta, 0);
+
 }
 
 void GameController::start() {
@@ -371,22 +380,22 @@ void GameController::onKeyDown(int key, int special) {
 	if (GameController_isInMinigame) _minigame->onKeyDown(key, special);
 	else {
 		switch (key) {
-				// TODO this is ONLY FOR TESTING
 			case 0 :
 				switch (special) {
 					case GLUT_KEY_UP:
 						keys[4] = true;
 						break;
+
 					case GLUT_KEY_LEFT:
 						keys[5] = true;
-// 						_camera.rotate(0, 0.4, 0);
 						break;
+
 					case GLUT_KEY_DOWN:
 						keys[6] = true;
 						break;
+
 					case GLUT_KEY_RIGHT:
 						keys[7] = true;
-// 						_camera.rotate(0, -0.4, 0);
 						break;
 				}
 
@@ -394,31 +403,26 @@ void GameController::onKeyDown(int key, int special) {
 
 			case 'w':
 				keys[0] = true;
-// 				_camera.walk(0, 0, +2.5f);
 				break;
 
 			case 'a':
 				keys[1] = true;
-// _camera.walk(-2.5f, 0, 0);
 				break;
 
 			case 's':
 				keys[2] = true;
-				// 				_camera.walk(0, 0, -2.5f);
 				break;
+
 			case 'd':
 				keys[3] = true;
-// 				_camera.walk(+2.5f, 0, 0);
 				break;
 
 			case 'z':
 				keys[8] = true;
-// 				_camera.translate(0, 1, 0);
 				break;
 
 			case 'x':
 				keys[9] = true;
-// 				_camera.translate(0, -1, 0);
 				break;
 		}
 	}
@@ -456,22 +460,22 @@ void GameController::onKeyUp(int key, int special) {
 		_minigame->onKeyUp(key, special);
 	} else {
 		switch (key) {
-				// TODO this is ONLY FOR TESTING
 			case 0 :
 				switch (special) {
 					case GLUT_KEY_UP:
 						keys[4] = false;
 						break;
+
 					case GLUT_KEY_LEFT:
 						keys[5] = false;
-// 						_camera.rotate(0, 0.4, 0);
 						break;
+
 					case GLUT_KEY_DOWN:
 						keys[6] = false;
 						break;
+
 					case GLUT_KEY_RIGHT:
 						keys[7] = false;
-// 						_camera.rotate(0, -0.4, 0);
 						break;
 				}
 
@@ -479,31 +483,26 @@ void GameController::onKeyUp(int key, int special) {
 
 			case 'w':
 				keys[0] = false;
-// 				_camera.walk(0, 0, +2.5f);
 				break;
 
 			case 'a':
 				keys[1] = false;
-// _camera.walk(-2.5f, 0, 0);
 				break;
 
 			case 's':
 				keys[2] = false;
-				// 				_camera.walk(0, 0, -2.5f);
 				break;
+
 			case 'd':
 				keys[3] = false;
-// 				_camera.walk(+2.5f, 0, 0);
 				break;
 
 			case 'z':
 				keys[8] = false;
-// 				_camera.translate(0, 1, 0);
 				break;
 
 			case 'x':
 				keys[9] = false;
-// 				_camera.translate(0, -1, 0);
 				break;
 		}
 	}

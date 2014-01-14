@@ -38,7 +38,7 @@ INotificationsList * TestMod::getNotifications() {
 	return NULL;
 }
 
-void * TestMod::getPendingGames() {
+IPendingGamesList * TestMod::getPendingGames() {
 	return NULL;
 }
 

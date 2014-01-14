@@ -29,6 +29,7 @@ class Camera {
 		void translate(GLfloat x, GLfloat y, GLfloat z);
 		void moveTo(GLfloat x, GLfloat y, GLfloat z);
 		void lookAt(GLfloat x, GLfloat y, GLfloat z);
+		void rotate(GLfloat xz, GLfloat y);
 		void rotate(GLfloat x, GLfloat y, GLfloat z);
 		void walk(GLfloat x, GLfloat y, GLfloat z);
 		

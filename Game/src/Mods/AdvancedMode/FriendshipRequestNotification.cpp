@@ -26,7 +26,7 @@ bool FriendshipRequestNotification::refuse() {
 bool FriendshipRequestNotification::challenge(IMinigame * minigame, int level) {
 	if (!getConnection()) return false;
 
-	if (cache->getService()->acceptWithChallenge(connectionId, minigame->getInternalName(), level)) {
+	if (cache->getService()->acceptFriendshipWithChallenge(connectionId, minigame->getInternalName(), level)) {
 		return true;
 	} else {
 		return false;

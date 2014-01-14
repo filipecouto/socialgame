@@ -18,18 +18,13 @@ class CentralServerWebService {
 	public:
 		CentralServerWebService();
 
-		/**
-		 * Gets a parsed rapidjson Document containing the requested data.
-		 */
-		rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
-
 		int login(std::string email, std::string password);
 		int getUserId();
 		rapidjson::Value & getPerson(const int id);
 
 		rapidjson::Value & getMoods();
 		bool setMood(const int idMood);
-		
+
 		rapidjson::Value & getTag(const int id);
 		rapidjson::Value & getUserTags(const int userId);
 		bool setTags(const vector< string > tags);
@@ -37,7 +32,7 @@ class CentralServerWebService {
 		rapidjson::Value & getConnection(const int id);
 		rapidjson::Value & getConnectionsOfUser(const int userId);
 		bool acceptFriendship(const int idConnection);
-		bool acceptWithChallenge(const int idConnection, const std::string minigame, const int level);
+		bool acceptFriendshipWithChallenge(const int idConnection, const std::string minigame, const int level);
 		bool refuseFriendship(const int idConnection);
 		bool addFriend(const int idFriend);
 		bool removeFriend(const int idFriend);
@@ -45,11 +40,17 @@ class CentralServerWebService {
 		rapidjson::Value & getNotification(const int id);
 		rapidjson::Value & getNotificationBases();
 		bool setNotificationRead(const int id, const bool read);
+		
+		rapidjson::Value & getPendingGames();
 
 	private:
 		std::string baseUrl;
 		std::string token;
 
+		/**
+		 * Gets a parsed rapidjson Document containing the requested data.
+		 */
+		rapidjson::Document * getData(const std::string type, const std::string function, const std::string params);
 		std::string execute(const string type, const string function, const string params);
 };
 

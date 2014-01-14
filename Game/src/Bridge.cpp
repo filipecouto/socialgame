@@ -15,6 +15,7 @@
 #include "Models/IMessageNotification.h"
 #include "Models/IFriendshipRequestNotification.h"
 #include "Models/INotificationsList.h"
+#include "Models/IPendingGamesList.h"
 #include "Minigames/Test/TestMinigame.h"
 #include "Minigames/TicTacToe/TicTacToe.h"
 #include "Minigames/Maze/MazeMinigame.h"
@@ -162,6 +163,7 @@ Widget * Bridge::getTopBar() {
 	if (bar == NULL) {
 		bar = new LinearContainer();
 		barCamera = new ButtonWidget(new TextWidget("Camera", 0, 0));
+		
 		LinearContainer * buttonNotifications = new LinearContainer();
 		buttonNotifications->setHorizontal();
 		buttonNotifications->setSpacing(4);
@@ -171,7 +173,17 @@ Widget * Bridge::getTopBar() {
 
 		buttonNotifications->addWidget(tNotifications);
 		barNotifications = new ButtonWidget(buttonNotifications);
-		barPendingGames = new ButtonWidget(new TextWidget("Pending Games", 0, 0));
+		
+		LinearContainer * buttonPendingGames = new LinearContainer();
+		buttonPendingGames->setHorizontal();
+		buttonPendingGames->setSpacing(4);
+		buttonPendingGames->addWidget(new TextWidget("Pending Games", 0, 0));
+
+		if (!tPendingGames) tPendingGames = new TextWidget("", 0, 0);
+
+		buttonPendingGames->addWidget(tPendingGames);
+		barPendingGames = new ButtonWidget(buttonPendingGames);
+		
 		barSettings = new ButtonWidget(new TextWidget("Settings", 0, 0));
 		bar->addWidget(barCamera);
 		bar->addWidget(barNotifications);
@@ -250,6 +262,17 @@ void Bridge::updateNotificationsButton() {
 	} else {
 		tNotifications->setText("-");
 		tNotifications->setTextColor(0.5, 0.5, 0.5);
+	}
+
+	if (!tPendingGames) tPendingGames = new TextWidget("", 0, 0);
+
+	if (mod->getPendingGames()) {
+		int count = mod->getPendingGames()->size();
+		tPendingGames->setText(std::to_string(count));
+		tPendingGames->setTextColor(count == 0 ? 0.8 : 0.1, count == 0 ? 0.8 : 0.9, count == 0 ? 0.8 : 0.1);
+	} else {
+		tPendingGames->setText("-");
+		tPendingGames->setTextColor(0.5, 0.5, 0.5);
 	}
 }
 

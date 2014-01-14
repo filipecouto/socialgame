@@ -50,7 +50,7 @@ NotificationsNavigator::NotificationsNavigator(GameController * controller) : co
 }
 
 void NotificationsNavigator::show() {
-	if (!controller->getGameMod()->getNotifications()) {
+	if (!controller->getGameMod()->getNotifications() || controller->getGameMod()->getNotifications()->size() == 0) {
 		visible = false;
 		return;
 	}
@@ -79,11 +79,13 @@ void NotificationsNavigator::loadNotification(INotification * notification) {
 				tData->setText("From: " + n->getFrom()->getName());
 
 				bAccept->visible = true;
+				bChallenge->visible = true;
 				bRefuse->visible = true;
 			} else {
 				tData->setText("Already responded");
 
 				bAccept->visible = false;
+				bChallenge->visible = false;
 				bRefuse->visible = false;
 			}
 		}
@@ -165,7 +167,7 @@ NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigato
 	layout->addWidget(new TextWidget("Minigames", GLUT_BITMAP_HELVETICA_18, 0, 0));
 	layout->addWidget(new TextWidget("Pick a minigame to chalenge your friend", 0, 0));
 
-	std::vector<IMinigame *> minigames = MinigameFactory().getMinigames(parent->controller);
+	std::vector<IMinigame *> minigames = MinigameFactory(parent->controller).getMinigames();
 	const int len = minigames.size();
 
 	for (int i = 0; i < len; i++) {

@@ -11,6 +11,7 @@
 #include "MoodsList.h"
 #include "Cache.h"
 #include "NotificationsList.h"
+#include "PendingGamesList.h"
 
 AdvancedMode::AdvancedMode::AdvancedMode() {
 
@@ -28,10 +29,6 @@ int AdvancedMode::AdvancedMode::login(string email, string password) {
 	int result = service.login(email, password);
 
 	return result;
-}
-
-void * AdvancedMode::AdvancedMode::getPendingGames() {
-	return NULL;
 }
 
 INotificationsList * AdvancedMode::AdvancedMode::getNotifications() {
@@ -52,6 +49,14 @@ IUser * AdvancedMode::AdvancedMode::getIdentity() {
 
 IMoodsList * AdvancedMode::AdvancedMode::getMoods() {
 	return moods;
+}
+
+IPendingGamesList * AdvancedMode::AdvancedMode::getPendingGames() {
+	if(!pendingGamesList) {
+		pendingGamesList = new PendingGamesList(cache);
+	}
+	
+	return pendingGamesList;
 }
 
 void AdvancedMode::AdvancedMode::setEventListener(GameModEventListener * listener) {

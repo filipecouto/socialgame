@@ -60,7 +60,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		SettingsWindow * settingsWindow = NULL;
 		WidgetContainer * bar = NULL;
 		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
-		TextWidget * tNotifications = NULL;
+		TextWidget * tNotifications = NULL, * tPendingGames = NULL;
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;

@@ -21,7 +21,7 @@ class TestMod : public GameMod {
 		
 		virtual IUser * getIdentity();
 		virtual INotificationsList * getNotifications();
-		virtual void * getPendingGames();
+		virtual IPendingGamesList * getPendingGames();
 		
 		virtual IMoodsList * getMoods();
 		

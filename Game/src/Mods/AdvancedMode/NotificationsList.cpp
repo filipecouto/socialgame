@@ -5,13 +5,15 @@
 AdvancedMode::NotificationsList::NotificationsList(Cache * cache) : cache(cache) {
 	const rapidjson::Value & list = cache->getService()->getNotificationBases();
 
-	rapidjson::SizeType len = list.Size();
+	if (list.IsArray()) {
+		rapidjson::SizeType len = list.Size();
 
-	for (rapidjson::SizeType i = 0; i < len; i++) {
-		const rapidjson::Value & item = list[i];
+		for (rapidjson::SizeType i = 0; i < len; i++) {
+			const rapidjson::Value & item = list[i];
 
-		if (item["type"].GetString()[0] == '1') {
-			notifications.push_back(new FriendshipRequestNotification(std::stoi(item["id"].GetString()), item["read"].GetString()[0] == '1', cache));
+			if (item["type"].GetString()[0] == '1') {
+				notifications.push_back(new FriendshipRequestNotification(std::stoi(item["id"].GetString()), item["read"].GetString()[0] == '1', cache));
+			}
 		}
 	}
 }
@@ -31,7 +33,7 @@ int AdvancedMode::NotificationsList::getUnreadCount() {
 	int count = 0;
 
 	for (int i = 0; i < len; i++) {
-		if(!notifications[i]->isRead()) count++;
+		if (!notifications[i]->isRead()) count++;
 	}
 
 	return count;

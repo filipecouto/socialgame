@@ -12,6 +12,7 @@
 #include "../Models/IUser.h"
 #include "GameModEventListener.h"
 
+class IPendingGamesList;
 class INotificationsList;
 class IMoodsList;
 
@@ -23,10 +24,9 @@ class GameMod {
 
 		virtual INotificationsList * getNotifications() = 0;
 		
-		virtual IMoodsList * getMoods()  = 0; // TODO make it abstract once all mods support it
+		virtual IMoodsList * getMoods() = 0;
 
-		// TODO interface missing
-		virtual void * getPendingGames() = 0;
+		virtual IPendingGamesList * getPendingGames() = 0;
 
 		virtual void setEventListener(GameModEventListener * listener) = 0;
 };
