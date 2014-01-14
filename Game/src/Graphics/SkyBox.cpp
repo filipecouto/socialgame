@@ -49,7 +49,10 @@ void SkyBox::draw() {
 	glDisable(GL_COLOR_MATERIAL);
 
 	glEnable(GL_TEXTURE_2D);
-	//glActiveTexture(GL_TEXTURE0);
+#if _WIN32
+#else
+	glActiveTexture(GL_TEXTURE0);
+#endif
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	drawSide(skyboxTextId1,

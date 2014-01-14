@@ -23,14 +23,14 @@ class IMinigame {
 		class Level {
 			private:
 				std::string name;
-				int min, max;
+				int _min, _max;
 
 			public:
-				Level(std::string name, int min, int max) : name(name),  min(min), max(max) { }
+				Level(std::string name, int min, int max) : name(name),  _min(min), _max(max) {}
 				
 				std::string getName() { return name; }
-				int getMinValue() { return min; }
-				int getMaxValue() { return max; }
+				int getMinValue() { return _min; }
+				int getMaxValue() { return _max; }
 		};
 
 		/**
