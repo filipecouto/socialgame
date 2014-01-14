@@ -14,7 +14,7 @@ class LanguageLoader {
 		virtual ~LanguageLoader();
 		std::vector<Language> getLanguages();
 		void setLanguage(Language language);
-		string getValue(string title);
+		std::string getValue(string title);
 	private:
 		std::vector<Language> _languages;
 		std::map<string,string> _loaded;

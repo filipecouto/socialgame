@@ -51,7 +51,7 @@ void LanguageLoader::setLanguage(Language language) {
 	infile.close();
 }
 
-string LanguageLoader::getValue(std::string title) {
+std::string LanguageLoader::getValue(std::string title) {
 	for(int i = 0; i < _loaded.size(); i++) {
 		std::pair<std::string, std::string> pair = _loaded.at(i);
 		if(title == pair.first) {
