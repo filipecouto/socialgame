@@ -1,10 +1,12 @@
 OBJ = test.o
 
-test.a :	$(OBJ)
-	ar rcs $@ $(OBJ)
+all : test;
+
+run : all clean
+	./test
 	
-tests : ../src/Mods/AdvancedMode.a test.a $(OBJ_FILES)
-	g++ $^ -ggdb -lGL -lGLU -lglut -ljpeg -lcurl ../src/Mods/AdvancedMode.a test.a -o $@
+test : ../src/Mods/AdvancedMode.a test.o $(OBJ_FILES)
+	g++ $^ -ggdb -lcurl ../src/Mods/AdvancedMode.a -o $@
 	
 %.o : %.cpp
 	g++ -std=c++11 -ggdb -c -o $@ $<
