@@ -43,6 +43,13 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_controller->getCamera()->setType(ThirdPerson);
 			printf("Switching camera to third person...\n");
 		}
+	} else if (widget == barExport) {
+		if (!exportScreenWindow) {
+			exportScreenWindow = new ExportScreenWindow(_controller,_gui);
+			_gui->addWidget(exportScreenWindow);
+		}
+		exportScreenWindow->centerOnParent();
+		exportScreenWindow->show();
 	} else if (widget == barNotifications) {
 		if (!notifications) {
 			notifications = new NotificationsNavigator(_controller);
@@ -180,6 +187,8 @@ Widget * Bridge::getTopBar() {
 		bar = new LinearContainer();
 		barCamera = new ButtonWidget(new TextWidget(_controller->getString("camera"), 0, 0));
 		
+		barExport = new ButtonWidget(new TextWidget("Export", 0, 0));
+		
 		LinearContainer * buttonNotifications = new LinearContainer();
 		buttonNotifications->setHorizontal();
 		buttonNotifications->setSpacing(4);
@@ -202,6 +211,7 @@ Widget * Bridge::getTopBar() {
 		
 		barSettings = new ButtonWidget(new TextWidget("Settings", 0, 0));
 		bar->addWidget(barCamera);
+		bar->addWidget(barExport);
 		bar->addWidget(barNotifications);
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
