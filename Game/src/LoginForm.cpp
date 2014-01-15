@@ -46,9 +46,9 @@ LoginForm::LoginForm(GameController * controller) : controller(controller) {
 	LinearContainer * buttons = new LinearContainer();
 	buttons->setHorizontal();
 
-	bNormalMode = new ButtonWidget(new TextWidget("Normal Mode", 0, 0));
+	bNormalMode = new ButtonWidget(new TextWidget(controller->getString("mode_normal"), 0, 0));
 	buttons->addWidget(bNormalMode);
-	bAdvancedMode = new ButtonWidget(new TextWidget("Advanced Mode", 0, 0));
+	bAdvancedMode = new ButtonWidget(new TextWidget(controller->getString("mode_advanced"), 0, 0));
 	buttons->addWidget(bAdvancedMode);
 
 	layout->addWidget(buttons);

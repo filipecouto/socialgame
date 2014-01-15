@@ -8,13 +8,14 @@
 #include "Language.h"
 
 class LanguageLoader {
-
 	public:
 		LanguageLoader();
-		virtual ~LanguageLoader();
+
 		std::vector<Language> getLanguages();
 		void setLanguage(Language language);
 		std::string getValue(std::string title);
+
+		virtual ~LanguageLoader();
 	private:
 		std::vector<Language> _languages;
 		std::map<std::string, std::string> _loaded;

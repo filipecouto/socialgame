@@ -1,4 +1,5 @@
 ﻿using SocialGame.Models;
+using SocialGame.Views.Shared;
 using System.Collections.Generic;
 using System.Data;
 using System.Web;
@@ -14,13 +15,13 @@ namespace SocialGame.ComLayer
 
         public bool CreateUserAndAccount(string userName, string email, string password)
         {
-            string url = comInterface.comServer + "?Theme=Users&Function=createUser&Params=" + userName + "^" + password + "^" + email;
+            string url = comInterface.comServer + "Users/createUser?Params=" + userName + "^" + password + "^" + email;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
                 return true;
             }
-            else if(answer == "DuplicateEmail")
+            else if (answer == "DuplicateEmail")
             {
                 throw new MembershipCreateUserException(MembershipCreateStatus.DuplicateEmail);
             }
@@ -33,7 +34,7 @@ namespace SocialGame.ComLayer
         public bool Login(string email, string password)
         {
             //Get Token
-            string url = comInterface.comServer + "?Theme=Users&Function=doLogin&Params=" + email + "^" + password;
+            string url = comInterface.comServer + "Users/doLogin?Params=" + email + "^" + password;
             string token = comInterface.GetSingleData(url);
             System.Diagnostics.Debug.WriteLine(token);
             if (token != "-1" && token != "-2" && token != null)
@@ -82,7 +83,7 @@ namespace SocialGame.ComLayer
 
         private bool IsAuthorizedHelper(string token, int type)
         {
-            string url = comInterface.comServer + "?Theme=Users&Function=isUserAuthorized&Params=" + token + "^" + type;
+            string url = comInterface.comServer + "Users/isUserAuthorized?Params=" + token + "^" + type;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -99,7 +100,7 @@ namespace SocialGame.ComLayer
             try
             {
                 string token = httpContext.Session["Token"].ToString();
-                string url = comInterface.comServer + "?Theme=Users&Function=isTokenValid&Params=" + token;
+                string url = comInterface.comServer + "Users/isTokenValid?Params=" + token;
                 string answer = comInterface.GetSingleData(url);
                 if (answer == "True")
                 {
@@ -120,7 +121,7 @@ namespace SocialGame.ComLayer
         {
             string token = GetSessionToken();
             if (token == null) return false;
-            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserPassword&Params=" + token + "^" + oldPassword + "^" + newPassword;
+            string url = comInterface.comServer + "Users/modifyUserPassword?Params=" + token + "^" + oldPassword + "^" + newPassword;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -142,11 +143,11 @@ namespace SocialGame.ComLayer
                 {
                     return null;
                 }
-                url = comInterface.comServer + "?Theme=Users&Function=returnUser&Params=" + token;
+                url = comInterface.comServer + "Users/returnUser?Params=" + token;
             }
             else
             {
-                url = comInterface.comServer + "?Theme=Users&Function=returnUserById&Params=" + id;
+                url = comInterface.comServer + "Users/returnUserById?Params=" + id;
             }
             DataTable dataTable = comInterface.GetMultipleData(url);
             DataRow dataRow = dataTable.Rows[0];
@@ -158,7 +159,7 @@ namespace SocialGame.ComLayer
         public List<User> GetUsersByName(string userName)
         {
             List<User> users = new List<User>();
-            string url = comInterface.comServer + "?Theme=Users&Function=returnUsers&Params=" + userName;
+            string url = comInterface.comServer + "Users/returnUsers?Params=" + userName;
             DataTable dataTable = comInterface.GetMultipleData(url);
             foreach (DataRow row in dataTable.Rows)
             {
@@ -169,9 +170,10 @@ namespace SocialGame.ComLayer
             return users;
         }
 
-        public bool AddFriend(int friendId, int strength, string tags){
+        public bool AddFriend(int friendId, int strength, string tags)
+        {
             string token = GetSessionToken();
-            string url = comInterface.comServer + "?Theme=Connections&Function=addFriend&Params=" + token + "^" + friendId + "^" + strength + "^" + tags;
+            string url = comInterface.comServer + "Connections/addFriend?Params=" + token + "^" + friendId + "^" + strength + "^" + tags;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -186,7 +188,7 @@ namespace SocialGame.ComLayer
         public int? GetUserFriendState(int userId)
         {
             string token = GetSessionToken();
-            string url = comInterface.comServer + "?Theme=Connections&Function=returnConnectionState&Params=" + token + "^" + userId;
+            string url = comInterface.comServer + "Connections/returnConnectionState?Params=" + token + "^" + userId;
             string state = comInterface.GetSingleData(url);
             if (state != "False")
             {
@@ -207,15 +209,15 @@ namespace SocialGame.ComLayer
                 {
                     return null;
                 }
-                url = comInterface.comServer + "?Theme=Connections&Function=returnUserConnectionsWithState&Params=" + token + "^1";
+                url = comInterface.comServer + "Connections/returnUserConnectionsWithState?Params=" + token + "^1";
                 userId = int.Parse(session.readFromSession("UserId"));
             }
             else
             {
-                url = comInterface.comServer + "?Theme=Connections&Function=returnUserConnectionsWithStateById&Params=" + id + "^1";
+                url = comInterface.comServer + "Connections/returnUserConnectionsWithStateById?Params=" + id + "^1";
                 userId = id;
             }
-            
+
             DataTable dataTable = comInterface.GetMultipleData(url);
             foreach (DataRow row in dataTable.Rows)
             {
@@ -244,7 +246,7 @@ namespace SocialGame.ComLayer
         {
             string token = GetSessionToken();
             if (token == null) return false;
-            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserName&Params=" + token + "^" + newUserName;
+            string url = comInterface.comServer + "Users/modifyUserName?Params=" + token + "^" + newUserName;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -260,7 +262,7 @@ namespace SocialGame.ComLayer
 
         public DataTable GetMoods()
         {
-            string url = comInterface.comServer + "?Theme=Moods&Function=getAllMoods";
+            string url = comInterface.comServer + "Moods/getAllMoods";
             DataTable dataTable = comInterface.GetMultipleData(url);
             return dataTable;
         }
@@ -282,7 +284,7 @@ namespace SocialGame.ComLayer
         {
             string token = GetSessionToken();
             if (token == null) return false;
-            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserMood&Params=" + token + "^" + moodId;
+            string url = comInterface.comServer + "Users/modifyUserMood?Params=" + token + "^" + moodId;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -298,7 +300,7 @@ namespace SocialGame.ComLayer
         {
             string token = GetSessionToken();
             if (token == null) return false;
-            string url = comInterface.comServer + "?Theme=Users&Function=modifyUserPicture&Params=" + token + "^" + link;
+            string url = comInterface.comServer + "Users/modifyUserPicture?Params=" + token + "^" + link;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -315,7 +317,7 @@ namespace SocialGame.ComLayer
             string token = GetSessionToken();
             if (token == null) return null;
             List<Notification> notifications = new List<Notification>();
-            string url = comInterface.comServer + "?Theme=Notifications&Function=findNotificationsByToken&Params=" + token + "^" + state;
+            string url = comInterface.comServer + "Notifications/findNotificationsByToken?Params=" + token + "^" + state;
             DataTable dataTable = comInterface.GetMultipleData(url);
             foreach (DataRow row in dataTable.Rows)
             {
@@ -330,7 +332,7 @@ namespace SocialGame.ComLayer
         {
             string token = GetSessionToken();
             if (token == null) return false;
-            string url = comInterface.comServer + "?Theme=Connections&Function=actionToFriend&Params=" + notificationId + "^" + action;
+            string url = comInterface.comServer + "Connections/actionToFriend?Params=" + notificationId + "^" + action;
             string answer = comInterface.GetSingleData(url);
             if (answer == "True")
             {
@@ -343,12 +345,44 @@ namespace SocialGame.ComLayer
         }
         public Connection GetConnection(int connectionId)
         {
-            string url = comInterface.comServer + "?Theme=Connections&Function=returnConnection&Params=" + connectionId;
+            string url = comInterface.comServer + "Connections/returnConnection?Params=" + connectionId;
             DataTable dataTable = comInterface.GetMultipleData(url);
             DataRow row = dataTable.Rows[0];
             Connection connection = new Connection();
             connection.populateConnection(row);
             return connection;
+        }
+
+        public TagCloud GetPublicTagStats(int type)
+        {
+            TagCloud tc = new TagCloud();
+            DataTable dataTable = comInterface.GetMultipleData(comInterface.comServer + "Tags/getTagStats?Params=^" + type);
+            foreach (DataRow r in dataTable.Rows)
+            {
+                tc.Add(new TagCloudItem((string)r["name"], float.Parse((string)r["occurrences"])));
+            }
+            return tc;
+        }
+        public List<User> getLeaderUsers() {
+            List<User> leaderUsers = new List<User>();
+
+            DataTable dataTable = comInterface.GetMultipleData(comInterface.comServer + "Users/getAllUsers");
+            foreach (DataRow row in dataTable.Rows)
+            {
+                User aux = new User();
+                aux.populateUser(row);
+                leaderUsers.Add(aux);
+            }
+            return leaderUsers;
+        }
+
+        public string getPosition()
+        {
+            string token = GetSessionToken();
+            if (token == null) return "-1";
+            string url = comInterface.comServer + "Users/userPosition?Params=" + token;
+            string answer = comInterface.GetSingleData(url);
+            return answer;
         }
     }
 }

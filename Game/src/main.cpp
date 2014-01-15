@@ -41,13 +41,10 @@
 #pragma comment (lib, "glaux.lib")
 #pragma comment (lib, "True_GUI.lib")
 
-#include "Sound.h"
-
 //
 Gui gui;
 GameController controller;
 Bridge * bridge;
-Sound sound;
 
 //
 GLint windowWidth, windowHeight;
@@ -190,6 +187,7 @@ void onReshape(int width, int height) {
 
 int main(int argc, char * argv[]) {
 	glutInit(&argc, argv);
+	alutInit(&argc, argv);
 
 	glutInitWindowSize(800, 500);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH | GLUT_MULTISAMPLE);
@@ -226,11 +224,6 @@ int main(int argc, char * argv[]) {
 // 		" e tem " + std::to_string(controller.getIdentityPerson()->getConnections().size()) + " amigos.", 0, 50));
 
 	gui.addWidget(bridge->getTopBar());
-
-	alutInit(&argc, argv);
-	sound = Sound();
-	sound.initAudio();
-	alSourcePlay(sound.state.source);
 
 	glutMainLoop();
 

@@ -25,6 +25,8 @@ namespace AdvancedMode {
 			virtual ITagsList * getTags();
 			
 			virtual IPerson * getPerson();
+			
+			virtual void reload();
 
 		private:
 			Cache * cache;
@@ -33,6 +35,10 @@ namespace AdvancedMode {
 			int personId;
 			IPerson * person = NULL;
 			int score, strength, state;
+			
+			int _from;
+			
+			virtual void load(const rapidjson::Value & data);
 	};
 }
 

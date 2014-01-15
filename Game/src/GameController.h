@@ -30,6 +30,8 @@ extern "C"{
 #include "GameFragment.h"
 #include "Minigames/IMinigame.h"
 #include "Minigames/IMinigameInstance.h"
+#include "LanguageLoader.h"
+#include "Sound.h"
 
 class IPendingGame;
 
@@ -81,6 +83,8 @@ class GameController : public GameContext, GameFragment {
 		
 		virtual IMinigameFactory * getMinigameFactory();
 		
+		virtual std::string getString(std::string value);
+		
 		virtual ~GameController();
 		
 		bool detectCollisions(int x, int y);
@@ -103,6 +107,7 @@ class GameController : public GameContext, GameFragment {
 		IGraphic * _currentNode = NULL;
 		
 		Camera _camera;
+		Sound * sound = NULL;
 		
 		IPerson * selectedPerson = NULL;
 		
@@ -112,6 +117,8 @@ class GameController : public GameContext, GameFragment {
 		std::vector<GLuint> _textures;
 
 		IGameControllerListener * _listener = NULL;
+		
+		LanguageLoader languageLoader;
 		
 		bool keys[10];
 		
@@ -123,6 +130,8 @@ class GameController : public GameContext, GameFragment {
 		void loadConnections();
 		
 		void start();
+		std::vector<Language> getLanguages();
+		void setLanguage(Language language);
 		
 		void onOpenGlPick(GLint hits, GLuint buffer[]);
 };

@@ -1,0 +1,15 @@
+mode_normal=Normal Mode
+mode_advanced=Advanced Mode
+camera=Camera
+notifications=Notifications
+pending_games=Pending Games
+settings=Settings
+friendship_refused=refused to be friends with you.
+friendship_notification=sent you a friendship request.
+friendship_accepted=accepted to be friends with you.
+accept=Accept
+refuse=Refuse
+acceptrefuse_later=Later
+minigame_tictactoe=TicTacToe
+minigame_maze=Maze
+minigame_hangman=Hangman

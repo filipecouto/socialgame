@@ -1,0 +1,14 @@
+﻿@inherits System.Web.Mvc.WebViewPage<SocialGame.Views.Shared.TagCloud>
+
+<script src="Content/tagcloud.js" type="text/javascript"></script>
+<div id="tagcloud" data-maxfont="32" data-minfont="10">
+    @for (int i = 0; i < @Model.Count; i++)
+    {
+        <span data-count="@(Model.GetItem(i).Occurrences * 22 + 10)">@Model.GetItem(i).Title</span>
+    }
+</div>
+
+<script>
+    var tc = document.getElementById('tagcloud');
+    tagcloud(tc, 'span');
+</script>

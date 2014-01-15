@@ -28,6 +28,7 @@
                     </section>
                     <nav>
                         <ul id="menu">
+                            <li>@Html.ActionLink("LeaderBoard", "Leaderboard", "Home")</li>
                         @if (Session["Token"] != null && Session["UserName"] != null) {
                             <li>@Html.ActionLink("Profile", "Index", "Profile")</li>
                         }

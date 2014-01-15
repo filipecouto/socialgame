@@ -14,6 +14,8 @@
 #include "Models/IPerson.h"
 #include "Mods/GameModEventListener.h"
 
+class IMinigameInstance;
+class IMinigame;
 class IGraphic;
 
 class IGameControllerListener : public GameModEventListener {
@@ -21,6 +23,8 @@ class IGameControllerListener : public GameModEventListener {
 		virtual void onGameLoaded() = 0;
 		
 		virtual void onPersonClicked(IPerson * person) = 0;
+		
+		virtual void onMinigameEnded(IMinigameInstance * instance) = 0;
 };
 
 #endif
