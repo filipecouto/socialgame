@@ -165,4 +165,12 @@ require_once('DAL/DAL.php');
 		}
 		return $tagid;
 	}
+
+	function returnUserTags($userid){
+		$dal = new DAL();
+		$userid = mysql_real_escape_string($userid);
+		$sql = "SELECT Tags.name as Name FROM Tags inner join UserTag on Tags.id = UserTag.tagID  WHERE UserTag.userID = '$userid'";
+		$recordset = $dal->executeNonQuery($sql);
+		return $recordset;
+	}
 ?>

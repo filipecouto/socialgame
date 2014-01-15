@@ -33,6 +33,16 @@
 	function getUserTags($userId) {
 		return getUserTagIdsByUserId($userId);
 	}
+
+	function getUserTagsByToken($token){
+		$userId = getUserBySession($token);
+		if($userId != -1)
+		{
+			return returnUserTags($userId);
+		}else{
+			return false;
+		}
+	}
 	
 	/**
 	 * Gets a {tag name, %} set reflecting the occurrence of tags of a certain type
