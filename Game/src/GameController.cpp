@@ -40,6 +40,8 @@ GameController::GameController() : _graphFactory() {
 	for (int i = 0; i < 10; i++) {
 		keys[i] = false;
 	}
+	Language language("English", "English");
+	languageLoader.setLanguage(language);
 }
 
 void GameController::start(GameMod * mod) {
@@ -660,4 +662,16 @@ bool GameController::onCollisionPick(GLint hits, GLuint buffer[]) {
 	}
 
 	return false;
+}
+
+std::string GameController::getString(std::string value) {
+	return languageLoader.getValue(value);
+}
+
+std::vector< Language > GameController::getLanguages() {
+	return languageLoader.getLanguages();
+}
+
+void GameController::setLanguage(Language language) {
+	languageLoader.setLanguage(language);
 }
