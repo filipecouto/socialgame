@@ -6,6 +6,9 @@
  * CrossWeb Enterprise - 2013
  */
 
+#if _WIN32
+#include <GL\glew.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

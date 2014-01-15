@@ -6,6 +6,9 @@
  * CrossWeb Enterprise - 2013
  */
 
+#if _WIN32
+#include <GL\glew.h>
+#endif
 #include "Bridge.h"
 #include "GUI/LinearContainer.h"
 #include "GUI/ButtonWidget.h"
