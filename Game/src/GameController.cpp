@@ -207,8 +207,8 @@ void GameController::flyTo(IPerson * person) {
 
 	if (g) {
 		if (person == getIdentityPerson()) {
-			_camera.lookAt(g->x - 1, g->y + g->getRadius() * 2, g->z - 0);
-			_camera.moveTo(g->x, g->y + g->getRadius() * 3, g->z);
+			_camera.lookAt(g->x, g->y + g->getRadius(), g->z - 2);
+			_camera.moveTo(g->x, g->y + g->getRadius() * 2.5f, g->z);
 		} else {
 			_camera.lookAt(g->x, g->y + g->getRadius(), g->z);
 			g = ((PersonGraphic *) getGraphic(person));

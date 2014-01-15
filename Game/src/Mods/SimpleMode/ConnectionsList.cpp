@@ -11,12 +11,21 @@ ConnectionsList::~ConnectionsList() {
 }
 
 bool ConnectionsList::contains(IConnection * item) {
-
+	return true;
 }
 
 
 int ConnectionsList::getFriendsCount() {
-	return 0;
+	int result = 0;
+	int len = size();
+
+	for (int i = 0; i < len; i++) {
+		IConnection * con = operator[](i);
+
+		if (con->getState() == 1) result ++;
+	}
+
+	return result;
 }
 
 bool ConnectionsList::isFriendsWith(IPerson * person) {
@@ -26,10 +35,10 @@ bool ConnectionsList::isFriendsWith(IPerson * person) {
 	}
 	return false;
 }
+
 IConnection * ConnectionsList::getConnectionWith(IPerson * person) {
 	return NULL;
 }
-
 
 IConnection * ConnectionsList::operator[](int index) {
 	return connections[index];

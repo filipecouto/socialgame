@@ -13,7 +13,7 @@
 #include "MessageNotification.h"
 
 SimpleMode::SimpleMode::SimpleMode() {
-	
+
 }
 
 IMoodsList * SimpleMode::SimpleMode::getMoods() {
@@ -23,6 +23,7 @@ IUser * SimpleMode::SimpleMode::getIdentity() {
 	if (!user) {
 		user = new User();
 	}
+
 	return user;
 }
 
@@ -41,13 +42,15 @@ SimpleMode::SimpleMode::~SimpleMode() {
 }
 
 void SimpleMode::SimpleMode::load() {
-	_listener->onNewNotification(new MessageNotification("This mode isn't fully supported yet. It may crash."));
+	_listener->onNewNotification(
+	  new MessageNotification(
+	    "Welcome to the normal mode of the Social Game!\nUnfortunately this mode is under development and not fully supported yet. It may crash."));
 }
 
 
 
 void SimpleMode::SimpleMode::setEventListener(GameModEventListener * listener) {
- 	_listener = listener;
+	_listener = listener;
 	getIdentity();
- 	user->setEventListener(listener);
+	user->setEventListener(listener);
 }

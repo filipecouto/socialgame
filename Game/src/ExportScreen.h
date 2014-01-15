@@ -9,12 +9,11 @@
 
 #include <GL/freeglut.h>
 
-#include <stdio.h>
-#include "jpeglib.h"
 #include <setjmp.h>
 
 #include <string>
 #include <string.h>
+
 
 using namespace std;
 

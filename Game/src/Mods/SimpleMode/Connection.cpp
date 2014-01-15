@@ -16,7 +16,7 @@ int Connection::getScore() {
 }
 
 int Connection::getState() {
-	return 0;
+	return 1;
 }
 
 int Connection::getStrength() {

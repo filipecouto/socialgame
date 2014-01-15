@@ -52,10 +52,7 @@ private:
         virtual ~HangmanInstance();
         virtual int getScore();
 
-        virtual void drawCircle(double distance, double pX, double pZ);
-        virtual void drawLines(GLfloat width, GLfloat beginX, GLfloat beginY, GLfloat beginZ, GLfloat endX, GLfloat endY, GLfloat endZ);
         virtual void drawSquare(GLfloat v1x, GLfloat v1y, GLfloat v1z, GLfloat v2x, GLfloat v2y, GLfloat v2z, GLfloat v3x, GLfloat v3y, GLfloat v3z, GLfloat v4x, GLfloat v4y, GLfloat v4z);
-        virtual void drawLetterSpaces(int length);
         virtual void determinateLetter(string chosenLetter, string word);
         virtual void drawHangman();
         virtual void drawLetters();

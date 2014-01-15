@@ -57,3 +57,6 @@ run : all
 
 clean :
 	rm obj/*
+
+install : all
+	mkdir -p /usr/share/SocialGame; cp SocialGame /usr/share/SocialGame/SocialGame; cp BG001.wav /usr/share/SocialGame/BG001.wav; cp hangman_floor_texture.jpeg /usr/share/SocialGame/hangman_floor_texture.jpeg; cp maze_floor.jpg /usr/share/SocialGame/maze_floor.jpg; cp maze_walls.jpg /usr/share/SocialGame/maze_walls.jpg; cp tictactoe_texture.jpg /usr/share/SocialGame/tictactoe_texture.jpg; cp ../deployment/Linux/SocialGame.desktop /usr/share/applications/SocialGame.desktop

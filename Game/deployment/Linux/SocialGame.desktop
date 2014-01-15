@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Social Game
+GenericName=Social Game
+Comment=The Social Game from CrossWeb Enterprise
+Exec=/usr/bin/socialgame
+Terminal=false
+Type=Application
+Categories=Game;Simulation;Internet;
+StartupNotify=false

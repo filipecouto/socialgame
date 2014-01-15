@@ -11,6 +11,7 @@ void Sound::initAudio() {
 	alGenSources(1, &_state.source);
 	changeVolume();
 	alSourcei(_state.source, AL_BUFFER, _state.buffer);
+	alSourcei(_state.source, AL_LOOPING,  AL_TRUE);
 	_state.key_s = AL_FALSE;
 	alSourcePlay(_state.source);
 }

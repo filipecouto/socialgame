@@ -6,6 +6,9 @@
  * CrossWeb Enterprise - 2013
  */
 
+#if _WIN32
+#include <GL\glew.h>
+#endif
 #include "Bridge.h"
 #include "GUI/LinearContainer.h"
 #include "GUI/ButtonWidget.h"
@@ -96,6 +99,11 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 		settingsWindow->show();
 	} else if (widget == barLogout) {
 		_controller->start(NULL);
+
+		if (notifications) notifications->hide();
+
+		if (pendingGames) pendingGames->hide();
+
 		loginForm->show();
 	} else if (widget == barTest1) {
 		_controller->startMinigame(new TicTacToeMinigame(_controller));
@@ -227,7 +235,7 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barTest1);
 		bar->addWidget(barTest2);
 		bar->addWidget(barTest3);
-		
+
 		barLogout = new ButtonWidget(new TextWidget("Log out", 0, 0));
 		bar->addWidget(barLogout);
 	}
@@ -282,6 +290,8 @@ void Bridge::onNewNotification(INotification * notification) {
 
 void Bridge::onGameLoaded() {
 	updateNotificationsButton();
+
+	_controller->flyTo(_controller->getIdentityPerson());
 }
 
 void Bridge::updateNotificationsButton() {
