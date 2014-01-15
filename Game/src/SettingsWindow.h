@@ -14,6 +14,8 @@ class SettingsWindow : public Window {
 
 		virtual void onParentGeometryChange(Widget * widget);
 		virtual void onWidgetClicked(Widget * clicked);
+		
+		virtual void show();
 
 	private:
 		GameController * controller;

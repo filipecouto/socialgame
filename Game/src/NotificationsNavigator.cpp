@@ -177,6 +177,7 @@ NotificationsNavigator::MinigameSelector::MinigameSelector(NotificationsNavigato
 		button->setVertical();
 		button->addWidget(new TextWidget(minigame->getName(), GLUT_BITMAP_HELVETICA_18, 0, 0));
 		button->addWidget(new TextWidget(minigame->getDescription(), 0, 0));
+		button->addWidget(new ButtonWidget(new TextWidget("Try", 0, 0)));
 		ButtonWidget * b = new ButtonWidget(button);
 		layout->addWidget(b);
 		this->minigames.insert(std::pair<Widget *, IMinigame *>(b, minigame));

@@ -40,9 +40,12 @@ GameController::GameController() : _graphFactory() {
 	for (int i = 0; i < 10; i++) {
 		keys[i] = false;
 	}
-	
+
+	//std::ifstream
+
 	std::vector<Language> langs = languageLoader.getLanguages();
-	if(langs.size() > 0) languageLoader.setLanguage(langs[0]);
+
+	if (langs.size() > 0) languageLoader.setLanguage(langs[0]);
 }
 
 void GameController::start(GameMod * mod) {
@@ -61,16 +64,19 @@ void GameController::start(GameMod * mod) {
 
 	_mod = mod;
 
-	if (_listener) _mod->setEventListener(_listener);
+	if (_mod != NULL) {
+		if (_listener) _mod->setEventListener(_listener);
 
-	_mod->load();
+		_mod->load();
 
-	start();
+		start();
 
-	_listener->onGameLoaded();
+		_listener->onGameLoaded();
+	}
 }
 
 void GameController::draw() {
+	if(!_mod) return;
 	glPushMatrix();
 
 	if (GameController_isInMinigame) {
@@ -229,34 +235,34 @@ void GameController::tick(int delta, int current) {
 		}
 	}
 
-	if (keys[0]) _camera.walk(0, 0, +0.1f * delta);
+	if (keys[0]) _camera.walk(0, 0, +0.01f * delta);
 
-	if (keys[1]) _camera.walk(-0.1f * delta, 0, 0);
+	if (keys[1]) _camera.walk(-0.01f * delta, 0, 0);
 
-	if (keys[2]) _camera.walk(0, 0, -0.1f * delta);
+	if (keys[2]) _camera.walk(0, 0, -0.01f * delta);
 
-	if (keys[3]) _camera.walk(+0.1f * delta, 0, 0);
+	if (keys[3]) _camera.walk(+0.01f * delta, 0, 0);
 
-	if (keys[4]) _camera.rotate(-0.005f * delta, 0);
+	if (keys[4]) _camera.rotate(+0.005f * delta, 0);
 
-	if (keys[5]) _camera.rotate(0, 0.02f * delta);
+	if (keys[5]) _camera.rotate(0, 0.015f * delta);
 
-	if (keys[6]) _camera.rotate(+0.005f * delta, 0);
+	if (keys[6]) _camera.rotate(-0.005f * delta, 0);
 
-	if (keys[7]) _camera.rotate(0, -0.02f * delta);
+	if (keys[7]) _camera.rotate(0, -0.015f * delta);
 
-	if (keys[8]) _camera.translate(0, 0.1f * delta, 0);
+	if (keys[8]) _camera.translate(0, 0.01f * delta, 0);
 
-	if (keys[9]) _camera.translate(0, -0.1f * delta, 0);
+	if (keys[9]) _camera.translate(0, -0.01f * delta, 0);
 
 }
 
 void GameController::start() {
-	if(!sound) {
+	if (!sound) {
 		sound = new Sound();
 		sound->initAudio();
 	}
-	
+
 #ifdef DEBUG
 	printf("Starting game...\n");
 #endif
@@ -369,7 +375,8 @@ void GameController::startMinigame(IMinigame * minigame) {
 	_minigame->start(-1);
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
-	if(sound) sound->setVolume(0.5f);
+
+	if (sound) sound->setVolume(0.5f);
 }
 
 void GameController::startMinigame(IPendingGame * pendingGame, int index) {
@@ -381,7 +388,8 @@ void GameController::startMinigame(IPendingGame * pendingGame, int index) {
 	_minigame->start(pendingGame->getMinigameLevel(index));
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
-	if(sound) sound->setVolume(0.5f);
+
+	if (sound) sound->setVolume(0.5f);
 }
 
 bool GameController::isInMinigame() {
@@ -402,8 +410,8 @@ void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
 		}
 
 		invalidatePerson(getIdentityPerson());
-		
-		if(sound) sound->setVolume(1);
+
+		if (sound) sound->setVolume(1);
 	}
 }
 
@@ -592,7 +600,7 @@ GameController::~GameController() {
 
 	for (int i = 0; i < len; i++)
 		glDeleteTextures(1, &_textures[i]);
-	
+
 	delete sound;
 }
 

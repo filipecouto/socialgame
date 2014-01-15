@@ -11,18 +11,29 @@
 #define SM_PERSON_H
 
 #include "../../Models/IPerson.h"
+#include "../../Models/IConnectionsList.h"
 
-class Person : public IPerson {
-	public:
-		virtual std::string getName();
-		virtual Mood * getMood();
-		virtual int getScore();
-		virtual int getStrength();
-		virtual std::vector< Tag * > getTags();
-		virtual std::vector< IConnection * > getConnections();
-		virtual ~Person();
-	private:
-		std::vector<IConnection *> * _connections;
-};
+
+
+namespace SimpleMode {
+	class Mood;
+	class ConnectionsList;
+	class Person : public IPerson {
+		public:
+			virtual ITagsList * getTags();
+			Person(std::string name, IMood * mood);
+			virtual std::string getName();
+			virtual IMood * getMood();
+			virtual int getScore();
+			virtual int getStrength();
+			virtual IConnectionsList * getConnections();
+			virtual void connect(Person * other);
+			virtual ~Person();
+		private:
+			ConnectionsList * _connections = NULL;
+			std::string name;
+			IMood * mood;
+	};
+}
 
 #endif // PERSON_H

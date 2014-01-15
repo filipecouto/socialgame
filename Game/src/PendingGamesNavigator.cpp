@@ -69,32 +69,6 @@ void PendingGamesNavigator::loadPendingGame(IPendingGame * game) {
 		IMinigame * minigame = game->getMinigame(0, controller->getMinigameFactory());
 		tType->setText(minigame->getName());
 		tData->setText("From: " + game->getConnection()->getPerson()->getName());
-
-// 		if (notification->getType() == INotification::FriendshipRequest) {
-// 			IFriendshipRequestNotification * n = (IFriendshipRequestNotification *)notification;
-// 			tNotification->setText("Notification " + std::to_string(index + 1) +
-// 			                       " of " + std::to_string(controller->getGameMod()->getNotifications()->size()));
-// 			tType->setText("Friendship request");
-//
-// 			bool canAccept = n->getConnection() != NULL && !controller->getGameMod()->getIdentity()->getPerson()->getConnections()->isFriendsWith(n->getFrom());
-//
-// 			if (canAccept) {
-// 				tData->setText("From: " + n->getFrom()->getName());
-//
-// 				bAccept->visible = true;
-// 				bChallenge->visible = true;
-// 				bRefuse->visible = true;
-// 			} else {
-// 				tData->setText("Already responded");
-//
-// 				bAccept->visible = false;
-// 				bChallenge->visible = false;
-// 				bRefuse->visible = false;
-// 			}
-// 		}
-//
-// 		if (!notification->isRead())
-// 			notification->setRead(true);
 	}
 }
 

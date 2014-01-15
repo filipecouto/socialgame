@@ -16,6 +16,7 @@
 #include "Models/IFriendshipRequestNotification.h"
 #include "Models/INotificationsList.h"
 #include "Models/IPendingGamesList.h"
+#include "Models/ITagsList.h"
 #include "Minigames/Test/TestMinigame.h"
 #include "Minigames/TicTacToe/TicTacToe.h"
 #include "Minigames/Maze/MazeMinigame.h"
@@ -43,6 +44,14 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 			_controller->getCamera()->setType(ThirdPerson);
 			printf("Switching camera to third person...\n");
 		}
+	} else if (widget == barExport) {
+		if (!exportScreenWindow) {
+			exportScreenWindow = new ExportScreenWindow(_controller, _gui);
+			_gui->addWidget(exportScreenWindow);
+		}
+
+		exportScreenWindow->centerOnParent();
+		exportScreenWindow->show();
 	} else if (widget == barNotifications) {
 		if (!notifications) {
 			notifications = new NotificationsNavigator(_controller);
@@ -82,9 +91,12 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 		}
 
 		if (windowPersonInfo && windowPersonInfo->visible) windowPersonInfo->hide();
-		
+
 		settingsWindow->centerOnParent();
 		settingsWindow->show();
+	} else if (widget == barLogout) {
+		_controller->start(NULL);
+		loginForm->show();
 	} else if (widget == barTest1) {
 		_controller->startMinigame(new TicTacToeMinigame(_controller));
 	} else if (widget == barTest2) {
@@ -119,7 +131,7 @@ bool Bridge::onWidgetClicked(Widget * widget) {
 bool Bridge::onDialogResult(Dialog * dialog, int buttonId) {
 	if (dialog->getId() == "message" && !showFirstMessage) {
 		if (buttonId == Dialog::DIALOG_BUTTON_ID_OK) {
-			((TestMod *)_controller->getGameMod())->doSomething();
+			//((TestMod *)_controller->getGameMod())->doSomething();
 		}
 
 		showFirstMessage = true;
@@ -178,8 +190,10 @@ void Bridge::onPersonClicked(IPerson * person) {
 Widget * Bridge::getTopBar() {
 	if (bar == NULL) {
 		bar = new LinearContainer();
-		barCamera = new ButtonWidget(new TextWidget(_controller->getString("camera"), 0, 0));
-		
+		//barCamera = new ButtonWidget(new TextWidget(_controller->getString("camera"), 0, 0));
+
+		barExport = new ButtonWidget(new TextWidget("Export", 0, 0));
+
 		LinearContainer * buttonNotifications = new LinearContainer();
 		buttonNotifications->setHorizontal();
 		buttonNotifications->setSpacing(4);
@@ -189,7 +203,7 @@ Widget * Bridge::getTopBar() {
 
 		buttonNotifications->addWidget(tNotifications);
 		barNotifications = new ButtonWidget(buttonNotifications);
-		
+
 		LinearContainer * buttonPendingGames = new LinearContainer();
 		buttonPendingGames->setHorizontal();
 		buttonPendingGames->setSpacing(4);
@@ -199,9 +213,10 @@ Widget * Bridge::getTopBar() {
 
 		buttonPendingGames->addWidget(tPendingGames);
 		barPendingGames = new ButtonWidget(buttonPendingGames);
-		
+
 		barSettings = new ButtonWidget(new TextWidget("Settings", 0, 0));
-		bar->addWidget(barCamera);
+		//bar->addWidget(barCamera);
+		bar->addWidget(barExport);
 		bar->addWidget(barNotifications);
 		bar->addWidget(barPendingGames);
 		bar->addWidget(barSettings);
@@ -212,6 +227,9 @@ Widget * Bridge::getTopBar() {
 		bar->addWidget(barTest1);
 		bar->addWidget(barTest2);
 		bar->addWidget(barTest3);
+		
+		barLogout = new ButtonWidget(new TextWidget("Log out", 0, 0));
+		bar->addWidget(barLogout);
 	}
 
 	if (loginForm->visible) loginForm->centerOnParent();
@@ -310,6 +328,9 @@ PersonInfoWindow::PersonInfoWindow(IPerson * me, IPerson * person): Window() {
 	textFriends = new TextWidget("", GLUT_BITMAP_HELVETICA_12, 0, 0);
 	layout->addWidget(textFriends);
 
+	textTags = new TextWidget("", GLUT_BITMAP_HELVETICA_12, 0, 0);
+	layout->addWidget(textTags);
+
 	LinearContainer * buttons = new LinearContainer();
 	buttonAddFriend = new ButtonWidget(new TextWidget("Add Friend", 0, 0));
 	buttons->addWidget(buttonAddFriend);
@@ -328,6 +349,7 @@ void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	textName->setText(person->getName());
 	textMood->setText(person->getMood() ? person->getMood()->getDescription() : "Couldn't understand mood");
 	textFriends->setText(person->getConnections() ? std::to_string(person->getConnections()->getFriendsCount()) + " friend(s)" : "Couldn't count friends");
+	textTags->setText("Tags: " + getTags(me->getTags(), person->getTags()));
 
 	if (me == person) {
 		buttonAddFriend->visible = false;
@@ -337,9 +359,35 @@ void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	}
 }
 
+std::string PersonInfoWindow::getTags(ITagsList * myList, ITagsList * theirList) {
+	std::string result = "";
+
+	if (myList && theirList) {
+		ITag * tag;
+		const int len = theirList->size();
+
+		for (int i = 0; i < len; i++) {
+			tag = theirList->operator[](i);
+
+			if (myList->contains(tag))
+				result += tag->getName() + " ";
+		}
+
+		for (int i = 0; i < len; i++) {
+			tag = theirList->operator[](i);
+
+			if (!myList->contains(tag))
+				result += tag->getName() + " ";
+		}
+	}
+
+	return result;
+}
+
 void Bridge::onMinigameEnded(IMinigameInstance * instance) {
 	int score = instance->getScore();
-	if(score >= 0) {
+
+	if (score >= 0) {
 		_gui->showMessage("Congratulations!\nYou scored " + std::to_string(instance->getScore()) + " points and now you're both friends!");
 	}
 }

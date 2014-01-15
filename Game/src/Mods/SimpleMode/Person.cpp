@@ -1,3 +1,20 @@
+#include "Person.h"
+#include "Mood.h"
+#include "ConnectionsList.h"
+
+using namespace SimpleMode;
+
+Person::Person(std::string name, IMood * mood) : name(name), mood(mood){
+	
+}
+ITagsList * Person::getTags() {
+	return NULL;
+}
+
+Person::~Person() {
+
+}
+
 /*
  * Person - Implementation
  *
@@ -8,12 +25,15 @@
  */
 
 #include "Person.h"
+#include "ConnectionsList.h"
+#include "Connection.h"
+#include "../../Models/IConnectionsList.h"
 
 std::string Person::getName() {
-	return "Dummy";
+	return name;
 }
 
-Mood * Person::getMood() {
+IMood * Person::getMood() {
 	return new Mood("Neutral");
 }
 
@@ -25,18 +45,18 @@ int Person::getStrength() {
 	return 0;
 }
 
-std::vector<Tag *> Person::getTags(){
-	return std::vector<Tag*>();
-}
-
-std::vector< IConnection * > Person::getConnections() {
+IConnectionsList * Person::getConnections() {
 	if(_connections == NULL) {
-		_connections = new std::vector<IConnection *>();
-		// lazy load
+		_connections = new ConnectionsList();
 	}
-	return std::vector<IConnection*>(*_connections);
+	return _connections;
 }
 
-Person::~Person() {
-
+void Person::connect(Person * other) {
+	if(_connections == NULL) {
+		_connections = new ConnectionsList();
+	}
+	_connections->addConnection(new Connection(other));
+	ConnectionsList * otherlist= (ConnectionsList*) other->getConnections();
+	otherlist->addConnection(new Connection(this));
 }
