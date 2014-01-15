@@ -21,15 +21,57 @@ void HangmanMinigame::HangmanInstance::draw() {
 
     camera.setUp();
 
-    glColor3f(0, 0.25, 0);
-    drawSquare(-400,-81,400,400,-81,400,200,-81,-200,-200, -81,-200);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, textureId1);
+    drawSquare(-20, 0,  20,20, 0,  20,20, 0, -20,-20, 0, -20);
+    glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glColor3f(0.46, 0.32, 0.1);
-    drawLines(20.0,10.0, -80.0, 20.0,50.0, -80.0,20.0);
-    drawLines(10.0,30.0, -80.0, 20.0,30.0, -80.0,-40.0);
-    drawLines(10.0,30.0, -80.0,-40.0,70.0, -80.0,-40.0);
-    drawLines(10.0,69.0, -80.0,-40.0,69.0, -80.0,-30.0);
+    glTranslatef(-2,0,-10);
 
+    glutSolidCube(5);
+    glTranslatef(0,12,0);
+    glRotated(90,1,0,0);
+    gluCylinder(quad,1,1,12,20,2);
+    glTranslatef(0,6,0);
+    glRotated(-90,0,1,0);
+
+    gluCylinder(quad,1,1,12,20,2);
+    glTranslatef(0,-1,10);
+    glRotated(90,0,1,0);
+    gluCylinder(quad,1,1,3,20,2);
+    glRotated(-360,0,1,0);
+    glColor3f(1, 1, 1);
+    glTranslatef(0,0,3.4);
+    
+    glPushMatrix();
+      glPushMatrix();
+      glutSolidSphere(2, 32, 32);
+      glPopMatrix();
+      
+      glPushMatrix();
+      gluCylinder(quad,0.5,0.5,10,20,1);
+      glPopMatrix();
+      glPushMatrix();
+	glPushMatrix();
+	glRotated(45,0,1,0);
+	glTranslatef(0,-3,1);
+	gluCylinder(quad,0.1,0.1,5,20,1);
+	glPopMatrix();
+	glPushMatrix();
+	 glColor3f(0, 1, 0);
+	glRotated(135,0,1,0);
+	glTranslatef(0,0,0);
+	gluCylinder(quad,0.1,0.1,7,20,1);
+	glPopMatrix();
+	glPushMatrix();
+	glRotated(-90,0,1,0);
+	glTranslatef(0,7,1);
+	gluCylinder(quad,0.1,0.1,5,20,1);
+	glPopMatrix();
+      glPopMatrix();
+    glPopMatrix();
     drawHangman();
 
     glColor3f(0,0,1);
@@ -135,8 +177,8 @@ void HangmanMinigame::HangmanInstance::start(int level) {
     mx = -17;
     my = 19;
     thing.x = thing.y = thing.vx = thing.vy = 0;
-    camera.moveTo(0,10, 1);
-    camera.lookAt(0, 1, 0);
+    camera.moveTo(0, 8, -28);
+    camera.lookAt(0, 0, 0);
 // 	camera.moveTo(0, 8, -28);
 // 	camera.lookAt(0, 0, 0);
 }
@@ -165,6 +207,8 @@ HangmanMinigame::HangmanInstance::HangmanInstance(GameContext * context) : _cont
     right = false;
     wrong = false;
     gui = new Gui();
+    quad = gluNewQuadric();
+    textureId1 = _context->loadTexture("hangman_floor_texture.jpeg");
     gui->addWidget(new LetterWidget("CATEGORY: " + category, 0, 0));
 
 }
@@ -449,7 +493,7 @@ int HangmanMinigame::HangmanInstance::getScore()
         return 16;
     case 0:
         return 0;
-	default:
-		return 0;
+    default:
+        return 0;
     }
 }

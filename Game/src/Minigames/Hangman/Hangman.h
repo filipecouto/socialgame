@@ -72,10 +72,11 @@ private:
         bool right;
         bool wrong;
         int numberOfLettersRightPlayed;
-
+        GLUquadric * quad;
         CentralServerHangman centralServer;
         GameContext * _context;
         Gui * gui;
+	GLuint textureId1;
 
         Camera camera;
 
