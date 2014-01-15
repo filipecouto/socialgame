@@ -9,6 +9,10 @@
 #ifndef EXPORTSCREENWINDOW_H
 #define EXPORTSCREENWINDOW_H
 
+#if _WIN32
+#include <GL\glew.h>
+#endif
+
 #include "GUI/Window.h"
 #include "GUI/TextBoxWidget.h"
 #include "GUI/ButtonWidget.h"
