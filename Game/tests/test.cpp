@@ -15,7 +15,7 @@
 
 int main() {
 	AdvancedMode::AdvancedMode mode;
-	int loginResult, moodComparisonResult, moodContainResult, moodLogoutResult, gameAmountResult, notificationsAmountResult;
+	int loginResult, moodComparisonResult, moodContainResult, moodLogoutResult, gameAmountResult, notificationsAmountResult, personComparisonResult;
 	loginResult = mode.login("teste@teste.teste", "123456");
 	if(loginResult != 1) {
 		loginResult = 0;
@@ -42,6 +42,7 @@ int main() {
 			moodContainResult = 0;
 		}
 	}
+	AdvancedMode::Person * person = mode.getIdentity()->getPerson();
 	
 	AdvancedMode::AdvancedMode mode1;
 	mode1.login("teste@teste.teste", "123456");
@@ -67,7 +68,14 @@ int main() {
 			moodLogoutResult = 0;
 	}
 	
+	AdvancedMode::Person *person1 = mode1.getIdentity()->getPerson();
 	
+	if(person->getId() == person1->getId() && person->getScore() == person1->getScore() && person->getStrength() == person1->getStrength() 
+		&& person->getMood()->getDescription() == person1->getMood()->getDescription() && person->getName() == person1->getName()) {
+		personComparisonResult = 1;
+	} else {
+		personComparisonResult = 0;
+	}
 	
 	printf("%s\t%-40s\n", "Type", "Result");
 	printf("%s\t%-40s\n", "Login", std::to_string(loginResult).c_str());
@@ -76,6 +84,7 @@ int main() {
 	printf("%s\t%-40s\n", "Mood Logout", std::to_string(moodLogoutResult).c_str());
 	printf("%s\t%-40s\n", "Game Amount", std::to_string(gameAmountResult).c_str());
 	printf("%s\t%-40s\n", "Notifications", std::to_string(notificationsAmountResult).c_str());
+	printf("%s\t%-40s\n", "Person Compare", std::to_string(personComparisonResult).c_str());
 	return 1;
 	
 }
