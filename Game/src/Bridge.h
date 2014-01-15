@@ -20,6 +20,7 @@
 #include "NotificationsNavigator.h"
 #include "SettingsWindow.h"
 #include "PendingGamesNavigator.h"
+#include "ExportScreenWindow.h"
 
 class PersonInfoWindow;
 
@@ -61,8 +62,9 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		PendingGamesNavigator * pendingGames = NULL;
 		SettingsWindow * settingsWindow = NULL;
 		WidgetContainer * bar = NULL;
-		Widget * barCamera, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
+		Widget * barCamera, *barExport, * barNotifications, * barPendingGames, * barSettings, * barTest1, * barTest2, * barTest3;
 		TextWidget * tNotifications = NULL, * tPendingGames = NULL;
+		ExportScreenWindow * exportScreenWindow = NULL;
 		
 		int _mouseX, _mouseY;
 		int timeFriendAdded = -1;
