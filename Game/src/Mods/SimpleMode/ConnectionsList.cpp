@@ -11,7 +11,7 @@ ConnectionsList::~ConnectionsList() {
 }
 
 bool ConnectionsList::contains(IConnection * item) {
-
+	return true;
 }
 
 

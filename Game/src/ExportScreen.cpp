@@ -1,7 +1,15 @@
 #include "ExportScreen.h"
 
-#pragma comment (lib, "libjpeg.lib")
 
+#include <stdio.h>
+#if _WIN32
+extern "C"{
+#include "jpeglib.h"	
+}
+#else
+#include "jpeglib.h"
+#endif
+#pragma comment (lib, "libjpeg.lib")
 ExportScreen::ExportScreen(){
 
 }
@@ -53,8 +61,10 @@ void ExportScreen::compressInJPG(FILE * filePtr, int width, int height, char* da
 	cinfo.image_width = width;
 	cinfo.image_height = height;
 	cinfo.input_components = 3;
-	cinfo.in_color_space = JCS_EXT_BGR;
-	
+	#if _WIN32
+	#else
+		cinfo.in_color_space = JCS_EXT_BGR;
+	#endif
 	jpeg_set_defaults(&cinfo);
 	jpeg_set_quality(&cinfo, 100, true);
 	jpeg_start_compress(&cinfo, true);
