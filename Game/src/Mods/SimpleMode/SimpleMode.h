@@ -10,25 +10,35 @@
 #define SIMPLEMODE_H
 
 #include "../GameMod.h"
+#include "User.h"
 
-class SimpleMode : public GameMod {
-	public:
+namespace SimpleMode {
+	class MoodsList;
+	class MessageNotification;
+	class SimpleMode : public GameMod {
+		public:
 
-		SimpleMode();
-		~SimpleMode();
-
-		virtual void load();
-
-		virtual IUser * getIdentity();
-		virtual std::vector<INotification *> * getNotifications();
-		virtual void * getPendingGames();
-
-		virtual void setEventListener(GameModEventListener * listener);
+			SimpleMode();
+			~SimpleMode();
 
 
-private:
-	User user;
-	GameModEventListener * _listener;
+			virtual void load();
 
-};
+			virtual IUser * getIdentity();
+			virtual IMoodsList * getMoods();
+			virtual INotificationsList * getNotifications();
+			virtual IPendingGamesList * getPendingGames();
+
+			virtual void setEventListener(GameModEventListener * listener);
+
+		private:
+			User * user = NULL;
+			GameModEventListener * _listener;
+
+			MoodsList * moodsList = NULL;
+
+
+
+	};
+}
 #endif

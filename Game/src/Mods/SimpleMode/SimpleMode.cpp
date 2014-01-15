@@ -7,27 +7,47 @@
  */
 
 #include "SimpleMode.h"
+#include "Mood.h"
+#include "User.h"
+#include "MoodsList.h"
+#include "MessageNotification.h"
 
-SimpleMode::SimpleMode() {
-
+SimpleMode::SimpleMode::SimpleMode() {
+	
 }
 
-SimpleMode::~SimpleMode() {
-
+IMoodsList * SimpleMode::SimpleMode::getMoods() {
+	return NULL;
+}
+IUser * SimpleMode::SimpleMode::getIdentity() {
+	if (!user) {
+		user = new User();
+	}
+	return user;
 }
 
-void SimpleMode::load() {
-
-}
-
-IUser * SimpleMode::getIdentity() {
-	return &user;
-}
-
-void * SimpleMode::getNotifications() {
+INotificationsList * SimpleMode::SimpleMode::getNotifications() {
 	return NULL;
 }
 
-void * SimpleMode::getPendingGames() {
+IPendingGamesList * SimpleMode::SimpleMode::getPendingGames() {
 	return NULL;
+}
+
+
+
+SimpleMode::SimpleMode::~SimpleMode() {
+
+}
+
+void SimpleMode::SimpleMode::load() {
+	_listener->onNewNotification(new MessageNotification("This mode isn't fully supported yet. It may crash."));
+}
+
+
+
+void SimpleMode::SimpleMode::setEventListener(GameModEventListener * listener) {
+ 	_listener = listener;
+	getIdentity();
+ 	user->setEventListener(listener);
 }
