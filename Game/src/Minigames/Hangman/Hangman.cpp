@@ -84,9 +84,13 @@ void HangmanMinigame::HangmanInstance::drawSquare(GLfloat v1x, GLfloat v1y, GLfl
                                                   GLfloat v3x, GLfloat v3y, GLfloat v3z,
                                                   GLfloat v4x, GLfloat v4y, GLfloat v4z) {
 	glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
 	glVertex3i(v1x, v1y, v1z);
+	glTexCoord2d(1, 0);
 	glVertex3i(v2x, v2y, v2z);
+	glTexCoord2d(1, 1);
 	glVertex3i(v3x, v3y, v3z);
+	glTexCoord2d(0, 1);
 	glVertex3i(v4x, v4y, v4z);
 	glEnd();
 }
