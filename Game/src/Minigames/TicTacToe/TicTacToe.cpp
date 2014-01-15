@@ -16,6 +16,14 @@ std::string TicTacToeMinigame::getName() {
 	return "Tic Tac Toe";
 }
 
+string TicTacToeMinigame::getDescription() {
+	return "Challenge your friend to play Tic Tac Toe against the computer";
+}
+
+string TicTacToeMinigame::getInternalName() {
+	return "crosswebenterprise.tictactoe";
+}
+
 IMinigameInstance * TicTacToeMinigame::newGame() {
 	return new TicTacToeInstance(_context);
 }

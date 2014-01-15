@@ -38,18 +38,24 @@ SettingsWindow::SettingsWindow(GameController * controller) : controller(control
 
 void SettingsWindow::loadTags() {
 	ITagsList * list = controller->getIdentityPerson()->getTags();
-	const int len = list->size();
-	std::string tagsText = "";
-	for(int i = 0; i < len; i++) {
-		if(i != 0) tagsText += ", ";
-		tagsText += list->operator[](i)->getName();
+
+	if (list) {
+		const int len = list->size();
+		std::string tagsText = "";
+
+		for (int i = 0; i < len; i++) {
+			if (i != 0) tagsText += ", ";
+
+			tagsText += list->operator[](i)->getName();
+		}
+
+		tTags->setText(tagsText);
 	}
-	tTags->setText(tagsText);
 }
 
 void SettingsWindow::show() {
 	Window::show();
-	
+
 	loadTags();
 }
 
@@ -59,27 +65,30 @@ WidgetContainer * SettingsWindow::getMoods() {
 
 	LinearContainer * line = NULL;
 	IMoodsList * list = controller->getGameMod()->getMoods();
-	int len = list->size();
-	int i = 0;
 
-	while (i < len) {
-		if (!line) {
-			line = new LinearContainer();
-			line->setHorizontal();
+	if (list) {
+		int len = list->size();
+		int i = 0;
+
+		while (i < len) {
+			if (!line) {
+				line = new LinearContainer();
+				line->setHorizontal();
+			}
+
+			IMood * mood = list->operator[](i++);
+			ButtonWidget * button = new ButtonWidget(new TextWidget(mood->getDescription(), 0, 0));
+			line->addWidget(button);
+			moodButtons.insert(std::pair<Widget *, IMood *>(button, mood));
+
+			if (line->getMinimumWidth() > 140) {
+				lines->addWidget(line);
+				line = NULL;
+			}
 		}
 
-		IMood * mood = list->operator[](i++);
-		ButtonWidget * button = new ButtonWidget(new TextWidget(mood->getDescription(), 0, 0));
-		line->addWidget(button);
-		moodButtons.insert(std::pair<Widget *, IMood *>(button, mood));
-
-		if (line->getMinimumWidth() > 140) {
-			lines->addWidget(line);
-			line = NULL;
-		}
+		if (line) lines->addWidget(line);
 	}
-	
-	if(line) lines->addWidget(line);
 
 	return lines;
 }
@@ -100,11 +109,11 @@ void SettingsWindow::onWidgetClicked(Widget * clicked) {
 			tags.push_back(sTags.substr(0, index));
 			sTags.erase(0, index + 1);
 		}
-		
+
 		tags.push_back(sTags.substr(0, sTags.length()));
 
 		controller->getIdentity()->setTags(tags);
-		
+
 		loadTags();
 	} else {
 		if (moodButtons.find(clicked) != moodButtons.end()) {

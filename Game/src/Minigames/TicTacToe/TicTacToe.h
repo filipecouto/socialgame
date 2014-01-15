@@ -20,6 +20,8 @@ class TicTacToeMinigame : public IMinigame {
 		TicTacToeMinigame(GameContext * context);
 
 		virtual std::string getName();
+		virtual std::string getDescription();
+		virtual std::string getInternalName();
 
 		virtual IMinigameInstance * newGame();
 
