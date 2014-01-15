@@ -139,6 +139,7 @@ namespace SocialGame.Controllers
 
             ViewBag.Moods = comUsers.GetMoodsSelectList();
             ViewBag.PictureLink = comUsers.GetUserInformation().picture;
+            ViewBag.Tags = comUsers.GetUserTags();
             return View();
         }
 
@@ -242,7 +243,7 @@ namespace SocialGame.Controllers
         }
 
         [SGAuthorize]
-        public ActionResult ChangeMood(User model)
+        public ActionResult ChangeMood(string moodId)
         {
             if (ModelState.IsValid)
             {
@@ -250,7 +251,7 @@ namespace SocialGame.Controllers
                 bool changeMoodSucceeded = true;
                 try
                 {
-                    changeMoodSucceeded = comUsers.ChangeUserMood(model.mood.GetValueOrDefault());
+                    changeMoodSucceeded = comUsers.ChangeUserMood(int.Parse(moodId));
                     if (changeMoodSucceeded)
                     {
                         return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangeMoodSuccess) });
@@ -292,6 +293,35 @@ namespace SocialGame.Controllers
                 catch (Exception)
                 {
                     changePictureSucceeded = false;
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Manage");
+        }
+
+        [SGAuthorize]
+        public ActionResult ChangeTags(string tags)
+        {
+            if (ModelState.IsValid)
+            {
+                // ChangePicture will throw an exception rather than return false in certain failure scenarios.
+                bool changeTagsSucceeded = true;
+                try
+                {
+                    changeTagsSucceeded = comUsers.ChangeUserTags(tags);
+                    if (changeTagsSucceeded)
+                    {
+                        return Json(new { state = "success", message = MessageIdToString(ManageMessageId.ChangeTagsSuccess) });
+                    }
+                    else
+                    {
+                        return Json(new { state = "error", message = MessageIdToString(ManageMessageId.NoChanges) });
+                    }
+                }
+                catch (Exception)
+                {
+                    changeTagsSucceeded = false;
                 }
             }
 
@@ -451,6 +481,7 @@ namespace SocialGame.Controllers
             ChangeUserNameSuccess,
             ChangeMoodSuccess,
             ChangePictureSuccess,
+            ChangeTagsSuccess,
         }
 
         public string MessageIdToString(ManageMessageId? message)
@@ -465,6 +496,7 @@ namespace SocialGame.Controllers
                 : message == ManageMessageId.ChangeUserNameSuccess ? "Your name has been changed."
                 : message == ManageMessageId.ChangeMoodSuccess ? "Your mood has been changed."
                 : message == ManageMessageId.ChangePictureSuccess ? "Your picture has been changed."
+                : message == ManageMessageId.ChangeTagsSuccess ? "Your tags have been changed."
                 : "";
         }
 

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SocialGame.Views.Shared.TagCloud
+@{
     ViewBag.Title = "Socialize and Have Fun";
 }
 @section featured {
@@ -15,6 +16,7 @@
         </div>
     </section>
 }
+@Html.DisplayFor(item => Model)
 <h3>How to get started:</h3>
 <ol class="round">
     <li class="one">
@@ -30,6 +32,6 @@
 
     <li class="three">
         <h5>Download the game</h5>
-        @Html.ActionLink("Download", "Login", "Account") our game for a better and enjoyable experience getting new friends.
+        @Html.ActionLink("Download", "Download", "Home") our game for a better and enjoyable experience getting new friends.
     </li>
 </ol>

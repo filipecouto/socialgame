@@ -18,7 +18,7 @@
                     <td><img src="@item.picture" alt="Picture" height="40"></td>
                     <td align="center">@Html.ActionLink((string)item.username, "PersonProfile", "Profile", new { id = item.id }, null)</td>
                     <td align="center">@item.totalScore</td>
-                    <td align="center">@item.mood</td>
+                    <td align="center">@item.mood.description</td>
                 </tr>
             }
 }

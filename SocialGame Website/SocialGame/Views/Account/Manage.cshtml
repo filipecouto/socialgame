@@ -18,6 +18,11 @@
         </td>
         <td>@Html.Partial("_ChangePicturePartial")</td>
     </tr>
+    <tr>
+        <td>
+            @Html.Partial("_ChangeTagsPartial")
+        </td>
+    </tr>
 </table>
 
 
@@ -61,7 +66,7 @@
         });
         $("#changeMoodButton").click(function () {
             $.post("@Url.Action("ChangeMood","Account")",
-                $("#changeMoodForm").serialize(),
+                { moodId: $("#MoodDropDown").val() },
                 function (data)
                 {
                     messageDealer("changeMood",data);
@@ -76,6 +81,14 @@
                     if (data.state == "success") {
                         $("#pictureImg").attr( "src", $("#picture").val() );
                     }
+                }, "json");
+        });
+        $("#changeTagsButton").click(function () {
+            $.post("@Url.Action("ChangeTags","Account")",
+                { tags: $("#Tags").val() },
+                function (data)
+                {
+                    messageDealer("changeTags",data);
                 }, "json");
         });
     </script>

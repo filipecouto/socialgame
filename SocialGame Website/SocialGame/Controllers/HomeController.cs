@@ -28,16 +28,9 @@ namespace SocialGame.Controllers
             return View(test);
         }
 
-        public ActionResult About()
+        public ActionResult Download()
         {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Your all mighty Social Game download page.";
 
             return View();
         }

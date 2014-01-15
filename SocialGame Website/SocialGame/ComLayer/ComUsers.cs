@@ -152,7 +152,7 @@ namespace SocialGame.ComLayer
             DataTable dataTable = comInterface.GetMultipleData(url);
             DataRow dataRow = dataTable.Rows[0];
             User user = new User();
-            user.populateUser(dataRow);
+            user.populateUser(dataRow, GetMoods());
             return user;
         }
 
@@ -164,7 +164,7 @@ namespace SocialGame.ComLayer
             foreach (DataRow row in dataTable.Rows)
             {
                 User aux = new User();
-                aux.populateUser(row);
+                aux.populateUser(row, GetMoods());
                 users.Add(aux);
             }
             return users;
@@ -370,7 +370,7 @@ namespace SocialGame.ComLayer
             foreach (DataRow row in dataTable.Rows)
             {
                 User aux = new User();
-                aux.populateUser(row);
+                aux.populateUser(row, GetMoods());
                 leaderUsers.Add(aux);
             }
             return leaderUsers;
@@ -383,6 +383,29 @@ namespace SocialGame.ComLayer
             string url = comInterface.comServer + "Users/userPosition?Params=" + token;
             string answer = comInterface.GetSingleData(url);
             return answer;
+        }
+
+        public string GetUserTags()
+        {
+            string token = GetSessionToken();
+            if (token == null) return null;
+            string tags = "";
+            DataTable dataTable = comInterface.GetMultipleData(comInterface.comServer + "Tags/getUserTagsByToken?Params=" + token);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                tags += row["Name"] + ";";
+            }
+            if(tags != "") tags = tags.Remove(tags.Length - 1);
+            return tags;
+        }
+
+        public bool ChangeUserTags(string tags)
+        {
+            string token = GetSessionToken();
+            if (token == null) return false;
+            string url = comInterface.comServer + "Users/setUserTags?Params=" + token + "^" + tags + "^;";
+            string answer = comInterface.GetSingleData(url);
+            return true;
         }
     }
 }
