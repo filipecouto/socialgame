@@ -15,6 +15,7 @@ namespace SocialGame.Controllers
             ViewBag.Message = "Grab your friends now!";
             TagCloud test;
             ComUsers com = new ComUsers();
+
             if (com.IsTokenValid(HttpContext))
             {
                 test = com.GetPublicTagStats(4);
@@ -22,6 +23,7 @@ namespace SocialGame.Controllers
             else
             {
                 test = new TagCloud();
+                
             }
             return View(test);
         }
@@ -37,6 +39,18 @@ namespace SocialGame.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult LeaderBoard()
+        {
+            ComUsers com = new ComUsers();
+            ViewBag.Users = com.getLeaderUsers();
+            string userPosition = com.getPosition();
+            if (userPosition != null && userPosition != "-1") //If not logged in
+            {
+                ViewBag.Position = userPosition;
+            }
             return View();
         }
     }

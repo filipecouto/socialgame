@@ -363,5 +363,26 @@ namespace SocialGame.ComLayer
             }
             return tc;
         }
+        public List<User> getLeaderUsers() {
+            List<User> leaderUsers = new List<User>();
+
+            DataTable dataTable = comInterface.GetMultipleData(comInterface.comServer + "Users/getAllUsers");
+            foreach (DataRow row in dataTable.Rows)
+            {
+                User aux = new User();
+                aux.populateUser(row);
+                leaderUsers.Add(aux);
+            }
+            return leaderUsers;
+        }
+
+        public string getPosition()
+        {
+            string token = GetSessionToken();
+            if (token == null) return "-1";
+            string url = comInterface.comServer + "Users/userPosition?Params=" + token;
+            string answer = comInterface.GetSingleData(url);
+            return answer;
+        }
     }
 }
