@@ -61,7 +61,7 @@ void MazeMinigame::MazeInstance::draw() {
 	int count;
 
 	if (solution.size() > 0) {
-		count = solution.size() < 10 ? solution.size() : 10;
+		count = solutionSize;
 
 		for (int i = 0; i < count; i++) {
 			values = solution.at(i);
@@ -153,7 +153,7 @@ void MazeMinigame::MazeInstance::start(int level) {
 	if (level < 20) level = 20;
 	else if (level > 100) level = 100;
 
-	if (level & 1 == 0) level++;
+	if (level % 2 == 0) level++;
 
 	maze = new Maze(level, level);
 	maze->generate();
@@ -161,9 +161,14 @@ void MazeMinigame::MazeInstance::start(int level) {
 	camera.lookAt(0, 0.5f, 0);
 	camera.moveTo(0, 8, 4);
 
+	steps = 0;
+
 	int * start = maze->getStart();
 	pos[0] = start[0];
 	pos[1] = start[1];
+
+	minSteps = maze->getSolution(pos[0], pos[1]).size();
+	steps = 0;
 
 	tx = 0;
 	ty = 0;
@@ -278,21 +283,25 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	while (rotateZ >= 90) {
 		rotateZ -= 90;
 		pos[1]++;
+		steps++;
 	}
 
 	while (rotateZ <= -90) {
 		rotateZ += 90;
 		pos[1]--;
+		steps++;
 	}
 
 	while (rotateX <= -90) {
 		rotateX += 90;
 		pos[0]++;
+		steps++;
 	}
 
 	while (rotateX >= 90) {
 		rotateX -= 90;
 		pos[0]--;
+		steps++;
 	}
 
 	tx = - rotateX / 90;
@@ -309,7 +318,8 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 		cubeStopped = 0;
 	}
 
-	if (maze->getValue(ceil(pos[0] + tx - 0.08f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.08f), pos[1])) {
+	if (maze->getValue(ceil(pos[0] + tx - 0.1f), pos[1]) || maze->getValue(floor(pos[0] + tx + 0.1f), pos[1])) {
+		if(oldX != pos[0]) steps--;
 		pos[0] = oldX;
 
 		if (tx < -0.05f) tx = -0.05f;
@@ -319,6 +329,7 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 	}
 
 	if (maze->getValue(pos[0], ceil(pos[1] + ty - 0.08f)) || maze->getValue(pos[0], floor(pos[1] + ty + 0.08f))) {
+		if(oldY != pos[1]) steps--;
 		pos[1] = oldY;
 
 		if (ty < -0.05f) ty = -0.05f;
@@ -332,6 +343,8 @@ void MazeMinigame::MazeInstance::tick(int delta, int current) {
 
 void MazeMinigame::MazeInstance::activateSuggestion() {
 	solution = maze->getSolution(pos[0], pos[1]);
+	int max = 10 + maze->getWidth() / 10;
+	solutionSize = solution.size() < max ? solution.size() : max;
 }
 
 MazeMinigame::MazeInstance::MazeInstance(GameContext * context) : _context(context) {
@@ -410,6 +423,11 @@ void MazeMinigame::MazeInstance::onKeyUp(int key, int special) {
 			keys[3] = false;
 			break;
 	}
+}
+
+int MazeMinigame::MazeInstance::getScore() {
+	printf("minSteps = %d\tsteps = %d\n", minSteps, steps);
+	return 100 * minSteps / steps;
 }
 
 void MazeMinigame::MazeInstance::onMouseButton(int state, int button, int x, int y) {

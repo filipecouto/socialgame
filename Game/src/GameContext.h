@@ -28,6 +28,8 @@ class GameContext {
 		
 		virtual IMinigameFactory * getMinigameFactory() = 0;
 		virtual void notifyMinigameFinished(IMinigameInstance *) = 0;
+		
+		virtual std::string getString(std::string value) = 0;
 
 		virtual ~GameContext() { }
 };

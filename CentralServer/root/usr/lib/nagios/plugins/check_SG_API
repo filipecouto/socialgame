@@ -1,0 +1,10 @@
+#!/bin/bash
+success="{\"data\":true}"
+content=$(wget uvm001.dei.isep.ipp.pt/SocialGame/Test/check -q -O -)
+if [ "$content" = "$success" ]; then
+	echo "CentralServer's interface seems to be working fine"
+	exit 0
+else
+	echo "Error: CentralServer replied \"$content\""
+	exit 1
+fi

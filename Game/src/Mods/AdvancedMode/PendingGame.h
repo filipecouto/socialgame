@@ -25,6 +25,7 @@ namespace AdvancedMode {
 			Cache * cache;
 			
 			IConnection * connection = NULL;
+			IConnection * myConnection = NULL;
 			
 			int connectionId, gameId;
 			int level;

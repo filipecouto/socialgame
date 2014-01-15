@@ -40,6 +40,9 @@ GameController::GameController() : _graphFactory() {
 	for (int i = 0; i < 10; i++) {
 		keys[i] = false;
 	}
+	
+	std::vector<Language> langs = languageLoader.getLanguages();
+	if(langs.size() > 0) languageLoader.setLanguage(langs[0]);
 }
 
 void GameController::start(GameMod * mod) {
@@ -249,6 +252,11 @@ void GameController::tick(int delta, int current) {
 }
 
 void GameController::start() {
+	if(!sound) {
+		sound = new Sound();
+		sound->initAudio();
+	}
+	
 #ifdef DEBUG
 	printf("Starting game...\n");
 #endif
@@ -300,7 +308,7 @@ void GameController::createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z) 
 		personObjects.push_back(g);
 
 		g->x = x;
-		g->y = y + (p->getConnections() ? (p->getConnections()->getFriendsCount() * 1.0f) : 0);
+		g->y = y + (p->getConnections() ? (p->getConnections()->getFriendsCount() * 2.0f) : 0);
 		g->z = z;
 
 		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
@@ -323,7 +331,8 @@ void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GL
 			// 1) if this person has too many friends, putting them further will help make the graph easier to understand
 			// 2) addding some randomness to slightly displace people will avoid possible overlapping
 			GLfloat distance = 5.0f + rand() % 3 - 1 + len * 0.8f;
-			createPerson((*cons)[i]->getPerson(), x + distance * cos(i * 2 * M_PI / (len)), y, z + distance * sin(i * 2 * M_PI / (len)));
+			GLfloat angle = i * 2 * M_PI / len + ((rand() % 10) / 10.0f - 5.0f);
+			createPerson((*cons)[i]->getPerson(), x + distance * cos(angle), y, z + distance * sin(angle));
 		}
 
 		for (int i = 0; i < len; i++) {
@@ -360,6 +369,7 @@ void GameController::startMinigame(IMinigame * minigame) {
 	_minigame->start(-1);
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
+	if(sound) sound->setVolume(0.5f);
 }
 
 void GameController::startMinigame(IPendingGame * pendingGame, int index) {
@@ -371,6 +381,7 @@ void GameController::startMinigame(IPendingGame * pendingGame, int index) {
 	_minigame->start(pendingGame->getMinigameLevel(index));
 	_minigame->setViewportDimensions(getViewportWidth(), getViewportHeight());
 	_camera.translate(0, 20 - _camera.getY(), 0);
+	if(sound) sound->setVolume(0.5f);
 }
 
 bool GameController::isInMinigame() {
@@ -386,10 +397,13 @@ void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
 		if (_pendingGame) {
 			_pendingGame->setMinigameScore(_pendingGameIndex, instance->getScore());
 			invalidatePerson(_pendingGame->getConnection()->getPerson());
+			_listener->onMinigameEnded(instance);
 			_pendingGame = NULL;
 		}
 
 		invalidatePerson(getIdentityPerson());
+		
+		if(sound) sound->setVolume(1);
 	}
 }
 
@@ -578,7 +592,10 @@ GameController::~GameController() {
 
 	for (int i = 0; i < len; i++)
 		glDeleteTextures(1, &_textures[i]);
+	
+	delete sound;
 }
+
 bool GameController::detectCollisions(int x, int y) {
 	GLuint selectBuf[256];
 	GLint hits;
@@ -646,4 +663,16 @@ bool GameController::onCollisionPick(GLint hits, GLuint buffer[]) {
 	}
 
 	return false;
+}
+
+std::string GameController::getString(std::string value) {
+	return languageLoader.getValue(value);
+}
+
+std::vector< Language > GameController::getLanguages() {
+	return languageLoader.getLanguages();
+}
+
+void GameController::setLanguage(Language language) {
+	languageLoader.setLanguage(language);
 }

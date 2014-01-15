@@ -50,7 +50,15 @@
 			
 			return $result;
 		} else {
-			return null;
+			$result = array();
+			
+			$resultSet = makeUserTagStats($userId, $type);
+			while($row = mysql_fetch_array($resultSet)) {
+				$result[] = array("id" => $row[0], "name" => $row[1], "occurrences" => $row[2]);
+			}
+			mysql_free_result($resultSet);
+			
+			return $result;
 		}
 	}
 ?>

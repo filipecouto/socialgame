@@ -27,11 +27,11 @@ NotificationsNavigator::NotificationsNavigator(GameController * controller) : co
 	layout->addWidget(tData);
 
 
-	bAccept = new ButtonWidget(new TextWidget("Accept", 0, 0));
+	bAccept = new ButtonWidget(new TextWidget(controller->getString("accept"), 0, 0));
 	buttons->addWidget(bAccept);
 	bChallenge = new ButtonWidget(new TextWidget("Challenge", 0, 0));
 	buttons->addWidget(bChallenge);
-	bRefuse = new ButtonWidget(new TextWidget("Refuse", 0, 0));
+	bRefuse = new ButtonWidget(new TextWidget(controller->getString("refuse"), 0, 0));
 	buttons->addWidget(bRefuse);
 	layout->addWidget(buttons);
 

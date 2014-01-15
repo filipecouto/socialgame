@@ -40,6 +40,8 @@ class MazeMinigame : public IMinigame {
 
 				virtual void onMouseButton(int state, int button, int x, int y);
 				virtual void onMouseMove(int x, int y);
+				
+				virtual int getScore();
 
 				virtual void finish();
 				
@@ -71,6 +73,9 @@ class MazeMinigame : public IMinigame {
 				int colors[3];
 				int cubeStopped;
 				vector<int*> solution;
+				int solutionSize = 0;
+				
+				int steps, minSteps;
 				
 				bool detectCollision();
 				void applyRotating(int);

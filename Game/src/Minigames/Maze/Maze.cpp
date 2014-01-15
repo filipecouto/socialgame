@@ -86,13 +86,13 @@ void Maze::generate() {
 		}
 	}
 
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			printf(matrix[x][y] ? "█" : " ");
-		}
-
-		printf("\n");
-	}
+// 	for (int y = 0; y < height; y++) {
+// 		for (int x = 0; x < width; x++) {
+// 			printf(matrix[x][y] ? "█" : " ");
+// 		}
+// 
+// 		printf("\n");
+// 	}
 
 	int depth = 1;
 
@@ -222,8 +222,6 @@ vector<int*> Maze::getSolution(int x, int y) {
 	vectorEnd.push_back(end.y);
 	
 	vector<int*> result = server->calculatePath(vectorStart, vectorEnd, matrix, dimensions);
-	for(int i = 0; i < result.size(); i++) {
-		int * vec = result.at(i);
-	}
+
 	return result;
 }

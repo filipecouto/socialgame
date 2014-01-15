@@ -102,12 +102,67 @@ require_once('DAL/DAL.php');
 		$type = mysql_real_escape_string($type);
 		
 		if($type == "3") {
-		
+			$sql = sprintf("SELECT t.id id, t.name name, count(ut.tagID) count FROM Tags t, UserTag ut WHERE t.id=ut.tagID AND t.type=%d GROUP BY t.id", $type);
+			return $dal->executeNonQuery($sql);
 		} else if($type == "4") {
 			$sql = sprintf("SELECT t.id id, t.name name, count(tc.tagID) count FROM Tags t, TagConnection tc WHERE t.id=tc.tagID AND t.type=%d GROUP BY t.id", $type);
 			return $dal->executeNonQuery($sql);
 		}
 		
 		return null;
+	}
+	
+	function makeUserTagStats($userId, $type) {
+		$dal = new DAL();
+		$userId = mysql_real_escape_string($userId);
+		$type = mysql_real_escape_string($type);
+		
+		if($type == "3") {
+			$sql = sprintf("SELECT t.id id, t.name name, count(ut.tagID) count 
+							FROM Tags t, UserTag ut 
+							WHERE t.id=ut.tagID AND t.type=%d AND ut.userID=%d GROUP BY t.id",
+							$type, $userId);
+
+			return $dal->executeNonQuery($sql);
+		} else if($type == "4") {
+			$sql = sprintf("SELECT t.id id, t.name name, count(tc.tagID) count 
+							FROM Tags t, TagConnection tc, Connections c 
+							WHERE t.id=tc.tagID AND tc.connectionID=c.id AND t.type=%d AND (c.user1=%d OR c.user2=%d) GROUP BY t.id",
+							$type, $userId, $userId);
+
+			return $dal->executeNonQuery($sql);
+		}
+		
+		return null;
+	}
+	
+	function getTypeId($description) {
+		$dal = new DAL();
+		$description = mysql_real_escape_string($description);
+		$sql = "SELECT id FROM TagTypes WHERE description = '$description'";
+		$recordset = $dal->executeNonQuery($sql);
+		$array = mysql_fetch_array($recordset);
+		return $array["id"];
+	}
+	
+	function deleteUserTags($userid) {
+		$dal = new DAL();
+		$userid = mysql_real_escape_string($userid);
+		$sql = "DELETE FROM UserTag where userID = $userid";
+		$dal->executeQuery($sql);
+	}
+	
+	function checkTag($tag, $typeid) {
+		$dal = new DAL();
+		$tag = mysql_real_escape_string($tag);
+		$typeid = mysql_real_escape_string($typeid);
+		$sql = "SELECT id FROM Tags WHERE name = '$tag' AND type = $typeid";
+		$recordset = $dal->executeNonQuery($sql);
+		$tagid = -1;
+		if(mysql_num_rows($recordset)>0) {
+		  $array = mysql_fetch_array($recordset);
+		  $tagid = $array["id"];
+		}
+		return $tagid;
 	}
 ?>
