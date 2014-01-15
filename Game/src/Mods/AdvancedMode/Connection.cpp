@@ -15,7 +15,7 @@ AdvancedMode::Connection::Connection(int from, const rapidjson::Value & data, Ad
 }
 
 void AdvancedMode::Connection::reload() {
-	const rapidjson::Value & data = cache->getService()->getNotification(id);
+	const rapidjson::Value & data = cache->getService()->getConnection(id)[rapidjson::SizeType(0)];
 	load(data);
 }
 

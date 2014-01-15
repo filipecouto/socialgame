@@ -41,6 +41,7 @@ class Bridge : public IWidgetEventsListener, public IGameControllerListener {
 		// events from GameController
 		virtual void onGameLoaded();
 		virtual void onPersonClicked(IPerson * person);
+		virtual void onMinigameEnded(IMinigameInstance * instance);
 		
 		// events from GameMod
 		virtual void onNewNotification(INotification * notification);

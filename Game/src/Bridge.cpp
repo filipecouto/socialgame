@@ -337,9 +337,17 @@ void PersonInfoWindow::display(IPerson * me, IPerson * person) {
 	}
 }
 
+void Bridge::onMinigameEnded(IMinigameInstance * instance) {
+	int score = instance->getScore();
+	if(score >= 0) {
+		_gui->showMessage("Congratulations!\nYou scored " + std::to_string(instance->getScore()) + " points and now you're both friends!");
+	}
+}
+
 PersonInfoWindow::~PersonInfoWindow() {
 
 }
+
 Widget * PersonInfoWindow::getAddFriendButton() {
 	return buttonAddFriend;
 }

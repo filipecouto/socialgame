@@ -4,6 +4,7 @@
 #include "Cache.h"
 #include "Person.h"
 #include "../../Minigames/IMinigameFactory.h"
+#include "../../Models/IConnectionsList.h"
 
 using namespace AdvancedMode;
 
@@ -18,14 +19,23 @@ IConnection * PendingGame::getConnection() {
 	if (!connection) {
 		const rapidjson::Value & data = cache->getService()->getConnection(connectionId);
 
-		if (data.IsArray()) connection = new Connection(((Person *)cache->getIdentityPerson())->getId(), data[rapidjson::SizeType(0)], cache);
+		if (data.IsArray()) {
+			connection = new Connection(((Person *)cache->getIdentityPerson())->getId(), data[rapidjson::SizeType(0)], cache);
+			IPerson * challenger = connection->getPerson();
+			myConnection = challenger->getConnections()->getConnectionWith(cache->getIdentityPerson());
+			connection = cache->getIdentityPerson()->getConnections()->getConnectionWith(challenger);
+		}
 	}
 
 	return connection;
 }
 
-bool PendingGame::setMinigameScore(int score, int index) {
+bool PendingGame::setMinigameScore(int index, int score) {
 	if (cache->getService()->setGameScore(connectionId, gameId, score)) {
+		if (getConnection())((Connection *)connection)->reload();
+
+		if (myConnection)((Connection *)myConnection)->reload();
+
 		return true;
 	} else {
 		return false;

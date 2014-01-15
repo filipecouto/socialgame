@@ -305,7 +305,7 @@ void GameController::createPerson(IPerson * p, GLfloat x, GLfloat y, GLfloat z) 
 		personObjects.push_back(g);
 
 		g->x = x;
-		g->y = y + (p->getConnections() ? (p->getConnections()->getFriendsCount() * 1.0f) : 0);
+		g->y = y + (p->getConnections() ? (p->getConnections()->getFriendsCount() * 2.0f) : 0);
 		g->z = z;
 
 		printf("This person (%s) is at (%f, %f, %f)\n", p->getName().c_str(), g->x, g->y, g->z);
@@ -328,7 +328,8 @@ void GameController::loadPeople(IPerson * p, int depth, GLfloat x, GLfloat y, GL
 			// 1) if this person has too many friends, putting them further will help make the graph easier to understand
 			// 2) addding some randomness to slightly displace people will avoid possible overlapping
 			GLfloat distance = 5.0f + rand() % 3 - 1 + len * 0.8f;
-			createPerson((*cons)[i]->getPerson(), x + distance * cos(i * 2 * M_PI / (len)), y, z + distance * sin(i * 2 * M_PI / (len)));
+			GLfloat angle = i * 2 * M_PI / len + ((rand() % 10) / 10.0f - 5.0f);
+			createPerson((*cons)[i]->getPerson(), x + distance * cos(angle), y, z + distance * sin(angle));
 		}
 
 		for (int i = 0; i < len; i++) {
@@ -393,6 +394,7 @@ void GameController::notifyMinigameFinished(IMinigameInstance * instance) {
 		if (_pendingGame) {
 			_pendingGame->setMinigameScore(_pendingGameIndex, instance->getScore());
 			invalidatePerson(_pendingGame->getConnection()->getPerson());
+			_listener->onMinigameEnded(instance);
 			_pendingGame = NULL;
 		}
 
@@ -587,7 +589,10 @@ GameController::~GameController() {
 
 	for (int i = 0; i < len; i++)
 		glDeleteTextures(1, &_textures[i]);
+	
+	delete sound;
 }
+
 bool GameController::detectCollisions(int x, int y) {
 	GLuint selectBuf[256];
 	GLint hits;
