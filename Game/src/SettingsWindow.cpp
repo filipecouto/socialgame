@@ -24,7 +24,6 @@ SettingsWindow::SettingsWindow(GameController * controller) : controller(control
 	lTags->setHorizontal();
 
 	tTags = new TextBoxWidget();
-	loadTags();
 	lTags->addWidget(tTags);
 	bSaveTags = new ButtonWidget(new TextWidget("Save", 0, 0));
 	lTags->addWidget(bSaveTags);
@@ -48,6 +47,12 @@ void SettingsWindow::loadTags() {
 	tTags->setText(tagsText);
 }
 
+void SettingsWindow::show() {
+	Window::show();
+	
+	loadTags();
+}
+
 WidgetContainer * SettingsWindow::getMoods() {
 	LinearContainer * lines = new LinearContainer();
 	lines->setVertical();
@@ -68,11 +73,13 @@ WidgetContainer * SettingsWindow::getMoods() {
 		line->addWidget(button);
 		moodButtons.insert(std::pair<Widget *, IMood *>(button, mood));
 
-		if (line->getMinimumWidth() > 120) {
+		if (line->getMinimumWidth() > 140) {
 			lines->addWidget(line);
 			line = NULL;
 		}
 	}
+	
+	if(line) lines->addWidget(line);
 
 	return lines;
 }
