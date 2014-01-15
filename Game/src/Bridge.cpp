@@ -178,12 +178,12 @@ void Bridge::onPersonClicked(IPerson * person) {
 Widget * Bridge::getTopBar() {
 	if (bar == NULL) {
 		bar = new LinearContainer();
-		barCamera = new ButtonWidget(new TextWidget("Camera", 0, 0));
+		barCamera = new ButtonWidget(new TextWidget(_controller->getString("camera"), 0, 0));
 		
 		LinearContainer * buttonNotifications = new LinearContainer();
 		buttonNotifications->setHorizontal();
 		buttonNotifications->setSpacing(4);
-		buttonNotifications->addWidget(new TextWidget("Notifications", 0, 0));
+		buttonNotifications->addWidget(new TextWidget(_controller->getString("notifications"), 0, 0));
 
 		if (!tNotifications) tNotifications = new TextWidget("", 0, 0);
 
@@ -193,7 +193,7 @@ Widget * Bridge::getTopBar() {
 		LinearContainer * buttonPendingGames = new LinearContainer();
 		buttonPendingGames->setHorizontal();
 		buttonPendingGames->setSpacing(4);
-		buttonPendingGames->addWidget(new TextWidget("Pending Games", 0, 0));
+		buttonPendingGames->addWidget(new TextWidget(_controller->getString("pending_games"), 0, 0));
 
 		if (!tPendingGames) tPendingGames = new TextWidget("", 0, 0);
 
@@ -233,19 +233,19 @@ void Bridge::onNewNotification(INotification * notification) {
 
 			switch (n->getConnection()->getState()) {
 				case -1:
-					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " refused to be friends with you.");
+					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + _controller->getString("friendship_refused"));
 					break;
 
 				case 0: {
 					Dialog * d = _gui->showYesNoCancelMessage("friendship request",
-					                                          n->getConnection()->getPerson()->getName() + " sent you a friendship request.",
-					                                          "Accept", "Refuse", "Later");
+					                                          n->getConnection()->getPerson()->getName() + _controller->getString("friendship_notification"),
+					                                          _controller->getString("accept"), _controller->getString("refuse"), _controller->getString("later"));
 					d->setTag(n);
 				}
 				break;
 
 				case 1:
-					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + " accepted to be friends with you.");
+					message = _gui->showMessage(n->getConnection()->getPerson()->getName() + _controller->getString("friendship_accepted"));
 					break;
 			}
 

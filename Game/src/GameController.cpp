@@ -40,8 +40,9 @@ GameController::GameController() : _graphFactory() {
 	for (int i = 0; i < 10; i++) {
 		keys[i] = false;
 	}
-	Language language("English", "English");
-	languageLoader.setLanguage(language);
+	
+	std::vector<Language> langs = languageLoader.getLanguages();
+	if(langs.size() > 0) languageLoader.setLanguage(langs[0]);
 }
 
 void GameController::start(GameMod * mod) {

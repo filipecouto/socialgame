@@ -83,6 +83,8 @@ class GameController : public GameContext, GameFragment {
 		
 		virtual IMinigameFactory * getMinigameFactory();
 		
+		virtual std::string getString(std::string value);
+		
 		virtual ~GameController();
 		
 		bool detectCollisions(int x, int y);
@@ -128,7 +130,6 @@ class GameController : public GameContext, GameFragment {
 		void loadConnections();
 		
 		void start();
-		virtual std::string getString(std::string value);
 		std::vector<Language> getLanguages();
 		void setLanguage(Language language);
 		

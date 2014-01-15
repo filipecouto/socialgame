@@ -5,10 +5,6 @@ LanguageLoader::LanguageLoader() {
 
 }
 
-LanguageLoader::~LanguageLoader() {
-
-}
-
 std::vector< Language > LanguageLoader::getLanguages() {
 	if (_languages.size() == 0) {
 		_languages = loadLanguages();
@@ -48,9 +44,12 @@ void LanguageLoader::setLanguage(Language language) {
 	while (!infile.eof()) {
 		getline(infile, line);
 		pos = line.find_first_of("=");
-		s1 = line.substr(0, pos - 1);
-		s2 = line.substr(pos + 1, line.size());
-		_loaded.insert(std::pair<std::string, std::string>(s1, s2));
+
+		if (pos != -1) {
+			s1 = line.substr(0, pos);
+			s2 = line.substr(pos + 1, line.size());
+			_loaded.insert(std::pair<std::string, std::string>(s1, s2));
+		}
 	}
 
 	infile.close();
@@ -64,4 +63,8 @@ std::string LanguageLoader::getValue(std::string title) {
 	}
 
 	return "";
+}
+
+LanguageLoader::~LanguageLoader() {
+
 }
