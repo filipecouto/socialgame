@@ -9,6 +9,7 @@
 #include "LoginForm.h"
 #include "GUI/LinearContainer.h"
 #include "Mods/AdvancedMode/AdvancedMode.h"
+#include "Mods/SimpleMode/SimpleMode.h"
 #include "GameController.h"
 #include "Models/IMoodsList.h"
 
@@ -58,6 +59,8 @@ LoginForm::LoginForm(GameController * controller) : controller(controller) {
 
 void LoginForm::onWidgetClicked(Widget * clicked) {
 	if (bNormalMode == clicked) {
+		SimpleMode::SimpleMode * mode = new SimpleMode::SimpleMode();
+		controller->start(mode);
 		hide();
 	} else if (bAdvancedMode == clicked) {
 		AdvancedMode::AdvancedMode * mode = new AdvancedMode::AdvancedMode();
