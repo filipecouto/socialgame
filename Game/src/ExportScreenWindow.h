@@ -1,5 +1,5 @@
 /**
- * LoginForm - Header
+ * ExportScreenWindow - Header
  *
  * This code is part of the game module of the Social Game.
  *
@@ -24,7 +24,7 @@ class ExportScreenWindow : public Window {
 		virtual void onWidgetClicked(Widget * clicked);
 		virtual void onParentGeometryChange(Widget * widget);
 
-		~ExportScreenWindow();
+		virtual ~ExportScreenWindow();
 
 	private:
 		Gui * _gui;
@@ -37,9 +37,9 @@ class ExportScreenWindow : public Window {
 		ButtonWidget * exportToJPG;
 		ButtonWidget * exportToTGA;
 		ButtonWidget * close;
-		
+
 		Widget * makeTitle(std::string title);
-		
+
 		ExportScreen * exportScreen = NULL;
 };
 

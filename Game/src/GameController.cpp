@@ -41,6 +41,8 @@ GameController::GameController() : _graphFactory() {
 		keys[i] = false;
 	}
 	
+	//std::ifstream
+	
 	std::vector<Language> langs = languageLoader.getLanguages();
 	if(langs.size() > 0) languageLoader.setLanguage(langs[0]);
 }
@@ -229,25 +231,25 @@ void GameController::tick(int delta, int current) {
 		}
 	}
 
-	if (keys[0]) _camera.walk(0, 0, +0.1f * delta);
+	if (keys[0]) _camera.walk(0, 0, +0.01f * delta);
 
-	if (keys[1]) _camera.walk(-0.1f * delta, 0, 0);
+	if (keys[1]) _camera.walk(-0.01f * delta, 0, 0);
 
-	if (keys[2]) _camera.walk(0, 0, -0.1f * delta);
+	if (keys[2]) _camera.walk(0, 0, -0.01f * delta);
 
-	if (keys[3]) _camera.walk(+0.1f * delta, 0, 0);
+	if (keys[3]) _camera.walk(+0.01f * delta, 0, 0);
 
-	if (keys[4]) _camera.rotate(-0.005f * delta, 0);
+	if (keys[4]) _camera.rotate(+0.005f * delta, 0);
 
-	if (keys[5]) _camera.rotate(0, 0.02f * delta);
+	if (keys[5]) _camera.rotate(0, 0.015f * delta);
 
-	if (keys[6]) _camera.rotate(+0.005f * delta, 0);
+	if (keys[6]) _camera.rotate(-0.005f * delta, 0);
 
-	if (keys[7]) _camera.rotate(0, -0.02f * delta);
+	if (keys[7]) _camera.rotate(0, -0.015f * delta);
 
-	if (keys[8]) _camera.translate(0, 0.1f * delta, 0);
+	if (keys[8]) _camera.translate(0, 0.01f * delta, 0);
 
-	if (keys[9]) _camera.translate(0, -0.1f * delta, 0);
+	if (keys[9]) _camera.translate(0, -0.01f * delta, 0);
 
 }
 

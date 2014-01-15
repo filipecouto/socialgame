@@ -19,16 +19,14 @@
 using namespace std;
 
 class ExportScreen {
-public:
-    ExportScreen();
-    
-    bool takePrint(string filename, string filetype, int width, int height);
-    
-    void compressInJPG(FILE * filePtr, int width, int height, char * dataBuffer);
-    
-    void compressInTGA(FILE * filePtr, int width, int height, char * dataBuffer);
+	public:
+		ExportScreen();
 
-private:
+		bool takePrint(string filename, string filetype, int width, int height);
+
+	private:
+		void compressInJPG(FILE * filePtr, int width, int height, char * dataBuffer);
+		void compressInTGA(FILE * filePtr, int width, int height, char * dataBuffer);
 
 };
 #endif

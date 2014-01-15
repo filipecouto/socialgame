@@ -29,7 +29,7 @@ ExportScreenWindow::ExportScreenWindow(GameController * controller, Gui * gui) :
 	line->addWidget(fileName);
 	layout->addWidget(line);
 	
-	tMessage = new TextWidget("", 0.8f, 0, 0, 1, 0, 0);
+	tMessage = new TextWidget("", 0, 0.9f, 0, 1, 0, 0);
 	tMessage->visible = false;
 	layout->addWidget(tMessage);
 
@@ -56,11 +56,13 @@ void ExportScreenWindow::onWidgetClicked(Widget * clicked) {
 	bool state = false;
 	if (exportToJPG == clicked) {
 		state = exportScreen->takePrint(fileName->getText(), "jpg", _gui->getWidth(), _gui->getHeigth());
+		visible = true;
 		tMessage->visible = true;
 		if(state)tMessage->setText("Exported To JPG");
 		else tMessage->setText("Failed to Export JPG");
 	} else if (exportToTGA == clicked) {
 		state = exportScreen->takePrint(fileName->getText(), "tga", _gui->getWidth(), _gui->getHeigth());
+		visible = true;
 		tMessage->visible = true;
 		tMessage->setText("Exported To TGA");
 		if(state)tMessage->setText("Exported To TGA");
