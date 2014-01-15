@@ -42,7 +42,7 @@ int main() {
 			moodContainResult = 0;
 		}
 	}
-	AdvancedMode::Person * person = mode.getIdentity()->getPerson();
+	AdvancedMode::Person * person = (AdvancedMode::Person *) mode.getIdentity()->getPerson();
 	
 	AdvancedMode::AdvancedMode mode1;
 	mode1.login("teste@teste.teste", "123456");
@@ -61,14 +61,14 @@ int main() {
 		notificationsAmountResult = 0;
 	}
 	IUser * user = mode.getIdentity();
-	IPerson * person = user->getPerson();
+	person = (AdvancedMode::Person *) user->getPerson();
 	if(person->getMood()->getDescription() == mood->getDescription()) {
 			moodLogoutResult = 1;
 	} else {
 			moodLogoutResult = 0;
 	}
 	
-	AdvancedMode::Person *person1 = mode1.getIdentity()->getPerson();
+	AdvancedMode::Person *person1 = (AdvancedMode::Person *) mode1.getIdentity()->getPerson();
 	
 	if(person->getId() == person1->getId() && person->getScore() == person1->getScore() && person->getStrength() == person1->getStrength() 
 		&& person->getMood()->getDescription() == person1->getMood()->getDescription() && person->getName() == person1->getName()) {
